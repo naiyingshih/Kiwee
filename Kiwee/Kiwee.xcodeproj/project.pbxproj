@@ -13,6 +13,7 @@
 		0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE088C2BC69877003C15B0 /* Main.storyboard */; };
 		0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE088F2BC69878003C15B0 /* Assets.xcassets */; };
 		0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */; };
+		7830FCB2D8F9625A014CE024 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		0ECE088F2BC69878003C15B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0ECE08922BC69878003C15B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ECE08942BC69878003C15B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.release.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.release.xcconfig"; sourceTree = "<group>"; };
+		5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.debug.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.debug.xcconfig"; sourceTree = "<group>"; };
+		99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kiwee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7830FCB2D8F9625A014CE024 /* Pods_Kiwee.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				0ECE08852BC69877003C15B0 /* Kiwee */,
 				0ECE08842BC69877003C15B0 /* Products */,
+				98C616CA13DA3BC47C01686C /* Pods */,
+				EAE9177B15228A8313059CA0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,24 @@
 			path = Kiwee;
 			sourceTree = "<group>";
 		};
+		98C616CA13DA3BC47C01686C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */,
+				5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EAE9177B15228A8313059CA0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0ECE08972BC69878003C15B0 /* Build configuration list for PBXNativeTarget "Kiwee" */;
 			buildPhases = (
+				EC213C95306642C6E27B4DC2 /* [CP] Check Pods Manifest.lock */,
 				0ECE087F2BC69877003C15B0 /* Sources */,
 				0ECE08802BC69877003C15B0 /* Frameworks */,
 				0ECE08812BC69877003C15B0 /* Resources */,
+				CDA93027C18DD4BB3269427C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CDA93027C18DD4BB3269427C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Kiwee/Pods-Kiwee-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Kiwee/Pods-Kiwee-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Kiwee/Pods-Kiwee-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC213C95306642C6E27B4DC2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Kiwee-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0ECE087F2BC69877003C15B0 /* Sources */ = {
@@ -287,6 +356,7 @@
 		};
 		0ECE08982BC69878003C15B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -316,6 +386,7 @@
 		};
 		0ECE08992BC69878003C15B0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
