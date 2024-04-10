@@ -19,7 +19,7 @@
 		0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */; };
 		0ECE08A42BC6B108003C15B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE08A32BC6B108003C15B0 /* GoogleService-Info.plist */; };
 		0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */; };
-		7830FCB2D8F9625A014CE024 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
+		0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,9 +44,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0ECE089E2BC6AFEC003C15B0 /* FirebaseDatabaseSwift in Frameworks */,
-				7830FCB2D8F9625A014CE024 /* Pods_Kiwee.framework in Frameworks */,
 				0ECE089C2BC6AFEC003C15B0 /* FirebaseAuth in Frameworks */,
 				0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */,
+				0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */,
 				0ECE08A02BC6AFEC003C15B0 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,7 +116,8 @@
 				0ECE087F2BC69877003C15B0 /* Sources */,
 				0ECE08802BC69877003C15B0 /* Frameworks */,
 				0ECE08812BC69877003C15B0 /* Resources */,
-				CDA93027C18DD4BB3269427C /* [CP] Embed Pods Frameworks */,
+				0ECE08A72BC6C6E9003C15B0 /* ShellScript */,
+				C298F40E0CB9507DD8CE5832 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -184,7 +185,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		CDA93027C18DD4BB3269427C /* [CP] Embed Pods Frameworks */ = {
+		0ECE08A72BC6C6E9003C15B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		C298F40E0CB9507DD8CE5832 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,7 +314,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -311,7 +329,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -359,7 +377,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -368,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -387,6 +405,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kiwee/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -417,6 +436,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kiwee/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
