@@ -27,6 +27,8 @@
 		0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */; };
 		0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */; };
 		0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */; };
+		0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */; };
+		0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewController.swift; sourceTree = "<group>"; };
 		0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodMethodCell.swift; sourceTree = "<group>"; };
+		0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
+		0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCell.swift; sourceTree = "<group>"; };
 		5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.release.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.release.xcconfig"; sourceTree = "<group>"; };
 		5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.debug.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.debug.xcconfig"; sourceTree = "<group>"; };
 		99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kiwee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,9 +156,19 @@
 				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
 				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
 				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
-				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
+				0ECE08D22BC7BAA2003C15B0 /* AddFoodView */,
 			);
 			path = Diary;
+			sourceTree = "<group>";
+		};
+		0ECE08D22BC7BAA2003C15B0 /* AddFoodView */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
+				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
+				0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */,
+			);
+			path = AddFoodView;
 			sourceTree = "<group>";
 		};
 		98C616CA13DA3BC47C01686C /* Pods */ = {
@@ -319,6 +333,7 @@
 			files = (
 				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
+				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
@@ -326,6 +341,7 @@
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
+				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
 			);

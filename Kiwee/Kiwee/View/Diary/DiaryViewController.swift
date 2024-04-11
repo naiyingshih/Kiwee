@@ -12,14 +12,6 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     private var allFood = [Food]() {
         didSet {
             DispatchQueue.main.async {
-                self.foods = self.allFood
-            }
-        }
-    }
-    
-    var foods = [Food]() {
-        didSet {
-            DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
@@ -32,7 +24,6 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         loadData()
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
     
     func loadData() {
@@ -51,7 +42,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
 
 }
 
-//MARK: - Extension: UITableViewDelegate, UITableViewDataSource
+// MARK: - Extension: UITableViewDelegate, UITableViewDataSource
 
 extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -60,7 +51,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return foods.count
+        return allFood.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,7 +60,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             for: indexPath
         )
         guard let diaryCell = cell as? DiaryViewCell else { return cell }
-        let foodData = foods[indexPath.row]
+        let foodData = allFood[indexPath.row]
         diaryCell.cardOutlineView.layer.cornerRadius = 10
         diaryCell.cardOutlineView.layer.borderWidth = 2
         diaryCell.cardOutlineView.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
@@ -87,8 +78,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = CategoryHeaderView()
         header.delegate = self
-//        header.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 200)
-        
+
         switch section {
         case 0:
             header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "早餐")
