@@ -17,6 +17,8 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var proteinLabel: UILabel!
     @IBOutlet weak var fatLabel: UILabel!
     @IBOutlet weak var fiberLabel: UILabel!
+    @IBOutlet weak var quantityTextField: UITextField!
+    @IBOutlet weak var unitPicker: UIButton!
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
 }

@@ -21,16 +21,16 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
+//        loadData()
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func loadData() {
-        FirestoreManager.shared.get(collectionID: "foods") { foods in
-              self.allFood = foods
-          }
-      }
+//    func loadData() {
+//        FirestoreManager.shared.get(collectionID: "foods") { foods in
+//              self.allFood = foods
+//          }
+//      }
     
     func didTappedAddButton() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol AddFoodMethodCellDelegate: AnyObject {
+    func searchBarDidChange(text: String)
+}
+
 class AddFoodMethodCell: UITableViewCell, UISearchBarDelegate {
+    
+    weak var delegate: AddFoodMethodCellDelegate?
     
     lazy var cameraButton: UIButton = {
         let button = UIButton()
@@ -50,6 +56,10 @@ class AddFoodMethodCell: UITableViewCell, UISearchBarDelegate {
             searchBar.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             searchBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8)
         ])
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.searchBarDidChange(text: searchText)
     }
     
 }
