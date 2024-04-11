@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryViewController: UIViewController {
+class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
     private var allFood = [Food]() {
         didSet {
@@ -32,6 +32,7 @@ class DiaryViewController: UIViewController {
         loadData()
         tableView.delegate = self
         tableView.dataSource = self
+        
     }
     
     func loadData() {
@@ -39,8 +40,18 @@ class DiaryViewController: UIViewController {
               self.allFood = foods
           }
       }
+    
+    func didTappedAddButton() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let addFoodVC = storyboard.instantiateViewController(
+            withIdentifier: String(describing: AddFoodViewController.self)
+        ) as? AddFoodViewController else { return }
+        self.navigationController?.pushViewController(addFoodVC, animated: true)
+    }
 
 }
+
+//MARK: - Extension: UITableViewDelegate, UITableViewDataSource
 
 extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -71,6 +82,33 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = CategoryHeaderView()
+        header.delegate = self
+//        header.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: 200)
+        
+        switch section {
+        case 0:
+            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "早餐")
+        case 1:
+            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "午餐")
+        case 2:
+            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "晚餐")
+        case 3:
+            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "點心")
+        case 4:
+            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "水")
+        default:
+            header.configure(with: nil, labelText: "Other Sections")
+        }
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 100
     }
 
 }

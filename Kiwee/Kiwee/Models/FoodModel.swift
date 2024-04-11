@@ -11,6 +11,7 @@ import FirebaseFirestore
 
 struct Food {
     let name: String
+    let category: String
     let totalCalorie: Double
     let nutrients: Nutrient
     let image: String
@@ -35,7 +36,8 @@ extension Food {
                 fiber: foodData["fiber"] as? Double ?? 0.0
             )
             food.append(
-                Food(name: document["name"] as? String ?? "",
+                Food(name: document["name"] as? String ?? "", 
+                     category: document["category"] as? String ?? "",
                      totalCalorie: document["totalCalories"] as? Double ?? 0.0,
                      nutrients: nutrientInfo,
                      image: document["image"] as? String ?? "")

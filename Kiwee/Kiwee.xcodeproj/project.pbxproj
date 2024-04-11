@@ -24,6 +24,9 @@
 		0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */; };
 		0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */; };
 		0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */; };
+		0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */; };
+		0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */; };
+		0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +44,9 @@
 		0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
 		0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
+		0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewController.swift; sourceTree = "<group>"; };
+		0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodMethodCell.swift; sourceTree = "<group>"; };
 		5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.release.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.release.xcconfig"; sourceTree = "<group>"; };
 		5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.debug.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.debug.xcconfig"; sourceTree = "<group>"; };
 		99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kiwee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,14 +89,13 @@
 		0ECE08852BC69877003C15B0 /* Kiwee */ = {
 			isa = PBXGroup;
 			children = (
-				0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */,
-				0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */,
 				0ECE08862BC69877003C15B0 /* AppDelegate.swift */,
 				0ECE08882BC69877003C15B0 /* SceneDelegate.swift */,
-				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
-				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
-				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
-				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
+				0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */,
+				0ECE08C42BC76A96003C15B0 /* Managers */,
+				0ECE08C32BC76A31003C15B0 /* View */,
+				0ECE08C22BC76A0F003C15B0 /* Models */,
+				0ECE08C52BC76AE8003C15B0 /* Extension */,
 				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
@@ -98,6 +103,58 @@
 				0ECE08A32BC6B108003C15B0 /* GoogleService-Info.plist */,
 			);
 			path = Kiwee;
+			sourceTree = "<group>";
+		};
+		0ECE08C22BC76A0F003C15B0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0ECE08C32BC76A31003C15B0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08C72BC76C2D003C15B0 /* Diary */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0ECE08C42BC76A96003C15B0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		0ECE08C52BC76AE8003C15B0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */,
+			);
+			path = ThirdPartyLibrary;
+			sourceTree = "<group>";
+		};
+		0ECE08C72BC76C2D003C15B0 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
+				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
+				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
+				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
+				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
+			);
+			path = Diary;
 			sourceTree = "<group>";
 		};
 		98C616CA13DA3BC47C01686C /* Pods */ = {
@@ -260,12 +317,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
+				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
+				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
 			);
