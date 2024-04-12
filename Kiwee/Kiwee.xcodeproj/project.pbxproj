@@ -18,7 +18,6 @@
 		0ECE089E2BC6AFEC003C15B0 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE089D2BC6AFEC003C15B0 /* FirebaseDatabaseSwift */; };
 		0ECE08A02BC6AFEC003C15B0 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE089F2BC6AFEC003C15B0 /* FirebaseFirestoreSwift */; };
 		0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */; };
-		0ECE08A42BC6B108003C15B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE08A32BC6B108003C15B0 /* GoogleService-Info.plist */; };
 		0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */; };
 		0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
 		0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */; };
@@ -42,7 +41,6 @@
 		0ECE088F2BC69878003C15B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0ECE08922BC69878003C15B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ECE08942BC69878003C15B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0ECE08A32BC6B108003C15B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewCell.swift; sourceTree = "<group>"; };
 		0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
@@ -115,7 +113,6 @@
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
 				0ECE08942BC69878003C15B0 /* Info.plist */,
-				0ECE08A32BC6B108003C15B0 /* GoogleService-Info.plist */,
 			);
 			path = Kiwee;
 			sourceTree = "<group>";
@@ -270,7 +267,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
-				0ECE08A42BC6B108003C15B0 /* GoogleService-Info.plist in Resources */,
 				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
 				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
 				0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */,
