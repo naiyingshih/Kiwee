@@ -7,8 +7,17 @@
 
 import UIKit
 
+protocol AddFoodDelegate: AnyObject {
+    func didAddFood(section: Int, food: IntakeData)
+}
+
 class AddFoodViewController: UIViewController {
     
+    weak var delegate: AddFoodDelegate?
+//    var section: Int?
+    
+    var foodResult: [Food] = []
+    var filteredFoodItems: [Food] = []
     var selectedFoodResult: Food?
     
     @IBOutlet weak var tableView: UITableView!
@@ -32,14 +41,6 @@ class AddFoodViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    private var foodResult = [Food]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,10 +76,6 @@ class AddFoodViewController: UIViewController {
     }
     
     @objc func confirmed() {
-        confirmSelection()
-    }
-    
-    func confirmSelection() {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ResultCell else { return }
         guard let foodResult = selectedFoodResult else {
             print("No food result selected")
@@ -87,10 +84,9 @@ class AddFoodViewController: UIViewController {
         
         // Post the intake data to Firebase
         if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
-            // Use the 'quantity' double value here
             let foodInput = IntakeData(
                 name: foodResult.name,
-                totalCalorie: foodResult.totalCalorie, 
+                totalCalorie: foodResult.totalCalories,
                 nutrients: foodResult.nutrients,
                 image: foodResult.image,
                 quantity: quantity
@@ -100,6 +96,7 @@ class AddFoodViewController: UIViewController {
             FirestoreManager.shared.postIntakeData(intakeData: calculatedIntakeData) { success in
                 if success {
                     print("Intake data posted successfully")
+//                    self.delegate?.didAddFood(section: self.section ?? 1, food: foodInput)
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("Failed to post intake data")
@@ -131,6 +128,8 @@ class AddFoodViewController: UIViewController {
 
 }
 
+// MARK: - Extension: UITableViewDelegate, UITableViewDataSource
+
 extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -139,7 +138,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return foodResult.count
+            return filteredFoodItems.count
         } else {
             return 1
         }
@@ -162,10 +161,10 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let resultCell = cell as? ResultCell else { return cell }
-            selectedFoodResult = foodResult[indexPath.row]
-            let foodResult = foodResult[indexPath.row]
+//            selectedFoodResult = filteredFoodItems[indexPath.row]
+            let foodResult = filteredFoodItems[indexPath.row]
             resultCell.nameLabel.text = "\(foodResult.name) (每100g)"
-            resultCell.totalCalorieLabel.text = "熱量\n\(foodResult.totalCalorie)"
+            resultCell.totalCalorieLabel.text = "熱量\n\(foodResult.totalCalories)"
             resultCell.carboLabel.text = "碳水\n\(foodResult.nutrients.carbohydrates)"
             resultCell.proteinLabel.text = "蛋白質\n\(foodResult.nutrients.protein)"
             resultCell.fatLabel.text = "脂肪\n\(foodResult.nutrients.fat)"
@@ -199,27 +198,33 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - Extension: Search Food Function
+
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        guard let searchText = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
-//            return
-//        }
-//        // Call method to perform search with searchText
-//        performSearch(searchText: searchText)
-//    }
     
     func searchBarDidChange(text: String) {
-        FirestoreManager.shared.searchFood(searchText: text) { [weak self] filteredFoodResults in
-            self?.foodResult = filteredFoodResults
-            
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
+        filterFoodItems(with: text)
+    }
+    
+    private func filterFoodItems(with searchText: String) {
+        guard !searchText.isEmpty else { return }
+        loadFood()
+        filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        tableView.reloadData()
+    }
+    
+    private func loadFood() {
+        // Load JSON data from file
+        if let url = Bundle.main.url(forResource: "FoodData", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                self.foodResult = try decoder.decode([Food].self, from: data)
+                self.filteredFoodItems = self.foodResult
+            } catch {
+                print("Error decoding JSON: \(error)")
             }
         }
     }
     
-//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        // Reset search and reload data
-//        resetSearch()
-//    }
 }

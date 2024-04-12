@@ -9,7 +9,7 @@ import UIKit
 
 class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
-    private var allFood = [Food]() {
+    private var allFood = [IntakeData]() {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -21,16 +21,16 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        loadData()
+        loadData()
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-//    func loadData() {
-//        FirestoreManager.shared.get(collectionID: "foods") { foods in
-//              self.allFood = foods
-//          }
-//      }
+    func loadData() {
+        FirestoreManager.shared.getIntakeCard(collectionID: "intake") { foods in
+              self.allFood = foods
+          }
+      }
     
     func didTappedAddButton() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -99,6 +99,15 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 100
+    }
+
+}
+
+extension DiaryViewController: AddFoodDelegate {
+    
+    func didAddFood(section: Int, food: IntakeData) {
+        self.allFood.append(food)
+        self.tableView.reloadSections([section], with: .automatic)
     }
 
 }

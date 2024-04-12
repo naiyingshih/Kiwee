@@ -7,18 +7,19 @@
 
 import Foundation
 
-struct Food {
+//struct Food {
+//    let name: String
+//    let totalCalorie: Double
+//    let nutrients: Nutrient
+//    let image: String
+//}
+
+struct Food: Codable {
     let name: String
-    let totalCalorie: Double
+    let totalCalories: Double
     let nutrients: Nutrient
     let image: String
-}
-
-struct Nutrient {
-    let carbohydrates: Double
-    let protein: Double
-    let fat: Double
-    let fiber: Double
+    let quantity: Double?
 }
 
 struct IntakeData {
@@ -27,4 +28,11 @@ struct IntakeData {
     let nutrients: Nutrient
     let image: String
     let quantity: Double
+}
+
+struct Nutrient: Codable {
+    let carbohydrates: Double
+    let protein: Double
+    let fat: Double
+    let fiber: Double
 }
