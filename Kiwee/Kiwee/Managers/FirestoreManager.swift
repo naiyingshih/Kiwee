@@ -43,10 +43,10 @@ class FirestoreManager {
 //        }
 //    }
     
-    func postIntakeData(intakeData: IntakeData, completion: @escaping (Bool) -> Void) {
+    func postIntakeData(intakeData: Food, completion: @escaping (Bool) -> Void) {
         let intakeDictionary: [String: Any] = [
             "name": intakeData.name,
-            "totalCalories": intakeData.totalCalorie,
+            "totalCalories": intakeData.totalCalories,
             "nutrients": [
                 "carbohydrates": intakeData.nutrients.carbohydrates,
                 "protein": intakeData.nutrients.protein,
@@ -54,7 +54,8 @@ class FirestoreManager {
                 "fiber": intakeData.nutrients.fiber
             ],
             "image": intakeData.image,
-            "quantity": intakeData.quantity
+            "quantity": intakeData.quantity as Any,
+            "section": intakeData.section as Any
         ]
         
         database.collection("intake").addDocument(data: intakeDictionary) { error in
@@ -68,7 +69,7 @@ class FirestoreManager {
         }
     }
     
-    func getIntakeCard(collectionID: String, completion: @escaping ([IntakeData]) -> Void) {
+    func getIntakeCard(collectionID: String, completion: @escaping ([Food]) -> Void) {
         database.collection("intake").addSnapshotListener { querySnapshot, err in
             if let error = err {
                 print(error)
@@ -79,8 +80,8 @@ class FirestoreManager {
         }
     }
     
-    private func getIntake(from documents: [QueryDocumentSnapshot]) -> [IntakeData] {
-        var intake = [IntakeData]()
+    private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
+        var intake = [Food]()
         for document in documents {
             let foodData = document["nutrients"] as? [String: Any] ?? [:]
             let nutrientInfo = Nutrient(
@@ -90,12 +91,13 @@ class FirestoreManager {
                 fiber: foodData["fiber"] as? Double ?? 0.0
             )
             intake.append(
-                IntakeData(name: document["name"] as? String ?? "",
-                           totalCalorie: document["totalCalories"] as? Double ?? 0.0,
-                           nutrients: nutrientInfo,
-                           image: document["image"] as? String ?? "",
-                           quantity: document["quantity"] as? Double ?? 100.0
-                          )
+                Food(name: document["name"] as? String ?? "",
+                     totalCalories: document["totalCalories"] as? Double ?? 0.0,
+                     nutrients: nutrientInfo,
+                     image: document["image"] as? String ?? "",
+                     quantity: document["quantity"] as? Double,
+                     section: document["section"] as? Int
+                    )
             )
         }
         return intake

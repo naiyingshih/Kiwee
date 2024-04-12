@@ -9,13 +9,16 @@ import UIKit
 
 class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
-    private var allFood = [IntakeData]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    var selectedSection: Int?
+    
+//    private var allFood = [IntakeData]() {
+//        didSet {
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        }
+//    }
+    var allFood: [[Food]] = Array(repeating: [], count: 5)
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,17 +29,37 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         tableView.dataSource = self
     }
     
+//    func loadData() {
+//        FirestoreManager.shared.getIntakeCard(collectionID: "intake") { foods in
+//            self.allFood = [foods]
+//        }
+//    }
+    
     func loadData() {
         FirestoreManager.shared.getIntakeCard(collectionID: "intake") { foods in
-              self.allFood = foods
-          }
-      }
+            // Assuming you have a way to categorize foods into sections now
+            var newAllFood: [[Food]] = Array(repeating: [], count: 5)
+            for food in foods {
+                guard let section = food.section else { return }
+                if section >= 0 && section < newAllFood.count {
+                    newAllFood[section].append(food)
+                }
+            }
+            DispatchQueue.main.async {
+                self.allFood = newAllFood
+                self.tableView.reloadData()
+            }
+        }
+    }
     
-    func didTappedAddButton() {
+    func didTappedAddButton(section: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let addFoodVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: AddFoodViewController.self)
         ) as? AddFoodViewController else { return }
+//        addFoodVC.delegate = self
+        addFoodVC.sectionIndex = section
+        print("===\(String(describing: section))")
         self.navigationController?.pushViewController(addFoodVC, animated: true)
     }
 
@@ -51,7 +74,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allFood.count
+        return allFood[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,12 +83,12 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             for: indexPath
         )
         guard let diaryCell = cell as? DiaryViewCell else { return cell }
-        let foodData = allFood[indexPath.row]
+        let foodData = allFood[indexPath.section][indexPath.row]
         diaryCell.cardOutlineView.layer.cornerRadius = 10
         diaryCell.cardOutlineView.layer.borderWidth = 2
         diaryCell.cardOutlineView.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
         diaryCell.foodNameLabel.text = foodData.name
-        diaryCell.calorieLabel.text = "\(foodData.totalCalorie)"
+        diaryCell.calorieLabel.text = "\(foodData.totalCalories)"
         diaryCell.foodImage.loadImage(foodData.image, placeHolder: UIImage(named: "Food_Placeholder"))
         diaryCell.foodImage.contentMode = .scaleAspectFill
         return diaryCell
@@ -77,8 +100,8 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = CategoryHeaderView()
+        header.section = section
         header.delegate = self
-
         switch section {
         case 0:
             header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "早餐")
@@ -103,11 +126,11 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
 
 }
 
-extension DiaryViewController: AddFoodDelegate {
-    
-    func didAddFood(section: Int, food: IntakeData) {
-        self.allFood.append(food)
-        self.tableView.reloadSections([section], with: .automatic)
-    }
-
-}
+//extension DiaryViewController: AddFoodDelegate {
+//    
+//    func didAddFood(section: Int, food: Food) {
+//        self.allFood[section].append(food)
+//        self.tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+//    }
+//
+//}

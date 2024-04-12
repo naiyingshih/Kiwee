@@ -8,12 +8,13 @@
 import UIKit
 
 protocol TableViewHeaderDelegate: AnyObject {
-    func didTappedAddButton()
+    func didTappedAddButton(section: Int)
 }
 
 class CategoryHeaderView: UIView {
     
     weak var delegate: TableViewHeaderDelegate?
+    var section: Int?
     
     lazy var iconImageView: UIImageView = {
         let icon = UIImageView()
@@ -74,6 +75,7 @@ class CategoryHeaderView: UIView {
     }
     
     @objc func addFood() {
-        delegate?.didTappedAddButton()
+        guard let section = section else { return }
+        delegate?.didTappedAddButton(section: section)
     }
 }

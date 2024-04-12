@@ -8,13 +8,13 @@
 import UIKit
 
 protocol AddFoodDelegate: AnyObject {
-    func didAddFood(section: Int, food: IntakeData)
+    func didAddFood(section: Int, food: Food)
 }
 
 class AddFoodViewController: UIViewController {
     
     weak var delegate: AddFoodDelegate?
-//    var section: Int?
+    var sectionIndex: Int?
     
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = []
@@ -84,19 +84,21 @@ class AddFoodViewController: UIViewController {
         
         // Post the intake data to Firebase
         if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
-            let foodInput = IntakeData(
+            guard let index = self.sectionIndex else { return }
+            let foodInput = Food(
                 name: foodResult.name,
-                totalCalorie: foodResult.totalCalories,
+                totalCalories: foodResult.totalCalories,
                 nutrients: foodResult.nutrients,
                 image: foodResult.image,
-                quantity: quantity
+                quantity: quantity, 
+                section: index
             )
             let calculatedIntakeData = calculateIntakeData(input: foodInput)
             
             FirestoreManager.shared.postIntakeData(intakeData: calculatedIntakeData) { success in
                 if success {
                     print("Intake data posted successfully")
-//                    self.delegate?.didAddFood(section: self.section ?? 1, food: foodInput)
+                    self.delegate?.didAddFood(section: index, food: calculatedIntakeData)
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("Failed to post intake data")
@@ -108,21 +110,22 @@ class AddFoodViewController: UIViewController {
         }
     }
     
-    func calculateIntakeData(input: IntakeData) -> IntakeData {
-        let updatedTotalCalorie = input.totalCalorie * (input.quantity / 100)
-        let updatedCarbohydrates = input.nutrients.carbohydrates * (input.quantity / 100)
-        let updatedProtein = input.nutrients.protein * (input.quantity / 100)
-        let updatedFat = input.nutrients.fat * (input.quantity / 100)
-        let updatedFiber = input.nutrients.fiber * (input.quantity / 100)
+    func calculateIntakeData(input: Food) -> Food {
+        let updatedTotalCalorie = input.totalCalories * ((input.quantity ?? 100) / 100.0)
+        let updatedCarbohydrates = input.nutrients.carbohydrates * ((input.quantity ?? 100) / 100.0)
+        let updatedProtein = input.nutrients.protein * ((input.quantity ?? 100) / 100.0)
+        let updatedFat = input.nutrients.fat * ((input.quantity ?? 100) / 100.0)
+        let updatedFiber = input.nutrients.fiber * ((input.quantity ?? 100) / 100.0)
         
         let nutrients = Nutrient(carbohydrates: updatedCarbohydrates, protein: updatedProtein, fat: updatedFat, fiber: updatedFiber)
         
-        return IntakeData(
+        return Food(
             name: input.name,
-            totalCalorie: updatedTotalCalorie,
+            totalCalories: updatedTotalCalorie,
             nutrients: nutrients,
             image: input.image,
-            quantity: input.quantity
+            quantity: input.quantity, 
+            section: sectionIndex!
         )
     }
 
@@ -161,7 +164,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let resultCell = cell as? ResultCell else { return cell }
-//            selectedFoodResult = filteredFoodItems[indexPath.row]
+            selectedFoodResult = filteredFoodItems[indexPath.row]
             let foodResult = filteredFoodItems[indexPath.row]
             resultCell.nameLabel.text = "\(foodResult.name) (每100g)"
             resultCell.totalCalorieLabel.text = "熱量\n\(foodResult.totalCalories)"
