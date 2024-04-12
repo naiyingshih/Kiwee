@@ -111,21 +111,25 @@ class AddFoodViewController: UIViewController {
     }
     
     func calculateIntakeData(input: Food) -> Food {
-        let updatedTotalCalorie = input.totalCalories * ((input.quantity ?? 100) / 100.0)
-        let updatedCarbohydrates = input.nutrients.carbohydrates * ((input.quantity ?? 100) / 100.0)
-        let updatedProtein = input.nutrients.protein * ((input.quantity ?? 100) / 100.0)
-        let updatedFat = input.nutrients.fat * ((input.quantity ?? 100) / 100.0)
-        let updatedFiber = input.nutrients.fiber * ((input.quantity ?? 100) / 100.0)
+        let updatedTotalCalorie = (input.totalCalories * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
+        let updatedCarbohydrates = (input.nutrients.carbohydrates * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
+        let updatedProtein = (input.nutrients.protein * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
+        let updatedFat = (input.nutrients.fat * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
+        let updatedFiber = (input.nutrients.fiber * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
         
         let nutrients = Nutrient(carbohydrates: updatedCarbohydrates, protein: updatedProtein, fat: updatedFat, fiber: updatedFiber)
+        
+        guard let sectionIndex = self.sectionIndex else {
+            fatalError("sectionIndex is nil")
+        }
         
         return Food(
             name: input.name,
             totalCalories: updatedTotalCalorie,
             nutrients: nutrients,
             image: input.image,
-            quantity: input.quantity, 
-            section: sectionIndex!
+            quantity: input.quantity,
+            section: sectionIndex
         )
     }
 

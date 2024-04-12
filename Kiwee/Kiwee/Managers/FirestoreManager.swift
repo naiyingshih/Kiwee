@@ -13,36 +13,6 @@ class FirestoreManager {
     static let shared = FirestoreManager()
     let database = Firestore.firestore()
     
-//    func searchFood(searchText: String, completion: @escaping ([Food]) -> Void) {
-//        let query = database.collection("foods").whereField("name", isEqualTo: searchText)
-//        
-//        query.getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error searching for food: \(error.localizedDescription)")
-//                completion([])
-//            } else {
-//                var filteredFoodResults = [Food]()
-//                for document in querySnapshot!.documents {
-//                    let foodData = document["nutrients"] as? [String: Any] ?? [:]
-//                    let nutrientInfo = Nutrient(
-//                        carbohydrates: foodData["carbohydrates"] as? Double ?? 0.0,
-//                        protein: foodData["protein"] as? Double ?? 0.0,
-//                        fat: foodData["fat"] as? Double ?? 0.0,
-//                        fiber: foodData["fiber"] as? Double ?? 0.0
-//                    )
-//                    let food = Food(
-//                        name: document["name"] as? String ?? "",
-//                        totalCalorie: document["totalCalories"] as? Double ?? 0.0,
-//                        nutrients: nutrientInfo,
-//                        image: document["image"] as? String ?? ""
-//                    )
-//                    filteredFoodResults.append(food)
-//                }
-//                completion(filteredFoodResults)
-//            }
-//        }
-//    }
-    
     func postIntakeData(intakeData: Food, completion: @escaping (Bool) -> Void) {
         let intakeDictionary: [String: Any] = [
             "name": intakeData.name,

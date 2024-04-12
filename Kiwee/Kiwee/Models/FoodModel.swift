@@ -16,14 +16,6 @@ struct Food: Codable {
     let section: Int?
 }
 
-//struct IntakeData {
-//    let name: String
-//    let totalCalorie: Double
-//    let nutrients: Nutrient
-//    let image: String
-//    let quantity: Double
-//}
-
 struct Nutrient: Codable {
     let carbohydrates: Double
     let protein: Double
