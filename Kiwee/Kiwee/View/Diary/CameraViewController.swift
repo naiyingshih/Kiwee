@@ -114,7 +114,7 @@ extension CameraViewController: UIImagePickerControllerDelegate {
         
         // Convert the image for CIImage
         if let ciImage = CIImage(image: image) {
-//            processImage(ciImage: ciImage)
+            processImage(ciImage: ciImage)
         } else {
             print("CIImage convert error")
         }
@@ -125,45 +125,48 @@ extension CameraViewController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true, completion: nil)
     }
     
-//    func processImage(ciImage: CIImage) {
-//        
-//        do {
-//            let model = try VNCoreMLModel(for: SeeFood().model)
-//            
-//            let request = VNCoreMLRequest(model: model) { (request, error) in
-//                self.processClassifications(for: request, error: error)
-//            }
-//            
-//            DispatchQueue.global(qos: .userInitiated).async {
-//                let handler = VNImageRequestHandler(ciImage: ciImage, orientation: .up)
-//                do {
-//                    try handler.perform([request])
-//                } catch {
-//                    
-//                    print("Failed to perform classification.\n\(error.localizedDescription)")
-//                }
-//            }
-//            
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//        
-//    }
+    func processImage(ciImage: CIImage) {
+        
+        do {
+            let configuration = MLModelConfiguration()
+            let model = try VNCoreMLModel(for: FoodSample(configuration: configuration).model)
+            
+            let request = VNCoreMLRequest(model: model) { (request, error) in
+                self.processClassifications(for: request, error: error)
+            }
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                let handler = VNImageRequestHandler(ciImage: ciImage, orientation: .up)
+                do {
+                    try handler.perform([request])
+                } catch {
+                    print("Failed to perform classification.\n\(error.localizedDescription)")
+                }
+            }
+            
+        } catch {
+            print("Error initializing VNCoreMLModel: \(error)")
+        }
+        
+    }
     
-//    func processClassifications(for request: VNRequest, error: Error?) {
-//        DispatchQueue.main.async {
-//            guard let results = request.results else {
-//                print("Unable to classify image.\n\(error!.localizedDescription)")
-//                return
-//            }
-//            
-//            let classifications = results as! [VNClassificationObservation]
-//            
-//            if let topClassification = classifications.first {
-//                let confidence = Int(topClassification.confidence * 100) // Convert confidence to percentage
-//                self.resultLabel.text = "\(topClassification.identifier.uppercased()) (\(confidence)%)"
-//            }
-//        }
-//    }
+    func processClassifications(for request: VNRequest, error: Error?) {
+        DispatchQueue.main.async {
+            guard let results = request.results else {
+                print("Unable to classify image.\n\(error!.localizedDescription)")
+                return
+            }
+            
+            guard let classifications = results as? [VNClassificationObservation] else {
+                print("Error:\(String(describing: error))")
+                return
+            }
+            
+            if let topClassification = classifications.first {
+                let confidence = Int(topClassification.confidence * 100)
+                self.resultLabel.text = "\(topClassification.identifier.uppercased()) (\(confidence)%)"
+            }
+        }
+    }
     
 }
