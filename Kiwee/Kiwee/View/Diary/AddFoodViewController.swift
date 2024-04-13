@@ -15,6 +15,7 @@ class AddFoodViewController: UIViewController {
     
     weak var delegate: AddFoodDelegate?
     var sectionIndex: Int?
+    var currentMethod: AddFoodMethod?
     
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = []
@@ -73,6 +74,24 @@ class AddFoodViewController: UIViewController {
             confirmButton.heightAnchor.constraint(equalToConstant: 48)
         ])
 
+    }
+    
+    @IBAction func imageRecognizeButtonTapped() {
+        currentMethod = .imageRecognition
+        filteredFoodItems.removeAll()
+        tableView.reloadData()
+    }
+    
+    @IBAction func searchFoodButtonTapped() {
+        currentMethod = .search
+        filteredFoodItems.removeAll()
+        tableView.reloadData()
+    }
+    
+    @IBAction func manualButtonTapped() {
+        currentMethod = .manual
+        filteredFoodItems.removeAll()
+        tableView.reloadData()
     }
     
     @objc func confirmed() {
@@ -160,6 +179,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let addMethodCell = cell as? AddFoodMethodCell else { return cell }
             addMethodCell.delegate = self
+            addMethodCell.configureCellForMethod(currentMethod)
             return addMethodCell
             
         case 1:
@@ -170,15 +190,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             guard let resultCell = cell as? ResultCell else { return cell }
             selectedFoodResult = filteredFoodItems[indexPath.row]
             let foodResult = filteredFoodItems[indexPath.row]
-            resultCell.nameLabel.text = "\(foodResult.name) (每100g)"
-            resultCell.totalCalorieLabel.text = "熱量\n\(foodResult.totalCalories)"
-            resultCell.carboLabel.text = "碳水\n\(foodResult.nutrients.carbohydrates)"
-            resultCell.proteinLabel.text = "蛋白質\n\(foodResult.nutrients.protein)"
-            resultCell.fatLabel.text = "脂肪\n\(foodResult.nutrients.fat)"
-            resultCell.fiberLabel.text = "纖維\n\(foodResult.nutrients.fiber)"
-            resultCell.foodImage.loadImage(foodResult.image, placeHolder: UIImage(named: "Food_Placeholder"))
-            resultCell.quantityTextField.text = "100"
-            
+            resultCell.updateResult(foodResult)
             return resultCell
             
         case 2:

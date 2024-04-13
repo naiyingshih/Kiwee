@@ -112,16 +112,25 @@
                                         <rect key="frame" x="0.0" y="0.0" width="120.33333333333333" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="影像辨識"/>
+                                        <connections>
+                                            <action selector="imageRecognizeButtonTapped" destination="BQ0-u7-WOd" eventType="touchUpInside" id="Jvg-PE-jzS"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RqF-kQ-zqF">
                                         <rect key="frame" x="120.33333333333334" y="0.0" width="120.33333333333334" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="搜尋食物"/>
+                                        <connections>
+                                            <action selector="searchFoodButtonTapped" destination="BQ0-u7-WOd" eventType="touchUpInside" id="W12-6N-bNR"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5is-gJ-Tix">
                                         <rect key="frame" x="240.66666666666671" y="0.0" width="120.33333333333334" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="手動輸入"/>
+                                        <connections>
+                                            <action selector="manualButtonTapped" destination="BQ0-u7-WOd" eventType="touchUpInside" id="pEG-MY-x2M"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
