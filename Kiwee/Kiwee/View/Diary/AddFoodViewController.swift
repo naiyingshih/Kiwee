@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol AddFoodDelegate: AnyObject {
-    func didAddFood(section: Int, food: Food)
-}
+//protocol AddFoodDelegate: AnyObject {
+//    func didAddFood(section: Int, food: Food)
+//}
 
 class AddFoodViewController: UIViewController {
     
-    weak var delegate: AddFoodDelegate?
+//    weak var delegate: AddFoodDelegate?
     var sectionIndex: Int?
     var currentMethod: AddFoodMethod?
     
@@ -46,15 +46,22 @@ class AddFoodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBottomBlock()
+        setupInitialUI()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
 //        tableView.register(RecentRecordCell.self, forCellReuseIdentifier: "RecentRecordCell")
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    func setupInitialUI() {
+        currentMethod = .imageRecognition
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
     
     func setupBottomBlock() {
@@ -73,7 +80,6 @@ class AddFoodViewController: UIViewController {
             confirmButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -24),
             confirmButton.heightAnchor.constraint(equalToConstant: 48)
         ])
-
     }
     
     @IBAction func imageRecognizeButtonTapped() {
@@ -117,7 +123,7 @@ class AddFoodViewController: UIViewController {
             FirestoreManager.shared.postIntakeData(intakeData: calculatedIntakeData) { success in
                 if success {
                     print("Intake data posted successfully")
-                    self.delegate?.didAddFood(section: index, food: calculatedIntakeData)
+//                    self.delegate?.didAddFood(section: index, food: calculatedIntakeData)
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("Failed to post intake data")
@@ -244,6 +250,11 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
                 print("Error decoding JSON: \(error)")
             }
         }
+    }
+    
+    func cameraButtonDidTapped() {
+        let cameraVC = CameraViewController()
+        self.navigationController?.pushViewController(cameraVC, animated: false)
     }
     
 }

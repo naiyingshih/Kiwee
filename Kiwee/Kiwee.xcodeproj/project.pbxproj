@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */; };
+		0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC152BCA556D0018911F /* CameraViewController.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0E91DC152BCA556D0018911F /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E91DC172BCA561D0018911F /* DiaryView */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
+				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
+			);
+			path = DiaryView;
+			sourceTree = "<group>";
+		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,9 +175,9 @@
 			isa = PBXGroup;
 			children = (
 				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
-				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
-				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
+				0E91DC172BCA561D0018911F /* DiaryView */,
 				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
+				0E91DC152BCA556D0018911F /* CameraViewController.swift */,
 				0ECE08D22BC7BAA2003C15B0 /* AddFoodView */,
 			);
 			path = Diary;
@@ -354,6 +365,7 @@
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
+				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
 			);

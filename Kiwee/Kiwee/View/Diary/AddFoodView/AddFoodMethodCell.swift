@@ -7,8 +7,9 @@
 
 import UIKit
 
-protocol AddFoodMethodCellDelegate: AnyObject {
-    func searchBarDidChange(text: String)
+@objc protocol AddFoodMethodCellDelegate: AnyObject {
+    @objc optional func searchBarDidChange(text: String)
+    @objc optional func cameraButtonDidTapped()
 }
 
 enum AddFoodMethod {
@@ -47,7 +48,6 @@ class AddFoodMethodCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupCameraButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +57,8 @@ class AddFoodMethodCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
     @objc func openCamera() {
-        
+        guard let delegate = delegate else { return }
+        delegate.cameraButtonDidTapped?()
     }
     
     func configureCellForMethod(_ method: AddFoodMethod?) {
@@ -112,7 +113,8 @@ class AddFoodMethodCell: UITableViewCell {
 extension AddFoodMethodCell: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        delegate?.searchBarDidChange(text: searchText)
+        guard let delegate = delegate else { return }
+        delegate.searchBarDidChange?(text: searchText)
     }
     
 }
