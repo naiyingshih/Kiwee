@@ -7,18 +7,19 @@
 
 import UIKit
 
-//protocol AddFoodDelegate: AnyObject {
-//    func didAddFood(section: Int, food: Food)
-//}
-
 class AddFoodViewController: UIViewController {
     
-//    weak var delegate: AddFoodDelegate?
     var sectionIndex: Int?
     var currentMethod: AddFoodMethod?
     
     var foodResult: [Food] = []
-    var filteredFoodItems: [Food] = []
+    var filteredFoodItems: [Food] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     var selectedFoodResult: Food?
     
     @IBOutlet weak var tableView: UITableView!
@@ -85,19 +86,16 @@ class AddFoodViewController: UIViewController {
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
         filteredFoodItems.removeAll()
-        tableView.reloadData()
     }
     
     @IBAction func searchFoodButtonTapped() {
         currentMethod = .search
         filteredFoodItems.removeAll()
-        tableView.reloadData()
     }
     
     @IBAction func manualButtonTapped() {
         currentMethod = .manual
         filteredFoodItems.removeAll()
-        tableView.reloadData()
     }
     
     @objc func confirmed() {
@@ -123,7 +121,6 @@ class AddFoodViewController: UIViewController {
             FirestoreManager.shared.postIntakeData(intakeData: calculatedIntakeData) { success in
                 if success {
                     print("Intake data posted successfully")
-//                    self.delegate?.didAddFood(section: index, food: calculatedIntakeData)
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("Failed to post intake data")
@@ -227,34 +224,44 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
     
-    func searchBarDidChange(text: String) {
-        filterFoodItems(with: text)
+    func cameraButtonDidTapped() {
+        let cameraVC = CameraViewController()
+        cameraVC.delegate = self
+        self.navigationController?.pushViewController(cameraVC, animated: false)
     }
     
-    private func filterFoodItems(with searchText: String) {
-        guard !searchText.isEmpty else { return }
+    func searchBarDidChange(text: String) {
+        guard !text.isEmpty else { return }
         loadFood()
-        filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-        tableView.reloadData()
+        filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
     }
     
     private func loadFood() {
-        // Load JSON data from file
-        if let url = Bundle.main.url(forResource: "FoodData", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                self.foodResult = try decoder.decode([Food].self, from: data)
-                self.filteredFoodItems = self.foodResult
-            } catch {
-                print("Error decoding JSON: \(error)")
+        FoodDataManager.shared.loadFood { [weak self] (foodItems, error) in
+            if let foodItems = foodItems {
+                self?.foodResult = foodItems
+            } else if let error = error {
+                print("Failed to load food data: \(error)")
             }
         }
     }
     
-    func cameraButtonDidTapped() {
-        let cameraVC = CameraViewController()
-        self.navigationController?.pushViewController(cameraVC, animated: false)
+}
+
+// MARK: - Extension: image recognition data
+
+extension AddFoodViewController: FoodDataDelegate {
+    
+    func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String) {
+        let identifiedFood = Food(
+            name: name,
+            totalCalories: totalCalories,
+            nutrients: nutrients,
+            image: image,
+            quantity: nil,
+            section: nil
+        )
+        filteredFoodItems.append(identifiedFood)
     }
     
 }

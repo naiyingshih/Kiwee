@@ -11,6 +11,7 @@
 		0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */; };
 		0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC152BCA556D0018911F /* CameraViewController.swift */; };
 		0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC182BCA836D0018911F /* FoodSample.mlmodel */; };
+		0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -39,6 +40,7 @@
 		0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E91DC152BCA556D0018911F /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		0E91DC182BCA836D0018911F /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
+		0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDataManager.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
+				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
+				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
 			);

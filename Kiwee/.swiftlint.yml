@@ -3,7 +3,7 @@ disabled_rules:
   - comma
   - control_statement
   - trailing_whitespace
-  - unused_ptional_binding
+  - unused_optional_binding
   
 opt_in_rules:
   - empty_count
@@ -36,7 +36,7 @@ type_name:
     warning: 40
     error: 50
   excluded: iPhone
-variable_name:
+identifier_name:
   min_length:
     error: 2
   excluded:

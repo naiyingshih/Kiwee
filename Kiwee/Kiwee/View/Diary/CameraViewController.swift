@@ -9,7 +9,15 @@ import UIKit
 import Vision
 import CoreML
 
+protocol FoodDataDelegate: AnyObject {
+    func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String)
+}
+
 class CameraViewController: UIViewController, UINavigationControllerDelegate {
+    
+    weak var delegate: FoodDataDelegate?
+    
+    var recognizedData: Food?
     
     lazy var imageView: UIImageView = {
         let imgView = UIImageView()
@@ -72,18 +80,18 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         
         // Check if the device has a camera
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let cameraAction = UIAlertAction(title: "Take Photo", style: .default) { [weak self] _ in
+            let cameraAction = UIAlertAction(title: "相機", style: .default) { [weak self] _ in
                 self?.presentImagePicker(sourceType: .camera)
             }
             alertController.addAction(cameraAction)
         }
         
-        let photoLibraryAction = UIAlertAction(title: "Choose from Library", style: .default) { [weak self] _ in
+        let photoLibraryAction = UIAlertAction(title: "從相簿選取", style: .default) { [weak self] _ in
             self?.presentImagePicker(sourceType: .photoLibrary)
         }
         alertController.addAction(photoLibraryAction)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
@@ -98,7 +106,14 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func confirmed() {
-        // TODOs: - find the corresponded food and show result
+        if let foodData = recognizedData {
+            self.delegate?.didReceiveFoodData(
+                name: foodData.name,
+                totalCalories: foodData.totalCalories,
+                nutrients: foodData.nutrients,
+                image: foodData.image
+            )
+        }
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -147,7 +162,6 @@ extension CameraViewController: UIImagePickerControllerDelegate {
         } catch {
             print("Error initializing VNCoreMLModel: \(error)")
         }
-        
     }
     
     func processClassifications(for request: VNRequest, error: Error?) {
@@ -164,7 +178,33 @@ extension CameraViewController: UIImagePickerControllerDelegate {
             
             if let topClassification = classifications.first {
                 let confidence = Int(topClassification.confidence * 100)
-                self.resultLabel.text = "\(topClassification.identifier.uppercased()) (\(confidence)%)"
+                self.resultLabel.text = "\(topClassification.identifier) (\(confidence)%)"
+                print("===\(results)")
+                
+                self.loadFood(topClassification.identifier) { foods in
+                    guard let foods = foods else {
+                        print("no match food was found")
+                        return
+                    }
+                    self.recognizedData = Food(
+                        name: foods.name,
+                        totalCalories: foods.totalCalories,
+                        nutrients: foods.nutrients,
+                        image: foods.image,
+                        quantity: nil,
+                        section: nil
+                    )
+                }
+            }
+        }
+    }
+    
+    private func loadFood(_ name: String, completion: @escaping (Food?) -> Void) {
+        FoodDataManager.shared.loadFood { (foodItems, _) in
+            if let food = foodItems?.first(where: { $0.name == name }) {
+                completion(food)
+            } else {
+                completion(nil)
             }
         }
     }
