@@ -19,7 +19,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     
     var recognizedData: Food?
     
-    lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "Food_Placeholder")
         imgView.contentMode = .scaleAspectFill
@@ -28,7 +28,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         return imgView
     }()
     
-    lazy var resultLabel: UILabel = {
+    private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
@@ -36,7 +36,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         return label
     }()
     
-    lazy var confirmButton: UIButton = {
+    private lazy var confirmButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         button.setTitle("確認", for: .normal)

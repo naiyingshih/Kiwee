@@ -29,7 +29,7 @@ class AddFoodViewController: UIViewController {
     
     lazy var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -61,6 +61,8 @@ class AddFoodViewController: UIViewController {
     }
     
     func setupInitialUI() {
+        confirmButton.isEnabled = false
+        confirmButton.alpha = 0.3
         currentMethod = .imageRecognition
         tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
@@ -86,16 +88,22 @@ class AddFoodViewController: UIViewController {
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
         filteredFoodItems.removeAll()
+        confirmButton.isEnabled = false
+        confirmButton.alpha = 0.3
     }
     
     @IBAction func searchFoodButtonTapped() {
         currentMethod = .search
         filteredFoodItems.removeAll()
+        confirmButton.isEnabled = false
+        confirmButton.alpha = 0.3
     }
     
     @IBAction func manualButtonTapped() {
         currentMethod = .manual
         filteredFoodItems.removeAll()
+        confirmButton.isEnabled = false
+        confirmButton.alpha = 0.3
     }
     
     @objc func confirmed() {
@@ -214,10 +222,8 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             return 180
         } else {
-//            tableView.rowHeight = UITableView.automaticDimension
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
-//            return 200
         }
     }
     
@@ -237,6 +243,8 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         guard !text.isEmpty else { return }
         loadFood()
         filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
+        confirmButton.isEnabled = true
+        confirmButton.alpha = 1.0
     }
     
     private func loadFood() {
@@ -247,6 +255,13 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
                 print("Failed to load food data: \(error)")
             }
         }
+    }
+    
+    func textFieldConfirmed(foodResult: [Food]?) {
+        guard let foodResult = foodResult else { return }
+        filteredFoodItems = foodResult
+        confirmButton.isEnabled = true
+        confirmButton.alpha = 1.0
     }
     
 }
@@ -265,6 +280,8 @@ extension AddFoodViewController: FoodDataDelegate {
             section: nil
         )
         filteredFoodItems.append(identifiedFood)
+        confirmButton.isEnabled = true
+        confirmButton.alpha = 1.0
     }
     
 }

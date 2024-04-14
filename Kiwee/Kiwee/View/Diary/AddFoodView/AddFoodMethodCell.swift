@@ -7,9 +7,10 @@
 
 import UIKit
 
-@objc protocol AddFoodMethodCellDelegate: AnyObject {
-    @objc optional func searchBarDidChange(text: String)
-    @objc optional func cameraButtonDidTapped()
+protocol AddFoodMethodCellDelegate: AnyObject {
+    func searchBarDidChange(text: String)
+    func cameraButtonDidTapped()
+    func textFieldConfirmed(foodResult: [Food]?)
 }
 
 enum AddFoodMethod {
@@ -22,7 +23,7 @@ class AddFoodMethodCell: UITableViewCell {
     
     weak var delegate: AddFoodMethodCellDelegate?
     
-    lazy var cameraButton: UIButton = {
+    private lazy var cameraButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "camera"), for: .normal)
         button.addTarget(self, action: #selector(openCamera), for: .touchUpInside)
@@ -30,7 +31,7 @@ class AddFoodMethodCell: UITableViewCell {
         return button
     }()
     
-    lazy var searchBar: UISearchBar = {
+    private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "搜尋食物"
         searchBar.delegate = self
@@ -38,7 +39,7 @@ class AddFoodMethodCell: UITableViewCell {
         return searchBar
     }()
     
-    lazy var nameTextField: UITextField = {
+    private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "輸入食物名稱"
         textField.font = UIFont.systemFont(ofSize: 12)
@@ -47,7 +48,7 @@ class AddFoodMethodCell: UITableViewCell {
         return textField
     }()
     
-    lazy var calorieTextField: UITextField = {
+    private lazy var calorieTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "總熱量(kcal)"
         textField.font = UIFont.systemFont(ofSize: 12)
@@ -56,7 +57,7 @@ class AddFoodMethodCell: UITableViewCell {
         return textField
     }()
     
-    lazy var carboTextField: UITextField = {
+    private lazy var carboTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "碳水(100g)"
         textField.font = UIFont.systemFont(ofSize: 12)
@@ -65,7 +66,7 @@ class AddFoodMethodCell: UITableViewCell {
         return textField
     }()
     
-    lazy var proteinTextField: UITextField = {
+    private lazy var proteinTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "蛋白(100g)"
         textField.font = UIFont.systemFont(ofSize: 12)
@@ -74,7 +75,7 @@ class AddFoodMethodCell: UITableViewCell {
         return textField
     }()
     
-    lazy var fatTextField: UITextField = {
+    private lazy var fatTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "脂肪(100g)"
         textField.font = UIFont.systemFont(ofSize: 12)
@@ -83,13 +84,23 @@ class AddFoodMethodCell: UITableViewCell {
         return textField
     }()
     
-    lazy var fiberTextField: UITextField = {
+    private lazy var fiberTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "纖維(100g)"
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }()
+    
+    private lazy var confirmButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("確認", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        button.addTarget(self, action: #selector(confirmedTextField), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -104,7 +115,34 @@ class AddFoodMethodCell: UITableViewCell {
     
     @objc func openCamera() {
         guard let delegate = delegate else { return }
-        delegate.cameraButtonDidTapped?()
+        delegate.cameraButtonDidTapped()
+    }
+    
+    @objc func confirmedTextField() {
+        guard let delegate = delegate else { return }
+        guard let name = nameTextField.text, !name.isEmpty,
+              let calorie = calorieTextField.text, !calorie.isEmpty,
+              let carbo = carboTextField.text, !carbo.isEmpty,
+              let protein = proteinTextField.text, !protein.isEmpty,
+              let fat = fatTextField.text, !fat.isEmpty,
+              let fiber = fiberTextField.text, !fiber.isEmpty 
+        else {
+            print("text field cannot be empty")
+            return
+        }
+        let foodResult = Food(
+            name: name,
+            totalCalories: Double("\(calorie)") ?? 0.0,
+            nutrients: Nutrient(
+                carbohydrates: Double("\(carbo)") ?? 0.0,
+                protein: Double("\(protein)") ?? 0.0,
+                fat: Double("\(fat)") ?? 0.0,
+                fiber: Double("\(fiber)") ?? 0.0
+            ),
+            image: "",
+            quantity: nil,
+            section: nil)
+        delegate.textFieldConfirmed(foodResult: [foodResult])
     }
     
     func configureCellForMethod(_ method: AddFoodMethod?) {
@@ -142,60 +180,6 @@ class AddFoodMethodCell: UITableViewCell {
         ])
     }
     
-//    func setupTextField() {
-//        addTextFieldsToContentView()
-//        activateConstraints()
-//        adjustContentHuggingAndCompressionResistance()
-//    }
-//
-//    private func addTextFieldsToContentView() {
-//        [nameTextField, calorieTextField, carboTextField, proteinTextField, fatTextField, fiberTextField].forEach { textField in
-//            contentView.addSubview(textField)
-//            textField.translatesAutoresizingMaskIntoConstraints = false
-//        }
-//    }
-//
-//    private func activateConstraints() {
-//        NSLayoutConstraint.activate([
-//            nameTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
-//            nameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-//            nameTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-//            
-//            calorieTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 12),
-//            calorieTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-//            calorieTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-//            
-//            setupHorizontalFieldsConstraints()
-//        ].compactMap { $0 as? NSLayoutConstraint })
-//    }
-//
-//    private func setupHorizontalFieldsConstraints() -> [NSLayoutConstraint] {
-//        let fields = [carboTextField, proteinTextField, fatTextField, fiberTextField]
-//        
-//        var constraints = [fields.first!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24)]
-//        constraints.append(fields.last!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24))
-//        
-//        for (index, textField) in fields.enumerated() {
-//            if index > 0 {
-//                constraints.append(textField.leadingAnchor.constraint(equalTo: fields[index - 1].trailingAnchor, constant: 8))
-//            }
-//            constraints.append(textField.widthAnchor.constraint(equalTo: carboTextField.widthAnchor))
-//            constraints.append(contentsOf: [
-//                textField.topAnchor.constraint(equalTo: calorieTextField.bottomAnchor, constant: 12),
-//                textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
-//            ])
-//        }
-//        return constraints
-//    }
-//
-//    private func adjustContentHuggingAndCompressionResistance() {
-//        let textFields = [carboTextField, proteinTextField, fatTextField, fiberTextField]
-//        textFields.forEach { textField in
-//            textField.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
-//            textField.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
-//        }
-//    }
-    
     func setupTextField() {
         contentView.addSubview(nameTextField)
         contentView.addSubview(calorieTextField)
@@ -203,6 +187,7 @@ class AddFoodMethodCell: UITableViewCell {
         contentView.addSubview(proteinTextField)
         contentView.addSubview(fatTextField)
         contentView.addSubview(fiberTextField)
+        contentView.addSubview(confirmButton)
         
         NSLayoutConstraint.activate([
             nameTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
@@ -218,16 +203,18 @@ class AddFoodMethodCell: UITableViewCell {
             
             proteinTextField.leadingAnchor.constraint(equalTo: carboTextField.trailingAnchor, constant: 8),
             proteinTextField.topAnchor.constraint(equalTo: carboTextField.topAnchor),
-            proteinTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
             
             fatTextField.leadingAnchor.constraint(equalTo: proteinTextField.trailingAnchor, constant: 8),
             fatTextField.topAnchor.constraint(equalTo: carboTextField.topAnchor),
-            fatTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
             
             fiberTextField.leadingAnchor.constraint(equalTo: fatTextField.trailingAnchor, constant: 8),
             fiberTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             fiberTextField.topAnchor.constraint(equalTo: carboTextField.topAnchor),
-            fiberTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
+
+            confirmButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60),
+            confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -60),
+            confirmButton.topAnchor.constraint(equalTo: carboTextField.bottomAnchor, constant: 24),
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
         
         let equalWidths = [carboTextField, proteinTextField, fatTextField, fiberTextField].map {
@@ -249,7 +236,7 @@ extension AddFoodMethodCell: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let delegate = delegate else { return }
-        delegate.searchBarDidChange?(text: searchText)
+        delegate.searchBarDidChange(text: searchText)
     }
     
 }
