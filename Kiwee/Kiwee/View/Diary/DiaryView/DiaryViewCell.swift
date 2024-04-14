@@ -13,6 +13,8 @@ class DiaryViewCell: UITableViewCell {
     @IBOutlet weak var foodNameLabel: UILabel!
     @IBOutlet weak var calorieLabel: UILabel!
     
+    override func setSelected(_ selected: Bool, animated: Bool) {}
+    
     func configureCellUI() {
         cardOutlineView.layer.cornerRadius = 10
         cardOutlineView.layer.borderWidth = 2

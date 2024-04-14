@@ -214,7 +214,10 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             return 180
         } else {
-            return 100
+//            tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = 300
+            return UITableView.automaticDimension
+//            return 200
         }
     }
     
