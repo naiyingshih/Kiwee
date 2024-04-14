@@ -9,6 +9,7 @@ import UIKit
 
 protocol TableViewHeaderDelegate: AnyObject {
     func didTappedAddButton(section: Int)
+//    func didTappedAddWaterButton(section: Int)
 }
 
 class CategoryHeaderView: UIView {
@@ -76,6 +77,10 @@ class CategoryHeaderView: UIView {
     
     @objc func addFood() {
         guard let section = section else { return }
-        delegate?.didTappedAddButton(section: section)
+//        if section == 4 {
+//             delegate?.didTappedAddWaterButton(section: section)
+//        } else {
+            delegate?.didTappedAddButton(section: section)
+//        }
     }
 }

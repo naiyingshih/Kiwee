@@ -10,6 +10,13 @@ import UIKit
 class DiaryViewController: UIViewController, TableViewHeaderDelegate {
 
     var allFood: [[Food]] = Array(repeating: [], count: 5)
+    var waterCount: Int = 0 {
+        didSet {
+             DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+            }
+        }
+    }
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -37,12 +44,20 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     }
     
     func didTappedAddButton(section: Int) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let addFoodVC = storyboard.instantiateViewController(
-            withIdentifier: String(describing: AddFoodViewController.self)
-        ) as? AddFoodViewController else { return }
-        addFoodVC.sectionIndex = section
-        self.navigationController?.pushViewController(addFoodVC, animated: true)
+        if section == 4 {
+            waterCount += 1
+            
+            UserDefaults.standard.set(waterCount, forKey: "waterIntakeQuantity")
+            print("=== waterCount:\(waterCount)")
+            
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let addFoodVC = storyboard.instantiateViewController(
+                withIdentifier: String(describing: AddFoodViewController.self)
+            ) as? AddFoodViewController else { return }
+            addFoodVC.sectionIndex = section
+            self.navigationController?.pushViewController(addFoodVC, animated: true)
+        }
     }
 
 }
@@ -56,21 +71,37 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allFood[section].count
+        if section == 4 {
+            return 1
+        } else {
+            return allFood[section].count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: DiaryViewCell.self),
-            for: indexPath
-        )
-        guard let diaryCell = cell as? DiaryViewCell else { return cell }
-        let foodData = allFood[indexPath.section][indexPath.row]
-        diaryCell.configureCellUI()
-        diaryCell.foodNameLabel.text = foodData.name
-        diaryCell.calorieLabel.text = "熱量：\(foodData.totalCalories) kcal"
-        diaryCell.foodImage.loadImage(foodData.image, placeHolder: UIImage(named: "Food_Placeholder"))
-        return diaryCell
+        if indexPath.section == 4 {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: WaterViewCell.self),
+                for: indexPath
+            )
+            guard let waterCell = cell as? WaterViewCell else { return cell }
+            let waterCount = UserDefaults.standard.integer(forKey: "waterIntakeQuantity")
+            waterCell.waterSectionConfigure(count: waterCount)
+            return waterCell
+
+        } else {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: DiaryViewCell.self),
+                for: indexPath
+            )
+            guard let diaryCell = cell as? DiaryViewCell else { return cell }
+            let foodData = allFood[indexPath.section][indexPath.row]
+            diaryCell.configureCellUI()
+            diaryCell.foodNameLabel.text = foodData.name
+            diaryCell.calorieLabel.text = "熱量：\(foodData.totalCalories) kcal"
+            diaryCell.foodImage.loadImage(foodData.image, placeHolder: UIImage(named: "Food_Placeholder"))
+            return diaryCell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -84,15 +115,15 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
         header.delegate = self
         switch section {
         case 0:
-            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "早餐")
+            header.configure(with: UIImage(named: "Breakfast"), labelText: "早餐")
         case 1:
-            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "午餐")
+            header.configure(with: UIImage(named: "Lunch"), labelText: "午餐")
         case 2:
-            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "晚餐")
+            header.configure(with: UIImage(named: "Dinner"), labelText: "晚餐")
         case 3:
-            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "點心")
+            header.configure(with: UIImage(named: "Snack"), labelText: "點心")
         case 4:
-            header.configure(with: UIImage(named: "Food_Placeholder"), labelText: "水")
+            header.configure(with: UIImage(named: "Water"), labelText: "水")
         default:
             header.configure(with: nil, labelText: "Other Sections")
         }

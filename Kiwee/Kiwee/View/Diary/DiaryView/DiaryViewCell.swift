@@ -12,7 +12,7 @@ class DiaryViewCell: UITableViewCell {
     @IBOutlet weak var foodImage: UIImageView!
     @IBOutlet weak var foodNameLabel: UILabel!
     @IBOutlet weak var calorieLabel: UILabel!
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
     func configureCellUI() {
@@ -21,4 +21,5 @@ class DiaryViewCell: UITableViewCell {
         cardOutlineView.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
         foodImage.contentMode = .scaleAspectFill
     }
+    
 }
