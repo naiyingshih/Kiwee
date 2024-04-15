@@ -14,6 +14,9 @@
 		0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */; };
 		0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1C2BCC30220018911F /* WaterViewCell.swift */; };
 		0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */; };
+		0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC222BCD541E0018911F /* ReportViewController.swift */; };
+		0E91DC252BCD60030018911F /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC242BCD60030018911F /* ChartView.swift */; };
+		0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC262BCD696B0018911F /* ChartsViewModel.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -45,6 +48,9 @@
 		0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDataManager.swift; sourceTree = "<group>"; };
 		0E91DC1C2BCC30220018911F /* WaterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterViewCell.swift; sourceTree = "<group>"; };
 		0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
+		0E91DC222BCD541E0018911F /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		0E91DC242BCD60030018911F /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		0E91DC262BCD696B0018911F /* ChartsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewModel.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +98,16 @@
 				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
 			);
 			path = DiaryView;
+			sourceTree = "<group>";
+		};
+		0E91DC212BCD53B40018911F /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC222BCD541E0018911F /* ReportViewController.swift */,
+				0E91DC242BCD60030018911F /* ChartView.swift */,
+				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
@@ -152,6 +168,7 @@
 		0ECE08C32BC76A31003C15B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0E91DC212BCD53B40018911F /* Report */,
 				0ECE08C72BC76C2D003C15B0 /* Diary */,
 			);
 			path = View;
@@ -187,9 +204,9 @@
 			isa = PBXGroup;
 			children = (
 				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
-				0E91DC172BCA561D0018911F /* DiaryView */,
 				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
 				0E91DC152BCA556D0018911F /* CameraViewController.swift */,
+				0E91DC172BCA561D0018911F /* DiaryView */,
 				0ECE08D22BC7BAA2003C15B0 /* AddFoodView */,
 			);
 			path = Diary;
@@ -368,8 +385,11 @@
 			files = (
 				0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */,
 				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
+				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
+				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
+				0E91DC252BCD60030018911F /* ChartView.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
@@ -545,7 +565,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -576,7 +596,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
