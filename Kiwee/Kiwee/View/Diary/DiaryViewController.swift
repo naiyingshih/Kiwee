@@ -13,7 +13,8 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     var waterCount: Int = 0 {
         didSet {
             DispatchQueue.main.async {
-                self.checkAndResetWaterCount()
+                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+//                self.checkAndResetWaterCount()
             }
         }
     }
@@ -46,9 +47,14 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         let startOfDay = Calendar.current.startOfDay(for: date)
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
-        FirestoreManager.shared.getIntakeCard(collectionID: "intake", startOfDay: startOfDay, endOfDay: endOfDay) { foods in
-            self.organizeAndDisplayFoods(foods: foods)
-        }
+        FirestoreManager.shared.getIntakeCard(
+            startOfDay: startOfDay,
+            endOfDay: endOfDay) { foods, water in
+                self.organizeAndDisplayFoods(foods: foods)
+                self.waterCount = water
+                print("===foods:\(foods)")
+                print("===water:\(water)")
+            }
     }
     
     private func organizeAndDisplayFoods(foods: [Food]) {
@@ -70,8 +76,14 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         if section == 4 {
             waterCount += 1
             
-            UserDefaults.standard.set(waterCount, forKey: "waterIntakeQuantity")
-            print("=== waterCount:\(waterCount)")
+            FirestoreManager.shared.postWaterCount(waterCount: waterCount) { success in
+                if success {
+                    print("water intake data posted successfully, water count = \(self.waterCount)")
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    print("Failed to post water intake data")
+                }
+            }
             
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -83,16 +95,15 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         }
     }
     
-    func checkAndResetWaterCount() {
-        if let storedArray = UserDefaults.standard.array(forKey: "waterIntakeQuantityTimestamp"),
-            storedArray.count == 2,
-           let storedTimestamp = storedArray[1] as? Date {
-            if !Calendar.current.isDateInToday(storedTimestamp) {
-                UserDefaults.standard.set([0, Date()], forKey: "waterIntakeQuantityTimestamp")
-                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
-            }
-        }
-    }
+//    func checkAndResetWaterCount() {
+//        if let storedArray = UserDefaults.standard.array(forKey: "waterIntakeQuantityTimestamp"),
+//            storedArray.count == 2,
+//           let storedTimestamp = storedArray[1] as? Date {
+//            if !Calendar.current.isDateInToday(storedTimestamp) {
+//                UserDefaults.standard.set([0, Date()], forKey: "waterIntakeQuantityTimestamp")
+//            }
+//        }
+//    }
     
 }
 
@@ -119,7 +130,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
-            let waterCount = UserDefaults.standard.integer(forKey: "waterIntakeQuantity")
+//            let waterCount = UserDefaults.standard.integer(forKey: "waterIntakeQuantity")
             waterCell.waterSectionConfigure(count: waterCount)
             return waterCell
 

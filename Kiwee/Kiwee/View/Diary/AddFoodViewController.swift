@@ -122,17 +122,16 @@ class AddFoodViewController: UIViewController {
                 nutrients: foodResult.nutrients,
                 image: foodResult.image,
                 quantity: quantity, 
-                section: index, 
-                date: foodResult.date
+                section: index
             )
             let calculatedIntakeData = calculateIntakeData(input: foodInput)
             
             FirestoreManager.shared.postIntakeData(intakeData: calculatedIntakeData) { success in
                 if success {
-                    print("Intake data posted successfully")
+                    print("Food intake data posted successfully")
                     self.navigationController?.popViewController(animated: true)
                 } else {
-                    print("Failed to post intake data")
+                    print("Failed to post food intake data")
                 }
             }
             
@@ -160,8 +159,7 @@ class AddFoodViewController: UIViewController {
             nutrients: nutrients,
             image: input.image,
             quantity: input.quantity,
-            section: sectionIndex, 
-            date: input.date
+            section: sectionIndex
         )
     }
 
@@ -279,8 +277,7 @@ extension AddFoodViewController: FoodDataDelegate {
             nutrients: nutrients,
             image: image,
             quantity: nil,
-            section: nil, 
-            date: nil
+            section: nil
         )
         filteredFoodItems.append(identifiedFood)
         confirmButton.isEnabled = true
