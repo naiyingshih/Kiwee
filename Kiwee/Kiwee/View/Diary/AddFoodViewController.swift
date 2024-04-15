@@ -21,6 +21,7 @@ class AddFoodViewController: UIViewController {
         }
     }
     var selectedFoodResult: Food?
+    var selectedDate: Date?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageRecognizeButton: UIButton!
@@ -126,7 +127,10 @@ class AddFoodViewController: UIViewController {
             )
             let calculatedIntakeData = calculateIntakeData(input: foodInput)
             
-            FirestoreManager.shared.postIntakeData(intakeData: calculatedIntakeData) { success in
+            FirestoreManager.shared.postIntakeData(
+                intakeData: calculatedIntakeData,
+                chosenDate: selectedDate ?? Date()
+            ) { success in
                 if success {
                     print("Food intake data posted successfully")
                     self.navigationController?.popViewController(animated: true)

@@ -18,6 +18,8 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         }
     }
     
+//    var selectedDate: Date?
+    
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
@@ -38,17 +40,20 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     }
 
     @objc func dateChanged(datePicker: UIDatePicker) {
-        let selectedDate = datePicker.date
-        loadData(for: selectedDate)
+//        selectedDate = datePicker.date
+//        let selectedDate = datePicker.date
+        loadData(for: datePicker.date)
     }
     
     func loadData(for date: Date) {
-        let startOfDay = Calendar.current.startOfDay(for: date)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+//        let startOfDay = Calendar.current.startOfDay(for: date)
+//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
         FirestoreManager.shared.getIntakeCard(
-            collectionID: "intake", startOfDay: startOfDay,
-            endOfDay: endOfDay
+            collectionID: "intake", 
+            chosenDate: datePicker.date
+//            startOfDay: startOfDay,
+//            endOfDay: endOfDay
         ) { foods, water in
             self.organizeAndDisplayFoods(foods: foods)
             self.waterCount = water
@@ -76,7 +81,10 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         if section == 4 {
             waterCount += 1
             
-            FirestoreManager.shared.postWaterCount(waterCount: waterCount) { success in
+            FirestoreManager.shared.postWaterCount(
+                waterCount: waterCount,
+                chosenDate: datePicker.date
+            ) { success in
                 if success {
                     print("water intake data posted successfully, water count = \(self.waterCount)")
                     self.navigationController?.popViewController(animated: true)
@@ -91,6 +99,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
                 withIdentifier: String(describing: AddFoodViewController.self)
             ) as? AddFoodViewController else { return }
             addFoodVC.sectionIndex = section
+            addFoodVC.selectedDate = datePicker.date
             self.navigationController?.pushViewController(addFoodVC, animated: true)
         }
     }
