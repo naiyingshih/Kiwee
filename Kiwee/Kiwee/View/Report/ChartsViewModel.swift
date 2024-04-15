@@ -7,11 +7,11 @@
 
 import Foundation
 
-class ChartsViewModel: ObservableObject{
+class ChartsViewModel: ObservableObject {
     @Published var graphType: GraphType = GraphType()
 }
 
-struct GraphType: Equatable{
+struct GraphType: Equatable {
     var isBarChart: Bool = false
     var isProgressChart: Bool = false
     var isPieChart: Bool = true
@@ -24,6 +24,8 @@ struct ChartData {
 }
 
 let data: [ChartData] = [
-    .init(label: "已攝取量", amount: 68.9),
-    .init(label: "剩餘攝取量", amount: 31.1)
+    .init(label: "碳水", amount: 26.5),
+    .init(label: "蛋白", amount: 25.0),
+    .init(label: "脂肪", amount: 45.0),
+    .init(label: "纖維", amount: 3.5)
 ]

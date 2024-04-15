@@ -17,6 +17,7 @@
 		0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC222BCD541E0018911F /* ReportViewController.swift */; };
 		0E91DC252BCD60030018911F /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC242BCD60030018911F /* ChartView.swift */; };
 		0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC262BCD696B0018911F /* ChartsViewModel.swift */; };
+		0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -51,6 +52,7 @@
 		0E91DC222BCD541E0018911F /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		0E91DC242BCD60030018911F /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		0E91DC262BCD696B0018911F /* ChartsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewModel.swift; sourceTree = "<group>"; };
+		0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHostingCell.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				0E91DC222BCD541E0018911F /* ReportViewController.swift */,
 				0E91DC242BCD60030018911F /* ChartView.swift */,
+				0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */,
 				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
 			);
 			path = Report;
@@ -385,6 +388,7 @@
 			files = (
 				0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */,
 				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
+				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
