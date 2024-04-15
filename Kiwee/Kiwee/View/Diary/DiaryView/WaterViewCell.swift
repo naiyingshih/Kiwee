@@ -10,10 +10,12 @@ import UIKit
 class WaterViewCell: UITableViewCell {
     
     func waterSectionConfigure(count: Int) {
-        // Remove existing subviews
-//        for subview in self.subviews {
-//            subview.removeFromSuperview()
-//        }
+        
+        contentView.subviews.forEach { subview in
+            if subview is UIImageView {
+                subview.removeFromSuperview()
+            }
+        }
         
         for index in 0..<count {
             let imageView = UIImageView(frame: CGRect(x: 24 + index * 40, y: 15, width: 50, height: 50))

@@ -14,7 +14,6 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
-//                self.checkAndResetWaterCount()
             }
         }
     }
@@ -49,12 +48,13 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         
         FirestoreManager.shared.getIntakeCard(
             collectionID: "intake", startOfDay: startOfDay,
-            endOfDay: endOfDay) { foods, water in
-                self.organizeAndDisplayFoods(foods: foods)
-                self.waterCount = water
-                print("===foods:\(foods)")
-                print("===water:\(water)")
-            }
+            endOfDay: endOfDay
+        ) { foods, water in
+            self.organizeAndDisplayFoods(foods: foods)
+            self.waterCount = water
+            print("===foods:\(foods)")
+            print("===water:\(water)")
+        }
     }
     
     private func organizeAndDisplayFoods(foods: [Food]) {
@@ -95,16 +95,6 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         }
     }
     
-//    func checkAndResetWaterCount() {
-//        if let storedArray = UserDefaults.standard.array(forKey: "waterIntakeQuantityTimestamp"),
-//            storedArray.count == 2,
-//           let storedTimestamp = storedArray[1] as? Date {
-//            if !Calendar.current.isDateInToday(storedTimestamp) {
-//                UserDefaults.standard.set([0, Date()], forKey: "waterIntakeQuantityTimestamp")
-//            }
-//        }
-//    }
-    
 }
 
 // MARK: - Extension: UITableViewDelegate, UITableViewDataSource
@@ -130,7 +120,6 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
-//            let waterCount = UserDefaults.standard.integer(forKey: "waterIntakeQuantity")
             waterCell.waterSectionConfigure(count: waterCount)
             return waterCell
 

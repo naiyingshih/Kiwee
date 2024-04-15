@@ -60,28 +60,6 @@ class FirestoreManager {
             }
     }
     
-//    func postWaterCount(waterCount: Int, completion: @escaping (Bool) -> Void) {
-//        
-//        let startOfDay = Calendar.current.startOfDay(for: Date())
-//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-//        
-//        let waterDictionary: [String: Any] = [
-//            "water_count": waterCount,
-//            "created_time": FieldValue.serverTimestamp(),
-//            "type": "water"
-//        ]
-//        
-//        database.collection("intake").addDocument(data: waterDictionary) { error in
-//            if let error = error {
-//                print("Error adding water intake: \(error.localizedDescription)")
-//                completion(false)
-//            } else {
-//                print("Water intake data added successfully")
-//                completion(true)
-//            }
-//        }
-//    }
-    
     func postIntakeData(intakeData: Food, completion: @escaping (Bool) -> Void) {
         let intakeDictionary: [String: Any] = [
             "name": intakeData.name,
@@ -181,11 +159,6 @@ class FirestoreManager {
     }
     
     private func getWaterQuantity(from documents: [QueryDocumentSnapshot]) -> Int {
-//        var waterQuantityForToday = Int()
-//        for document in documents {
-//            let waterData = document["water_count"] as? Int ?? 0
-//            waterQuantityForToday = waterData
-//        }
         let waterQuantities = documents.compactMap { $0["water_count"] as? Int }
         return waterQuantities.first ?? 0
     }
