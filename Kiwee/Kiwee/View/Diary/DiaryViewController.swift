@@ -18,8 +18,6 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         }
     }
     
-//    var selectedDate: Date?
-    
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
@@ -40,20 +38,13 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     }
 
     @objc func dateChanged(datePicker: UIDatePicker) {
-//        selectedDate = datePicker.date
-//        let selectedDate = datePicker.date
         loadData(for: datePicker.date)
     }
     
     func loadData(for date: Date) {
-//        let startOfDay = Calendar.current.startOfDay(for: date)
-//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-        
         FirestoreManager.shared.getIntakeCard(
             collectionID: "intake", 
             chosenDate: datePicker.date
-//            startOfDay: startOfDay,
-//            endOfDay: endOfDay
         ) { foods, water in
             self.organizeAndDisplayFoods(foods: foods)
             self.waterCount = water

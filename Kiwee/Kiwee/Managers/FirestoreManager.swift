@@ -14,17 +14,11 @@ class FirestoreManager {
     let database = Firestore.firestore()
     
     func postWaterCount(waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
-//        let startOfDay = Calendar.current.startOfDay(for: Date())
-//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: chosenDate)
+
+        let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
         
         database.collection("intake")
             .whereField("date", isEqualTo: dateString)
-//            .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
-//            .whereField("created_time", isLessThan: endOfDay)
             .whereField("type", isEqualTo: "water")
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -49,7 +43,6 @@ class FirestoreManager {
                     let waterDictionary: [String: Any] = [
                         "water_count": waterCount,
                         "date": dateString,
-//                        "created_time": FieldValue.serverTimestamp(),
                         "type": "water"
                     ]
                     
@@ -67,9 +60,8 @@ class FirestoreManager {
     }
     
     func postIntakeData(intakeData: Food, chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: chosenDate)
+       
+        let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
         
         let intakeDictionary: [String: Any] = [
             "name": intakeData.name,
@@ -84,7 +76,6 @@ class FirestoreManager {
             "quantity": intakeData.quantity as Any,
             "section": intakeData.section as Any,
             "date": dateString,
-//            "created_time": FieldValue.serverTimestamp(),
             "type": "food"
         ]
         
@@ -99,16 +90,12 @@ class FirestoreManager {
         }
     }
     
-    func getIntakeCard(collectionID: String, chosenDate: Date/*startOfDay: Date, endOfDay: Date*/, completion: @escaping ([Food], Int) -> Void) {
-        let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            let dateString = dateFormatter.string(from: chosenDate)
-//        let chosenTimestamp = Timestamp(date: chosenDate)
+    func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
+        
+        let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
         
         database.collection("intake")
             .whereField("date", isEqualTo: dateString)
-//            .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
-//            .whereField("created_time", isLessThan: endOfDay)
             .addSnapshotListener { querySnapshot, err in
                 if let error = err {
                     print(error)
