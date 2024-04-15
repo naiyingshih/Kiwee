@@ -40,11 +40,26 @@ class FirestoreManager {
         }
     }
     
-    func getIntakeCard(collectionID: String, completion: @escaping ([Food]) -> Void) {
-        let startOfDay = Calendar.current.startOfDay(for: Date())
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-
-        database.collection("intake")
+//    func getIntakeCard(collectionID: String, completion: @escaping ([Food]) -> Void) {
+//        let startOfDay = Calendar.current.startOfDay(for: Date())
+//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+//
+//        database.collection("intake")
+//            .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
+//            .whereField("created_time", isLessThan: endOfDay)
+//            .addSnapshotListener { querySnapshot, err in
+//                if let error = err {
+//                    print(error)
+//                    completion([])
+//                } else {
+//                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
+//                    completion(foods)
+//                }
+//            }
+//    }
+    
+    func getIntakeCard(collectionID: String, startOfDay: Date, endOfDay: Date, completion: @escaping ([Food]) -> Void) {
+        database.collection(collectionID)
             .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
             .whereField("created_time", isLessThan: endOfDay)
             .addSnapshotListener { querySnapshot, err in

@@ -14,6 +14,7 @@ class WaterViewCell: UITableViewCell {
 //        for subview in self.subviews {
 //            subview.removeFromSuperview()
 //        }
+        
         for index in 0..<count {
             let imageView = UIImageView(frame: CGRect(x: 24 + index * 40, y: 15, width: 50, height: 50))
             imageView.image = UIImage(named: "Glass")

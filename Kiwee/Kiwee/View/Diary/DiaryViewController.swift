@@ -12,37 +12,95 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     var allFood: [[Food]] = Array(repeating: [], count: 5)
     var waterCount: Int = 0 {
         didSet {
-             DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+            DispatchQueue.main.async {
+                self.checkAndResetWaterCount()
             }
         }
     }
+    
+    lazy var datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        picker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
+    }()
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupDatePicker()
         loadDataForToday()
         tableView.delegate = self
         tableView.dataSource = self
+//        NotificationCenter.default.addObserver(self, selector: #selector(dayDidChange), name: .NSCalendarDayChanged, object: nil)
+    }
+    
+    func setupDatePicker() {
+        view.addSubview(datePicker)
+        
+        NSLayoutConstraint.activate([
+            datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        ])
+    }
+    
+    @objc func dateChanged(datePicker: UIDatePicker) {
+        let selectedDate = datePicker.date
+        loadData(for: selectedDate)
     }
     
     func loadDataForToday() {
-        FirestoreManager.shared.getIntakeCard(collectionID: "intake") { foods in
-            var newAllFood: [[Food]] = Array(repeating: [], count: 5)
-            for food in foods {
-                guard let section = food.section else { return }
-                if section >= 0 && section < newAllFood.count {
-                    newAllFood[section].append(food)
-                }
-            }
-            DispatchQueue.main.async {
-                self.allFood = newAllFood
-                print("\(self.allFood)")
-                self.tableView.reloadData()
-            }
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        FirestoreManager.shared.getIntakeCard(collectionID: "intake", startOfDay: startOfDay, endOfDay: endOfDay) { foods in
+            self.organizeAndDisplayFoods(foods: foods)
         }
     }
+    
+    func loadData(for date: Date) {
+        let startOfDay = Calendar.current.startOfDay(for: date)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        FirestoreManager.shared.getIntakeCard(collectionID: "intake", startOfDay: startOfDay, endOfDay: endOfDay) { foods in
+            self.organizeAndDisplayFoods(foods: foods)
+        }
+    }
+    
+    private func organizeAndDisplayFoods(foods: [Food]) {
+        var newAllFood: [[Food]] = Array(repeating: [], count: 5)
+        for food in foods {
+            guard let section = food.section,
+                  section >= 0,
+                  section < newAllFood.count else { continue }
+            newAllFood[section].append(food)
+        }
+        DispatchQueue.main.async {
+            self.allFood = newAllFood
+            print("\(self.allFood)")
+            self.tableView.reloadData()
+        }
+    }
+    
+//    func loadDataForToday() {
+//        FirestoreManager.shared.getIntakeCard(collectionID: "intake") { foods in
+//            var newAllFood: [[Food]] = Array(repeating: [], count: 5)
+//            for food in foods {
+//                guard let section = food.section else { return }
+//                if section >= 0 && section < newAllFood.count {
+//                    newAllFood[section].append(food)
+//                }
+//            }
+//            DispatchQueue.main.async {
+//                self.allFood = newAllFood
+//                print("\(self.allFood)")
+//                self.tableView.reloadData()
+//            }
+//        }
+//    }
     
     func didTappedAddButton(section: Int) {
         if section == 4 {
@@ -60,6 +118,22 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
             self.navigationController?.pushViewController(addFoodVC, animated: true)
         }
     }
+    
+    func checkAndResetWaterCount() {
+        if let storedArray = UserDefaults.standard.array(forKey: "waterIntakeQuantityTimestamp"),
+            storedArray.count == 2,
+           let storedTimestamp = storedArray[1] as? Date {
+            if !Calendar.current.isDateInToday(storedTimestamp) {
+                UserDefaults.standard.set([0, Date()], forKey: "waterIntakeQuantityTimestamp")
+                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+            }
+        }
+    }
+    
+//    @objc func dayDidChange(notification: Notification) {
+//        loadDataForToday()
+//    }
+
 
 }
 
