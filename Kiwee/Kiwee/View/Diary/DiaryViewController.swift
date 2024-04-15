@@ -48,7 +48,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
         FirestoreManager.shared.getIntakeCard(
-            startOfDay: startOfDay,
+            collectionID: "intake", startOfDay: startOfDay,
             endOfDay: endOfDay) { foods, water in
                 self.organizeAndDisplayFoods(foods: foods)
                 self.waterCount = water

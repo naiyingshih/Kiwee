@@ -17,9 +17,10 @@ class FirestoreManager {
         let startOfDay = Calendar.current.startOfDay(for: Date())
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
-        database.collection("water")
+        database.collection("intake")
             .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
             .whereField("created_time", isLessThan: endOfDay)
+            .whereField("type", isEqualTo: "water")
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     print("Error fetching water documents: \(error.localizedDescription)")
@@ -27,7 +28,7 @@ class FirestoreManager {
                 } else if let documents = querySnapshot?.documents, !documents.isEmpty {
                     // Document for the current day exists, update it
                     let documentID = documents.first!.documentID
-                    self.database.collection("water").document(documentID).updateData([
+                    self.database.collection("intake").document(documentID).updateData([
                         "water_count": waterCount
                     ]) { error in
                         if let error = error {
@@ -42,10 +43,11 @@ class FirestoreManager {
                     // No document for the current day, create a new one
                     let waterDictionary: [String: Any] = [
                         "water_count": waterCount,
-                        "created_time": FieldValue.serverTimestamp()
+                        "created_time": FieldValue.serverTimestamp(),
+                        "type": "water"
                     ]
                     
-                    self.database.collection("water").addDocument(data: waterDictionary) { error in
+                    self.database.collection("intake").addDocument(data: waterDictionary) { error in
                         if let error = error {
                             print("Error adding water intake: \(error.localizedDescription)")
                             completion(false)
@@ -59,12 +61,17 @@ class FirestoreManager {
     }
     
 //    func postWaterCount(waterCount: Int, completion: @escaping (Bool) -> Void) {
+//        
+//        let startOfDay = Calendar.current.startOfDay(for: Date())
+//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+//        
 //        let waterDictionary: [String: Any] = [
 //            "water_count": waterCount,
-//            "created_time": FieldValue.serverTimestamp()
+//            "created_time": FieldValue.serverTimestamp(),
+//            "type": "water"
 //        ]
 //        
-//        database.collection("water").addDocument(data: waterDictionary) { error in
+//        database.collection("intake").addDocument(data: waterDictionary) { error in
 //            if let error = error {
 //                print("Error adding water intake: \(error.localizedDescription)")
 //                completion(false)
@@ -88,7 +95,8 @@ class FirestoreManager {
             "image": intakeData.image,
             "quantity": intakeData.quantity as Any,
             "section": intakeData.section as Any,
-            "created_time": FieldValue.serverTimestamp()
+            "created_time": FieldValue.serverTimestamp(),
+            "type": "food"
         ]
         
         database.collection("intake").addDocument(data: intakeDictionary) { error in
@@ -102,55 +110,52 @@ class FirestoreManager {
         }
     }
     
-    func getIntakeCard(startOfDay: Date, endOfDay: Date, completion: @escaping ([Food], Int) -> Void) {
-        let foodCollection = database.collection("intake")
-        let waterCollection = database.collection("water")
-        
-        foodCollection
-            .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
-            .whereField("created_time", isLessThan: endOfDay)
-            .getDocuments { (foodSnapshot, foodError) in
-                guard let foodDocuments = foodSnapshot?.documents, foodError == nil else {
-                    print("Error fetching food documents: \(foodError!.localizedDescription)")
-                    completion([], 0)
-                    return
-                }
-                let foods = self.getIntake(from: foodDocuments)
-                
-                waterCollection
-                    .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
-                    .whereField("created_time", isLessThan: endOfDay)
-                    .getDocuments { (waterSnapshot, waterError) in
-                        guard let waterDocuments = waterSnapshot?.documents, waterError == nil else {
-                            print("Error fetching water documents: \(waterError!.localizedDescription)")
-                            completion([], 0)
-                            return
-                        }
-                        let waterQuantity = self.getWaterQuantity(from: waterDocuments)
-                        
-                        completion(foods, waterQuantity)
-                    }
-            }
-    }
-    
-//    func getIntakeCard(collectionID: String, startOfDay: Date, endOfDay: Date, completion: @escaping ([Food], Int) -> Void) {
-//        let foodCollection = database.collection("foods")
-//        let waterCollection = database.collection("waterIntake")
+//    func getIntakeCard(startOfDay: Date, endOfDay: Date, completion: @escaping ([Food], Int) -> Void) {
+//        let foodCollection = database.collection("intake")
+//        let waterCollection = database.collection("water")
 //        
-//        foodCollection.whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
+//        foodCollection
+//            .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
 //            .whereField("created_time", isLessThan: endOfDay)
-//            .addSnapshotListener { querySnapshot, err in
-//                if let error = err {
-//                    print(error)
+//            .getDocuments { (foodSnapshot, foodError) in
+//                guard let foodDocuments = foodSnapshot?.documents, foodError == nil else {
+//                    print("Error fetching food documents: \(foodError!.localizedDescription)")
 //                    completion([], 0)
 //                    return
-//                } else {
-//                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
-//                    let water = self.getWaterQuantity(from: querySnapshot?.documents ?? [])
-//                    completion(foods, water)
 //                }
+//                let foods = self.getIntake(from: foodDocuments)
+//                
+//                waterCollection
+//                    .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
+//                    .whereField("created_time", isLessThan: endOfDay)
+//                    .getDocuments { (waterSnapshot, waterError) in
+//                        guard let waterDocuments = waterSnapshot?.documents, waterError == nil else {
+//                            print("Error fetching water documents: \(waterError!.localizedDescription)")
+//                            completion([], 0)
+//                            return
+//                        }
+//                        let waterQuantity = self.getWaterQuantity(from: waterDocuments)
+//                        
+//                        completion(foods, waterQuantity)
+//                    }
 //            }
 //    }
+    
+    func getIntakeCard(collectionID: String, startOfDay: Date, endOfDay: Date, completion: @escaping ([Food], Int) -> Void) {
+        database.collection("intake").whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
+            .whereField("created_time", isLessThan: endOfDay)
+            .addSnapshotListener { querySnapshot, err in
+                if let error = err {
+                    print(error)
+                    completion([], 0)
+                    return
+                } else {
+                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
+                    let water = self.getWaterQuantity(from: querySnapshot?.documents ?? [])
+                    completion(foods, water)
+                }
+            }
+    }
 
     private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
         var foodsForToday = [Food]()
