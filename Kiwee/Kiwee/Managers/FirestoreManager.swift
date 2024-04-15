@@ -41,18 +41,25 @@ class FirestoreManager {
     }
     
     func getIntakeCard(collectionID: String, completion: @escaping ([Food]) -> Void) {
-        database.collection("intake").addSnapshotListener { querySnapshot, err in
-            if let error = err {
-                print(error)
-                completion([])
-            } else {
-                completion(self.getIntake(from: querySnapshot?.documents ?? []))
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+
+        database.collection("intake")
+            .whereField("created_time", isGreaterThanOrEqualTo: startOfDay)
+            .whereField("created_time", isLessThan: endOfDay)
+            .addSnapshotListener { querySnapshot, err in
+                if let error = err {
+                    print(error)
+                    completion([])
+                } else {
+                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
+                    completion(foods)
+                }
             }
-        }
     }
-    
+
     private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
-        var intake = [Food]()
+        var foodsForToday = [Food]()
         for document in documents {
             let foodData = document["nutrients"] as? [String: Any] ?? [:]
             let nutrientInfo = Nutrient(
@@ -61,18 +68,18 @@ class FirestoreManager {
                 fat: foodData["fat"] as? Double ?? 0.0,
                 fiber: foodData["fiber"] as? Double ?? 0.0
             )
-            intake.append(
+            foodsForToday.append(
                 Food(name: document["name"] as? String ?? "",
                      totalCalories: document["totalCalories"] as? Double ?? 0.0,
                      nutrients: nutrientInfo,
                      image: document["image"] as? String ?? "",
                      quantity: document["quantity"] as? Double,
-                     section: document["section"] as? Int, 
+                     section: document["section"] as? Int,
                      date: document["created_time"] as? Date ?? Date()
                     )
             )
         }
-        return intake
+        return foodsForToday
     }
-
+    
 }

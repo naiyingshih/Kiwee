@@ -22,12 +22,12 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
+        loadDataForToday()
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func loadData() {
+    func loadDataForToday() {
         FirestoreManager.shared.getIntakeCard(collectionID: "intake") { foods in
             var newAllFood: [[Food]] = Array(repeating: [], count: 5)
             for food in foods {
@@ -38,6 +38,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
             }
             DispatchQueue.main.async {
                 self.allFood = newAllFood
+                print("\(self.allFood)")
                 self.tableView.reloadData()
             }
         }
