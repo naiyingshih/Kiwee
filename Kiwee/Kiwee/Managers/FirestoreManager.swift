@@ -25,7 +25,8 @@ class FirestoreManager {
             ],
             "image": intakeData.image,
             "quantity": intakeData.quantity as Any,
-            "section": intakeData.section as Any
+            "section": intakeData.section as Any,
+            "created_time": FieldValue.serverTimestamp()
         ]
         
         database.collection("intake").addDocument(data: intakeDictionary) { error in
@@ -66,7 +67,8 @@ class FirestoreManager {
                      nutrients: nutrientInfo,
                      image: document["image"] as? String ?? "",
                      quantity: document["quantity"] as? Double,
-                     section: document["section"] as? Int
+                     section: document["section"] as? Int, 
+                     date: document["created_time"] as? Date ?? Date()
                     )
             )
         }

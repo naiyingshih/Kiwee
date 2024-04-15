@@ -141,7 +141,8 @@ class AddFoodMethodCell: UITableViewCell {
             ),
             image: "",
             quantity: nil,
-            section: nil)
+            section: nil, 
+            date: nil)
         delegate.textFieldConfirmed(foodResult: [foodResult])
     }
     

@@ -122,7 +122,8 @@ class AddFoodViewController: UIViewController {
                 nutrients: foodResult.nutrients,
                 image: foodResult.image,
                 quantity: quantity, 
-                section: index
+                section: index, 
+                date: foodResult.date
             )
             let calculatedIntakeData = calculateIntakeData(input: foodInput)
             
@@ -159,7 +160,8 @@ class AddFoodViewController: UIViewController {
             nutrients: nutrients,
             image: input.image,
             quantity: input.quantity,
-            section: sectionIndex
+            section: sectionIndex, 
+            date: input.date
         )
     }
 
@@ -277,7 +279,8 @@ extension AddFoodViewController: FoodDataDelegate {
             nutrients: nutrients,
             image: image,
             quantity: nil,
-            section: nil
+            section: nil, 
+            date: nil
         )
         filteredFoodItems.append(identifiedFood)
         confirmButton.isEnabled = true
