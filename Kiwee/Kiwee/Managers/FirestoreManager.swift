@@ -12,12 +12,13 @@ import FirebaseFirestore
 class FirestoreManager {
     static let shared = FirestoreManager()
     let database = Firestore.firestore()
+    let date = DateFormatterManager.shared.dateFormatter
     
     // MARK: - Post
     
     func postWaterCount(waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
 
-        let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
+        let dateString = date.string(from: chosenDate)
         
         database.collection("intake")
             .whereField("date", isEqualTo: dateString)
@@ -63,7 +64,7 @@ class FirestoreManager {
     
     func postIntakeData(intakeData: Food, chosenDate: Date, completion: @escaping (Bool) -> Void) {
        
-        let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
+        let dateString = date.string(from: chosenDate)
         
         let intakeDictionary: [String: Any] = [
             "name": intakeData.name,
@@ -96,9 +97,9 @@ class FirestoreManager {
     
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
         
-        let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
+        let dateString = date.string(from: chosenDate)
         
-        database.collection("intake")
+        database.collection(collectionID)
             .whereField("date", isEqualTo: dateString)
             .addSnapshotListener { querySnapshot, err in
                 if let error = err {
@@ -150,7 +151,7 @@ class FirestoreManager {
         
         for date in dates {
             dispatchGroup.enter()
-            getIntakeCard(collectionID: "yourCollectionID", chosenDate: date) { (foods, water) in
+            getIntakeCard(collectionID: "intake", chosenDate: date) { (foods, water) in
                 aggregatedFoods.append(contentsOf: foods)
                 totalWaterIntake += water
                 dispatchGroup.leave()
@@ -170,6 +171,28 @@ class FirestoreManager {
             }
         }
         return dates
+    }
+    
+    func getOrderedDateData(completion: @escaping ([CalorieDataPoint]) -> Void) {
+        database.collection("intake")
+            .order(by: "date")
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    completion([])
+                } else {
+                    var dataPoints: [CalorieDataPoint] = []
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        if let date = data["date"] as? String,
+                           let calories = data["totalCalories"] as? Double {
+                            let dataPoint = CalorieDataPoint(date: date, calories: calories)
+                            dataPoints.append(dataPoint)
+                        }
+                    }
+                    completion(dataPoints)
+                }
+            }
     }
     
 }

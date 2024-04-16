@@ -19,7 +19,6 @@ struct NutrientsChartView: View {
     
     @StateObject var viewModel = ChartsViewModel()
     
-    // State variable to hold the current selection of the picker
     @State private var selectedTimeRange: TimeRange = .last7Days
     
     var body: some View {

@@ -12,25 +12,29 @@ struct CaloriesChartView: View {
     
     @StateObject var viewModel = ChartsViewModel()
     
+    @State private var selectedTimeRange: TimeRange = .last7Days
+    
     var body: some View {
           VStack {
+              // Title
               Text("熱量報告")
                   .font(.title2)
                   .bold()
                   .padding()
               
-              Chart(viewModel.caloriesData, id: \.label) { element in
+              // Chart
+              Chart(viewModel.aggregatedCalorieDataPoints, id: \.date) { element in
                   LineMark(
-                      x: .value("日期", element.label),
-                      y: .value("熱量", element.amount)
+                      x: .value("日期", element.date),
+                      y: .value("熱量", element.calories)
                   )
                   .interpolationMethod(.catmullRom)
                   
                   PointMark(
-                      x: .value("日期", element.label),
-                      y: .value("熱量", element.amount)
+                      x: .value("日期", element.date),
+                      y: .value("熱量", element.calories)
                   )
-                  .foregroundStyle(by: .value("熱量", element.amount))
+                  .foregroundStyle(by: .value("熱量", element.calories))
                   
                   RuleMark(y: .value("熱量", 1500))
                       .foregroundStyle(.gray)

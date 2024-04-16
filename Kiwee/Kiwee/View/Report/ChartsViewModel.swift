@@ -12,13 +12,21 @@ struct ChartData {
     var amount: Double
 }
 
+struct CalorieDataPoint {
+    var date: String
+    var calories: Double
+}
+
 class ChartsViewModel: ObservableObject {
     
     @Published var nutrientData: [ChartData] = []
+    @Published var caloriesData: [CalorieDataPoint] = []
+    @Published var aggregatedCalorieDataPoints: [CalorieDataPoint] = []
 //    @Published var selectedChartData: ChartData?
     
     init() {
         fetchNutrientData(day: Int())
+        fetchCalorieData()
     }
     
     func fetchNutrientData(day: Int) {
@@ -46,9 +54,32 @@ class ChartsViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self?.nutrientData = aggregatedNutrientData
-                print("===\(String(describing: self?.nutrientData))")
             }
         }
+    }
+    
+    func fetchCalorieData() {
+        FirestoreManager.shared.getOrderedDateData { [weak self] calories in
+            DispatchQueue.main.async {
+                self?.caloriesData = calories
+                self?.aggregateCaloriesByDate()
+            }
+        }
+    }
+    
+    private func aggregateCaloriesByDate() {
+        var aggregatedData = [String: Double]()
+        
+        for dataPoint in caloriesData {
+            if let existingTotal = aggregatedData[dataPoint.date] {
+                aggregatedData[dataPoint.date] = existingTotal + dataPoint.calories
+            } else {
+                aggregatedData[dataPoint.date] = dataPoint.calories
+            }
+        }
+        
+        let sortedAggregatedData = aggregatedData.sorted { $0.key < $1.key }
+        self.aggregatedCalorieDataPoints = sortedAggregatedData.map { CalorieDataPoint(date: $0.key, calories: $0.value) }
     }
 
 //    func selectChartData(_ chartData: ChartData) {
@@ -60,14 +91,6 @@ class ChartsViewModel: ObservableObject {
         .init(label: "4/10", amount: 55),
         .init(label: "4/12", amount: 54),
         .init(label: "4/15", amount: 53)
-    ]
-    
-    let caloriesData: [ChartData] = [
-        .init(label: "4/8", amount: 1100),
-        .init(label: "4/10", amount: 900),
-        .init(label: "4/13", amount: 1600),
-        .init(label: "4/15", amount: 1300),
-        .init(label: "4/16", amount: 1200)
     ]
     
 }
