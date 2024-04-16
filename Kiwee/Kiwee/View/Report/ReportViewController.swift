@@ -46,9 +46,9 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
             case 0:
                 contentView = AnyView(CaloriesChartView())
             case 1:
-                contentView = AnyView(NutrientsChartView())
-            case 2:
                 contentView = AnyView(WeightChartView())
+            case 2:
+                contentView = AnyView(NutrientsChartView())
             default:
                 contentView = AnyView(Text("Placeholder"))
             }
@@ -58,7 +58,11 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewWidth = collectionView.bounds.width - 32
-        return CGSize(width: collectionViewWidth, height: 400)
+        if indexPath.row == 2 {
+            return CGSize(width: collectionViewWidth, height: 400)
+        } else {
+            return CGSize(width: collectionViewWidth, height: 300)
+        }
     }
     
 }

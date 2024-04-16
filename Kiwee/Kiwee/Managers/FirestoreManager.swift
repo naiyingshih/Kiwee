@@ -18,10 +18,14 @@ class FirestoreManager {
     
     func postWaterCount(waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
 
-        let dateString = date.string(from: chosenDate)
+//        let dateString = date.string(from: chosenDate)
+        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
         database.collection("intake")
-            .whereField("date", isEqualTo: dateString)
+//            .whereField("date", isEqualTo: chosenDate)
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .whereField("type", isEqualTo: "water")
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -45,7 +49,7 @@ class FirestoreManager {
                     // No document for the current day, create a new one
                     let waterDictionary: [String: Any] = [
                         "water_count": waterCount,
-                        "date": dateString,
+                        "date": chosenDate,
                         "type": "water"
                     ]
                     
@@ -64,7 +68,7 @@ class FirestoreManager {
     
     func postIntakeData(intakeData: Food, chosenDate: Date, completion: @escaping (Bool) -> Void) {
        
-        let dateString = date.string(from: chosenDate)
+//        let dateString = date.string(from: chosenDate)
         
         let intakeDictionary: [String: Any] = [
             "name": intakeData.name,
@@ -78,7 +82,7 @@ class FirestoreManager {
             "image": intakeData.image,
             "quantity": intakeData.quantity as Any,
             "section": intakeData.section as Any,
-            "date": dateString,
+            "date": Timestamp(date: chosenDate),
             "type": "food"
         ]
         
@@ -97,10 +101,14 @@ class FirestoreManager {
     
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
         
-        let dateString = date.string(from: chosenDate)
+        //        let dateString = date.string(from: chosenDate)
+        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
         database.collection(collectionID)
-            .whereField("date", isEqualTo: dateString)
+//            .whereField("date", isEqualTo: chosenDate)
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .addSnapshotListener { querySnapshot, err in
                 if let error = err {
                     print(error)
@@ -147,20 +155,21 @@ class FirestoreManager {
         var aggregatedFoods: [Food] = []
         var totalWaterIntake: Int = 0
         
-        let dispatchGroup = DispatchGroup()
+//        let dispatchGroup = DispatchGroup()
         
         for date in dates {
-            dispatchGroup.enter()
+//            dispatchGroup.enter()
             getIntakeCard(collectionID: "intake", chosenDate: date) { (foods, water) in
                 aggregatedFoods.append(contentsOf: foods)
                 totalWaterIntake += water
-                dispatchGroup.leave()
+                completion(aggregatedFoods, totalWaterIntake)
+//                dispatchGroup.leave()
             }
         }
         
-        dispatchGroup.notify(queue: .main) {
-            completion(aggregatedFoods, totalWaterIntake)
-        }
+//        dispatchGroup.notify(queue: .main) {
+//            completion(aggregatedFoods, totalWaterIntake)
+//        }
     }
     
     private func generateDateRange(from daysAgo: Int) -> [Date] {
@@ -176,7 +185,7 @@ class FirestoreManager {
     func getOrderedDateData(completion: @escaping ([CalorieDataPoint]) -> Void) {
         database.collection("intake")
             .order(by: "date")
-            .getDocuments { (querySnapshot, err) in
+            .addSnapshotListener { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                     completion([])
@@ -184,8 +193,9 @@ class FirestoreManager {
                     var dataPoints: [CalorieDataPoint] = []
                     for document in querySnapshot!.documents {
                         let data = document.data()
-                        if let date = data["date"] as? String,
+                        if let timestamp = data["date"] as? Timestamp,
                            let calories = data["totalCalories"] as? Double {
+                            let date = timestamp.dateValue()
                             let dataPoint = CalorieDataPoint(date: date, calories: calories)
                             dataPoints.append(dataPoint)
                         }

@@ -33,7 +33,8 @@ struct WeightChartView: View {
                   .foregroundStyle(by: .value("體重", element.amount))
               }
               .frame(height: 200)
-              .chartScrollableAxes(.horizontal)
+//              .chartScrollableAxes(.horizontal)
+//              .chartXVisibleDomain(length: 1800 * 24 * 30)
           }
           .padding()
       }

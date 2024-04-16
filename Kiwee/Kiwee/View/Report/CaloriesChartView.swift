@@ -12,8 +12,6 @@ struct CaloriesChartView: View {
     
     @StateObject var viewModel = ChartsViewModel()
     
-    @State private var selectedTimeRange: TimeRange = .last7Days
-    
     var body: some View {
           VStack {
               // Title
@@ -47,6 +45,7 @@ struct CaloriesChartView: View {
               }
               .frame(height: 200)
               .chartScrollableAxes(.horizontal)
+              .chartXVisibleDomain(length: 1800 * 24 * 30)
           }
           .padding()
       }

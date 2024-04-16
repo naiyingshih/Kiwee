@@ -13,7 +13,7 @@ struct ChartData {
 }
 
 struct CalorieDataPoint {
-    var date: String
+    var date: Date
     var calories: Double
 }
 
@@ -68,13 +68,15 @@ class ChartsViewModel: ObservableObject {
     }
     
     private func aggregateCaloriesByDate() {
-        var aggregatedData = [String: Double]()
-        
+        var aggregatedData = [Date: Double]()
+
         for dataPoint in caloriesData {
-            if let existingTotal = aggregatedData[dataPoint.date] {
-                aggregatedData[dataPoint.date] = existingTotal + dataPoint.calories
+            // Normalize the date to remove time part if necessary
+            let date = Calendar.current.startOfDay(for: dataPoint.date)
+            if let existingTotal = aggregatedData[date] {
+                aggregatedData[date] = existingTotal + dataPoint.calories
             } else {
-                aggregatedData[dataPoint.date] = dataPoint.calories
+                aggregatedData[date] = dataPoint.calories
             }
         }
         
@@ -88,9 +90,9 @@ class ChartsViewModel: ObservableObject {
        
     let weightData: [ChartData] = [
         .init(label: "4/6", amount: 60),
-        .init(label: "4/10", amount: 55),
-        .init(label: "4/12", amount: 54),
-        .init(label: "4/15", amount: 53)
+        .init(label: "4/16", amount: 57),
+        .init(label: "4/28", amount: 54),
+        .init(label: "4/30", amount: 53)
     ]
     
 }
