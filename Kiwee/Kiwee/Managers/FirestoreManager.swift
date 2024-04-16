@@ -13,6 +13,8 @@ class FirestoreManager {
     static let shared = FirestoreManager()
     let database = Firestore.firestore()
     
+    // MARK: - Post
+    
     func postWaterCount(waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
 
         let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
@@ -90,6 +92,8 @@ class FirestoreManager {
         }
     }
     
+    // MARK: - Get
+    
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
         
         let dateString = DateFormatterManager.shared.dateFormatter.string(from: chosenDate)
@@ -135,6 +139,37 @@ class FirestoreManager {
     private func getWaterQuantity(from documents: [QueryDocumentSnapshot]) -> Int {
         let waterQuantities = documents.compactMap { $0["water_count"] as? Int }
         return waterQuantities.first ?? 0
+    }
+    
+    func fetchAndAggregateData(forLastDays days: Int, completion: @escaping ([Food], Int) -> Void) {
+        let dates = generateDateRange(from: days)
+        var aggregatedFoods: [Food] = []
+        var totalWaterIntake: Int = 0
+        
+        let dispatchGroup = DispatchGroup()
+        
+        for date in dates {
+            dispatchGroup.enter()
+            getIntakeCard(collectionID: "yourCollectionID", chosenDate: date) { (foods, water) in
+                aggregatedFoods.append(contentsOf: foods)
+                totalWaterIntake += water
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(aggregatedFoods, totalWaterIntake)
+        }
+    }
+    
+    private func generateDateRange(from daysAgo: Int) -> [Date] {
+        var dates: [Date] = []
+        for dayOffset in (0..<daysAgo).reversed() {
+            if let date = Calendar.current.date(byAdding: .day, value: -dayOffset, to: Date()) {
+                dates.append(date)
+            }
+        }
+        return dates
     }
     
 }

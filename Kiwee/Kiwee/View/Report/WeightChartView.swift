@@ -10,14 +10,16 @@ import Charts
 
 struct WeightChartView: View {
     
+    @StateObject var viewModel = ChartsViewModel()
+    
     var body: some View {
           VStack {
               Text("體重報告")
-                  .font(.title)
+                  .font(.title2)
                   .bold()
                   .padding()
               
-              Chart(weightData, id: \.label) { element in
+              Chart(viewModel.weightData, id: \.label) { element in
                   LineMark(
                       x: .value("日期", element.label),
                       y: .value("體重", element.amount)
@@ -31,6 +33,7 @@ struct WeightChartView: View {
                   .foregroundStyle(by: .value("體重", element.amount))
               }
               .frame(height: 200)
+              .chartScrollableAxes(.horizontal)
           }
           .padding()
       }

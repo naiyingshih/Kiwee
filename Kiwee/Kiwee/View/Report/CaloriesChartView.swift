@@ -10,14 +10,16 @@ import Charts
 
 struct CaloriesChartView: View {
     
+    @StateObject var viewModel = ChartsViewModel()
+    
     var body: some View {
           VStack {
               Text("熱量報告")
-                  .font(.title)
+                  .font(.title2)
                   .bold()
                   .padding()
               
-              Chart(caloriesData, id: \.label) { element in
+              Chart(viewModel.caloriesData, id: \.label) { element in
                   LineMark(
                       x: .value("日期", element.label),
                       y: .value("熱量", element.amount)
@@ -40,6 +42,7 @@ struct CaloriesChartView: View {
                       }
               }
               .frame(height: 200)
+              .chartScrollableAxes(.horizontal)
           }
           .padding()
       }

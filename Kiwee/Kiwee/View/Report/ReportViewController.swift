@@ -58,8 +58,7 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewWidth = collectionView.bounds.width - 32
-        let collectionViewHeight = collectionViewWidth * 0.8
-        return CGSize(width: collectionViewWidth, height: collectionViewHeight)
+        return CGSize(width: collectionViewWidth, height: 400)
     }
     
 }
