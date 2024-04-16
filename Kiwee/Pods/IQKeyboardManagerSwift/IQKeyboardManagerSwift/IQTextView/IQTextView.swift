@@ -76,7 +76,7 @@ import UIKit
         #if swift(>=5.1)
         label.textColor = UIColor.systemGray
         #else
-        label.textColor = UIColor.lightText
+        nutrient.textColor = UIColor.lightText
         #endif
         label.alpha = 0
         self.addSubview(label)

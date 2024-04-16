@@ -8,26 +8,24 @@
 import SwiftUI
 import Charts
 
-struct ContentView: View {
+struct NutrientsChartView: View {
     
-    @StateObject var viewModel = ChartsViewModel()
+//    @StateObject var viewModel = ChartsViewModel()
     
     var body: some View {
         VStack {
             Text("營養成分報告")
                 .font(.title)
                 .bold()
-            
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack(spacing: 0) {
                     // Container for the Pie Chart
                     VStack {
-                        Spacer()
                         Text("甜甜圈圖")
                             .font(.headline)
                         HStack {
                             Spacer()
-                            Chart(data, id: \.label) { element in
+                            Chart(nutrientData, id: \.label) { element in
                                 SectorMark(
                                     angle: .value("攝取量", element.amount),
                                     innerRadius: .ratio(0.618), angularInset: 1.5
@@ -41,12 +39,11 @@ struct ContentView: View {
                     
                     // Container for the Bar Chart
                     VStack {
-                        Spacer()
                         Text("直條圖")
                             .font(.headline)
                         HStack {
                             Spacer()
-                            Chart(data, id: \.label) { element in
+                            Chart(nutrientData, id: \.label) { element in
                                 BarMark(
                                     x: .value("成分", element.label),
                                     y: .value("攝取量", element.amount)
@@ -59,7 +56,7 @@ struct ContentView: View {
                     }
                     .frame(width: UIScreen.main.bounds.width)
                 }
-                .frame(height: 250)
+                .frame(height: 200)
             }
             .padding(.horizontal)
         }

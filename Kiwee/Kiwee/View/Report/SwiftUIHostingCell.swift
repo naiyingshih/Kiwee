@@ -9,9 +9,9 @@ import UIKit
 import SwiftUI
 
 class SwiftUIHostingCell: UICollectionViewCell {
-    private var hostingController: UIHostingController<ContentView>?
+    private var hostingController: UIHostingController<AnyView>?
 
-    func host(contentView: ContentView, parentViewController: UIViewController) {
+    func host(contentView: AnyView, parentViewController: UIViewController) {
         // Remove the previous hosting controller if it exists
         if let existingHostingController = hostingController {
             existingHostingController.willMove(toParent: nil)
@@ -26,6 +26,9 @@ class SwiftUIHostingCell: UICollectionViewCell {
         newHostingController.view.frame = contentViewContainer.bounds
         newHostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         newHostingController.didMove(toParent: parentViewController)
+        newHostingController.view.layer.cornerRadius = 10
+        newHostingController.view.layer.borderWidth = 2
+        newHostingController.view.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
 
         // Keep a reference to the new hosting controller
         hostingController = newHostingController

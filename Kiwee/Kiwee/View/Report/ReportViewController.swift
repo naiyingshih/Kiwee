@@ -17,10 +17,13 @@ class ReportViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SwiftUIHostingCell.self, forCellWithReuseIdentifier: "SwiftUIHostingCell")
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 0
-            layout.minimumLineSpacing = 0
-        }
+        
+        let margin: CGFloat = 16
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        
+        flowLayout.minimumInteritemSpacing = margin
+        flowLayout.minimumLineSpacing = margin
+        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
     }
     
 }
@@ -28,7 +31,7 @@ class ReportViewController: UIViewController {
 extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -37,16 +40,25 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
             for: indexPath
         )
         guard let nutrientCell = cell as? SwiftUIHostingCell else { return cell }
-        let contentView = ContentView() // Initialize SwiftUI view
+        
+        let contentView: AnyView
+            switch indexPath.row {
+            case 0:
+                contentView = AnyView(CaloriesChartView())
+            case 1:
+                contentView = AnyView(NutrientsChartView())
+            case 2:
+                contentView = AnyView(WeightChartView())
+            default:
+                contentView = AnyView(Text("Placeholder"))
+            }
         nutrientCell.host(contentView: contentView, parentViewController: self)
         return nutrientCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        let collectionViewHeight = collectionView.bounds.height
-
-        // Set the size of the cell to take up the full width and height of the collection view
+        let collectionViewWidth = collectionView.bounds.width - 32
+        let collectionViewHeight = collectionViewWidth * 0.8
         return CGSize(width: collectionViewWidth, height: collectionViewHeight)
     }
     
