@@ -61,6 +61,11 @@ class AddFoodViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     func setupInitialUI() {
         confirmButton.isEnabled = false
         confirmButton.alpha = 0.3
