@@ -100,15 +100,17 @@ class FirestoreManager {
     // TODO: wait to put in launch page
     func postUserData(input: UserData, completion: @escaping (Bool) -> Void) {
         let userDictionary: [String: Any] = [
+            "id": "uuid()",
             "name": input.name,
             "gender": input.gender,
             "age": input.age,
             "goal": input.goal,
             "activeness": input.activeness,
-            "current_height": input.currentHeight,
-            "current_weight": input.currentWeight,
+            "height": input.height,
+            "initial_weight": input.initialWeight,
             "goal_weight": input.goalWeight,
-            "achievement_time": input.achievementTime
+            "achievement_time": input.achievementTime,
+            "date": FieldValue.serverTimestamp()
         ]
         
         database.collection("users").addDocument(data: userDictionary) { error in
@@ -121,6 +123,10 @@ class FirestoreManager {
             }
         }
     }
+    
+//    func changeWeight() {
+//        
+//    }
     
     // MARK: - Get
     
@@ -207,7 +213,7 @@ class FirestoreManager {
         return dates
     }
     
-    func getOrderedDateData(completion: @escaping ([CalorieDataPoint]) -> Void) {
+    func getOrderedDateData(completion: @escaping ([DataPoint]) -> Void) {
         database.collection("intake")
             .order(by: "date")
             .addSnapshotListener { (querySnapshot, err) in
@@ -215,13 +221,13 @@ class FirestoreManager {
                     print("Error getting documents: \(err)")
                     completion([])
                 } else {
-                    var dataPoints: [CalorieDataPoint] = []
+                    var dataPoints: [DataPoint] = []
                     for document in querySnapshot!.documents {
                         let data = document.data()
                         if let timestamp = data["date"] as? Timestamp,
                            let calories = data["totalCalories"] as? Double {
                             let date = timestamp.dateValue()
-                            let dataPoint = CalorieDataPoint(date: date, calories: calories)
+                            let dataPoint = DataPoint(date: date, dataPoint: calories)
                             dataPoints.append(dataPoint)
                         }
                     }
@@ -230,7 +236,7 @@ class FirestoreManager {
             }
     }
     
-    func getUserWeight(completion: @escaping ([CalorieDataPoint]) -> Void) {
+    func getUserWeight(completion: @escaping ([DataPoint]) -> Void) {
         database.collection("users").document("Un9y8lW7NM5ghB43ll7r").collection("current_weight")
             .order(by: "date")
             .addSnapshotListener { (querySnapshot, err) in
@@ -238,13 +244,13 @@ class FirestoreManager {
                     print("Error getting documents: \(err)")
                     completion([])
                 } else {
-                    var dataPoints: [CalorieDataPoint] = []
+                    var dataPoints: [DataPoint] = []
                     for document in querySnapshot!.documents {
                         let data = document.data()
                         if let timestamp = data["date"] as? Timestamp,
                            let weight = data["weight"] as? Double {
                             let date = timestamp.dateValue()
-                            let dataPoint = CalorieDataPoint(date: date, calories: weight)
+                            let dataPoint = DataPoint(date: date, dataPoint: weight)
                             dataPoints.append(dataPoint)
                         }
                     }
@@ -253,41 +259,44 @@ class FirestoreManager {
             }
     }
     
-//    func getUserData(completion: @escaping ([UserData]) -> Void) {
-//        database.collection("users")
-//            .getDocuments { (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                } else {
-//                    var userInputs: [UserData] = []
-//                    for document in querySnapshot!.documents {
-//                        let data = document.data()
-//                        let name = data["name"] as? String ?? ""
-//                        let gender = data["gender"] as? String ?? ""
-//                        let age = data["age"] as? Int ?? 0
-//                        let goal = data["goal"] as? String ?? ""
-//                        let activeness = data["activeness"] as? String ?? ""
-//                        let currentHeight = data["currentHeight"] as? Double ?? 0.0
-//                        let currentWeight = data["currentWeight"] as? Double ?? 0.0
-//                        let goalWeight = data["goalWeight"] as? Double ?? 0.0
-//                        let achievementTime = (data["achievementTime"] as? Timestamp)?.dateValue() ?? Date()
-//                        
-//                        let userData = UserData(
-//                            name: name,
-//                            gender: gender,
-//                            age: age,
-//                            goal: goal,
-//                            activeness: activeness,
-//                            currentHeight: currentHeight,
-//                            currentWeight: currentWeight,
-//                            goalWeight: goalWeight,
-//                            achievementTime: achievementTime
-//                        )
-//                        userInputs.append(userData)
-//                    }
+    func getUserData(completion: @escaping (UserData) -> Void) {
+        database.collection("users")
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+//                    var userInputs: UserData?
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let id = "Un9y8lW7NM5ghB43ll7r"
+                        let name = data["name"] as? String ?? ""
+                        let gender = data["gender"] as? String ?? ""
+                        let age = data["age"] as? Int ?? 0
+                        let goal = data["goal"] as? String ?? ""
+                        let activeness = data["activeness"] as? String ?? ""
+                        let currentHeight = data["height"] as? Double ?? 0.0
+                        let currentWeight = data["initial_weight"] as? Double ?? 0.0
+                        let goalWeight = data["goalWeight"] as? Double ?? 0.0
+                        let achievementTime = (data["achievementTime"] as? Timestamp)?.dateValue() ?? Date()
+                        
+                        let userData = UserData(
+                            id: id,
+                            name: name,
+                            gender: gender,
+                            age: age,
+                            goal: goal,
+                            activeness: activeness,
+                            height: currentHeight,
+                            initialWeight: currentWeight,
+                            goalWeight: goalWeight,
+                            achievementTime: achievementTime
+                        )
+                        completion(userData)
+//                        userInputs = userData
+                    }
 //                    completion(userInputs)
-//                }
-//            }
-//    }
+                }
+            }
+    }
     
 }

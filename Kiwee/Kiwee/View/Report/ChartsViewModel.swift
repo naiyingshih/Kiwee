@@ -7,29 +7,36 @@
 
 import Foundation
 
-struct ChartData {
+struct PieChartData {
     var label: String
     var amount: Double
 }
 
-struct CalorieDataPoint {
+struct DataPoint {
     var date: Date
-    var calories: Double
+    var dataPoint: Double
+}
+
+struct BodyInfo {
+    var initWeight: Double
+    var RDA: Double
 }
 
 class ChartsViewModel: ObservableObject {
     
-    @Published var nutrientData: [ChartData] = []
-    @Published var caloriesData: [CalorieDataPoint] = []
-    @Published var aggregatedCalorieDataPoints: [CalorieDataPoint] = []
-    @Published var todayIntake: [ChartData] = []
-    @Published var userInputData: [CalorieDataPoint] = []
+    @Published var nutrientData: [PieChartData] = []
+    @Published var caloriesData: [DataPoint] = []
+    @Published var aggregatedCalorieDataPoints: [DataPoint] = []
+    @Published var todayIntake: [PieChartData] = []
+    @Published var userInputData: [DataPoint] = []
+    @Published var calculatedBodyInfo: BodyInfo?
     
     init() {
         fetchNutrientData(day: Int())
         fetchCalorieData()
         getTodayIntake()
         fetchUserWeight()
+        calculatedInfo()
     }
     
     func fetchNutrientData(day: Int) {
@@ -49,10 +56,10 @@ class ChartsViewModel: ObservableObject {
             }
             
             let aggregatedNutrientData = [
-                ChartData(label: "碳水", amount: totalCarbohydrates),
-                ChartData(label: "蛋白", amount: totalProtein),
-                ChartData(label: "脂肪", amount: totalFat),
-                ChartData(label: "纖維", amount: totalFiber)
+                PieChartData(label: "碳水", amount: totalCarbohydrates),
+                PieChartData(label: "蛋白", amount: totalProtein),
+                PieChartData(label: "脂肪", amount: totalFat),
+                PieChartData(label: "纖維", amount: totalFiber)
             ]
             
             DispatchQueue.main.async {
@@ -77,22 +84,22 @@ class ChartsViewModel: ObservableObject {
             // Normalize the date to remove time part if necessary
             let date = Calendar.current.startOfDay(for: dataPoint.date)
             if let existingTotal = aggregatedData[date] {
-                aggregatedData[date] = existingTotal + dataPoint.calories
+                aggregatedData[date] = existingTotal + dataPoint.dataPoint
             } else {
-                aggregatedData[date] = dataPoint.calories
+                aggregatedData[date] = dataPoint.dataPoint
             }
         }
         
         let sortedAggregatedData = aggregatedData.sorted { $0.key < $1.key }
-        self.aggregatedCalorieDataPoints = sortedAggregatedData.map { CalorieDataPoint(date: $0.key, calories: $0.value) }
+        self.aggregatedCalorieDataPoints = sortedAggregatedData.map { DataPoint(date: $0.key, dataPoint: $0.value) }
     }
     
     func getTodayIntake() {
         FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
-            var newData: [ChartData] = []
+            var newData: [PieChartData] = []
             let totalCalories = foods.reduce(0) { $0 + $1.totalCalories }
-            newData.append(ChartData(label: "已攝取量", amount: totalCalories))
-            newData.append(ChartData(label: "已飲水量", amount: Double(water * 250)))
+            newData.append(PieChartData(label: "已攝取量", amount: totalCalories))
+            newData.append(PieChartData(label: "已飲水量", amount: Double(water * 250)))
             
             DispatchQueue.main.async {
                 self?.todayIntake = newData
@@ -104,16 +111,19 @@ class ChartsViewModel: ObservableObject {
         FirestoreManager.shared.getUserWeight { [weak self] userInputs in
             DispatchQueue.main.async {
                 self?.userInputData = userInputs
-                print("=== weight data: \(self?.userInputData)")
+            }
+        }
+    }
+    
+    func calculatedInfo() {
+        FirestoreManager.shared.getUserData { [weak self] userData in
+            let bodyInfo = BodyInfo(initWeight: userData.initialWeight,
+                                    RDA: (userData.height * userData.height) / 10000 * 22 * 25
+            )
+            DispatchQueue.main.async {
+                self?.calculatedBodyInfo = bodyInfo
             }
         }
     }
 
-//    let weightData: [ChartData] = [
-//        .init(label: "4/6", amount: 60),
-//        .init(label: "4/16", amount: 57),
-//        .init(label: "4/28", amount: 54),
-//        .init(label: "4/30", amount: 53)
-//    ]
-    
 }

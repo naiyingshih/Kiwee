@@ -94,11 +94,12 @@ struct PieChartView: View {
             GeometryReader { geometry in
                 let frame = geometry[proxy.plotFrame!]
                 VStack {
-                    Text("\(2500 - caloriesIntake, specifier: "%.0f") kcal")
+                    let RDA = viewModel.calculatedBodyInfo?.RDA
+                    Text("\((RDA ?? 0) - caloriesIntake, specifier: "%.0f") kcal")
                         .font(.title3.bold())
                         .foregroundStyle(.primary)
                         .foregroundColor(.blue)
-                    Text("/2500 kcal") // data from firebase
+                    Text("/\(RDA ?? 0, specifier: "%.0f") kcal")
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }

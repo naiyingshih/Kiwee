@@ -14,8 +14,12 @@ struct UserData {
     let age: Int
     let goal: String
     let activeness: String
-    let currentHeight: Double
-    let currentWeight: Double
+    let height: Double
+    let initialWeight: Double
     let goalWeight: Double
     let achievementTime: Date
 }
+
+//struct UserWeight {
+//    let currentWeight: Double
+//}

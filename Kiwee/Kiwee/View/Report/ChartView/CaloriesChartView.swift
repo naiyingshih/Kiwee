@@ -24,21 +24,22 @@ struct CaloriesChartView: View {
               Chart(viewModel.aggregatedCalorieDataPoints, id: \.date) { element in
                   LineMark(
                       x: .value("日期", element.date),
-                      y: .value("熱量", element.calories)
+                      y: .value("熱量", element.dataPoint)
                   )
                   .interpolationMethod(.catmullRom)
                   
                   PointMark(
                       x: .value("日期", element.date),
-                      y: .value("熱量", element.calories)
+                      y: .value("熱量", element.dataPoint)
                   )
-                  .foregroundStyle(by: .value("熱量", element.calories))
-                  
-                  RuleMark(y: .value("熱量", 1500))
+                  .foregroundStyle(by: .value("熱量", element.dataPoint))
+                 
+                  let RDA = viewModel.calculatedBodyInfo?.RDA
+                  RuleMark(y: .value("熱量", RDA ?? 0))
                       .foregroundStyle(.gray)
                       .annotation(position: .top,
                                   alignment: .topLeading) {
-                          Text("建議攝取量: 1500 kcal")
+                          Text("建議攝取量:\(RDA ?? 0, specifier: "%.0f") kcal")
                               .font(.system(size: 12))
                               .foregroundColor(.gray)
                       }

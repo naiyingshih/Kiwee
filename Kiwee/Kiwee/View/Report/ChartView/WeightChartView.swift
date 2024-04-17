@@ -22,21 +22,22 @@ struct WeightChartView: View {
               Chart(viewModel.userInputData, id: \.date) { element in
                   LineMark(
                       x: .value("日期", element.date),
-                      y: .value("體重", element.calories)
+                      y: .value("體重", element.dataPoint)
                   )
                   .interpolationMethod(.catmullRom)
                   
                   PointMark(
                       x: .value("日期", element.date),
-                      y: .value("體重", element.calories)
+                      y: .value("體重", element.dataPoint)
                   )
-                  .foregroundStyle(by: .value("體重", element.calories))
+                  .foregroundStyle(by: .value("體重", element.dataPoint))
                   
-                  RuleMark(y: .value("體重", 65))
+                  let weight = viewModel.calculatedBodyInfo?.initWeight
+                  RuleMark(y: .value("體重", weight ?? 0))
                       .foregroundStyle(.gray)
                       .annotation(position: .top,
                                   alignment: .topLeading) {
-                          Text("初始體重: 65 kcal")
+                          Text("初始體重: \(weight ?? 0, specifier: "%.0f")")
                               .font(.system(size: 12))
                               .foregroundColor(.gray)
                       }
