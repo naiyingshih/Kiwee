@@ -34,7 +34,7 @@ struct NutrientsChartView: View {
                       Text(range.rawValue).tag(range)
                   }
               }
-              .pickerStyle(SegmentedPickerStyle()) // Use a segmented control style
+              .pickerStyle(SegmentedPickerStyle())
               .padding()
               .onChange(of: selectedTimeRange, initial: true, { _, newValue in
                   switch newValue {
@@ -54,13 +54,20 @@ struct NutrientsChartView: View {
                             .font(.headline)
                         HStack {
                             Spacer()
+                            
                             Chart(viewModel.nutrientData, id: \.label) { element in
                                 SectorMark(
                                     angle: .value("攝取量", element.amount),
-                                    innerRadius: .ratio(0.618), angularInset: 1.5
+                                    innerRadius: .ratio(0.618), 
+                                    angularInset: 1.5
                                 )
                                 .cornerRadius(5)
                                 .foregroundStyle(by: .value("成分", element.label))
+                                .annotation(position: .overlay) {
+                                    Text("\(element.amount / 100, specifier: "%.1f")%")
+                                        .font(.caption)
+                                        .foregroundStyle(.white)
+                                }
                             }
                         }
                         Spacer()

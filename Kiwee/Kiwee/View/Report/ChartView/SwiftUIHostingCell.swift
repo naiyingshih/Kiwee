@@ -27,8 +27,8 @@ class SwiftUIHostingCell: UICollectionViewCell {
         newHostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         newHostingController.didMove(toParent: parentViewController)
         newHostingController.view.layer.cornerRadius = 10
-        newHostingController.view.layer.borderWidth = 2
-        newHostingController.view.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
+        newHostingController.view.layer.borderWidth = 3
+        newHostingController.view.layer.borderColor = UIColor.systemYellow.cgColor
 
         // Keep a reference to the new hosting controller
         hostingController = newHostingController
