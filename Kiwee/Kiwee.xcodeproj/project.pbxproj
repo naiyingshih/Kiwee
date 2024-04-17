@@ -21,6 +21,7 @@
 		0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */; };
 		0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2C2BCE18190018911F /* WeightChartView.swift */; };
 		0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC302BCF06FB0018911F /* IntakeCardView.swift */; };
+		0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC322BCFDEAC0018911F /* UserModel.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -59,6 +60,7 @@
 		0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesChartView.swift; sourceTree = "<group>"; };
 		0E91DC2C2BCE18190018911F /* WeightChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightChartView.swift; sourceTree = "<group>"; };
 		0E91DC302BCF06FB0018911F /* IntakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeCardView.swift; sourceTree = "<group>"; };
+		0E91DC322BCFDEAC0018911F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
+				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
 			);
 			path = Models;
@@ -421,6 +424,7 @@
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
+				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,

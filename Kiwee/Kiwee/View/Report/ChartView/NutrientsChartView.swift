@@ -64,7 +64,8 @@ struct NutrientsChartView: View {
                                 .cornerRadius(5)
                                 .foregroundStyle(by: .value("成分", element.label))
                                 .annotation(position: .overlay) {
-                                    Text("\(element.amount / 100, specifier: "%.1f")%")
+                                    let totalAmount = viewModel.nutrientData.reduce(0, { $0 + $1.amount })
+                                    Text("\(element.amount / totalAmount * 100, specifier: "%.1f")%")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                 }
@@ -104,3 +105,9 @@ struct NutrientsChartView: View {
         .padding()
     }
 }
+
+// struct IntakeCardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NutrientsChartView()
+//    }
+// }

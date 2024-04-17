@@ -45,7 +45,7 @@ struct CaloriesChartView: View {
               }
               .frame(height: 200)
               .chartScrollableAxes(.horizontal)
-              .chartXVisibleDomain(length: 1800 * 24 * 30)
+              .chartXVisibleDomain(length: 365000 * 2)
           }
           .padding()
       }

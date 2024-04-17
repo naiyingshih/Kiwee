@@ -23,11 +23,13 @@ class ChartsViewModel: ObservableObject {
     @Published var caloriesData: [CalorieDataPoint] = []
     @Published var aggregatedCalorieDataPoints: [CalorieDataPoint] = []
     @Published var todayIntake: [ChartData] = []
+    @Published var userInputData: [CalorieDataPoint] = []
     
     init() {
         fetchNutrientData(day: Int())
         fetchCalorieData()
         getTodayIntake()
+        fetchUserWeight()
     }
     
     func fetchNutrientData(day: Int) {
@@ -86,23 +88,32 @@ class ChartsViewModel: ObservableObject {
     }
     
     func getTodayIntake() {
-        FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { foods, water in
+        FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
             var newData: [ChartData] = []
             let totalCalories = foods.reduce(0) { $0 + $1.totalCalories }
             newData.append(ChartData(label: "已攝取量", amount: totalCalories))
             newData.append(ChartData(label: "已飲水量", amount: Double(water * 250)))
             
             DispatchQueue.main.async {
-                self.todayIntake = newData
+                self?.todayIntake = newData
+            }
+        }
+    }
+    
+    func fetchUserWeight() {
+        FirestoreManager.shared.getUserWeight { [weak self] userInputs in
+            DispatchQueue.main.async {
+                self?.userInputData = userInputs
+                print("=== weight data: \(self?.userInputData)")
             }
         }
     }
 
-    let weightData: [ChartData] = [
-        .init(label: "4/6", amount: 60),
-        .init(label: "4/16", amount: 57),
-        .init(label: "4/28", amount: 54),
-        .init(label: "4/30", amount: 53)
-    ]
+//    let weightData: [ChartData] = [
+//        .init(label: "4/6", amount: 60),
+//        .init(label: "4/16", amount: 57),
+//        .init(label: "4/28", amount: 54),
+//        .init(label: "4/30", amount: 53)
+//    ]
     
 }

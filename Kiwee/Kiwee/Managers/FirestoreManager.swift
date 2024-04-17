@@ -97,6 +97,31 @@ class FirestoreManager {
         }
     }
     
+    // TODO: wait to put in launch page
+    func postUserData(input: UserData, completion: @escaping (Bool) -> Void) {
+        let userDictionary: [String: Any] = [
+            "name": input.name,
+            "gender": input.gender,
+            "age": input.age,
+            "goal": input.goal,
+            "activeness": input.activeness,
+            "current_height": input.currentHeight,
+            "current_weight": input.currentWeight,
+            "goal_weight": input.goalWeight,
+            "achievement_time": input.achievementTime
+        ]
+        
+        database.collection("users").addDocument(data: userDictionary) { error in
+            if let error = error {
+                print("Error adding intake data: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Food intake data added successfully")
+                completion(true)
+            }
+        }
+    }
+    
     // MARK: - Get
     
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
@@ -204,5 +229,65 @@ class FirestoreManager {
                 }
             }
     }
+    
+    func getUserWeight(completion: @escaping ([CalorieDataPoint]) -> Void) {
+        database.collection("users").document("Un9y8lW7NM5ghB43ll7r").collection("current_weight")
+            .order(by: "date")
+            .addSnapshotListener { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    completion([])
+                } else {
+                    var dataPoints: [CalorieDataPoint] = []
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        if let timestamp = data["date"] as? Timestamp,
+                           let weight = data["weight"] as? Double {
+                            let date = timestamp.dateValue()
+                            let dataPoint = CalorieDataPoint(date: date, calories: weight)
+                            dataPoints.append(dataPoint)
+                        }
+                    }
+                    completion(dataPoints)
+                }
+            }
+    }
+    
+//    func getUserData(completion: @escaping ([UserData]) -> Void) {
+//        database.collection("users")
+//            .getDocuments { (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                } else {
+//                    var userInputs: [UserData] = []
+//                    for document in querySnapshot!.documents {
+//                        let data = document.data()
+//                        let name = data["name"] as? String ?? ""
+//                        let gender = data["gender"] as? String ?? ""
+//                        let age = data["age"] as? Int ?? 0
+//                        let goal = data["goal"] as? String ?? ""
+//                        let activeness = data["activeness"] as? String ?? ""
+//                        let currentHeight = data["currentHeight"] as? Double ?? 0.0
+//                        let currentWeight = data["currentWeight"] as? Double ?? 0.0
+//                        let goalWeight = data["goalWeight"] as? Double ?? 0.0
+//                        let achievementTime = (data["achievementTime"] as? Timestamp)?.dateValue() ?? Date()
+//                        
+//                        let userData = UserData(
+//                            name: name,
+//                            gender: gender,
+//                            age: age,
+//                            goal: goal,
+//                            activeness: activeness,
+//                            currentHeight: currentHeight,
+//                            currentWeight: currentWeight,
+//                            goalWeight: goalWeight,
+//                            achievementTime: achievementTime
+//                        )
+//                        userInputs.append(userData)
+//                    }
+//                    completion(userInputs)
+//                }
+//            }
+//    }
     
 }
