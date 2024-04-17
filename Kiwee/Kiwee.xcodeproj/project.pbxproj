@@ -20,6 +20,7 @@
 		0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */; };
 		0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */; };
 		0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2C2BCE18190018911F /* WeightChartView.swift */; };
+		0E91DC312BCF06FB0018911F /* CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC302BCF06FB0018911F /* CollectionReusableView.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -57,6 +58,7 @@
 		0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHostingCell.swift; sourceTree = "<group>"; };
 		0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesChartView.swift; sourceTree = "<group>"; };
 		0E91DC2C2BCE18190018911F /* WeightChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightChartView.swift; sourceTree = "<group>"; };
+		0E91DC302BCF06FB0018911F /* CollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableView.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,13 +112,30 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC222BCD541E0018911F /* ReportViewController.swift */,
-				0E91DC242BCD60030018911F /* NutrientsChartView.swift */,
-				0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */,
-				0E91DC2C2BCE18190018911F /* WeightChartView.swift */,
-				0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */,
+				0E91DC2F2BCF06730018911F /* IntakeCardView */,
+				0E91DC2E2BCF06440018911F /* ChartView */,
 				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		0E91DC2E2BCF06440018911F /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */,
+				0E91DC242BCD60030018911F /* NutrientsChartView.swift */,
+				0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */,
+				0E91DC2C2BCE18190018911F /* WeightChartView.swift */,
+			);
+			path = ChartView;
+			sourceTree = "<group>";
+		};
+		0E91DC2F2BCF06730018911F /* IntakeCardView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC302BCF06FB0018911F /* CollectionReusableView.swift */,
+			);
+			path = IntakeCardView;
 			sourceTree = "<group>";
 		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
@@ -415,6 +434,7 @@
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
 				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
+				0E91DC312BCF06FB0018911F /* CollectionReusableView.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
