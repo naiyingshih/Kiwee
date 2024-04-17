@@ -10,21 +10,33 @@ import Charts
 
 struct IntakeCardView: View {
     
+    @StateObject var viewModel = ChartsViewModel()
+    
+    // Computed properties to dynamically fetch the required data
+     var caloriesIntake: Double {
+         viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0
+     }
+     
+     var waterIntake: Double {
+         viewModel.todayIntake.first(where: { $0.label == "已飲水量" })?.amount ?? 0
+     }
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("今日剩餘攝取量")
                 .font(.title2)
                 .fontWeight(.bold)
+                .foregroundColor(.blue)
                 .padding([.leading, .bottom])
             HStack {
                 Spacer()
                 PieChartView()
-                    .frame(width: 150, height: 150)
+                    .frame(width: 180, height: 180)
                 Spacer()
                 VStack {
-                    Text("已攝取熱量\n300 kcal")
+                    Text("已攝取熱量\n\(caloriesIntake, specifier: "%.1f") kcal")
                         .padding([.leading, .bottom])
-                    Text("已飲水量\n500 ml")
+                    Text("已飲水量\n\(waterIntake, specifier: "%.0f") ml")
                 }
                 Spacer()
             }
@@ -40,29 +52,53 @@ struct PieChartView: View {
     
     @StateObject var viewModel = ChartsViewModel()
     
+    var caloriesIntake: Double {
+        viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0
+    }
+    
     var body: some View {
-        Chart(viewModel.data, id: \.label) { item in
-            SectorMark(
-                angle: .value("Value", item.amount),
-                innerRadius: .ratio(0.618),
-                angularInset: 1.5
-            )
-            .opacity(item.label == "已攝取量" ? 0.2 : 1.0)
-            .cornerRadius(5)
-            .annotation(position: .overlay) {
-                Text("\(item.amount / 100, specifier: "%.1f")%")
-                    .font(.headline)
-                    .foregroundStyle(.white)
+        Chart(viewModel.todayIntake, id: \.label) { item in
+            if item.label == "已攝取量" {
+                let percentage = item.amount / 2500 * 100
+                SectorMark(
+                    angle: .value("Value", percentage),
+                    innerRadius: .ratio(0.618),
+                    angularInset: 1.5
+                )
+                .opacity(0.2)
+                .cornerRadius(5)
+                .annotation(position: .overlay) {
+                    Text("\(percentage, specifier: "%.1f")%")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                }
+            } else {
+                // Calculate the remaining percentage
+                let remainingAmount = (viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0) / 2500 * 100
+                let remainingPercentage = 100 - remainingAmount
+                SectorMark(
+                    angle: .value("Value", remainingPercentage),
+                    innerRadius: .ratio(0.618),
+                    angularInset: 1.5
+                )
+                .opacity(1.0)
+                .cornerRadius(5)
+                .annotation(position: .overlay) {
+                    Text("\(remainingPercentage, specifier: "%.1f")%")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                }
             }
         }
         .chartBackground { proxy in
             GeometryReader { geometry in
                 let frame = geometry[proxy.plotFrame!]
                 VStack {
-                    Text("700 kcal")
+                    Text("\(2500 - caloriesIntake, specifier: "%.0f") kcal")
                         .font(.title3.bold())
                         .foregroundStyle(.primary)
-                    Text("/1000 kcal")
+                        .foregroundColor(.blue)
+                    Text("/2500 kcal") // data from firebase
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }

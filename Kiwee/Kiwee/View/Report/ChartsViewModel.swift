@@ -22,10 +22,12 @@ class ChartsViewModel: ObservableObject {
     @Published var nutrientData: [ChartData] = []
     @Published var caloriesData: [CalorieDataPoint] = []
     @Published var aggregatedCalorieDataPoints: [CalorieDataPoint] = []
+    @Published var todayIntake: [ChartData] = []
     
     init() {
         fetchNutrientData(day: Int())
         fetchCalorieData()
+        getTodayIntake()
     }
     
     func fetchNutrientData(day: Int) {
@@ -85,24 +87,22 @@ class ChartsViewModel: ObservableObject {
     
     func getTodayIntake() {
         FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { foods, water in
-            <#code#>
+            var newData: [ChartData] = []
+            let totalCalories = foods.reduce(0) { $0 + $1.totalCalories }
+            newData.append(ChartData(label: "已攝取量", amount: totalCalories))
+            newData.append(ChartData(label: "已飲水量", amount: Double(water * 250)))
+            
+            DispatchQueue.main.async {
+                self.todayIntake = newData
+            }
         }
     }
 
-//    func selectChartData(_ chartData: ChartData) {
-//        selectedChartData = chartData
-//    }
-       
     let weightData: [ChartData] = [
         .init(label: "4/6", amount: 60),
         .init(label: "4/16", amount: 57),
         .init(label: "4/28", amount: 54),
         .init(label: "4/30", amount: 53)
-    ]
-    
-    let data: [ChartData] = [
-        .init(label: "已攝取量", amount: 30),
-        .init(label: "剩餘攝取量", amount: 70)
     ]
     
 }
