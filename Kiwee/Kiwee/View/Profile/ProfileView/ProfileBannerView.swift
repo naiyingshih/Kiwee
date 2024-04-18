@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileBanneViewDelegate: AnyObject {
     func presentManageVC()
+    func presentCameraVC()
 }
 
 class ProfileBannerView: UIView {
@@ -124,15 +125,17 @@ class ProfileBannerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        setupViews()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupView()
+        setupViews()
+        setupConstraints()
     }
     
-    private func setupView() {
+    private func setupViews() {
         self.addSubview(backgroundView)
         backgroundView.addSubview(countDownLabel)
         backgroundView.addSubview(profileImage)
@@ -146,7 +149,9 @@ class ProfileBannerView: UIView {
         self.addSubview(cardOutlineView)
         cardOutlineView.addSubview(menuLabel)
         cardOutlineView.addSubview(cameraButton)
-       
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -205,7 +210,8 @@ class ProfileBannerView: UIView {
     }
     
     @objc func cameraButtonTapped() {
-        
+        guard let delegate = delegate else { return }
+        delegate.presentCameraVC()
     }
     
 }

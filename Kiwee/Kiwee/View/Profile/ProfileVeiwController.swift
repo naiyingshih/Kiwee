@@ -24,12 +24,7 @@ class ProfileVeiwController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = true
-    }
-    
+
 }
 
 // extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -50,9 +45,13 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         guard let manageVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: RecordManageViewController.self)
         ) as? RecordManageViewController else { return }
+        tabBarController?.tabBar.isHidden = true
         navigationController?.pushViewController(manageVC, animated: true)
-//        manageVC.modalPresentationStyle = .fullScreen
-//        self.present(manageVC, animated: true)
+    }
+    
+    func presentCameraVC() {
+        let cameraVC = CameraViewController()
+        self.navigationController?.pushViewController(cameraVC, animated: false)
     }
     
 }

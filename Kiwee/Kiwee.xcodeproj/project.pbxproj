@@ -144,11 +144,19 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */,
-				0E91DC372BD0A3730018911F /* ProfileCell.swift */,
-				0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */,
 				0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */,
+				0E91DC3F2BD0D8DE0018911F /* ProfileView */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		0E91DC3F2BD0D8DE0018911F /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */,
+				0E91DC372BD0A3730018911F /* ProfileCell.swift */,
+			);
+			path = ProfileView;
 			sourceTree = "<group>";
 		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {

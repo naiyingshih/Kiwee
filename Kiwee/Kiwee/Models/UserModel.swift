@@ -12,10 +12,11 @@ struct UserData {
     let name: String
     let gender: String
     let age: Int
-    let goal: String
-    let activeness: String
+    let goal: Int
+    let activeness: Int
     let height: Double
     let initialWeight: Double
+    let updatedWeight: Double?
     let goalWeight: Double
     let achievementTime: Date
 }

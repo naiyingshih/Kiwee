@@ -124,8 +124,63 @@ class FirestoreManager {
         }
     }
     
-//    func changeWeight() {
-//        
+    func updatePartialUserData(id: String, updates: [String: Any], completion: @escaping (Bool) -> Void) {
+        database.collection("users")
+            .whereField("id", isEqualTo: id)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error finding document: \(error.localizedDescription)")
+                    completion(false)
+                } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
+                    let document = querySnapshot.documents.first
+                    document?.reference.updateData(updates) { error in
+                        if let error = error {
+                            print("Error updating document: \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            print("Document successfully updated")
+                            completion(true)
+                        }
+                    }
+                } else {
+                    print("No document found with the id: \(id)")
+                    completion(false)
+                }
+            }
+    }
+    
+//    func updateUserData(id: String, userInput: UserData, completion: @escaping (Bool) -> Void) {
+//        database.collection("users")
+//            .whereField("id", isEqualTo: id)
+//            .getDocuments { (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                    completion(false)
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        let documentId = document.documentID
+//                        let updateDictionary: [String: Any] = [
+//                            "height": userInput.height,
+//                            "updated_weight": userInput.updatedWeight ?? userInput.initialWeight,
+//                            "goal": userInput.goal,
+//                            "goal_weight": userInput.goalWeight,
+//                            "activeness": userInput.activeness,
+//                            "achievement_time": userInput.achievementTime
+//                        ]
+//                        
+//                        self.database.collection("users").document(documentId)
+//                            .updateData(updateDictionary) { error in
+//                            if let error = error {
+//                                print("Error updating document: \(error.localizedDescription)")
+//                                completion(false)
+//                            } else {
+//                                print("Document successfully updated")
+//                                completion(true)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 //    }
     
     // MARK: - Get
@@ -265,19 +320,19 @@ class FirestoreManager {
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-//                    var userInputs: UserData?
                     for document in querySnapshot!.documents {
                         let data = document.data()
                         let id = "Un9y8lW7NM5ghB43ll7r"
                         let name = data["name"] as? String ?? ""
                         let gender = data["gender"] as? String ?? ""
                         let age = data["age"] as? Int ?? 0
-                        let goal = data["goal"] as? String ?? ""
-                        let activeness = data["activeness"] as? String ?? ""
+                        let goal = data["goal"] as? Int ?? 0
+                        let activeness = data["activeness"] as? Int ?? 0
                         let currentHeight = data["height"] as? Double ?? 0.0
                         let currentWeight = data["initial_weight"] as? Double ?? 0.0
-                        let goalWeight = data["goalWeight"] as? Double ?? 0.0
-                        let achievementTime = (data["achievementTime"] as? Timestamp)?.dateValue() ?? Date()
+                        let updatedWeight = data["updated_weight"] as? Double ?? currentWeight
+                        let goalWeight = data["goal_weight"] as? Double ?? 0.0
+                        let achievementTime = (data["achievement_time"] as? Timestamp)?.dateValue() ?? Date()
                         
                         let userData = UserData(
                             id: id,
@@ -287,14 +342,13 @@ class FirestoreManager {
                             goal: goal,
                             activeness: activeness,
                             height: currentHeight,
-                            initialWeight: currentWeight,
+                            initialWeight: currentWeight, 
+                            updatedWeight: updatedWeight,
                             goalWeight: goalWeight,
                             achievementTime: achievementTime
                         )
                         completion(userData)
-//                        userInputs = userData
                     }
-//                    completion(userInputs)
                 }
             }
     }
