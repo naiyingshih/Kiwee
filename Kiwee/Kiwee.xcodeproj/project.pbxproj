@@ -26,6 +26,7 @@
 		0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC372BD0A3730018911F /* ProfileCell.swift */; };
 		0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */; };
 		0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */; };
+		0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC412BD1811E0018911F /* HomeViewController.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -69,6 +70,7 @@
 		0E91DC372BD0A3730018911F /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBannerView.swift; sourceTree = "<group>"; };
 		0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManageViewController.swift; sourceTree = "<group>"; };
+		0E91DC412BD1811E0018911F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -159,6 +161,14 @@
 			path = ProfileView;
 			sourceTree = "<group>";
 		};
+		0E91DC402BD180CB0018911F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC412BD1811E0018911F /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,9 +228,10 @@
 		0ECE08C32BC76A31003C15B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0E91DC342BD044C40018911F /* Profile */,
-				0E91DC212BCD53B40018911F /* Report */,
+				0E91DC402BD180CB0018911F /* Home */,
 				0ECE08C72BC76C2D003C15B0 /* Diary */,
+				0E91DC212BCD53B40018911F /* Report */,
+				0E91DC342BD044C40018911F /* Profile */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -436,6 +447,7 @@
 			files = (
 				0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */,
 				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
+				0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */,
 				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
