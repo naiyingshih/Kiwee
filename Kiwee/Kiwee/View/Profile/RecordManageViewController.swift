@@ -9,10 +9,9 @@ import UIKit
 
 class RecordManageViewController: UIViewController {
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "紀錄管理"
     }
     
 }

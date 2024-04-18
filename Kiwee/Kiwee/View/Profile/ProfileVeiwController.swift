@@ -20,9 +20,19 @@ class ProfileVeiwController: UIViewController {
 //        collectionView.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
 }
 
-//extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return 1
 //    }
@@ -31,7 +41,7 @@ class ProfileVeiwController: UIViewController {
 //
 //    }
 //    
-//}
+// }
 
 extension ProfileVeiwController: ProfileBanneViewDelegate {
     
@@ -40,8 +50,9 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         guard let manageVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: RecordManageViewController.self)
         ) as? RecordManageViewController else { return }
-        manageVC.modalPresentationStyle = .fullScreen
-        self.present(manageVC, animated: true)
+        navigationController?.pushViewController(manageVC, animated: true)
+//        manageVC.modalPresentationStyle = .fullScreen
+//        self.present(manageVC, animated: true)
     }
     
 }
