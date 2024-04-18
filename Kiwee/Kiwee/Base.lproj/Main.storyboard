@@ -168,21 +168,76 @@
             </objects>
             <point key="canvasLocation" x="769" y="851"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile Veiw Controller-->
         <scene sceneID="g3O-En-jXu">
             <objects>
-                <viewController id="wyn-Xn-BdA" sceneMemberID="viewController">
+                <viewController id="wyn-Xn-BdA" customClass="ProfileVeiwController" customModule="Kiwee" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EpY-zv-FKw">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTX-Vw-j6k" customClass="ProfileBannerView" customModule="Kiwee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="358"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="npa-lc-OKd">
+                                <rect key="frame" x="0.0" y="358" width="393" height="411"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hcM-Fs-Jav">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileCell" id="7Kx-bk-uab" customClass="ProfileCell" customModule="Kiwee" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="K1a-fY-qkO">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="cjA-ok-Cwg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="npa-lc-OKd" firstAttribute="bottom" secondItem="cjA-ok-Cwg" secondAttribute="bottom" id="9Ao-S0-mYO"/>
+                            <constraint firstItem="npa-lc-OKd" firstAttribute="leading" secondItem="cjA-ok-Cwg" secondAttribute="leading" id="GJB-ZD-7bv"/>
+                            <constraint firstItem="rTX-Vw-j6k" firstAttribute="leading" secondItem="cjA-ok-Cwg" secondAttribute="leading" id="Ufq-8R-RAM"/>
+                            <constraint firstItem="rTX-Vw-j6k" firstAttribute="height" secondItem="EpY-zv-FKw" secondAttribute="height" multiplier="0.42" id="aiK-7g-8Ly"/>
+                            <constraint firstItem="npa-lc-OKd" firstAttribute="top" secondItem="rTX-Vw-j6k" secondAttribute="bottom" id="b9x-sN-neZ"/>
+                            <constraint firstItem="rTX-Vw-j6k" firstAttribute="trailing" secondItem="cjA-ok-Cwg" secondAttribute="trailing" id="bHx-bS-lzh"/>
+                            <constraint firstItem="rTX-Vw-j6k" firstAttribute="top" secondItem="EpY-zv-FKw" secondAttribute="top" id="eUU-a7-2yR"/>
+                            <constraint firstItem="npa-lc-OKd" firstAttribute="trailing" secondItem="cjA-ok-Cwg" secondAttribute="trailing" id="r36-6G-IFJ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="gZs-gK-tt4"/>
+                    <connections>
+                        <outlet property="bannerView" destination="rTX-Vw-j6k" id="QUI-9J-hfN"/>
+                        <outlet property="collectionView" destination="npa-lc-OKd" id="VaT-TP-4zE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GZc-PA-xQI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1647" y="851"/>
+            <point key="canvasLocation" x="1646.5648854961833" y="850.70422535211276"/>
+        </scene>
+        <!--Record Manage View Controller-->
+        <scene sceneID="WW8-BF-bIV">
+            <objects>
+                <viewController storyboardIdentifier="RecordManageViewController" id="Ohg-cj-6cp" customClass="RecordManageViewController" customModule="Kiwee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m9L-6J-aQL">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="YyE-2o-uAX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FfN-m5-dmZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1647" y="1513"/>
         </scene>
         <!--Add Food View Controller-->
         <scene sceneID="ehg-C9-b1L">
@@ -247,7 +302,7 @@
                                                     <rect key="frame" x="20" y="16" width="353" height="118"/>
                                                     <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x6R-3J-T11">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right" translatesAutoresizingMaskIntoConstraints="NO" id="x6R-3J-T11">
                                                     <rect key="frame" x="283" y="30" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="1WS-fu-CVJ"/>
@@ -475,6 +530,7 @@
         <image name="fork.knife" catalog="system" width="94" height="128"/>
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="right" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
