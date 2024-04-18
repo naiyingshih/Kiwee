@@ -27,7 +27,14 @@ class RecordManageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "紀錄管理"
+        saveButton.isEnabled = false
+        saveButton.alpha = 0.5
         fetchUserData()
+        
+        heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
     }
     
     func fetchUserData() {
@@ -60,13 +67,11 @@ class RecordManageViewController: UIViewController {
     
     func setInitialButtonBorder(forActiveness activeness: Int) {
         let buttons: [UIButton] = [button1, button2, button3, button4]
-        for button in buttons {
-            if button.tag == activeness {
+        for button in buttons where button.tag == activeness {
                 button.layer.borderWidth = 2
                 button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
                 selectedButton = button
                 break
-            }
         }
     }
     
@@ -81,11 +86,13 @@ class RecordManageViewController: UIViewController {
         sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
         
         selectedButton = sender
+        checkForChanges()
         print("Activeness set to: \(activeness)")
     }
   
     @IBAction func segmentSwitched(_ sender: UISegmentedControl) {
         updates["goal"] = goalSegment.selectedSegmentIndex
+        checkForChanges()
         print("segment == \(goalSegment.selectedSegmentIndex)")
     }
     
@@ -126,4 +133,37 @@ class RecordManageViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+}
+
+// MARK: - Extension: check status
+
+extension RecordManageViewController {
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        checkForChanges()
+    }
+
+    @objc func datePickerDidChange(_ datePicker: UIDatePicker) {
+        checkForChanges()
+    }
+
+    func checkForChanges() {
+        var hasChanged = false
+        
+        if let heightText = heightTextField.text, let height = Double(heightText), height != initialUserData?.height {
+            hasChanged = true
+        } else if let weightText = weightTextField.text, let weight = Double(weightText), weight != initialUserData?.updatedWeight {
+            hasChanged = true
+        } else if let goalWeightText = goalWeightTextField.text, let goalWeight = Double(goalWeightText), goalWeight != initialUserData?.goalWeight {
+            hasChanged = true
+        } else if datePicker.date != initialUserData?.achievementTime {
+            hasChanged = true
+        } else if goalSegment.selectedSegmentIndex != initialUserData?.goal {
+            hasChanged = true
+        } else if let selectedActiveness = selectedButton?.tag, selectedActiveness != initialUserData?.activeness {
+            hasChanged = true
+        }
+        
+        saveButton.isEnabled = hasChanged
+        saveButton.alpha = hasChanged ? 1.0 : 0.3
+    }
 }
