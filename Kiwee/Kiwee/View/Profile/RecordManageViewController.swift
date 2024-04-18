@@ -38,30 +38,25 @@ class RecordManageViewController: UIViewController {
     }
     
     func fetchUserData() {
-        FirestoreManager.shared.getUserData { [weak self] userData in
-            DispatchQueue.main.async {
-                self?.initialUserData = userData
-                if let height = self?.initialUserData?.height {
-                    self?.heightTextField.text = "\(height)"
-                }
-                if let updatedWeight = self?.initialUserData?.updatedWeight {
-                    self?.weightTextField.text = "\(updatedWeight)"
-                }
-                if let goalWeight = self?.initialUserData?.goalWeight {
-                    self?.goalWeightTextField.text = "\(goalWeight)"
-                }
-                if let date = self?.initialUserData?.achievementTime {
-                    self?.datePicker.date = date
-                }
-                if let goal = self?.initialUserData?.goal {
-                    self?.goalSegment.selectedSegmentIndex = goal
-                }
-                if let activeness = self?.initialUserData?.activeness {
-                    self?.setInitialButtonBorder(forActiveness: activeness)
-                }
-                print("\(String(describing: self?.initialUserData))")
+        DispatchQueue.main.async {
+            if let height = self.initialUserData?.height {
+                self.heightTextField.text = "\(height)"
             }
-            
+            if let updatedWeight = self.initialUserData?.updatedWeight {
+                self.weightTextField.text = "\(updatedWeight)"
+            }
+            if let goalWeight = self.initialUserData?.goalWeight {
+                self.goalWeightTextField.text = "\(goalWeight)"
+            }
+            if let date = self.initialUserData?.achievementTime {
+                self.datePicker.date = date
+            }
+            if let goal = self.initialUserData?.goal {
+                self.goalSegment.selectedSegmentIndex = goal
+            }
+            if let activeness = self.initialUserData?.activeness {
+                self.setInitialButtonBorder(forActiveness: activeness)
+            }
         }
     }
     

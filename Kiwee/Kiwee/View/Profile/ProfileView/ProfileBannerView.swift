@@ -18,7 +18,6 @@ class ProfileBannerView: UIView {
     
     lazy var countDownLabel: UILabel = {
         let label = UILabel()
-        label.text = "距離達標還有：90 天"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +33,6 @@ class ProfileBannerView: UIView {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Emma"
         label.textColor = .white
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -44,7 +42,6 @@ class ProfileBannerView: UIView {
     
     lazy var BMILabel: UILabel = {
         let label = UILabel()
-        label.text = "BMI  |  23.0"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +50,6 @@ class ProfileBannerView: UIView {
     
     lazy var RDALabel: UILabel = {
         let label = UILabel()
-        label.text = "RDA  |  1304.0 kcal"
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -186,12 +182,12 @@ class ProfileBannerView: UIView {
             manageButton.trailingAnchor.constraint(equalTo: outlineView.trailingAnchor, constant: -24),
             manageButton.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
             
-            dividingLine.topAnchor.constraint(equalTo: outlineView.bottomAnchor, constant: 10),
+            dividingLine.topAnchor.constraint(equalTo: outlineView.bottomAnchor, constant: 16),
             dividingLine.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             dividingLine.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
-            dividingLine.heightAnchor.constraint(equalToConstant: 2),
+            dividingLine.heightAnchor.constraint(equalToConstant: 1),
             
-            cardOutlineView.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 10),
+            cardOutlineView.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 16),
             cardOutlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             cardOutlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -32),
             cardOutlineView.heightAnchor.constraint(equalToConstant: 60),
@@ -212,6 +208,24 @@ class ProfileBannerView: UIView {
     @objc func cameraButtonTapped() {
         guard let delegate = delegate else { return }
         delegate.presentCameraVC()
+    }
+    
+    func updateView(with userData: UserData) {
+        let RDA = (userData.height * userData.height) / 10000 * 22 * 25
+        let formattedRDA = String(format: "%.1f", RDA)
+
+        let BMI = (userData.updatedWeight ?? userData.initialWeight) / (userData.height * userData.height) * 10000
+        let formattedBMI = String(format: "%.1f", BMI)
+
+        let today = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: today, to: userData.achievementTime)
+        let remainDay = components.day
+        
+        nameLabel.text = userData.name
+        BMILabel.text = "BMI:   \(formattedBMI)"
+        RDALabel.text = "RDA:  \(formattedRDA) kcal"
+        countDownLabel.text = "距離達標還有：\(remainDay ?? 0) 天"
     }
     
 }

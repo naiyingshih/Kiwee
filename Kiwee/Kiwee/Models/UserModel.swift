@@ -20,7 +20,3 @@ struct UserData {
     let goalWeight: Double
     let achievementTime: Date
 }
-
-//struct UserWeight {
-//    let currentWeight: Double
-//}

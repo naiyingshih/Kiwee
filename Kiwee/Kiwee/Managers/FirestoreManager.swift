@@ -12,7 +12,7 @@ import FirebaseFirestore
 class FirestoreManager {
     static let shared = FirestoreManager()
     let database = Firestore.firestore()
-    let date = DateFormatterManager.shared.dateFormatter
+//    let date = DateFormatterManager.shared.dateFormatter
     
     // MARK: - Post
     
@@ -297,7 +297,7 @@ class FirestoreManager {
     
     func getUserData(completion: @escaping (UserData) -> Void) {
         database.collection("users")
-            .getDocuments { (querySnapshot, err) in
+            .addSnapshotListener { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {

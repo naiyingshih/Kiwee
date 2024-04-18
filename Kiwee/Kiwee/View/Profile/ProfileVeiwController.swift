@@ -9,11 +9,20 @@ import UIKit
 
 class ProfileVeiwController: UIViewController {
     
+    var userData: UserData? {
+        didSet {
+            if let userData = userData {
+                bannerView.updateView(with: userData)
+            }
+        }
+    }
+    
     @IBOutlet weak var bannerView: ProfileBannerView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchUserData()
         bannerView.delegate = self
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
 //        collectionView.dataSource = self
@@ -23,6 +32,14 @@ class ProfileVeiwController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    func fetchUserData() {
+        FirestoreManager.shared.getUserData { [weak self] userData in
+            DispatchQueue.main.async {
+                self?.userData = userData
+            }
+        }
     }
 
 }
@@ -45,6 +62,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         guard let manageVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: RecordManageViewController.self)
         ) as? RecordManageViewController else { return }
+        manageVC.initialUserData = self.userData
         tabBarController?.tabBar.isHidden = true
         navigationController?.pushViewController(manageVC, animated: true)
     }
