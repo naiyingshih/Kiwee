@@ -149,39 +149,20 @@ class FirestoreManager {
             }
     }
     
-//    func updateUserData(id: String, userInput: UserData, completion: @escaping (Bool) -> Void) {
-//        database.collection("users")
-//            .whereField("id", isEqualTo: id)
-//            .getDocuments { (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                    completion(false)
-//                } else {
-//                    for document in querySnapshot!.documents {
-//                        let documentId = document.documentID
-//                        let updateDictionary: [String: Any] = [
-//                            "height": userInput.height,
-//                            "updated_weight": userInput.updatedWeight ?? userInput.initialWeight,
-//                            "goal": userInput.goal,
-//                            "goal_weight": userInput.goalWeight,
-//                            "activeness": userInput.activeness,
-//                            "achievement_time": userInput.achievementTime
-//                        ]
-//                        
-//                        self.database.collection("users").document(documentId)
-//                            .updateData(updateDictionary) { error in
-//                            if let error = error {
-//                                print("Error updating document: \(error.localizedDescription)")
-//                                completion(false)
-//                            } else {
-//                                print("Document successfully updated")
-//                                completion(true)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//    }
+    func postWeightToSubcollection(id: String, weight: Double) {
+        let weightData: [String: Any] = [
+            "weight": weight,
+            "date": FieldValue.serverTimestamp()
+        ]
+        database.collection("users").document(id).collection("current_weight")
+            .addDocument(data: weightData) { error in
+            if let error = error {
+                print("Error adding document to subcollection: \(error.localizedDescription)")
+            } else {
+                print("Document added to subcollection successfully")
+            }
+        }
+    }
     
     // MARK: - Get
     

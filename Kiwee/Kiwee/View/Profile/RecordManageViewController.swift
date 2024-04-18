@@ -112,6 +112,11 @@ class RecordManageViewController: UIViewController {
                 if success {
                     print("Data updated successfully")
                     print(self.updates)
+                    
+                    if let updatedWeight = self.updates["updated_weight"] as? Double {
+                        FirestoreManager.shared.postWeightToSubcollection(id: self.initialUserData?.id ?? "", weight: updatedWeight)
+                    }
+                    
                 } else {
                     print("Failed to update data")
                 }
