@@ -10,6 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     var plantImageView: UIImageView?
+    var addTime = -1
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var wateringImageView: UIImageView!
@@ -26,8 +27,9 @@ class HomeViewController: UIViewController {
     }
     
     func checkDataForToday() {
-        FirestoreManager.shared.getIntakeCard(collectionID: "intake",
-                                              chosenDate: Date()
+        FirestoreManager.shared.getIntakeCard(
+            collectionID: "intake",
+            chosenDate: Date()
         ) { [weak self] foods, water in
             if !foods.isEmpty {
                 self?.updateButtonStatus()
@@ -49,17 +51,33 @@ class HomeViewController: UIViewController {
         self.view.addSubview(selectionView)
         
         selectionView.onPlantSelected = { [weak self] (selectedPlantTag, imageName) in
-            self?.updateUIForSelectedPlant(withTag: selectedPlantTag, imageName: imageName)
+            self?.addTime += 1
+            self?.updateUIForSelectedPlant(withTag: selectedPlantTag, imageName: imageName, addTime: self?.addTime ?? 0)
             print("Selected plant tag: \(selectedPlantTag), name: \(imageName)")
             selectionView.removeFromSuperview()
         }
     }
     
-    func updateUIForSelectedPlant(withTag tag: Int, imageName: String) {
+//    func updateUIForSelectedPlant(withTag tag: Int, imageName: String) {
+//        
+//        let imagePosition = CGPoint(x: 0, y: 0)
+//        let imageSize = CGSize(width: 50, height: 50)
+//        
+//        plantImageView?.frame = CGRect(origin: imagePosition, size: imageSize)
+//        plantImageView?.image = UIImage(named: imageName)
+//    }
+    
+    func updateUIForSelectedPlant(withTag tag: Int, imageName: String, addTime: Int) {
+        let row = addTime / 24
+        let column = addTime % 24
         
-        let imagePosition = CGPoint(x: 186, y: 68)
+        // Calculate the x and y positions based on the row and column
+        let xPosition = CGFloat(6 + column * 60)
+        let yPosition = CGFloat(6 + row * 60)
+        
+        let imagePosition = CGPoint(x: xPosition, y: yPosition)
         let imageSize = CGSize(width: 50, height: 50)
-        
+
         plantImageView?.frame = CGRect(origin: imagePosition, size: imageSize)
         plantImageView?.image = UIImage(named: imageName)
     }
