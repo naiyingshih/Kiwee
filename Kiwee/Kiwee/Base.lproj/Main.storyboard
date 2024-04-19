@@ -49,6 +49,9 @@
                                     <fontDescription key="titleFontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="plantButtonTapped:" destination="ndt-1K-pSR" eventType="touchUpInside" id="zOu-VJ-MPE"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Watering" translatesAutoresizingMaskIntoConstraints="NO" id="Pua-rC-BPf">
                                 <rect key="frame" x="293" y="689.33333333333337" width="60" height="60"/>
@@ -77,6 +80,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Vhr-EI-kCa"/>
+                    <connections>
+                        <outlet property="plantButton" destination="KAM-Q4-8c4" id="5PJ-Bk-Bey"/>
+                        <outlet property="scrollView" destination="8Oc-nj-BWl" id="0Dk-Zo-mDS"/>
+                        <outlet property="wateringImageView" destination="Pua-rC-BPf" id="YPU-dt-1ES"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NpR-vq-hdl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

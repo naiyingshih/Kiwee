@@ -27,6 +27,7 @@
 		0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */; };
 		0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */; };
 		0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC412BD1811E0018911F /* HomeViewController.swift */; };
+		0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC432BD21DC30018911F /* PlantSelectionView.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -71,6 +72,7 @@
 		0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBannerView.swift; sourceTree = "<group>"; };
 		0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManageViewController.swift; sourceTree = "<group>"; };
 		0E91DC412BD1811E0018911F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0E91DC432BD21DC30018911F /* PlantSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantSelectionView.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC412BD1811E0018911F /* HomeViewController.swift */,
+				0E91DC432BD21DC30018911F /* PlantSelectionView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */,
 				0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */,
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
+				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,

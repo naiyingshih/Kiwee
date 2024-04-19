@@ -188,29 +188,60 @@ class FirestoreManager {
                 }
             }
     }
-
+    
     private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
         var foodsForToday = [Food]()
         for document in documents {
-            let foodData = document["nutrients"] as? [String: Any] ?? [:]
-            let nutrientInfo = Nutrient(
-                carbohydrates: foodData["carbohydrates"] as? Double ?? 0.0,
-                protein: foodData["protein"] as? Double ?? 0.0,
-                fat: foodData["fat"] as? Double ?? 0.0,
-                fiber: foodData["fiber"] as? Double ?? 0.0
-            )
-            foodsForToday.append(
-                Food(name: document["name"] as? String ?? "",
-                     totalCalories: document["totalCalories"] as? Double ?? 0.0,
-                     nutrients: nutrientInfo,
-                     image: document["image"] as? String ?? "",
-                     quantity: document["quantity"] as? Double,
-                     section: document["section"] as? Int
-                    )
-            )
+            guard let foodData = document["nutrients"] as? [String: Any],
+                  let name = document["name"] as? String,
+                  let totalCalories = document["totalCalories"] as? Double,
+                  let image = document["image"] as? String,
+                  let quantity = document["quantity"] as? Double,
+                  let section = document["section"] as? Int else {
+                continue // Skip this document if any of the required fields are missing
+            }
+            
+            let carbohydrates = foodData["carbohydrates"] as? Double
+            let protein = foodData["protein"] as? Double
+            let fat = foodData["fat"] as? Double
+            let fiber = foodData["fiber"] as? Double
+            
+            guard let carbs = carbohydrates, let prot = protein, let fats = fat, let fib = fiber else {
+                continue
+            }
+            let nutrientInfo = Nutrient(carbohydrates: carbs, protein: prot, fat: fats, fiber: fib)
+            foodsForToday.append(Food(name: name,
+                                      totalCalories: totalCalories,
+                                      nutrients: nutrientInfo,
+                                      image: image,
+                                      quantity: quantity,
+                                      section: section))
         }
         return foodsForToday
     }
+
+//    private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
+//        var foodsForToday = [Food]()
+//        for document in documents {
+//            let foodData = document["nutrients"] as? [String: Any] ?? [:]
+//            let nutrientInfo = Nutrient(
+//                carbohydrates: foodData["carbohydrates"] as? Double ?? 0.0,
+//                protein: foodData["protein"] as? Double ?? 0.0,
+//                fat: foodData["fat"] as? Double ?? 0.0,
+//                fiber: foodData["fiber"] as? Double ?? 0.0
+//            )
+//            foodsForToday.append(
+//                Food(name: document["name"] as? String ?? "",
+//                     totalCalories: document["totalCalories"] as? Double ?? 0.0,
+//                     nutrients: nutrientInfo,
+//                     image: document["image"] as? String ?? "",
+//                     quantity: document["quantity"] as? Double,
+//                     section: document["section"] as? Int
+//                    )
+//            )
+//        }
+//        return foodsForToday
+//    }
     
     private func getWaterQuantity(from documents: [QueryDocumentSnapshot]) -> Int {
         let waterQuantities = documents.compactMap { $0["water_count"] as? Int }
