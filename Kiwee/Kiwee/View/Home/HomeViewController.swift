@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    var plants: UIButton?
+    var plantImageView: UIImageView?
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var wateringImageView: UIImageView!
@@ -18,6 +18,11 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkDataForToday()
+        
+        plantImageView = UIImageView()
+        if let plantImageView = plantImageView {
+            scrollView.addSubview(plantImageView)
+        }
     }
     
     func checkDataForToday() {
@@ -41,37 +46,26 @@ class HomeViewController: UIViewController {
         selectionView.center = self.view.center
         selectionView.backgroundColor = .white
         selectionView.layer.cornerRadius = 10
+        self.view.addSubview(selectionView)
         
-        selectionView.confirmButtonAction = { [weak self] in
-            
+        selectionView.onPlantSelected = { [weak self] (selectedPlantTag, imageName) in
+            self?.updateUIForSelectedPlant(withTag: selectedPlantTag, imageName: imageName)
+            print("Selected plant tag: \(selectedPlantTag), name: \(imageName)")
             selectionView.removeFromSuperview()
         }
+    }
+    
+    func updateUIForSelectedPlant(withTag tag: Int, imageName: String) {
         
-        selectionView.onPlantSelected = { [weak self] selectedPlantTag in
-            // Handle the selected plant here
-            // For example, update the UI to show the selected plant
-            print("Selected plant tag: \(selectedPlantTag)")
-            // You might want to store the selectedPlantTag or directly update the UI based on this tag
-        }
+        let imagePosition = CGPoint(x: 186, y: 68)
+        let imageSize = CGSize(width: 50, height: 50)
         
-        self.view.addSubview(selectionView)
+        plantImageView?.frame = CGRect(origin: imagePosition, size: imageSize)
+        plantImageView?.image = UIImage(named: imageName)
     }
     
     @objc private func wateringImageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         
-        guard let tappedButtonView = gestureRecognizer.view else { return }
-//        guard let delegate = delegate else { return }
-//        if let shouldSelect = delegate.shouldSelectedButton?(self, at: newIndex), !shouldSelect {
-//            return
-//        }
-//        
-//        let indicatorWidth = bounds.width / CGFloat(optionsButtonViews.count)
-//        let indicatorX = CGFloat(selectedIndex) * indicatorWidth
-//        UIView.animate(withDuration: 0.3) {
-//            self.indicatorView.frame.origin.x = indicatorX
-//        }
-//        
-//        delegate.didSelectedButton?(self, at: newIndex)
     }
     
 }

@@ -10,7 +10,8 @@ import UIKit
 class PlantSelectionView: UIView {
     
     var selectedIconButton: UIButton?
-    var onPlantSelected: ((Int) -> Void)?
+    var shuffledImageNames: [String] = []
+    var onPlantSelected: ((Int, String) -> Void)?
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -32,6 +33,7 @@ class PlantSelectionView: UIView {
     lazy var iconButton1: UIButton = {
         let button = UIButton()
         button.tag = 0
+        button.setImage(UIImage(named: shuffledImageNames[0]), for: .normal)
         button.addTarget(self, action: #selector(selectPlant(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -40,6 +42,7 @@ class PlantSelectionView: UIView {
     lazy var iconButton2: UIButton = {
         let button = UIButton()
         button.tag = 1
+        button.setImage(UIImage(named: shuffledImageNames[1]), for: .normal)
         button.addTarget(self, action: #selector(selectPlant(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -48,6 +51,7 @@ class PlantSelectionView: UIView {
     lazy var iconButton3: UIButton = {
         let button = UIButton()
         button.tag = 2
+        button.setImage(UIImage(named: shuffledImageNames[2]), for: .normal)
         button.addTarget(self, action: #selector(selectPlant(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -62,8 +66,6 @@ class PlantSelectionView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    var confirmButtonAction: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -121,9 +123,7 @@ class PlantSelectionView: UIView {
         }
         // Shuffle the array to randomize the order
         imageNames.shuffle()
-        iconButton1.setImage(UIImage(named: imageNames[0]), for: .normal)
-        iconButton2.setImage(UIImage(named: imageNames[1]), for: .normal)
-        iconButton3.setImage(UIImage(named: imageNames[2]), for: .normal)
+        shuffledImageNames = imageNames
     }
     
     @objc func close() {
@@ -146,9 +146,17 @@ class PlantSelectionView: UIView {
     }
     
     @objc func plantInFarm() {
-        confirmButtonAction?()
         if let selectedPlantTag = selectedIconButton?.tag {
-            onPlantSelected?(selectedPlantTag)
+            let imageName = determineImageNameForTag(selectedPlantTag)
+            onPlantSelected?(selectedPlantTag, imageName)
+        }
+    }
+    
+    func determineImageNameForTag(_ tag: Int) -> String {
+        if tag >= 0 && tag <= shuffledImageNames.count {
+            return shuffledImageNames[tag]
+        } else {
+            return "DefaultImage"
         }
     }
     
