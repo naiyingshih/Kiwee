@@ -11,7 +11,7 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var tagLabel: UILabel = {
         let label = UILabel()
-        label.text = "早餐"
+//        label.text = "早餐"
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +28,8 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Breakfast")
+//        imageView.image = UIImage(named: "Breakfast")
+        imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 6
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -38,7 +39,7 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var foodLabel: UILabel = {
         let label = UILabel()
-        label.text = "料理名稱"
+//        label.text = "料理名稱"
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -81,6 +82,12 @@ class ProfileCell: UICollectionViewCell {
             foodLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
             foodLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
         ])
+    }
+    
+    func updatePostResult(_ result: Post) {
+        tagLabel.text = "\(result.tag)"
+        foodLabel.text = "\(result.foodName)"
+        photoImageView.loadImage(result.image)
     }
     
 }

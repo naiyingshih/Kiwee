@@ -111,7 +111,7 @@ class ProfileBannerView: UIView {
         return label
     }()
     
-    lazy var cameraButton: UIButton = {
+    lazy var addPostButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
@@ -144,7 +144,7 @@ class ProfileBannerView: UIView {
         self.addSubview(dividingLine)
         self.addSubview(cardOutlineView)
         cardOutlineView.addSubview(menuLabel)
-        cardOutlineView.addSubview(cameraButton)
+        cardOutlineView.addSubview(addPostButton)
     }
     
     private func setupConstraints() {
@@ -195,8 +195,8 @@ class ProfileBannerView: UIView {
             menuLabel.leadingAnchor.constraint(equalTo: cardOutlineView.leadingAnchor, constant: 24),
             menuLabel.centerYAnchor.constraint(equalTo: cardOutlineView.centerYAnchor),
             
-            cameraButton.trailingAnchor.constraint(equalTo: cardOutlineView.trailingAnchor, constant: -22),
-            cameraButton.centerYAnchor.constraint(equalTo: cardOutlineView.centerYAnchor)
+            addPostButton.trailingAnchor.constraint(equalTo: cardOutlineView.trailingAnchor, constant: -24),
+            addPostButton.centerYAnchor.constraint(equalTo: cardOutlineView.centerYAnchor)
         ])
     }
     

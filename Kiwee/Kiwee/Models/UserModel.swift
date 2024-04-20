@@ -20,3 +20,10 @@ struct UserData {
     let goalWeight: Double
     let achievementTime: Date
 }
+
+struct Post {
+    let id: String
+    let foodName: String
+    let tag: String
+    let image: String
+}

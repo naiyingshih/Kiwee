@@ -17,12 +17,19 @@ class ProfileVeiwController: UIViewController {
         }
     }
     
+    var posts: [Post] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     @IBOutlet weak var bannerView: ProfileBannerView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserData()
+        fetchPost()
         bannerView.delegate = self
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collectionView.dataSource = self
@@ -47,6 +54,14 @@ class ProfileVeiwController: UIViewController {
             }
         }
     }
+    
+    func fetchPost() {
+        FirestoreManager.shared.getPostData { [weak self] posts in
+            DispatchQueue.main.async {
+                self?.posts = posts
+            }
+        }
+    }
 
 }
 
@@ -55,7 +70,7 @@ class ProfileVeiwController: UIViewController {
  extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
      
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -64,6 +79,8 @@ class ProfileVeiwController: UIViewController {
             for: indexPath
         )
         guard let profileCell = cell as? ProfileCell else { return cell }
+        let postResult = posts[indexPath.item]
+        profileCell.updatePostResult(postResult)
         return profileCell
     }
      

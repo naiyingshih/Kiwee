@@ -387,4 +387,27 @@ class FirestoreManager {
             }
     }
     
+    func getPostData(completion: @escaping ([Post]) -> Void) {
+        database.collection("posts")
+            .order(by: "created_time")
+            .addSnapshotListener { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    completion([])
+                } else {
+                    var posts: [Post] = []
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        guard let foodName = data["food_name"] as? String,
+                              let image = data["image"] as? String,
+                              let tag = data["tag"] as? String else { continue }
+                        
+                        let post = Post(id: "Un9y8lW7NM5ghB43ll7r", foodName: foodName, tag: tag, image: image)
+                        posts.append(post)
+                    }
+                    completion(posts)
+                }
+            }
+    }
+    
 }
