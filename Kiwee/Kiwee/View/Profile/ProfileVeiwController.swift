@@ -25,8 +25,14 @@ class ProfileVeiwController: UIViewController {
         fetchUserData()
         bannerView.delegate = self
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
-//        collectionView.dataSource = self
-//        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        let margin: CGFloat = 30
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        flowLayout.minimumInteritemSpacing = margin / 2
+        flowLayout.minimumLineSpacing = margin / 2
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: margin, bottom: margin, right: margin)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,16 +50,29 @@ class ProfileVeiwController: UIViewController {
 
 }
 
-// extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 1
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//    }
-//    
-// }
+// MARK: - collection view
+
+ extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: String(describing: ProfileCell.self),
+            for: indexPath
+        )
+        guard let profileCell = cell as? ProfileCell else { return cell }
+        return profileCell
+    }
+     
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+         let width = collectionView.bounds.width / 2.5
+         return CGSize(width: width, height: 200)
+     }
+    
+ }
 
 extension ProfileVeiwController: ProfileBanneViewDelegate {
     
