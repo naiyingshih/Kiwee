@@ -40,6 +40,23 @@ class StorageManager {
         }
     }
     
+    func updatePlantImagePosition(tag: Int32, xPosition: Double, yPosition: Double) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "LSFarm")
+        fetchRequest.predicate = NSPredicate(format: "tag == %d", tag)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let farmObjectToUpdate = results.first as? LSFarm {
+                farmObjectToUpdate.setValue(xPosition, forKey: "xPosition")
+                farmObjectToUpdate.setValue(yPosition, forKey: "yPosition")
+                
+                try context.save()
+            }
+        } catch let error as NSError {
+            print("Failed to update plant image position: \(error), \(error.userInfo)")
+        }
+    }
+    
     func fetchLatestAddTime() -> Int {
         let fetchRequest: NSFetchRequest<LSFarm> = LSFarm.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "addTime", ascending: false)]

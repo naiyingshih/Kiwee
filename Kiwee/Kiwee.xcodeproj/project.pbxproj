@@ -32,7 +32,7 @@
 		0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */; };
 		0E91DC5B2BD2E86E0018911F /* Kiwee.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC592BD2E86E0018911F /* Kiwee.xcdatamodeld */; };
 		0E91DC5E2BD2E92F0018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC5C2BD2E92F0018911F /* LSFarm+CoreDataClass.swift */; };
-		0E91DC5F2BD2E92F0018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC5D2BD2E92F0018911F /* LSFarm+CoreDataProperties.swift */; };
+		0E91DC612BD356070018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC602BD356070018911F /* LSFarm+CoreDataProperties.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -82,7 +82,7 @@
 		0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageManager.swift; sourceTree = "<group>"; };
 		0E91DC5A2BD2E86E0018911F /* Kiwee.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Kiwee.xcdatamodel; sourceTree = "<group>"; };
 		0E91DC5C2BD2E92F0018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		0E91DC5D2BD2E92F0018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC602BD356070018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,8 +231,8 @@
 		0ECE08C22BC76A0F003C15B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0E91DC602BD356070018911F /* LSFarm+CoreDataProperties.swift */,
 				0E91DC5C2BD2E92F0018911F /* LSFarm+CoreDataClass.swift */,
-				0E91DC5D2BD2E92F0018911F /* LSFarm+CoreDataProperties.swift */,
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
 				0E91DC482BD2A46B0018911F /* FarmItems.xcdatamodeld */,
 				0E91DC592BD2E86E0018911F /* Kiwee.xcdatamodeld */,
@@ -487,10 +487,10 @@
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0E91DC5E2BD2E92F0018911F /* LSFarm+CoreDataClass.swift in Sources */,
-				0E91DC5F2BD2E92F0018911F /* LSFarm+CoreDataProperties.swift in Sources */,
 				0E91DC4A2BD2A46B0018911F /* FarmItems.xcdatamodeld in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
+				0E91DC612BD356070018911F /* LSFarm+CoreDataProperties.swift in Sources */,
 				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
