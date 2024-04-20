@@ -403,7 +403,7 @@ class FirestoreManager {
                               let tag = data["tag"] as? String else { continue }
                         
                         let post = Post(id: "Un9y8lW7NM5ghB43ll7r", foodName: foodName, tag: tag, image: image)
-                        posts.append(post)
+                        posts.insert(post, at: 0)
                     }
                     completion(posts)
                 }

@@ -11,7 +11,6 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var tagLabel: UILabel = {
         let label = UILabel()
-//        label.text = "早餐"
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +27,6 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(named: "Breakfast")
         imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 6
         imageView.contentMode = .scaleAspectFill
@@ -39,8 +37,8 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var foodLabel: UILabel = {
         let label = UILabel()
-//        label.text = "料理名稱"
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -65,22 +63,22 @@ class ProfileCell: UICollectionViewCell {
         addSubview(foodLabel)
         
         NSLayoutConstraint.activate([
-            tagView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            tagView.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             tagView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            tagView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
+            tagView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
             tagView.heightAnchor.constraint(equalToConstant: 24),
             
             tagLabel.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
             tagLabel.centerXAnchor.constraint(equalTo: tagView.centerXAnchor),
             
-            photoImageView.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 16),
+            photoImageView.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 8),
             photoImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
             photoImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
-            photoImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.5),
-            
+
+            foodLabel.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 8),
             foodLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
             foodLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
-            foodLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
+            foodLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8)
         ])
     }
     

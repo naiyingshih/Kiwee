@@ -35,10 +35,10 @@ class ProfileVeiwController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        let margin: CGFloat = 30
+        let margin: CGFloat = 16
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        flowLayout.minimumInteritemSpacing = margin / 2
-        flowLayout.minimumLineSpacing = margin / 2
+        flowLayout.minimumInteritemSpacing = margin
+        flowLayout.minimumLineSpacing = margin
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: margin, bottom: margin, right: margin)
     }
     
@@ -85,11 +85,14 @@ class ProfileVeiwController: UIViewController {
     }
      
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-         let width = collectionView.bounds.width / 2.5
+         let numberOfColumns: CGFloat = 2
+         let width = (collectionView.bounds.width - (16 * (numberOfColumns + 1))) / numberOfColumns
          return CGSize(width: width, height: 200)
      }
     
  }
+
+// MARK: - Delegate
 
 extension ProfileVeiwController: ProfileBanneViewDelegate {
     

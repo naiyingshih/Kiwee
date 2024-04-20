@@ -32,6 +32,9 @@ class PostViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addImage))
         plusImageView.addGestureRecognizer(tapGesture)
         plusImageView.isUserInteractionEnabled = true
+        foodTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        postButton.isEnabled = false
+        postButton.alpha = 0.5
     }
     
     func setupUI() {
@@ -54,6 +57,7 @@ class PostViewController: UIViewController {
         sender.backgroundColor = .lightGray
         selectedButton = sender
         self.tag = sender.titleLabel?.text
+        checkForChanges()
     }
     
     @IBAction func postButtonTapped(_ sender: Any) {
@@ -89,6 +93,8 @@ class PostViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
 extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -100,8 +106,8 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         } else if let originalImage = info[.originalImage] as? UIImage {
             plusImageView.image = originalImage
             self.selectedImageData = originalImage.jpegData(compressionQuality: 0.75)
-            
         }
+        checkForChanges()
         picker.dismiss(animated: true, completion: nil)
         
     }
@@ -110,4 +116,22 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         picker.dismiss(animated: true, completion: nil)
     }
     
+}
+
+// MARK: - handle button status
+
+extension PostViewController {
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        checkForChanges()
+    }
+    
+    func checkForChanges() {
+        let isFoodTextFieldNotEmpty = !(foodTextField.text?.isEmpty ?? true)
+        let isImageSelected = selectedImageData != nil
+        let isButtonSelected = selectedButton != nil
+        
+        postButton.isEnabled = isFoodTextFieldNotEmpty && isImageSelected && isButtonSelected
+        postButton.alpha = postButton.isEnabled ? 1.0 : 0.5
+    }
 }
