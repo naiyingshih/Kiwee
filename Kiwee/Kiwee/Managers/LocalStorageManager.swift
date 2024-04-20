@@ -26,13 +26,12 @@ class StorageManager {
         }
     }
     
-    func savePlantImage(imageName: String, addTime: Int32, xPosition: Double, yPosition: Double/*, tag: Int32*/) {
+    func savePlantImage(imageName: String, addTime: Int32, xPosition: Double, yPosition: Double) {
         let plantImageEntity = LSFarm(context: context)
         plantImageEntity.imageName = imageName
         plantImageEntity.addTime = addTime
         plantImageEntity.xPosition = xPosition
         plantImageEntity.yPosition = yPosition
-//        plantImageEntity.tag = tag
         do {
             try context.save()
         } catch {
@@ -54,21 +53,6 @@ class StorageManager {
         } catch let error as NSError {
             print("Failed to update plant image position: \(error), \(error.userInfo)")
         }
-        
-//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "LSFarm")
-//        fetchRequest.predicate = NSPredicate(format: "addTime == %d", addTime)
-//        
-//        do {
-//            let results = try context.fetch(fetchRequest)
-//            if let farmObjectToUpdate = results.first as? LSFarm {
-//                farmObjectToUpdate.setValue(xPosition, forKey: "xPosition")
-//                farmObjectToUpdate.setValue(yPosition, forKey: "yPosition")
-//                
-//                try context.save()
-//            }
-//        } catch let error as NSError {
-//            print("Failed to update plant image position: \(error), \(error.userInfo)")
-//        }
     }
     
     func fetchLatestAddTime() -> Int {

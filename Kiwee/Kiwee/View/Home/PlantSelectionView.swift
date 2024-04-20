@@ -11,7 +11,7 @@ class PlantSelectionView: UIView {
     
     var selectedIconButton: UIButton?
     var shuffledImageNames: [String] = []
-    var onPlantSelected: ((/*Int,*/ String) -> Void)?
+    var onPlantSelected: ((String) -> Void)?
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -148,7 +148,7 @@ class PlantSelectionView: UIView {
     @objc func plantInFarm() {
         if let selectedPlantTag = selectedIconButton?.tag {
             let imageName = determineImageNameForTag(selectedPlantTag)
-            onPlantSelected?(/*selectedPlantTag,*/ imageName)
+            onPlantSelected?(imageName)
         }
     }
     

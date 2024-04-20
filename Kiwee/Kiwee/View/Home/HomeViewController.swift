@@ -10,9 +10,9 @@ import UIKit
 class HomeViewController: UIViewController {
     
     let context = StorageManager.shared.context
+    var plantImageViews: [Int: UIImageView] = [:]
     var plantImageView: UIImageView?
     var addTime: Int = 0
-//    var lastUsedTag: Int = 0
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var wateringImageView: UIImageView!
@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
                 let addTime = Int(plantImage.addTime)
                 let xPosition = CGFloat(plantImage.xPosition)
                 let yPosition = CGFloat(plantImage.yPosition)
-                updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition/* tag: tag*/)
+                updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition)
             }
         }
     }
@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
         selectionView.layer.cornerRadius = 10
         self.view.addSubview(selectionView)
         
-        selectionView.onPlantSelected = { [weak self] (/*_, */imageName) in
+        selectionView.onPlantSelected = { [weak self] imageName in
             guard let self = self else { return }
             self.addTime += 1
             
@@ -71,16 +71,16 @@ class HomeViewController: UIViewController {
             let yPosition = scrollView.bounds.minY
             
             // Use StorageManager to save to CoreData
-            StorageManager.shared.savePlantImage(imageName: imageName, addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition/*, tag: Int32(self.lastUsedTag)*/)
+            StorageManager.shared.savePlantImage(imageName: imageName, addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition)
             
             print("Selected plant name: \(imageName)")
             
             selectionView.removeFromSuperview()
-            updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition/*, tag: lastUsedTag*/)
+            updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition)
         }
     }
     
-    func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat/*, tag: Int*/) {
+    func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat) {
         let imagePosition = CGPoint(x: xPosition, y: yPosition)
         let imageSize = CGSize(width: 50, height: 50)
         
@@ -95,9 +95,21 @@ class HomeViewController: UIViewController {
         newPlantImageView.isUserInteractionEnabled = true
         newPlantImageView.addGestureRecognizer(panGesture)
         
-        UIView.animate(withDuration: 1.0) {
-            newPlantImageView.alpha = 1.0
-        }
+        plantImageViews[addTime] = newPlantImageView
+        
+        // Animate with spring damping for a bounce effect
+        newPlantImageView.transform = CGAffineTransform(translationX: 0, y: -20)
+        UIView.animate(
+            withDuration: 2.0,
+            delay: 0,
+            usingSpringWithDamping: 0.2,
+            initialSpringVelocity: 0,
+            options: [],
+            animations: {
+                newPlantImageView.alpha = 1.0
+                newPlantImageView.transform = CGAffineTransform.identity // Return to original position
+            },
+            completion: nil)
     }
     
     @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
@@ -111,9 +123,10 @@ class HomeViewController: UIViewController {
             gesture.setTranslation(.zero, in: self.view)
         case .ended:
             // Save the new position to CoreData
+            guard let addTime = plantImageViews.first(where: { $0.value == gestureView })?.key else { return }
             let xPosition = Double(gestureView.frame.origin.x)
             let yPosition = Double(gestureView.frame.origin.y)
-            StorageManager.shared.updatePlantImagePosition(addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition)
+            StorageManager.shared.updatePlantImagePosition(addTime: Int32(addTime), xPosition: xPosition, yPosition: yPosition)
         default:
             break
         }
