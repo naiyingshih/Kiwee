@@ -86,9 +86,13 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         navigationController?.pushViewController(manageVC, animated: true)
     }
     
-    func presentCameraVC() {
-        let cameraVC = CameraViewController()
-        self.navigationController?.pushViewController(cameraVC, animated: false)
+    func presentPostVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let postVC = storyboard.instantiateViewController(
+            withIdentifier: String(describing: PostViewController.self)
+        ) as? PostViewController else { return }
+        postVC.modalPresentationStyle = .popover
+        self.present(postVC, animated: true)
     }
     
 }

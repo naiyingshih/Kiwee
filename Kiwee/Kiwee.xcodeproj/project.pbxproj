@@ -32,6 +32,7 @@
 		0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */; };
 		0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */; };
 		0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */; };
+		0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6D2BD3DC890018911F /* PostViewController.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -81,6 +82,7 @@
 		0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KiweeCoreData.xcdatamodel; sourceTree = "<group>"; };
 		0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC6D2BD3DC890018911F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */,
+				0E91DC6D2BD3DC890018911F /* PostViewController.swift */,
 				0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */,
 				0E91DC3F2BD0D8DE0018911F /* ProfileView */,
 			);
@@ -232,8 +235,8 @@
 				0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */,
 				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
-				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
+				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
 			);
 			path = Models;
@@ -472,6 +475,7 @@
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
+				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
 				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,

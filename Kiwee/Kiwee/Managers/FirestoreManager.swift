@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 
 class FirestoreManager {
     static let shared = FirestoreManager()
@@ -164,6 +165,51 @@ class FirestoreManager {
         }
     }
     
+    func uploadImageData(imageData: Data, completion: @escaping (Bool, URL?) -> Void) {
+        let fileName = "postImage_\(UUID().uuidString).jpg"
+        
+        let storageReference = Storage.storage().reference().child("images/\(fileName)")
+        storageReference.putData(imageData, metadata: nil) { (_, error) in
+            if let error = error {
+                print("Upload error: \(error.localizedDescription)")
+                completion(false, nil)
+                return
+            }
+            print("Image file: \(fileName) is uploaded!")
+            
+            storageReference.downloadURL { (url, error) in
+                if let error = error {
+                    print("Error on getting download url: \(error.localizedDescription)")
+                    completion(false, nil)
+                    return
+                }
+                if let downloadURL = url {
+                    print("Download url of \(fileName) is \(downloadURL.absoluteString)")
+                    completion(true, downloadURL)
+                } else {
+                    completion(false, nil)
+                }
+            }
+        }
+    }
+    
+    func publishFoodCollection(id: String, foodName: String, tag: String, imageUrl: String) {
+        let publishData: [String: Any] = [
+            "id": id,
+            "food_name": foodName,
+            "tag": tag,
+            "image": imageUrl,
+            "created_time": FieldValue.serverTimestamp()
+        ]
+        database.collection("posts").addDocument(data: publishData) { error in
+            if let error = error {
+                print("Error adding document to subcollection: \(error.localizedDescription)")
+            } else {
+                print("Document added to subcollection successfully")
+            }
+        }
+    }
+    
     // MARK: - Get
     
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
@@ -215,33 +261,11 @@ class FirestoreManager {
                                       nutrients: nutrientInfo,
                                       image: image,
                                       quantity: quantity,
-                                      section: section))
+                                      section: section)
+            )
         }
         return foodsForToday
     }
-
-//    private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
-//        var foodsForToday = [Food]()
-//        for document in documents {
-//            let foodData = document["nutrients"] as? [String: Any] ?? [:]
-//            let nutrientInfo = Nutrient(
-//                carbohydrates: foodData["carbohydrates"] as? Double ?? 0.0,
-//                protein: foodData["protein"] as? Double ?? 0.0,
-//                fat: foodData["fat"] as? Double ?? 0.0,
-//                fiber: foodData["fiber"] as? Double ?? 0.0
-//            )
-//            foodsForToday.append(
-//                Food(name: document["name"] as? String ?? "",
-//                     totalCalories: document["totalCalories"] as? Double ?? 0.0,
-//                     nutrients: nutrientInfo,
-//                     image: document["image"] as? String ?? "",
-//                     quantity: document["quantity"] as? Double,
-//                     section: document["section"] as? Int
-//                    )
-//            )
-//        }
-//        return foodsForToday
-//    }
     
     private func getWaterQuantity(from documents: [QueryDocumentSnapshot]) -> Int {
         let waterQuantities = documents.compactMap { $0["water_count"] as? Int }
@@ -254,7 +278,6 @@ class FirestoreManager {
         var totalWaterIntake: Int = 0
         
 //        let dispatchGroup = DispatchGroup()
-        
         for date in dates {
 //            dispatchGroup.enter()
             getIntakeCard(collectionID: "intake", chosenDate: date) { (foods, water) in
@@ -264,7 +287,6 @@ class FirestoreManager {
 //                dispatchGroup.leave()
             }
         }
-        
 //        dispatchGroup.notify(queue: .main) {
 //            completion(aggregatedFoods, totalWaterIntake)
 //        }

@@ -9,7 +9,7 @@ import UIKit
 
 protocol ProfileBanneViewDelegate: AnyObject {
     func presentManageVC()
-    func presentCameraVC()
+    func presentPostVC()
 }
 
 class ProfileBannerView: UIView {
@@ -113,7 +113,7 @@ class ProfileBannerView: UIView {
     
     lazy var cameraButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "camera"), for: .normal)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -207,7 +207,7 @@ class ProfileBannerView: UIView {
     
     @objc func cameraButtonTapped() {
         guard let delegate = delegate else { return }
-        delegate.presentCameraVC()
+        delegate.presentPostVC()
     }
     
     func updateView(with userData: UserData) {
