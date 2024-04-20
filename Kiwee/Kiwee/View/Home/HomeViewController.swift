@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
     let context = StorageManager.shared.context
     var plantImageView: UIImageView?
     var addTime: Int = 0
+//    var lastUsedTag: Int = 0
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var wateringImageView: UIImageView!
@@ -28,15 +29,14 @@ class HomeViewController: UIViewController {
         addTime = StorageManager.shared.fetchLatestAddTime()
         
         let plantImages = StorageManager.shared.fetchPlantImages()
-            for plantImage in plantImages {
-                if let imageName = plantImage.imageName {
-                    let tag = Int(plantImage.tag)
-                    let addTime = Int(plantImage.addTime)
-                    let xPosition = CGFloat(plantImage.xPosition)
-                    let yPosition = CGFloat(plantImage.yPosition)
-                    updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition, tag: tag)
-                }
+        for plantImage in plantImages {
+            if let imageName = plantImage.imageName {
+                let addTime = Int(plantImage.addTime)
+                let xPosition = CGFloat(plantImage.xPosition)
+                let yPosition = CGFloat(plantImage.yPosition)
+                updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition/* tag: tag*/)
             }
+        }
     }
     
     func checkDataForToday() {
@@ -63,34 +63,31 @@ class HomeViewController: UIViewController {
         selectionView.layer.cornerRadius = 10
         self.view.addSubview(selectionView)
         
-        selectionView.onPlantSelected = { [weak self] (selectedPlantTag, imageName) in
+        selectionView.onPlantSelected = { [weak self] (/*_, */imageName) in
             guard let self = self else { return }
             self.addTime += 1
             
-            // Calculate xPosition and yPosition based on addTime
-            let row = (self.addTime - 1) / 24
-            let column = (self.addTime - 1) % 24
             let xPosition = scrollView.bounds.minX
             let yPosition = scrollView.bounds.minY
             
             // Use StorageManager to save to CoreData
-            StorageManager.shared.savePlantImage(imageName: imageName, addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition)
+            StorageManager.shared.savePlantImage(imageName: imageName, addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition/*, tag: Int32(self.lastUsedTag)*/)
             
-            print("Selected plant tag: \(selectedPlantTag), name: \(imageName)")
+            print("Selected plant name: \(imageName)")
             
             selectionView.removeFromSuperview()
-            updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition, tag: selectedPlantTag)
+            updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition/*, tag: lastUsedTag*/)
         }
     }
     
-    func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat, tag: Int) {
+    func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat/*, tag: Int*/) {
         let imagePosition = CGPoint(x: xPosition, y: yPosition)
         let imageSize = CGSize(width: 50, height: 50)
         
         // Create a new UIImageView for each plant image
         let newPlantImageView = UIImageView(frame: CGRect(origin: imagePosition, size: imageSize))
         newPlantImageView.image = UIImage(named: imageName)
-        newPlantImageView.tag = tag
+        newPlantImageView.alpha = 0
         scrollView.addSubview(newPlantImageView)
         
         // Add pan gesture recognizer to the newPlantImageView
@@ -98,17 +95,8 @@ class HomeViewController: UIViewController {
         newPlantImageView.isUserInteractionEnabled = true
         newPlantImageView.addGestureRecognizer(panGesture)
         
-        UIView.animate(withDuration: 0.5) {
-            // Calculate the center position of the view
-            let centerX = self.view.bounds.midX
-            let centerY = self.view.bounds.midY
-
-            // Calculate the new origin for newPlantImageView to be centered
-            let newOriginX = centerX - (newPlantImageView.frame.width / 2)
-            let newOriginY = centerY - (newPlantImageView.frame.height / 2)
-
-            // Update the frame of newPlantImageView to move it to the center
-            newPlantImageView.frame.origin = CGPoint(x: newOriginX, y: newOriginY)
+        UIView.animate(withDuration: 1.0) {
+            newPlantImageView.alpha = 1.0
         }
     }
     
@@ -125,7 +113,7 @@ class HomeViewController: UIViewController {
             // Save the new position to CoreData
             let xPosition = Double(gestureView.frame.origin.x)
             let yPosition = Double(gestureView.frame.origin.y)
-            StorageManager.shared.updatePlantImagePosition(tag: Int32(gestureView.tag), xPosition: xPosition, yPosition: yPosition)
+            StorageManager.shared.updatePlantImagePosition(addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition)
         default:
             break
         }
@@ -151,10 +139,34 @@ extension HomeViewController {
     func updateImageStatus() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(wateringImageTapped(_:)))
         wateringImageView.addGestureRecognizer(tapGesture)
+        wateringImageView.isUserInteractionEnabled = true
         wateringImageView.alpha = 1.0
     }
     
     @objc private func wateringImageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        guard let _ = gestureRecognizer.view as? UIImageView else { return }
         
+        // Calculate the center of the visible area of the scrollView
+        let scrollViewCenterX = scrollView.contentOffset.x + (scrollView.bounds.width / 2)
+        let scrollViewCenterY = scrollView.contentOffset.y + (scrollView.bounds.height / 2)
+        
+        let splashImageView = UIImageView(frame: CGRect(x: scrollViewCenterX - 100, y: scrollViewCenterY - 100, width: 200, height: 200))
+        self.scrollView.addSubview(splashImageView)
+        
+        var splashImages: [UIImage] = []
+        for index in 1...9 {
+            if let img = UIImage(named: "splash\(index)") {
+                splashImages.append(img)
+            }
+        }
+        
+        splashImageView.animationImages = splashImages
+        splashImageView.animationDuration = 1.0
+        splashImageView.startAnimating()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + splashImageView.animationDuration - 0.1) {
+            splashImageView.removeFromSuperview()
+        }
     }
+    
 }

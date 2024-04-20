@@ -28,11 +28,11 @@
 		0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */; };
 		0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC412BD1811E0018911F /* HomeViewController.swift */; };
 		0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC432BD21DC30018911F /* PlantSelectionView.swift */; };
-		0E91DC4A2BD2A46B0018911F /* FarmItems.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC482BD2A46B0018911F /* FarmItems.xcdatamodeld */; };
 		0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */; };
 		0E91DC5B2BD2E86E0018911F /* Kiwee.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC592BD2E86E0018911F /* Kiwee.xcdatamodeld */; };
-		0E91DC5E2BD2E92F0018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC5C2BD2E92F0018911F /* LSFarm+CoreDataClass.swift */; };
-		0E91DC612BD356070018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC602BD356070018911F /* LSFarm+CoreDataProperties.swift */; };
+		0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */; };
+		0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */; };
+		0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -78,11 +78,11 @@
 		0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManageViewController.swift; sourceTree = "<group>"; };
 		0E91DC412BD1811E0018911F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0E91DC432BD21DC30018911F /* PlantSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantSelectionView.swift; sourceTree = "<group>"; };
-		0E91DC492BD2A46B0018911F /* FarmItems.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FarmItems.xcdatamodel; sourceTree = "<group>"; };
 		0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageManager.swift; sourceTree = "<group>"; };
 		0E91DC5A2BD2E86E0018911F /* Kiwee.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Kiwee.xcdatamodel; sourceTree = "<group>"; };
-		0E91DC5C2BD2E92F0018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		0E91DC602BD356070018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KiweeCoreData.xcdatamodel; sourceTree = "<group>"; };
+		0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,10 +231,10 @@
 		0ECE08C22BC76A0F003C15B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0E91DC602BD356070018911F /* LSFarm+CoreDataProperties.swift */,
-				0E91DC5C2BD2E92F0018911F /* LSFarm+CoreDataClass.swift */,
+				0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */,
+				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
-				0E91DC482BD2A46B0018911F /* FarmItems.xcdatamodeld */,
+				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC592BD2E86E0018911F /* Kiwee.xcdatamodeld */,
 				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
@@ -471,11 +471,13 @@
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
 				0E91DC5B2BD2E86E0018911F /* Kiwee.xcdatamodeld in Sources */,
+				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
 				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
+				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
@@ -486,11 +488,9 @@
 				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
-				0E91DC5E2BD2E92F0018911F /* LSFarm+CoreDataClass.swift in Sources */,
-				0E91DC4A2BD2A46B0018911F /* FarmItems.xcdatamodeld in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
-				0E91DC612BD356070018911F /* LSFarm+CoreDataProperties.swift in Sources */,
+				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
 				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
@@ -764,16 +764,6 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		0E91DC482BD2A46B0018911F /* FarmItems.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				0E91DC492BD2A46B0018911F /* FarmItems.xcdatamodel */,
-			);
-			currentVersion = 0E91DC492BD2A46B0018911F /* FarmItems.xcdatamodel */;
-			path = FarmItems.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		0E91DC592BD2E86E0018911F /* Kiwee.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
@@ -781,6 +771,16 @@
 			);
 			currentVersion = 0E91DC5A2BD2E86E0018911F /* Kiwee.xcdatamodel */;
 			path = Kiwee.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */,
+			);
+			currentVersion = 0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */;
+			path = KiweeCoreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

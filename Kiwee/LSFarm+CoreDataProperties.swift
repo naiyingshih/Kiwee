@@ -17,10 +17,9 @@ extension LSFarm {
     }
 
     @NSManaged public var imageName: String?
-    @NSManaged public var addTime: Int32
     @NSManaged public var xPosition: Double
     @NSManaged public var yPosition: Double
-    @NSManaged public var tag: Int32
+    @NSManaged public var addTime: Int32
 
 }
 
