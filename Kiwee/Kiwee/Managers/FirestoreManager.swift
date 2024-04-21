@@ -13,18 +13,18 @@ import FirebaseStorage
 class FirestoreManager {
     static let shared = FirestoreManager()
     let database = Firestore.firestore()
-//    let date = DateFormatterManager.shared.dateFormatter
+    //    let date = DateFormatterManager.shared.dateFormatter
     
     // MARK: - Post
     
     func postWaterCount(waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
-
-//        let dateString = date.string(from: chosenDate)
+        
+        //        let dateString = date.string(from: chosenDate)
         let startOfDay = Calendar.current.startOfDay(for: chosenDate)
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
         database.collection("intake")
-//            .whereField("date", isEqualTo: chosenDate)
+        //            .whereField("date", isEqualTo: chosenDate)
             .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
             .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .whereField("type", isEqualTo: "water")
@@ -102,37 +102,6 @@ class FirestoreManager {
         }
     }
     
-//    func postIntakeData(intakeData: Food, chosenDate: Date, completion: @escaping (Bool) -> Void) {
-//       
-////        let dateString = date.string(from: chosenDate)
-//        
-//        let intakeDictionary: [String: Any] = [
-//            "name": intakeData.name,
-//            "totalCalories": intakeData.totalCalories,
-//            "nutrients": [
-//                "carbohydrates": intakeData.nutrients.carbohydrates,
-//                "protein": intakeData.nutrients.protein,
-//                "fat": intakeData.nutrients.fat,
-//                "fiber": intakeData.nutrients.fiber
-//            ],
-//            "image": intakeData.image,
-//            "quantity": intakeData.quantity as Any,
-//            "section": intakeData.section as Any,
-//            "date": Timestamp(date: chosenDate),
-//            "type": "food"
-//        ]
-//        
-//        database.collection("intake").addDocument(data: intakeDictionary) { error in
-//            if let error = error {
-//                print("Error adding intake data: \(error.localizedDescription)")
-//                completion(false)
-//            } else {
-//                print("Food intake data added successfully")
-//                completion(true)
-//            }
-//        }
-//    }
-    
     // TODO: wait to put in launch page
     func postUserData(input: UserData, completion: @escaping (Bool) -> Void) {
         let userDictionary: [String: Any] = [
@@ -192,12 +161,12 @@ class FirestoreManager {
         ]
         database.collection("users").document(id).collection("current_weight")
             .addDocument(data: weightData) { error in
-            if let error = error {
-                print("Error adding document to subcollection: \(error.localizedDescription)")
-            } else {
-                print("Document added to subcollection successfully")
+                if let error = error {
+                    print("Error adding document to subcollection: \(error.localizedDescription)")
+                } else {
+                    print("Document added to subcollection successfully")
+                }
             }
-        }
     }
     
     func uploadImageData(imageData: Data, completion: @escaping (Bool, URL?) -> Void) {
@@ -244,8 +213,11 @@ class FirestoreManager {
             }
         }
     }
+}
     
     // MARK: - Get
+    
+extension FirestoreManager {
     
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
         
@@ -367,6 +339,7 @@ class FirestoreManager {
         database.collection("intake")
             .whereField("section", isEqualTo: section)
             .order(by: "date", descending: true)
+            .limit(to: 6)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -374,16 +347,12 @@ class FirestoreManager {
                 } else {
                     var foodsDict = [String: Food]()
                     let foods = self.getIntake(from: querySnapshot?.documents ?? [])
-                    // Iterate through the fetched foods
                     for food in foods {
-                        // If the food name does not exist in the dictionary or if the existing entry is older, update it
                         if let existingFood = foodsDict[food.name] {
-                            // Compare dates, if the current food's date is more recent, replace the existing one
                             if food.date ?? Date() > existingFood.date ?? Date() {
                                 foodsDict[food.name] = food
                             }
                         } else {
-                            // If the food name is not in the dictionary, add it
                             foodsDict[food.name] = food
                         }
                     }

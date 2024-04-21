@@ -74,7 +74,8 @@ class RecordCollectionCell: UICollectionViewCell {
             foodImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             foodImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
             foodImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
-            foodImageView.heightAnchor.constraint(equalTo: self.widthAnchor),
+            foodImageView.widthAnchor.constraint(equalToConstant: 80),
+            foodImageView.heightAnchor.constraint(equalToConstant: 100),
             
             foodLabel.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 8),
             foodLabel.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor),
@@ -90,7 +91,7 @@ class RecordCollectionCell: UICollectionViewCell {
     func updateResults(_ results: Food) {
         foodImageView.loadImage(results.image, placeHolder: UIImage(named: "Food_Placeholder"))
         foodLabel.text = results.name
-        calorieLabel.text = "\(results.totalCalories)"
+        calorieLabel.text = "\(results.totalCalories) kcal"
     }
     
 }

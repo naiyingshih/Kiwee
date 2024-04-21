@@ -21,7 +21,6 @@ class AddFoodViewController: UIViewController {
         }
     }
     var recentFoods: [Food] = []
-//    var selectedFoodResult: Food?
     var selectedDate: Date?
     
     @IBOutlet weak var tableView: UITableView!
@@ -96,7 +95,7 @@ class AddFoodViewController: UIViewController {
         FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
             self?.recentFoods = foods
             DispatchQueue.main.async {
-                self?.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+                self?.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
             }
         }
     }
@@ -123,7 +122,7 @@ class AddFoodViewController: UIViewController {
     }
     
     @objc func confirmed() {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ResultCell else { return }
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ResultCell else { return }
         guard !filteredFoodItems.isEmpty else {
             print("No food result")
             return
@@ -157,17 +156,7 @@ class AddFoodViewController: UIViewController {
                     }
                 }
         }
-//        FirestoreManager.shared.postIntakeData(
-//            intakeData: calculatedIntakeData,
-//            chosenDate: selectedDate ?? Date()
-//        ) { success in
-//            if success {
-//                print("Food intake data posted successfully")
-//                self.navigationController?.popViewController(animated: true)
-//            } else {
-//                print("Failed to post food intake data")
-//            }
-//        }
+
     }
         
     func calculateIntakeData(input: Food) -> Food? {
@@ -205,7 +194,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1 {
+        if section == 2 {
             return filteredFoodItems.count
         } else {
             return 1
@@ -226,17 +215,6 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             
         case 1:
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: ResultCell.self),
-                for: indexPath
-            )
-            guard let resultCell = cell as? ResultCell else { return cell }
-//            selectedFoodResult = filteredFoodItems[indexPath.row]
-            let foodResult = filteredFoodItems[indexPath.row]
-            resultCell.updateResult(foodResult)
-            return resultCell
-            
-        case 2:
-            let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: RecentRecordCell.self),
                 for: indexPath
             )
@@ -245,6 +223,15 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             recentRecordCell.collectionView.dataSource = self
             return recentRecordCell
             
+        case 2:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: ResultCell.self),
+                for: indexPath
+            )
+            guard let resultCell = cell as? ResultCell else { return cell }
+            let foodResult = filteredFoodItems[indexPath.row]
+            resultCell.updateResult(foodResult)
+            return resultCell
         default:
             break
         }
@@ -252,13 +239,11 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
-            return 180
-        } else if indexPath.section == 2 {
-            return 280
-        } else {
+        if indexPath.section == 0 {
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
+        } else {
+            return 200
         }
     }
     
