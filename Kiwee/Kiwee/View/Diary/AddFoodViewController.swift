@@ -17,6 +17,8 @@ class AddFoodViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.confirmButton.isEnabled = true
+                self.confirmButton.alpha = 1.0
             }
         }
     }
@@ -52,6 +54,7 @@ class AddFoodViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         fetchRecentRecord()
     }
     
@@ -69,7 +72,6 @@ class AddFoodViewController: UIViewController {
         confirmButton.isEnabled = false
         confirmButton.alpha = 0.3
         currentMethod = .imageRecognition
-        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
     
     func setupBottomBlock() {
@@ -102,23 +104,17 @@ class AddFoodViewController: UIViewController {
     
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
-        filteredFoodItems.removeAll()
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func searchFoodButtonTapped() {
         currentMethod = .search
-        filteredFoodItems.removeAll()
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func manualButtonTapped() {
         currentMethod = .manual
-        filteredFoodItems.removeAll()
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @objc func confirmed() {
@@ -239,11 +235,16 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
-        } else {
-            return 200
+        case 1:
+            return 250
+        case 2:
+            return 180
+        default:
+            return 0
         }
     }
     
@@ -271,6 +272,11 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
         let height = collectionView.bounds.height
         return CGSize(width: 80, height: height)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recentFood = recentFoods[indexPath.row]
+        filteredFoodItems.append(recentFood)
+    }
 }
     
 // MARK: - Extension: Search Food Function
@@ -287,8 +293,6 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         guard !text.isEmpty else { return }
         loadFood()
         filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
-        confirmButton.isEnabled = true
-        confirmButton.alpha = 1.0
     }
     
     private func loadFood() {
@@ -301,11 +305,11 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         }
     }
     
-    func textFieldConfirmed(foodResult: [Food]?) {
-        guard let foodResult = foodResult else { return }
-        filteredFoodItems = foodResult
-        confirmButton.isEnabled = true
-        confirmButton.alpha = 1.0
+    func textFieldConfirmed(foodResults: [Food]?) {
+        guard let foodResults = foodResults else { return }
+        for foodResult in foodResults {
+            filteredFoodItems.append(foodResult)
+        }
     }
     
 }
@@ -325,8 +329,6 @@ extension AddFoodViewController: FoodDataDelegate {
             date: nil
         )
         filteredFoodItems.append(identifiedFood)
-        confirmButton.isEnabled = true
-        confirmButton.alpha = 1.0
     }
     
 }
