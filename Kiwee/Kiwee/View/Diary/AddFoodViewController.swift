@@ -227,6 +227,9 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             guard let resultCell = cell as? ResultCell else { return cell }
             let foodResult = filteredFoodItems[indexPath.row]
             resultCell.updateResult(foodResult)
+            resultCell.deleteButtonTapped = { [weak self] in
+                self?.filteredFoodItems.remove(at: indexPath.row)
+            }
             return resultCell
         default:
             break
@@ -292,7 +295,10 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     func searchBarDidChange(text: String) {
         guard !text.isEmpty else { return }
         loadFood()
-        filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
+        let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
+        for filterFood in filterFoods {
+            filteredFoodItems.append(filterFood)
+        }
     }
     
     private func loadFood() {
