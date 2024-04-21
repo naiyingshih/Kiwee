@@ -67,36 +67,71 @@ class FirestoreManager {
             }
     }
     
-    func postIntakeData(intakeData: Food, chosenDate: Date, completion: @escaping (Bool) -> Void) {
-       
-//        let dateString = date.string(from: chosenDate)
+    func postIntakeData(intakeDataArray: [Food], chosenDate: Date, completion: @escaping (Bool) -> Void) {
+        let batch = database.batch()
         
-        let intakeDictionary: [String: Any] = [
-            "name": intakeData.name,
-            "totalCalories": intakeData.totalCalories,
-            "nutrients": [
-                "carbohydrates": intakeData.nutrients.carbohydrates,
-                "protein": intakeData.nutrients.protein,
-                "fat": intakeData.nutrients.fat,
-                "fiber": intakeData.nutrients.fiber
-            ],
-            "image": intakeData.image,
-            "quantity": intakeData.quantity as Any,
-            "section": intakeData.section as Any,
-            "date": Timestamp(date: chosenDate),
-            "type": "food"
-        ]
+        for intakeData in intakeDataArray {
+            let intakeRef = database.collection("intake").document() // Create a new document reference for each food item
+            let intakeDictionary: [String: Any] = [
+                "name": intakeData.name,
+                "totalCalories": intakeData.totalCalories,
+                "nutrients": [
+                    "carbohydrates": intakeData.nutrients.carbohydrates,
+                    "protein": intakeData.nutrients.protein,
+                    "fat": intakeData.nutrients.fat,
+                    "fiber": intakeData.nutrients.fiber
+                ],
+                "image": intakeData.image,
+                "quantity": intakeData.quantity as Any,
+                "section": intakeData.section as Any,
+                "date": Timestamp(date: chosenDate),
+                "type": "food"
+            ]
+            batch.setData(intakeDictionary, forDocument: intakeRef) // Add each food item to the batch
+        }
         
-        database.collection("intake").addDocument(data: intakeDictionary) { error in
+        // Commit the batch
+        batch.commit { error in
             if let error = error {
-                print("Error adding intake data: \(error.localizedDescription)")
+                print("Error writing batch \(error.localizedDescription)")
                 completion(false)
             } else {
-                print("Food intake data added successfully")
+                print("Batch write succeeded.")
                 completion(true)
             }
         }
     }
+    
+//    func postIntakeData(intakeData: Food, chosenDate: Date, completion: @escaping (Bool) -> Void) {
+//       
+////        let dateString = date.string(from: chosenDate)
+//        
+//        let intakeDictionary: [String: Any] = [
+//            "name": intakeData.name,
+//            "totalCalories": intakeData.totalCalories,
+//            "nutrients": [
+//                "carbohydrates": intakeData.nutrients.carbohydrates,
+//                "protein": intakeData.nutrients.protein,
+//                "fat": intakeData.nutrients.fat,
+//                "fiber": intakeData.nutrients.fiber
+//            ],
+//            "image": intakeData.image,
+//            "quantity": intakeData.quantity as Any,
+//            "section": intakeData.section as Any,
+//            "date": Timestamp(date: chosenDate),
+//            "type": "food"
+//        ]
+//        
+//        database.collection("intake").addDocument(data: intakeDictionary) { error in
+//            if let error = error {
+//                print("Error adding intake data: \(error.localizedDescription)")
+//                completion(false)
+//            } else {
+//                print("Food intake data added successfully")
+//                completion(true)
+//            }
+//        }
+//    }
     
     // TODO: wait to put in launch page
     func postUserData(input: UserData, completion: @escaping (Bool) -> Void) {

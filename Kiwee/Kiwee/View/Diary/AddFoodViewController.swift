@@ -20,7 +20,8 @@ class AddFoodViewController: UIViewController {
             }
         }
     }
-    var selectedFoodResult: Food?
+    var recentFoods: [Food] = []
+//    var selectedFoodResult: Food?
     var selectedDate: Date?
     
     @IBOutlet weak var tableView: UITableView!
@@ -52,7 +53,6 @@ class AddFoodViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
-//        tableView.register(RecentRecordCell.self, forCellReuseIdentifier: "RecentRecordCell")
 
     }
     
@@ -91,6 +91,12 @@ class AddFoodViewController: UIViewController {
         ])
     }
     
+    func fetchRecentRecord() {
+        FirestoreManager.shared.fetchAndAggregateData(forLastDays: 3) { [weak self] (foods, _) in
+            self?.recentFoods = foods
+        }
+    }
+    
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
         filteredFoodItems.removeAll()
@@ -114,42 +120,52 @@ class AddFoodViewController: UIViewController {
     
     @objc func confirmed() {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ResultCell else { return }
-        guard let foodResult = selectedFoodResult else {
-            print("No food result selected")
+        guard !filteredFoodItems.isEmpty else {
+            print("No food result")
             return
         }
-        
-        // Post the intake data to Firebase
         if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
             guard let index = self.sectionIndex else { return }
-            let foodInput = Food(
-                name: foodResult.name,
-                totalCalories: foodResult.totalCalories,
-                nutrients: foodResult.nutrients,
-                image: foodResult.image,
-                quantity: quantity, 
-                section: index
-            )
-            let calculatedIntakeData = calculateIntakeData(input: foodInput)
             
-            FirestoreManager.shared.postIntakeData(
-                intakeData: calculatedIntakeData,
-                chosenDate: selectedDate ?? Date()
-            ) { success in
-                if success {
-                    print("Food intake data posted successfully")
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    print("Failed to post food intake data")
+            var calculatedIntakeDataArray: [Food] = []
+            
+            for filteredFoodItem in filteredFoodItems {
+                let foodInput = Food(name: filteredFoodItem.name,
+                                     totalCalories: filteredFoodItem.totalCalories,
+                                     nutrients: filteredFoodItem.nutrients,
+                                     image: filteredFoodItem.image,
+                                     quantity: quantity,
+                                     section: index)
+                if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
+                    calculatedIntakeDataArray.append(calculatedIntakeData)
                 }
             }
-            
-        } else {
-            print("Invalid quantity text or conversion failed")
+            FirestoreManager.shared.postIntakeData(
+                intakeDataArray: calculatedIntakeDataArray,
+                chosenDate: selectedDate ?? Date()
+            ) { success in
+                    if success {
+                        print("Food intake data posted successfully")
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        print("Failed to post food intake data")
+                    }
+                }
         }
+//        FirestoreManager.shared.postIntakeData(
+//            intakeData: calculatedIntakeData,
+//            chosenDate: selectedDate ?? Date()
+//        ) { success in
+//            if success {
+//                print("Food intake data posted successfully")
+//                self.navigationController?.popViewController(animated: true)
+//            } else {
+//                print("Failed to post food intake data")
+//            }
+//        }
     }
-    
-    func calculateIntakeData(input: Food) -> Food {
+        
+    func calculateIntakeData(input: Food) -> Food? {
         let updatedTotalCalorie = (input.totalCalories * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
         let updatedCarbohydrates = (input.nutrients.carbohydrates * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
         let updatedProtein = (input.nutrients.protein * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
@@ -208,7 +224,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let resultCell = cell as? ResultCell else { return cell }
-            selectedFoodResult = filteredFoodItems[indexPath.row]
+//            selectedFoodResult = filteredFoodItems[indexPath.row]
             let foodResult = filteredFoodItems[indexPath.row]
             resultCell.updateResult(foodResult)
             return resultCell
@@ -219,6 +235,8 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let recentRecordCell = cell as? RecentRecordCell else { return cell }
+            recentRecordCell.collectionView.delegate = self
+            recentRecordCell.collectionView.dataSource = self
             return recentRecordCell
             
         default:
@@ -230,6 +248,8 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 {
             return 180
+        } else if indexPath.section == 2 {
+            return 280
         } else {
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
@@ -238,6 +258,30 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - CollectionView
+
+extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return sectionRecordFoods.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: String(describing: RecordCollectionCell.self),
+            for: indexPath)
+        guard let collectionViewCell = cell as? RecordCollectionCell else { return cell }
+        let recentFood = sectionRecordFoods[indexPath.row]
+        collectionViewCell.updateResults(recentFood)
+        return collectionViewCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = collectionView.bounds.height
+        return CGSize(width: 80, height: height)
+    }
+}
+    
 // MARK: - Extension: Search Food Function
 
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {

@@ -863,13 +863,53 @@
                                             <outlet property="totalCalorieLabel" destination="OBc-9n-vZh" id="xgj-f6-YAu"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentRecordCell" id="4ae-Ta-UbO" customClass="RecentRecordCell" customModule="Kiwee" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="244.66666793823242" width="393" height="44.666667938232422"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentRecordCell" rowHeight="280" id="4ae-Ta-UbO" customClass="RecentRecordCell" customModule="Kiwee" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="244.66666793823242" width="393" height="280"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4ae-Ta-UbO" id="3F9-2p-dT5">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="44.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="280"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="近期紀錄：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhY-Qg-Aif">
+                                                    <rect key="frame" x="16" y="15.999999999999998" width="361" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="989-Sy-wCC">
+                                                    <rect key="frame" x="16" y="44.333333333333329" width="361" height="219.66666666666669"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vBh-zr-XAd">
+                                                        <size key="itemSize" width="128" height="128"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RecordCollectionCell" id="Y80-xS-eIu" customClass="RecordCollectionCell" customModule="Kiwee" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="llC-lM-Ayd">
+                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </collectionViewCellContentView>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                </collectionView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="989-Sy-wCC" secondAttribute="bottom" constant="16" id="0Ep-ga-uAY"/>
+                                                <constraint firstItem="hhY-Qg-Aif" firstAttribute="top" secondItem="3F9-2p-dT5" secondAttribute="top" constant="16" id="Hyl-o4-e9i"/>
+                                                <constraint firstItem="989-Sy-wCC" firstAttribute="top" secondItem="hhY-Qg-Aif" secondAttribute="bottom" constant="8" id="Qag-qv-OYH"/>
+                                                <constraint firstItem="989-Sy-wCC" firstAttribute="leading" secondItem="hhY-Qg-Aif" secondAttribute="leading" id="Sgw-ll-vkm"/>
+                                                <constraint firstItem="989-Sy-wCC" firstAttribute="trailing" secondItem="hhY-Qg-Aif" secondAttribute="trailing" id="bVC-wp-tvb"/>
+                                                <constraint firstAttribute="trailing" secondItem="hhY-Qg-Aif" secondAttribute="trailing" constant="16" id="cPo-qr-jIr"/>
+                                                <constraint firstItem="hhY-Qg-Aif" firstAttribute="leading" secondItem="3F9-2p-dT5" secondAttribute="leading" constant="16" id="rCM-SQ-ApV"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="collectionView" destination="989-Sy-wCC" id="2cv-4f-RzC"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
