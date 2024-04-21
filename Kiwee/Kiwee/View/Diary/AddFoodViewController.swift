@@ -53,7 +53,7 @@ class AddFoodViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
-
+        fetchRecentRecord()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,8 +92,12 @@ class AddFoodViewController: UIViewController {
     }
     
     func fetchRecentRecord() {
-        FirestoreManager.shared.fetchAndAggregateData(forLastDays: 3) { [weak self] (foods, _) in
+        guard let secion = self.sectionIndex else { return }
+        FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
             self?.recentFoods = foods
+            DispatchQueue.main.async {
+                self?.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+            }
         }
     }
     
@@ -135,7 +139,8 @@ class AddFoodViewController: UIViewController {
                                      nutrients: filteredFoodItem.nutrients,
                                      image: filteredFoodItem.image,
                                      quantity: quantity,
-                                     section: index)
+                                     section: index, 
+                                     date: filteredFoodItem.date)
                 if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
                     calculatedIntakeDataArray.append(calculatedIntakeData)
                 }
@@ -184,7 +189,8 @@ class AddFoodViewController: UIViewController {
             nutrients: nutrients,
             image: input.image,
             quantity: input.quantity,
-            section: sectionIndex
+            section: sectionIndex,
+            date: input.date
         )
     }
 
@@ -263,7 +269,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
 extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sectionRecordFoods.count
+        return recentFoods.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -271,7 +277,7 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
             withReuseIdentifier: String(describing: RecordCollectionCell.self),
             for: indexPath)
         guard let collectionViewCell = cell as? RecordCollectionCell else { return cell }
-        let recentFood = sectionRecordFoods[indexPath.row]
+        let recentFood = recentFoods[indexPath.row]
         collectionViewCell.updateResults(recentFood)
         return collectionViewCell
     }
@@ -330,7 +336,8 @@ extension AddFoodViewController: FoodDataDelegate {
             nutrients: nutrients,
             image: image,
             quantity: nil,
-            section: nil
+            section: nil, 
+            date: nil
         )
         filteredFoodItems.append(identifiedFood)
         confirmButton.isEnabled = true

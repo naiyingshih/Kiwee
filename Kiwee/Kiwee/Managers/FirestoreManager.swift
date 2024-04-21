@@ -278,7 +278,8 @@ class FirestoreManager {
                   let totalCalories = document["totalCalories"] as? Double,
                   let image = document["image"] as? String,
                   let quantity = document["quantity"] as? Double,
-                  let section = document["section"] as? Int else {
+                  let section = document["section"] as? Int,
+                  let date = document["date"] as? Timestamp else {
                 continue // Skip this document if any of the required fields are missing
             }
             
@@ -290,13 +291,15 @@ class FirestoreManager {
             guard let carbs = carbohydrates, let prot = protein, let fats = fat, let fib = fiber else {
                 continue
             }
+            let dateValue = date.dateValue()
             let nutrientInfo = Nutrient(carbohydrates: carbs, protein: prot, fat: fats, fiber: fib)
             foodsForToday.append(Food(name: name,
                                       totalCalories: totalCalories,
                                       nutrients: nutrientInfo,
                                       image: image,
                                       quantity: quantity,
-                                      section: section)
+                                      section: section, 
+                                      date: dateValue)
             )
         }
         return foodsForToday
@@ -356,6 +359,37 @@ class FirestoreManager {
                         }
                     }
                     completion(dataPoints)
+                }
+            }
+    }
+    
+    func getFoodSectionData(section: Int, completion: @escaping ([Food]) -> Void) {
+        database.collection("intake")
+            .whereField("section", isEqualTo: section)
+            .order(by: "date", descending: true)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    completion([])
+                } else {
+                    var foodsDict = [String: Food]()
+                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
+                    // Iterate through the fetched foods
+                    for food in foods {
+                        // If the food name does not exist in the dictionary or if the existing entry is older, update it
+                        if let existingFood = foodsDict[food.name] {
+                            // Compare dates, if the current food's date is more recent, replace the existing one
+                            if food.date ?? Date() > existingFood.date ?? Date() {
+                                foodsDict[food.name] = food
+                            }
+                        } else {
+                            // If the food name is not in the dictionary, add it
+                            foodsDict[food.name] = food
+                        }
+                    }
+                    // Convert the dictionary back to an array
+                    let uniqueSortedFoods = Array(foodsDict.values).sorted(by: { $0.date ?? Date() > $1.date ?? Date() })
+                    completion(uniqueSortedFoods)
                 }
             }
     }

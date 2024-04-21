@@ -14,6 +14,7 @@ struct Food: Codable {
     let image: String
     let quantity: Double?
     let section: Int?
+    let date: Date?
 }
 
 struct Nutrient: Codable {

@@ -192,7 +192,8 @@ extension CameraViewController: UIImagePickerControllerDelegate {
                         nutrients: foods.nutrients,
                         image: foods.image,
                         quantity: nil,
-                        section: nil
+                        section: nil,
+                        date: nil
                     )
                 }
             }

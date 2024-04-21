@@ -10,7 +10,7 @@ import UIKit
 class DiaryViewController: UIViewController, TableViewHeaderDelegate {
 
     var allFood: [[Food]] = Array(repeating: [], count: 5)
-    var recentFoodRecords: [[Food]] = Array(repeating: [], count: 5)
+//    var recentFoodRecords: [Food] = []
     var waterCount: Int = 0 {
         didSet {
             DispatchQueue.main.async {
@@ -92,7 +92,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
                 withIdentifier: String(describing: AddFoodViewController.self)
             ) as? AddFoodViewController else { return }
             addFoodVC.sectionIndex = section
-//            addFoodVC.sectionRecordFoods = self.recentFoodRecords[section]
+//            addFoodVC.recentFoods = self.recentFoodRecords
             addFoodVC.selectedDate = datePicker.date
             self.navigationController?.pushViewController(addFoodVC, animated: true)
         }
@@ -100,7 +100,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
 //    func fetchRecentRecord() {
 //        FirestoreManager.shared.fetchAndAggregateData(forLastDays: 3) { [weak self] (foods, _) in
-//            self?.recentFoodRecords = [foods]
+//            self?.recentFoodRecords = foods
 //        }
 //    }
     
