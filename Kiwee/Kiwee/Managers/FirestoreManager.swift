@@ -85,7 +85,8 @@ class FirestoreManager {
                 "quantity": intakeData.quantity as Any,
                 "section": intakeData.section as Any,
                 "date": Timestamp(date: chosenDate),
-                "type": "food"
+                "type": "food",
+                "documentID": intakeRef.documentID
             ]
             batch.setData(intakeDictionary, forDocument: intakeRef) // Add each food item to the batch
         }
@@ -213,6 +214,18 @@ class FirestoreManager {
             }
         }
     }
+    
+    func deleteDocument(collectionID: String, documentID: String, completion: @escaping (Bool) -> Void) {
+        database.collection(collectionID).document(documentID).delete { error in
+            if let error = error {
+                print("Error removing document: \(error)")
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
+    
 }
     
     // MARK: - Get
@@ -251,7 +264,8 @@ extension FirestoreManager {
                   let image = document["image"] as? String,
                   let quantity = document["quantity"] as? Double,
                   let section = document["section"] as? Int,
-                  let date = document["date"] as? Timestamp else {
+                  let date = document["date"] as? Timestamp,
+                  let documentID = document["documentID"] as? String else {
                 continue // Skip this document if any of the required fields are missing
             }
             
@@ -265,7 +279,8 @@ extension FirestoreManager {
             }
             let dateValue = date.dateValue()
             let nutrientInfo = Nutrient(carbohydrates: carbs, protein: prot, fat: fats, fiber: fib)
-            foodsForToday.append(Food(name: name,
+            foodsForToday.append(Food(documentID: documentID,
+                                      name: name,
                                       totalCalories: totalCalories,
                                       nutrients: nutrientInfo,
                                       image: image,

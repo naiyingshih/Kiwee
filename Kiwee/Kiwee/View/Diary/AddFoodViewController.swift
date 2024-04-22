@@ -129,7 +129,8 @@ class AddFoodViewController: UIViewController {
             var calculatedIntakeDataArray: [Food] = []
             
             for filteredFoodItem in filteredFoodItems {
-                let foodInput = Food(name: filteredFoodItem.name,
+                let foodInput = Food(documentID: filteredFoodItem.documentID, 
+                                     name: filteredFoodItem.name,
                                      totalCalories: filteredFoodItem.totalCalories,
                                      nutrients: filteredFoodItem.nutrients,
                                      image: filteredFoodItem.image,
@@ -169,6 +170,7 @@ class AddFoodViewController: UIViewController {
         }
         
         return Food(
+            documentID: input.documentID,
             name: input.name,
             totalCalories: updatedTotalCalorie,
             nutrients: nutrients,
@@ -326,6 +328,7 @@ extension AddFoodViewController: FoodDataDelegate {
     
     func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String) {
         let identifiedFood = Food(
+            documentID: "",
             name: name,
             totalCalories: totalCalories,
             nutrients: nutrients,

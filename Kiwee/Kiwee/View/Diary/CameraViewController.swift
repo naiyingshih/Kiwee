@@ -187,6 +187,7 @@ extension CameraViewController: UIImagePickerControllerDelegate {
                         return
                     }
                     self.recognizedData = Food(
+                        documentID: "", 
                         name: foods.name,
                         totalCalories: foods.totalCalories,
                         nutrients: foods.nutrients,

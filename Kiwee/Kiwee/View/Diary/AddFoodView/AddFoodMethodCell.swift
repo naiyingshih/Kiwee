@@ -131,6 +131,7 @@ class AddFoodMethodCell: UITableViewCell {
             return
         }
         let foodResult = Food(
+            documentID: "",
             name: name,
             totalCalories: Double("\(calorie)") ?? 0.0,
             nutrients: Nutrient(

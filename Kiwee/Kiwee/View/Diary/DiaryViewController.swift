@@ -168,5 +168,24 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 80
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let foodItem = allFood[indexPath.section][indexPath.row]
+            let documentID = foodItem.documentID ?? ""
 
+            FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in
+                DispatchQueue.main.async {
+                    if success {
+                        print("Document successfully removed!")
+                        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                    } else {
+                        print("Error removing document")
+                    }
+                }
+            }
+        }
+    }
+    
 }
