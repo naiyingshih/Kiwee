@@ -7,89 +7,101 @@
 
 import UIKit
 
-class ChatBotViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class ChatBotViewController: UIViewController, UITextFieldDelegate {
     
-    var messagesTableView: UITableView!
-    var messageInputField: UITextField!
-    var sendMessageButton: UIButton!
-    
-    var messages: [String] = ["Hello, how can i help you todey?", "I'm good, thanks! How about you?"]
+    let tableView = UITableView()
+    let messageInputView = MessageInputView()
+    var messages: [MessageRow] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
-    func setupUI() {
-        // Messages Table View
-        messagesTableView = UITableView()
-        messagesTableView.delegate = self
-        messagesTableView.dataSource = self
-        messagesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "messageCell")
-        messagesTableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(messagesTableView)
+    private func setupUI() {
+        view.backgroundColor = .white
+        setupTableView()
+        setupMessageInputView()
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "MessageTableViewCell")
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
         
-        // Message Input Field
-        messageInputField = UITextField()
-        messageInputField.delegate = self
-        messageInputField.borderStyle = .roundedRect
-        messageInputField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(messageInputField)
-        
-        // Send Message Button
-        sendMessageButton = UIButton(type: .system)
-        sendMessageButton.setTitle("Send", for: .normal)
-        sendMessageButton.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
-        sendMessageButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(sendMessageButton)
-        
-        // Auto Layout Constraints
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            messagesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            messagesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            messagesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            messagesTableView.bottomAnchor.constraint(equalTo: messageInputField.topAnchor, constant: -8),
-            
-            messageInputField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            messageInputField.trailingAnchor.constraint(equalTo: sendMessageButton.leadingAnchor, constant: -8),
-            messageInputField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            
-            sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            sendMessageButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            sendMessageButton.widthAnchor.constraint(equalToConstant: 60)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    @objc func sendMessage() {
-        if let messageText = messageInputField.text, !messageText.isEmpty {
-            messages.append(messageText)
-            messageInputField.text = ""
-            messagesTableView.reloadData()
-            let indexPath = IndexPath(row: messages.count - 1, section: 0)
-            messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
+    private func setupMessageInputView() {
+        messageInputView.delegate = self
+        view.addSubview(messageInputView)
+        
+        messageInputView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            messageInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            messageInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            messageInputView.heightAnchor.constraint(equalToConstant: 80)
+        ])
     }
     
-    // MARK: - TableView DataSource & Delegate
+    // MARK: - Methods for Sending and Handling Messages
+    
+    private func sendMessage(_ text: String) {
+        let responseText = "Response to: \(text)"
+        let message = MessageRow(
+            isInterctingWithChatGPT: false,
+//            sendAvatar: "kiwi",
+            sendText: text,
+//            responseAvatar: "chatbot",
+            responseText: responseText,
+            responseError: nil
+        )
+
+        messages.append(message)
+        tableView.reloadData()
+    }
+}
+    
+// MARK: - TableView DataSource & Delegate
+    
+extension ChatBotViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath)
-        let isUserMessage = indexPath.row % 2 != 0
-            
-            if isUserMessage {
-                // User messages aligned to the right
-                cell.textLabel?.textAlignment = .right
-                cell.textLabel?.text = messages[indexPath.row]
-            } else {
-                // Server messages aligned to the left
-                cell.textLabel?.textAlignment = .left
-                // Assuming you have a separate array for server messages
-                cell.textLabel?.text = messages[indexPath.row]
-            }
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: String(describing: MessageTableViewCell.self),
+            for: indexPath
+        )
+        guard let messageCell = cell as? MessageTableViewCell else { return cell }
+        
+        let message = messages[indexPath.row]
+        messageCell.configure(with: message)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        tableView.estimatedRowHeight = 100
+        return UITableView.automaticDimension
+    }
+    
+}
+
+// MARK: - MessageInputViewDelegate
+
+extension ChatBotViewController: MessageInputViewDelegate {
+    func sendMessageButtonTapped(message: String) {
+        sendMessage(message)
     }
 }

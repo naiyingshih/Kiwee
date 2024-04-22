@@ -37,6 +37,8 @@
 		0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */; };
 		0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA02BD676F70018911F /* ChatModel.swift */; };
 		0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA22BD6787A0018911F /* Type+Extension.swift */; };
+		0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA42BD67D9C0018911F /* MessageInputView.swift */; };
+		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -91,6 +93,8 @@
 		0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIManager.swift; sourceTree = "<group>"; };
 		0E91DCA02BD676F70018911F /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		0E91DCA22BD6787A0018911F /* Type+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Type+Extension.swift"; sourceTree = "<group>"; };
+		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
+		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */,
+				0E91DCA42BD67D9C0018911F /* MessageInputView.swift */,
+				0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */,
 			);
 			path = Chatbot;
 			sourceTree = "<group>";
@@ -253,9 +259,9 @@
 				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
 				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
+				0E91DCA02BD676F70018911F /* ChatModel.swift */,
 				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
-				0E91DCA02BD676F70018911F /* ChatModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -498,6 +504,7 @@
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
 				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
 				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
+				0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */,
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
@@ -516,6 +523,7 @@
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
+				0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */,
 				0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */,
 				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
 				0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */,

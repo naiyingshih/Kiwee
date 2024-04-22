@@ -56,3 +56,15 @@ struct ErrorResponse: Decodable {
     let message: String
     let type: String?
 }
+
+// MARK: - MessageRow
+struct MessageRow: Identifiable {
+    let id: String = UUID().uuidString
+    
+    var isInterctingWithChatGPT: Bool
+//    let sendAvatar: String
+    let sendText: String
+//    let responseAvatar: String
+    var responseText: String?
+    var responseError: String?
+}
