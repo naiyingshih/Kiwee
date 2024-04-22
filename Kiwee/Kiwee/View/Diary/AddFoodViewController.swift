@@ -17,8 +17,13 @@ class AddFoodViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.confirmButton.isEnabled = true
-                self.confirmButton.alpha = 1.0
+                if !self.filteredFoodItems.isEmpty {
+                    self.confirmButton.isEnabled = true
+                    self.confirmButton.alpha = 1.0
+                } else {
+                    self.confirmButton.isEnabled = false
+                    self.confirmButton.alpha = 0.5
+                }
             }
         }
     }
