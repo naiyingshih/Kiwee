@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ChatGPTAPI {
+class OpenAIManager {
     private let apiKey: String
     private let model: String
     private let systemMessage: Message
@@ -72,7 +72,7 @@ class ChatGPTAPI {
     }
 }
 
-extension ChatGPTAPI {
+extension OpenAIManager {
     // 發出提問請求(以串流方式回應)
     func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
         var urlRequest = self.urlRequest
@@ -120,33 +120,32 @@ extension ChatGPTAPI {
     }
 
     // 發出提問請求(以完整訊息回應)
-    func sendMessage(_ text: String) async throws -> String {
-        var urlRequest = self.urlRequest
-        urlRequest.httpBody = try jsonBody(text: text, stream: false)
-        
-        let (data, response) = try await urlSession.data(for: urlRequest)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw "Invalid response"
-        }
-
-        guard 200...299 ~= httpResponse.statusCode else {
-            var error = "Bad Response: \(httpResponse.statusCode)"
-            if let errorResposne = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
-                error.append(",\n \(errorResposne.message)")
-            }
-            throw error
-        }
-
-        do {
-            let completionResponse = try self.jsonDecoder.decode(CompletionResponse.self, from: data)
-            let responseText = completionResponse.choices.first?.message.content ?? ""
-            self.appendToHistoryList(userText: text, responseText: responseText)
-            return responseText
-        } catch {
-            throw error
-        }
-    }
+//    func sendMessage(_ text: String) async throws -> String {
+//        var urlRequest = self.urlRequest
+//        urlRequest.httpBody = try jsonBody(text: text, stream: false)
+//        
+//        let (data, response) = try await urlSession.data(for: urlRequest)
+//
+//        guard let httpResponse = response as? HTTPURLResponse else {
+//            throw "Invalid response"
+//        }
+//
+//        guard 200...299 ~= httpResponse.statusCode else {
+//            var error = "Bad Response: \(httpResponse.statusCode)"
+//            if let errorResposne = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
+//                error.append(",\n \(errorResposne.message)")
+//            }
+//            throw error
+//        }
+//
+//        do {
+//            let completionResponse = try self.jsonDecoder.decode(CompletionResponse.self, from: data)
+//            let responseText = completionResponse.choices.first?.message.content ?? ""
+//            self.appendToHistoryList(userText: text, responseText: responseText)
+//            return responseText
+//        } catch {
+//            throw error
+//        }
+//    }
     
 }
-

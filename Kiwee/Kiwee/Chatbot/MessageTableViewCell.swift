@@ -84,4 +84,5 @@ class MessageTableViewCell: UITableViewCell {
         sendMessageLabel.text = message.sendText
         responseMessageLabel.text = message.responseText
     }
+    
 }

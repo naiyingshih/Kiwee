@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ChatBotViewController: UIViewController, UITextFieldDelegate {
+class ChatBotViewController: UIViewController {
+    
+    let chatGPTAPI = OpenAIManager(apiKey: "不准commit api key!")
     
     let tableView = UITableView()
     let messageInputView = MessageInputView()
@@ -19,7 +21,7 @@ class ChatBotViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         setupTableView()
         setupMessageInputView()
     }
@@ -53,22 +55,6 @@ class ChatBotViewController: UIViewController, UITextFieldDelegate {
         ])
     }
     
-    // MARK: - Methods for Sending and Handling Messages
-    
-    private func sendMessage(_ text: String) {
-        let responseText = "Response to: \(text)"
-        let message = MessageRow(
-            isInterctingWithChatGPT: false,
-//            sendAvatar: "kiwi",
-            sendText: text,
-//            responseAvatar: "chatbot",
-            responseText: responseText,
-            responseError: nil
-        )
-
-        messages.append(message)
-        tableView.reloadData()
-    }
 }
     
 // MARK: - TableView DataSource & Delegate
@@ -101,7 +87,54 @@ extension ChatBotViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - MessageInputViewDelegate
 
 extension ChatBotViewController: MessageInputViewDelegate {
+    
     func sendMessageButtonTapped(message: String) {
-        sendMessage(message)
+
+        let newMessage = MessageRow(
+            isInteractingWithChatGPT: true,
+            sendText: message,
+            responseText: nil,
+            responseError: nil
+        )
+        messages.append(newMessage)
+        
+        let indexPath = IndexPath(row: messages.count - 1, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        
+        sendMessageToChatBot(message) { response in
+            DispatchQueue.main.async {
+                self.messages[indexPath.row].responseText = response
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            }
+        }
     }
+    
+}
+
+// MARK: - OpenAI function
+
+extension ChatBotViewController {
+    
+    func sendMessageToChatBot(_ message: String, completion: @escaping (String) -> Void) {
+        Task {
+            do {
+                var responseText = ""
+                let stream = try await chatGPTAPI.sendMessageStream(text: message)
+                for try await line in stream {
+                    responseText += line
+                    
+                    let localResponseText = responseText
+                    DispatchQueue.main.async {
+                        completion(localResponseText)
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+                DispatchQueue.main.async {
+                    completion("Failed to get response")
+                }
+            }
+        }
+    }
+
 }
