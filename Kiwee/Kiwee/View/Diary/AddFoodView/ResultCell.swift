@@ -36,6 +36,6 @@ class ResultCell: UITableViewCell {
         fatLabel.text = "脂肪\n\(result.nutrients.fat)"
         fiberLabel.text = "纖維\n\(result.nutrients.fiber)"
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
-        quantityTextField.text = "100"
+        quantityTextField.text = "\(result.quantity ?? 100)"
     }
 }

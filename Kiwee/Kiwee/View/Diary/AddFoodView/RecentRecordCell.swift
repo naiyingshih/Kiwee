@@ -47,14 +47,6 @@ class RecordCollectionCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var calorieLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -68,7 +60,6 @@ class RecordCollectionCell: UICollectionViewCell {
     func setupUI() {
         addSubview(foodImageView)
         addSubview(foodLabel)
-        addSubview(calorieLabel)
         
         NSLayoutConstraint.activate([
             foodImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
@@ -80,18 +71,13 @@ class RecordCollectionCell: UICollectionViewCell {
             foodLabel.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 8),
             foodLabel.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor),
             foodLabel.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor),
-            
-            calorieLabel.topAnchor.constraint(equalTo: foodLabel.bottomAnchor, constant: 8),
-            calorieLabel.leadingAnchor.constraint(equalTo: foodLabel.leadingAnchor),
-            calorieLabel.trailingAnchor.constraint(equalTo: foodLabel.trailingAnchor),
-            calorieLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12)
+            foodLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12)
         ])
     }
     
     func updateResults(_ results: Food) {
         foodImageView.loadImage(results.image, placeHolder: UIImage(named: "Food_Placeholder"))
         foodLabel.text = results.name
-        calorieLabel.text = "\(results.totalCalories) kcal"
     }
     
 }

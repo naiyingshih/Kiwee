@@ -24,6 +24,7 @@ class AddFoodViewController: UIViewController {
     }
     var recentFoods: [Food] = []
     var selectedDate: Date?
+    var updatedQuantity: Double?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageRecognizeButton: UIButton!
@@ -93,14 +94,37 @@ class AddFoodViewController: UIViewController {
     }
     
     func fetchRecentRecord() {
-        guard let secion = self.sectionIndex else { return }
-        FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
-            self?.recentFoods = foods
+        guard let section = self.sectionIndex else { return }
+        FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.recentFoods = foods.map { food in
+                var modifiedFood = food
+                if modifiedFood.quantity != 0 {
+                    modifiedFood.totalCalories = (modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.carbohydrates = (modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.protein = (modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.fat = (modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.fiber = (modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100)
+                }
+                return modifiedFood
+            }
+            
             DispatchQueue.main.async {
-                self?.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
             }
         }
     }
+    
+//    func fetchRecentRecord() {
+//        guard let secion = self.sectionIndex else { return }
+//        FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
+//            self?.recentFoods = foods
+//            DispatchQueue.main.async {
+//                self?.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+//            }
+//        }
+//    }
     
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
@@ -125,7 +149,6 @@ class AddFoodViewController: UIViewController {
         }
         if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
             guard let index = self.sectionIndex else { return }
-            
             var calculatedIntakeDataArray: [Food] = []
             
             for filteredFoodItem in filteredFoodItems {
@@ -135,7 +158,7 @@ class AddFoodViewController: UIViewController {
                                      nutrients: filteredFoodItem.nutrients,
                                      image: filteredFoodItem.image,
                                      quantity: quantity,
-                                     section: index, 
+                                     section: index,
                                      date: filteredFoodItem.date)
                 if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
                     calculatedIntakeDataArray.append(calculatedIntakeData)
@@ -245,7 +268,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
         case 1:
-            return 250
+            return 200
         case 2:
             return 180
         default:

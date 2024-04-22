@@ -296,8 +296,8 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
-				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
 				0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */,
+				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
 			);
 			path = AddFoodView;
 			sourceTree = "<group>";
