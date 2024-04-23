@@ -26,4 +26,5 @@ struct Post {
     let foodName: String
     let tag: String
     let image: String
+    let createdTime: Date
 }
