@@ -1,0 +1,780 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
+		0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */; };
+		0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC152BCA556D0018911F /* CameraViewController.swift */; };
+		0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC182BCA836D0018911F /* FoodSample.mlmodel */; };
+		0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */; };
+		0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1C2BCC30220018911F /* WaterViewCell.swift */; };
+		0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */; };
+		0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC222BCD541E0018911F /* ReportViewController.swift */; };
+		0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC242BCD60030018911F /* NutrientsChartView.swift */; };
+		0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC262BCD696B0018911F /* ChartsViewModel.swift */; };
+		0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */; };
+		0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */; };
+		0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2C2BCE18190018911F /* WeightChartView.swift */; };
+		0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC302BCF06FB0018911F /* IntakeCardView.swift */; };
+		0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC322BCFDEAC0018911F /* UserModel.swift */; };
+		0E91DC362BD0469F0018911F /* ProfileVeiwController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */; };
+		0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC372BD0A3730018911F /* ProfileCell.swift */; };
+		0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */; };
+		0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */; };
+		0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC412BD1811E0018911F /* HomeViewController.swift */; };
+		0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC432BD21DC30018911F /* PlantSelectionView.swift */; };
+		0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */; };
+		0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */; };
+		0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */; };
+		0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */; };
+		0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6D2BD3DC890018911F /* PostViewController.swift */; };
+		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
+		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
+		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
+		0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE088C2BC69877003C15B0 /* Main.storyboard */; };
+		0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE088F2BC69878003C15B0 /* Assets.xcassets */; };
+		0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */; };
+		0ECE089C2BC6AFEC003C15B0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE089B2BC6AFEC003C15B0 /* FirebaseAuth */; };
+		0ECE089E2BC6AFEC003C15B0 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE089D2BC6AFEC003C15B0 /* FirebaseDatabaseSwift */; };
+		0ECE08A02BC6AFEC003C15B0 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE089F2BC6AFEC003C15B0 /* FirebaseFirestoreSwift */; };
+		0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */; };
+		0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */; };
+		0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
+		0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */; };
+		0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */; };
+		0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */; };
+		0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */; };
+		0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */; };
+		0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */; };
+		0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */; };
+		0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */; };
+		0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
+		0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0E91DC152BCA556D0018911F /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		0E91DC182BCA836D0018911F /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
+		0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDataManager.swift; sourceTree = "<group>"; };
+		0E91DC1C2BCC30220018911F /* WaterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterViewCell.swift; sourceTree = "<group>"; };
+		0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
+		0E91DC222BCD541E0018911F /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		0E91DC242BCD60030018911F /* NutrientsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutrientsChartView.swift; sourceTree = "<group>"; };
+		0E91DC262BCD696B0018911F /* ChartsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewModel.swift; sourceTree = "<group>"; };
+		0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHostingCell.swift; sourceTree = "<group>"; };
+		0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesChartView.swift; sourceTree = "<group>"; };
+		0E91DC2C2BCE18190018911F /* WeightChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightChartView.swift; sourceTree = "<group>"; };
+		0E91DC302BCF06FB0018911F /* IntakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeCardView.swift; sourceTree = "<group>"; };
+		0E91DC322BCFDEAC0018911F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVeiwController.swift; sourceTree = "<group>"; };
+		0E91DC372BD0A3730018911F /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBannerView.swift; sourceTree = "<group>"; };
+		0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManageViewController.swift; sourceTree = "<group>"; };
+		0E91DC412BD1811E0018911F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0E91DC432BD21DC30018911F /* PlantSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantSelectionView.swift; sourceTree = "<group>"; };
+		0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageManager.swift; sourceTree = "<group>"; };
+		0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KiweeCoreData.xcdatamodel; sourceTree = "<group>"; };
+		0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC6D2BD3DC890018911F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
+		0ECE088D2BC69877003C15B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0ECE088F2BC69878003C15B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0ECE08922BC69878003C15B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0ECE08942BC69878003C15B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewCell.swift; sourceTree = "<group>"; };
+		0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
+		0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
+		0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
+		0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewController.swift; sourceTree = "<group>"; };
+		0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodMethodCell.swift; sourceTree = "<group>"; };
+		0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
+		0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCell.swift; sourceTree = "<group>"; };
+		5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.release.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.release.xcconfig"; sourceTree = "<group>"; };
+		5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.debug.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.debug.xcconfig"; sourceTree = "<group>"; };
+		99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kiwee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0ECE08802BC69877003C15B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ECE089E2BC6AFEC003C15B0 /* FirebaseDatabaseSwift in Frameworks */,
+				0ECE089C2BC6AFEC003C15B0 /* FirebaseAuth in Frameworks */,
+				0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */,
+				0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */,
+				0ECE08A02BC6AFEC003C15B0 /* FirebaseFirestoreSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E91DC172BCA561D0018911F /* DiaryView */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
+				0E91DC1C2BCC30220018911F /* WaterViewCell.swift */,
+				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
+			);
+			path = DiaryView;
+			sourceTree = "<group>";
+		};
+		0E91DC212BCD53B40018911F /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC222BCD541E0018911F /* ReportViewController.swift */,
+				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
+				0E91DC2E2BCF06440018911F /* ChartView */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		0E91DC2E2BCF06440018911F /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */,
+				0E91DC302BCF06FB0018911F /* IntakeCardView.swift */,
+				0E91DC242BCD60030018911F /* NutrientsChartView.swift */,
+				0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */,
+				0E91DC2C2BCE18190018911F /* WeightChartView.swift */,
+			);
+			path = ChartView;
+			sourceTree = "<group>";
+		};
+		0E91DC342BD044C40018911F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */,
+				0E91DC6D2BD3DC890018911F /* PostViewController.swift */,
+				0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */,
+				0E91DC3F2BD0D8DE0018911F /* ProfileView */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		0E91DC3F2BD0D8DE0018911F /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */,
+				0E91DC372BD0A3730018911F /* ProfileCell.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		0E91DC402BD180CB0018911F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC412BD1811E0018911F /* HomeViewController.swift */,
+				0E91DC432BD21DC30018911F /* PlantSelectionView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0E0643922BC8FFF000DFB39B /* FoodData.json */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		0ECE087A2BC69877003C15B0 = {
+			isa = PBXGroup;
+			children = (
+				0ECE08852BC69877003C15B0 /* Kiwee */,
+				0ECE08842BC69877003C15B0 /* Products */,
+				98C616CA13DA3BC47C01686C /* Pods */,
+				EAE9177B15228A8313059CA0 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0ECE08842BC69877003C15B0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08832BC69877003C15B0 /* Kiwee.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0ECE08852BC69877003C15B0 /* Kiwee */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08862BC69877003C15B0 /* AppDelegate.swift */,
+				0ECE08882BC69877003C15B0 /* SceneDelegate.swift */,
+				0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */,
+				0ECE08C42BC76A96003C15B0 /* Managers */,
+				0ECE08C32BC76A31003C15B0 /* View */,
+				0ECE08C22BC76A0F003C15B0 /* Models */,
+				0EAB60EA2BC8F0090005F3C1 /* Resource */,
+				0ECE08C52BC76AE8003C15B0 /* Extension */,
+				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
+				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
+				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
+				0ECE08942BC69878003C15B0 /* Info.plist */,
+				0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */,
+			);
+			path = Kiwee;
+			sourceTree = "<group>";
+		};
+		0ECE08C22BC76A0F003C15B0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */,
+				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
+				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
+				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
+				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
+				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0ECE08C32BC76A31003C15B0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC402BD180CB0018911F /* Home */,
+				0ECE08C72BC76C2D003C15B0 /* Diary */,
+				0E91DC212BCD53B40018911F /* Report */,
+				0E91DC342BD044C40018911F /* Profile */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0ECE08C42BC76A96003C15B0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
+				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
+				0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */,
+				0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		0ECE08C52BC76AE8003C15B0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */,
+			);
+			path = ThirdPartyLibrary;
+			sourceTree = "<group>";
+		};
+		0ECE08C72BC76C2D003C15B0 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
+				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
+				0E91DC152BCA556D0018911F /* CameraViewController.swift */,
+				0E91DC172BCA561D0018911F /* DiaryView */,
+				0ECE08D22BC7BAA2003C15B0 /* AddFoodView */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		0ECE08D22BC7BAA2003C15B0 /* AddFoodView */ = {
+			isa = PBXGroup;
+			children = (
+				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
+				0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */,
+				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
+			);
+			path = AddFoodView;
+			sourceTree = "<group>";
+		};
+		98C616CA13DA3BC47C01686C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */,
+				5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EAE9177B15228A8313059CA0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0ECE08822BC69877003C15B0 /* Kiwee */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0ECE08972BC69878003C15B0 /* Build configuration list for PBXNativeTarget "Kiwee" */;
+			buildPhases = (
+				EC213C95306642C6E27B4DC2 /* [CP] Check Pods Manifest.lock */,
+				0ECE087F2BC69877003C15B0 /* Sources */,
+				0ECE08802BC69877003C15B0 /* Frameworks */,
+				0ECE08812BC69877003C15B0 /* Resources */,
+				0ECE08A72BC6C6E9003C15B0 /* ShellScript */,
+				C298F40E0CB9507DD8CE5832 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Kiwee;
+			packageProductDependencies = (
+				0ECE089B2BC6AFEC003C15B0 /* FirebaseAuth */,
+				0ECE089D2BC6AFEC003C15B0 /* FirebaseDatabaseSwift */,
+				0ECE089F2BC6AFEC003C15B0 /* FirebaseFirestoreSwift */,
+				0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */,
+			);
+			productName = Kiwee;
+			productReference = 0ECE08832BC69877003C15B0 /* Kiwee.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0ECE087B2BC69877003C15B0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1510;
+				LastUpgradeCheck = 1510;
+				TargetAttributes = {
+					0ECE08822BC69877003C15B0 = {
+						CreatedOnToolsVersion = 15.1;
+					};
+				};
+			};
+			buildConfigurationList = 0ECE087E2BC69877003C15B0 /* Build configuration list for PBXProject "Kiwee" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0ECE087A2BC69877003C15B0;
+			packageReferences = (
+				0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			productRefGroup = 0ECE08842BC69877003C15B0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0ECE08822BC69877003C15B0 /* Kiwee */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0ECE08812BC69877003C15B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
+				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
+				0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */,
+				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
+				0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0ECE08A72BC6C6E9003C15B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		C298F40E0CB9507DD8CE5832 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Kiwee/Pods-Kiwee-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Kiwee/Pods-Kiwee-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Kiwee/Pods-Kiwee-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC213C95306642C6E27B4DC2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Kiwee-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0ECE087F2BC69877003C15B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */,
+				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
+				0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */,
+				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
+				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
+				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
+				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
+				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
+				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
+				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
+				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
+				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
+				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
+				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
+				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
+				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
+				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
+				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
+				0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */,
+				0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */,
+				0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */,
+				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
+				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,
+				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
+				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
+				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
+				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
+				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
+				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
+				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
+				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
+				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
+				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
+				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
+				0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */,
+				0E91DC362BD0469F0018911F /* ProfileVeiwController.swift in Sources */,
+				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0ECE088C2BC69877003C15B0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0ECE088D2BC69877003C15B0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0ECE08922BC69878003C15B0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0ECE08952BC69878003C15B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0ECE08962BC69878003C15B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0ECE08982BC69878003C15B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Kiwee/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.Kiwee;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0ECE08992BC69878003C15B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Kiwee/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.Kiwee;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0ECE087E2BC69877003C15B0 /* Build configuration list for PBXProject "Kiwee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ECE08952BC69878003C15B0 /* Debug */,
+				0ECE08962BC69878003C15B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0ECE08972BC69878003C15B0 /* Build configuration list for PBXNativeTarget "Kiwee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ECE08982BC69878003C15B0 /* Debug */,
+				0ECE08992BC69878003C15B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.24.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0ECE089B2BC6AFEC003C15B0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		0ECE089D2BC6AFEC003C15B0 /* FirebaseDatabaseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabaseSwift;
+		};
+		0ECE089F2BC6AFEC003C15B0 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */,
+			);
+			currentVersion = 0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */;
+			path = KiweeCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 0ECE087B2BC69877003C15B0 /* Project object */;
+}
