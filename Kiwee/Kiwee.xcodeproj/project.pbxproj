@@ -20,6 +20,26 @@
 		0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */; };
 		0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */; };
 		0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC2C2BCE18190018911F /* WeightChartView.swift */; };
+		0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC302BCF06FB0018911F /* IntakeCardView.swift */; };
+		0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC322BCFDEAC0018911F /* UserModel.swift */; };
+		0E91DC362BD0469F0018911F /* ProfileVeiwController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */; };
+		0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC372BD0A3730018911F /* ProfileCell.swift */; };
+		0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */; };
+		0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */; };
+		0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC412BD1811E0018911F /* HomeViewController.swift */; };
+		0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC432BD21DC30018911F /* PlantSelectionView.swift */; };
+		0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */; };
+		0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */; };
+		0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */; };
+		0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */; };
+		0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6D2BD3DC890018911F /* PostViewController.swift */; };
+		0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */; };
+		0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */; };
+		0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA02BD676F70018911F /* ChatModel.swift */; };
+		0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA22BD6787A0018911F /* Type+Extension.swift */; };
+		0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA42BD67D9C0018911F /* MessageInputView.swift */; };
+		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
+		0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCAE2BD7E82C0018911F /* APIKey.plist */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -57,6 +77,26 @@
 		0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHostingCell.swift; sourceTree = "<group>"; };
 		0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesChartView.swift; sourceTree = "<group>"; };
 		0E91DC2C2BCE18190018911F /* WeightChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightChartView.swift; sourceTree = "<group>"; };
+		0E91DC302BCF06FB0018911F /* IntakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeCardView.swift; sourceTree = "<group>"; };
+		0E91DC322BCFDEAC0018911F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVeiwController.swift; sourceTree = "<group>"; };
+		0E91DC372BD0A3730018911F /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBannerView.swift; sourceTree = "<group>"; };
+		0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManageViewController.swift; sourceTree = "<group>"; };
+		0E91DC412BD1811E0018911F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0E91DC432BD21DC30018911F /* PlantSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantSelectionView.swift; sourceTree = "<group>"; };
+		0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageManager.swift; sourceTree = "<group>"; };
+		0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KiweeCoreData.xcdatamodel; sourceTree = "<group>"; };
+		0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0E91DC6D2BD3DC890018911F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotViewController.swift; sourceTree = "<group>"; };
+		0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIManager.swift; sourceTree = "<group>"; };
+		0E91DCA02BD676F70018911F /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		0E91DCA22BD6787A0018911F /* Type+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Type+Extension.swift"; sourceTree = "<group>"; };
+		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
+		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,13 +150,61 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC222BCD541E0018911F /* ReportViewController.swift */,
+				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
+				0E91DC2E2BCF06440018911F /* ChartView */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		0E91DC2E2BCF06440018911F /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */,
+				0E91DC302BCF06FB0018911F /* IntakeCardView.swift */,
 				0E91DC242BCD60030018911F /* NutrientsChartView.swift */,
 				0E91DC2A2BCE18060018911F /* CaloriesChartView.swift */,
 				0E91DC2C2BCE18190018911F /* WeightChartView.swift */,
-				0E91DC282BCD843A0018911F /* SwiftUIHostingCell.swift */,
-				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
 			);
-			path = Report;
+			path = ChartView;
+			sourceTree = "<group>";
+		};
+		0E91DC342BD044C40018911F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */,
+				0E91DC6D2BD3DC890018911F /* PostViewController.swift */,
+				0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */,
+				0E91DC3F2BD0D8DE0018911F /* ProfileView */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		0E91DC3F2BD0D8DE0018911F /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC392BD0A4E30018911F /* ProfileBannerView.swift */,
+				0E91DC372BD0A3730018911F /* ProfileCell.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		0E91DC402BD180CB0018911F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC412BD1811E0018911F /* HomeViewController.swift */,
+				0E91DC432BD21DC30018911F /* PlantSelectionView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0E91DC732BD63F7A0018911F /* Chatbot */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */,
+				0E91DCA42BD67D9C0018911F /* MessageInputView.swift */,
+				0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */,
+			);
+			path = Chatbot;
 			sourceTree = "<group>";
 		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
@@ -153,6 +241,7 @@
 				0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */,
 				0ECE08C42BC76A96003C15B0 /* Managers */,
 				0ECE08C32BC76A31003C15B0 /* View */,
+				0E91DC732BD63F7A0018911F /* Chatbot */,
 				0ECE08C22BC76A0F003C15B0 /* Models */,
 				0EAB60EA2BC8F0090005F3C1 /* Resource */,
 				0ECE08C52BC76AE8003C15B0 /* Extension */,
@@ -160,6 +249,7 @@
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
 				0ECE08942BC69878003C15B0 /* Info.plist */,
+				0E91DCAE2BD7E82C0018911F /* APIKey.plist */,
 				0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */,
 			);
 			path = Kiwee;
@@ -168,7 +258,12 @@
 		0ECE08C22BC76A0F003C15B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */,
+				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
+				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
+				0E91DCA02BD676F70018911F /* ChatModel.swift */,
+				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
 			);
 			path = Models;
@@ -177,8 +272,10 @@
 		0ECE08C32BC76A31003C15B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0E91DC212BCD53B40018911F /* Report */,
+				0E91DC402BD180CB0018911F /* Home */,
 				0ECE08C72BC76C2D003C15B0 /* Diary */,
+				0E91DC212BCD53B40018911F /* Report */,
+				0E91DC342BD044C40018911F /* Profile */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -189,6 +286,8 @@
 				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
 				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
 				0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */,
+				0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */,
+				0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -197,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */,
+				0E91DCA22BD6787A0018911F /* Type+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -225,8 +325,8 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
-				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
 				0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */,
+				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
 			);
 			path = AddFoodView;
 			sourceTree = "<group>";
@@ -321,6 +421,7 @@
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
 				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
 				0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */,
+				0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */,
 				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
 				0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */,
 			);
@@ -394,28 +495,47 @@
 			files = (
 				0E91DC1D2BCC30220018911F /* WaterViewCell.swift in Sources */,
 				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
+				0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */,
 				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
+				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
+				0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
+				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
+				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
+				0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */,
+				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
+				0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */,
 				0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */,
 				0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */,
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
+				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
+				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
+				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
+				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
+				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
+				0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */,
+				0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */,
 				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
+				0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
+				0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */,
+				0E91DC362BD0469F0018911F /* ProfileVeiwController.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
+				0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +798,19 @@
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */,
+			);
+			currentVersion = 0E91DC632BD382080018911F /* KiweeCoreData.xcdatamodel */;
+			path = KiweeCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0ECE087B2BC69877003C15B0 /* Project object */;
 }

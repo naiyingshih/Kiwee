@@ -10,7 +10,7 @@ import UIKit
 protocol AddFoodMethodCellDelegate: AnyObject {
     func searchBarDidChange(text: String)
     func cameraButtonDidTapped()
-    func textFieldConfirmed(foodResult: [Food]?)
+    func textFieldConfirmed(foodResults: [Food]?)
 }
 
 enum AddFoodMethod {
@@ -131,6 +131,7 @@ class AddFoodMethodCell: UITableViewCell {
             return
         }
         let foodResult = Food(
+            documentID: "",
             name: name,
             totalCalories: Double("\(calorie)") ?? 0.0,
             nutrients: Nutrient(
@@ -141,9 +142,10 @@ class AddFoodMethodCell: UITableViewCell {
             ),
             image: "",
             quantity: nil,
-            section: nil
+            section: nil, 
+            date: nil
         )
-        delegate.textFieldConfirmed(foodResult: [foodResult])
+        delegate.textFieldConfirmed(foodResults: [foodResult])
     }
     
     func configureCellForMethod(_ method: AddFoodMethod?) {

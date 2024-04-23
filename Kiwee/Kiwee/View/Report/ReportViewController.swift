@@ -20,10 +20,8 @@ class ReportViewController: UIViewController {
         
         let margin: CGFloat = 16
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        
         flowLayout.minimumInteritemSpacing = margin
         flowLayout.minimumLineSpacing = margin
-        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
     }
     
 }
@@ -31,7 +29,7 @@ class ReportViewController: UIViewController {
 extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -44,10 +42,12 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
         let contentView: AnyView
             switch indexPath.row {
             case 0:
-                contentView = AnyView(CaloriesChartView())
+                contentView = AnyView(IntakeCardView())
             case 1:
-                contentView = AnyView(WeightChartView())
+                contentView = AnyView(CaloriesChartView())
             case 2:
+                contentView = AnyView(WeightChartView())
+            case 3:
                 contentView = AnyView(NutrientsChartView())
             default:
                 contentView = AnyView(Text("Placeholder"))
@@ -58,11 +58,14 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewWidth = collectionView.bounds.width - 32
-        if indexPath.row == 2 {
+        switch indexPath.row {
+        case 0:
+            return CGSize(width: collectionViewWidth, height: 250)
+        case 3:
             return CGSize(width: collectionViewWidth, height: 400)
-        } else {
+        default:
             return CGSize(width: collectionViewWidth, height: 300)
         }
     }
-    
+        
 }

@@ -17,11 +17,19 @@ class AddFoodViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                if !self.filteredFoodItems.isEmpty {
+                    self.confirmButton.isEnabled = true
+                    self.confirmButton.alpha = 1.0
+                } else {
+                    self.confirmButton.isEnabled = false
+                    self.confirmButton.alpha = 0.5
+                }
             }
         }
     }
-    var selectedFoodResult: Food?
+    var recentFoods: [Food] = []
     var selectedDate: Date?
+    var updatedQuantity: Double?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imageRecognizeButton: UIButton!
@@ -52,8 +60,8 @@ class AddFoodViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
-//        tableView.register(RecentRecordCell.self, forCellReuseIdentifier: "RecentRecordCell")
-
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        fetchRecentRecord()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +78,6 @@ class AddFoodViewController: UIViewController {
         confirmButton.isEnabled = false
         confirmButton.alpha = 0.3
         currentMethod = .imageRecognition
-        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
     
     func setupBottomBlock() {
@@ -91,65 +98,93 @@ class AddFoodViewController: UIViewController {
         ])
     }
     
+    func fetchRecentRecord() {
+        guard let section = self.sectionIndex else { return }
+        FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.recentFoods = foods.map { food in
+                var modifiedFood = food
+                if modifiedFood.quantity != 0 {
+                    modifiedFood.totalCalories = (modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.carbohydrates = (modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.protein = (modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.fat = (modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.nutrients.fiber = (modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100)
+                }
+                return modifiedFood
+            }
+            
+            DispatchQueue.main.async {
+                strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+            }
+        }
+    }
+    
+//    func fetchRecentRecord() {
+//        guard let secion = self.sectionIndex else { return }
+//        FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
+//            self?.recentFoods = foods
+//            DispatchQueue.main.async {
+//                self?.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+//            }
+//        }
+//    }
+    
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
-        filteredFoodItems.removeAll()
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func searchFoodButtonTapped() {
         currentMethod = .search
-        filteredFoodItems.removeAll()
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func manualButtonTapped() {
         currentMethod = .manual
-        filteredFoodItems.removeAll()
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @objc func confirmed() {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ResultCell else { return }
-        guard let foodResult = selectedFoodResult else {
-            print("No food result selected")
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ResultCell else { return }
+        guard !filteredFoodItems.isEmpty else {
+            print("No food result")
             return
         }
-        
-        // Post the intake data to Firebase
         if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
             guard let index = self.sectionIndex else { return }
-            let foodInput = Food(
-                name: foodResult.name,
-                totalCalories: foodResult.totalCalories,
-                nutrients: foodResult.nutrients,
-                image: foodResult.image,
-                quantity: quantity, 
-                section: index
-            )
-            let calculatedIntakeData = calculateIntakeData(input: foodInput)
+            var calculatedIntakeDataArray: [Food] = []
             
-            FirestoreManager.shared.postIntakeData(
-                intakeData: calculatedIntakeData,
-                chosenDate: selectedDate ?? Date()
-            ) { success in
-                if success {
-                    print("Food intake data posted successfully")
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    print("Failed to post food intake data")
+            for filteredFoodItem in filteredFoodItems {
+                let foodInput = Food(documentID: filteredFoodItem.documentID, 
+                                     name: filteredFoodItem.name,
+                                     totalCalories: filteredFoodItem.totalCalories,
+                                     nutrients: filteredFoodItem.nutrients,
+                                     image: filteredFoodItem.image,
+                                     quantity: quantity,
+                                     section: index,
+                                     date: filteredFoodItem.date)
+                if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
+                    calculatedIntakeDataArray.append(calculatedIntakeData)
                 }
             }
-            
-        } else {
-            print("Invalid quantity text or conversion failed")
+            FirestoreManager.shared.postIntakeData(
+                intakeDataArray: calculatedIntakeDataArray,
+                chosenDate: selectedDate ?? Date()
+            ) { success in
+                    if success {
+                        print("Food intake data posted successfully")
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        print("Failed to post food intake data")
+                    }
+                }
         }
+
     }
-    
-    func calculateIntakeData(input: Food) -> Food {
+        
+    func calculateIntakeData(input: Food) -> Food? {
         let updatedTotalCalorie = (input.totalCalories * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
         let updatedCarbohydrates = (input.nutrients.carbohydrates * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
         let updatedProtein = (input.nutrients.protein * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
@@ -163,12 +198,14 @@ class AddFoodViewController: UIViewController {
         }
         
         return Food(
+            documentID: input.documentID,
             name: input.name,
             totalCalories: updatedTotalCalorie,
             nutrients: nutrients,
             image: input.image,
             quantity: input.quantity,
-            section: sectionIndex
+            section: sectionIndex,
+            date: input.date
         )
     }
 
@@ -183,7 +220,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1 {
+        if section == 2 {
             return filteredFoodItems.count
         } else {
             return 1
@@ -204,23 +241,26 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             
         case 1:
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: ResultCell.self),
-                for: indexPath
-            )
-            guard let resultCell = cell as? ResultCell else { return cell }
-            selectedFoodResult = filteredFoodItems[indexPath.row]
-            let foodResult = filteredFoodItems[indexPath.row]
-            resultCell.updateResult(foodResult)
-            return resultCell
-            
-        case 2:
-            let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: RecentRecordCell.self),
                 for: indexPath
             )
             guard let recentRecordCell = cell as? RecentRecordCell else { return cell }
+            recentRecordCell.collectionView.delegate = self
+            recentRecordCell.collectionView.dataSource = self
             return recentRecordCell
             
+        case 2:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: String(describing: ResultCell.self),
+                for: indexPath
+            )
+            guard let resultCell = cell as? ResultCell else { return cell }
+            let foodResult = filteredFoodItems[indexPath.row]
+            resultCell.updateResult(foodResult)
+            resultCell.deleteButtonTapped = { [weak self] in
+                self?.filteredFoodItems.remove(at: indexPath.row)
+            }
+            return resultCell
         default:
             break
         }
@@ -228,16 +268,50 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
-            return 180
-        } else {
+        switch indexPath.section {
+        case 0:
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
+        case 1:
+            return 200
+        case 2:
+            return 180
+        default:
+            return 0
         }
     }
     
 }
 
+// MARK: - CollectionView
+
+extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return recentFoods.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: String(describing: RecordCollectionCell.self),
+            for: indexPath)
+        guard let collectionViewCell = cell as? RecordCollectionCell else { return cell }
+        let recentFood = recentFoods[indexPath.row]
+        collectionViewCell.updateResults(recentFood)
+        return collectionViewCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = collectionView.bounds.height
+        return CGSize(width: 80, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recentFood = recentFoods[indexPath.row]
+        filteredFoodItems.append(recentFood)
+    }
+}
+    
 // MARK: - Extension: Search Food Function
 
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
@@ -251,9 +325,10 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     func searchBarDidChange(text: String) {
         guard !text.isEmpty else { return }
         loadFood()
-        filteredFoodItems = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
-        confirmButton.isEnabled = true
-        confirmButton.alpha = 1.0
+        let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
+        for filterFood in filterFoods {
+            filteredFoodItems.append(filterFood)
+        }
     }
     
     private func loadFood() {
@@ -266,11 +341,11 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         }
     }
     
-    func textFieldConfirmed(foodResult: [Food]?) {
-        guard let foodResult = foodResult else { return }
-        filteredFoodItems = foodResult
-        confirmButton.isEnabled = true
-        confirmButton.alpha = 1.0
+    func textFieldConfirmed(foodResults: [Food]?) {
+        guard let foodResults = foodResults else { return }
+        for foodResult in foodResults {
+            filteredFoodItems.append(foodResult)
+        }
     }
     
 }
@@ -281,16 +356,16 @@ extension AddFoodViewController: FoodDataDelegate {
     
     func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String) {
         let identifiedFood = Food(
+            documentID: "",
             name: name,
             totalCalories: totalCalories,
             nutrients: nutrients,
             image: image,
             quantity: nil,
-            section: nil
+            section: nil, 
+            date: nil
         )
         filteredFoodItems.append(identifiedFood)
-        confirmButton.isEnabled = true
-        confirmButton.alpha = 1.0
     }
     
 }

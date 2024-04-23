@@ -9,6 +9,8 @@ import UIKit
 
 class ResultCell: UITableViewCell {
     
+    var deleteButtonTapped: (() -> Void)?
+    
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var foodImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -18,9 +20,13 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var fatLabel: UILabel!
     @IBOutlet weak var fiberLabel: UILabel!
     @IBOutlet weak var quantityTextField: UITextField!
-    @IBOutlet weak var unitPicker: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
+    
+    @IBAction func deleteResult(_ sender: Any) {
+        deleteButtonTapped?()
+    }
     
     func updateResult(_ result: Food) {
         nameLabel.text = "\(result.name) (每100g)"
@@ -30,6 +36,6 @@ class ResultCell: UITableViewCell {
         fatLabel.text = "脂肪\n\(result.nutrients.fat)"
         fiberLabel.text = "纖維\n\(result.nutrients.fiber)"
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
-        quantityTextField.text = "100"
+        quantityTextField.text = "\(result.quantity ?? 100)"
     }
 }

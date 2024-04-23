@@ -8,17 +8,19 @@
 import Foundation
 
 struct Food: Codable {
+    let documentID: String?
     let name: String
-    let totalCalories: Double
-    let nutrients: Nutrient
+    var totalCalories: Double
+    var nutrients: Nutrient
     let image: String
-    let quantity: Double?
+    var quantity: Double?
     let section: Int?
+    let date: Date?
 }
 
 struct Nutrient: Codable {
-    let carbohydrates: Double
-    let protein: Double
-    let fat: Double
-    let fiber: Double
+    var carbohydrates: Double
+    var protein: Double
+    var fat: Double
+    var fiber: Double
 }
