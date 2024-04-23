@@ -99,12 +99,13 @@ extension ChatBotViewController: MessageInputViewDelegate {
         messages.append(newMessage)
         
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.insertRows(at: [indexPath], with: .none)
         
         sendMessageToChatBot(message) { response in
             DispatchQueue.main.async {
                 self.messages[indexPath.row].responseText = response
                 self.tableView.reloadRows(at: [indexPath], with: .none)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
             }
         }
     }
@@ -136,5 +137,23 @@ extension ChatBotViewController {
             }
         }
     }
-
+    
+//    func sendMessageToChatBot(_ message: String, completion: @escaping (String) -> Void) {
+//        Task {
+//            do {
+//                let stream = try await chatGPTAPI.sendMessageStream(text: message)
+//                for try await word in stream {
+//                    DispatchQueue.main.async {
+//                        completion(word)
+//                    }
+//                }
+//            } catch {
+//                print("Error: \(error)")
+//                DispatchQueue.main.async {
+//                    completion("Failed to get response")
+//                }
+//            }
+//        }
+//    }
+    
 }
