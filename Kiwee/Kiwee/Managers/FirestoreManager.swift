@@ -48,21 +48,35 @@ class FirestoreManager {
                     }
                 } else {
                     // No document for the current day, create a new one
+                    let documentID = self.database.collection("intake").document().documentID
+                    let document = self.database.collection("intake").document()
                     let waterDictionary: [String: Any] = [
                         "water_count": waterCount,
                         "date": chosenDate,
-                        "type": "water"
+                        "type": "water",
+                        "documentID": documentID
                     ]
                     
-                    self.database.collection("intake").addDocument(data: waterDictionary) { error in
+                    // Use the documentID to set the document with the specific ID
+                    self.database.collection("intake").document(documentID).setData(waterDictionary) { error in
                         if let error = error {
                             print("Error adding water intake: \(error.localizedDescription)")
                             completion(false)
                         } else {
-                            print("Water intake data added successfully")
+                            print("Water intake data added successfully with ID: \(documentID)")
                             completion(true)
                         }
                     }
+                    
+//                    self.database.collection("intake").addDocument(data: waterDictionary) { error in
+//                        if let error = error {
+//                            print("Error adding water intake: \(error.localizedDescription)")
+//                            completion(false)
+//                        } else {
+//                            print("Water intake data added successfully")
+//                            completion(true)
+//                        }
+//                    }
                 }
             }
     }
@@ -224,6 +238,27 @@ class FirestoreManager {
                 completion(true)
             }
         }
+    }
+    
+    func resetWaterCount(completion: @escaping (Bool) -> Void) {
+        database.collection("intake")
+            .whereField("type", isEqualTo: "water")
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        self.database.collection("intake").document(document.documentID).delete { err in
+                            if let err = err {
+                                print("Error removing document: \(err)")
+                                completion(false)
+                            } else {
+                                completion(true)
+                            }
+                        }
+                    }
+                }
+            }
     }
     
 }

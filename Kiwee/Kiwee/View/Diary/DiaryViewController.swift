@@ -171,17 +171,28 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
-            let foodItem = allFood[indexPath.section][indexPath.row]
-            let documentID = foodItem.documentID ?? ""
-
-            FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in
-                DispatchQueue.main.async {
-                    if success {
-                        print("Document successfully removed!")
-                        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
-                    } else {
-                        print("Error removing document")
+            if indexPath.section >= 0 && indexPath.section <= 3 {
+                let foodItem = allFood[indexPath.section][indexPath.row]
+                let documentID = foodItem.documentID ?? ""
+                
+                FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in
+                    DispatchQueue.main.async {
+                        if success {
+                            print("Document successfully removed!")
+                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                        } else {
+                            print("Error removing document")
+                        }
+                    }
+                }
+            } else if indexPath.section == 4 {
+                FirestoreManager.shared.resetWaterCount { success in
+                    DispatchQueue.main.async {
+                        if success {
+                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                        } else {
+                            print("Error removing document")
+                        }
                     }
                 }
             }
