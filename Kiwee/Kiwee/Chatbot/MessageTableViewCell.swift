@@ -26,21 +26,37 @@ class MessageTableViewCell: UITableViewCell {
     lazy var sendMessageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.textAlignment = .right
+        label.textAlignment = .left
         label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    lazy var sendMessageView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        view.layer.cornerRadius = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var responseMessageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
-        label.textColor = UIColor.black
+        label.textColor = UIColor.white
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var responseMessageView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        view.layer.cornerRadius = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -52,11 +68,15 @@ class MessageTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {}
+    
     func setupUI() {
         contentView.addSubview(sendAvatar)
-        contentView.addSubview(sendMessageLabel)
+        contentView.addSubview(sendMessageView)
         contentView.addSubview(responseAvatar)
-        contentView.addSubview(responseMessageLabel)
+        contentView.addSubview(responseMessageView)
+        sendMessageView.addSubview(sendMessageLabel)
+        responseMessageView.addSubview(responseMessageLabel)
         
         NSLayoutConstraint.activate([
             sendAvatar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
@@ -64,19 +84,29 @@ class MessageTableViewCell: UITableViewCell {
             sendAvatar.widthAnchor.constraint(equalToConstant: 40),
             sendAvatar.heightAnchor.constraint(equalToConstant: 40),
             
-            sendMessageLabel.topAnchor.constraint(equalTo: sendAvatar.bottomAnchor, constant: 8),
-            sendMessageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-            sendMessageLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
+            sendMessageView.topAnchor.constraint(equalTo: sendAvatar.bottomAnchor, constant: 8),
+            sendMessageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            sendMessageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            
+            sendMessageLabel.topAnchor.constraint(equalTo: sendMessageView.topAnchor, constant: 8),
+            sendMessageLabel.leadingAnchor.constraint(equalTo: sendMessageView.leadingAnchor, constant: 8),
+            sendMessageLabel.trailingAnchor.constraint(equalTo: sendMessageView.trailingAnchor, constant: -8),
+            sendMessageLabel.bottomAnchor.constraint(equalTo: sendMessageView.bottomAnchor, constant: -8),
             
             responseAvatar.topAnchor.constraint(equalTo: sendMessageLabel.bottomAnchor, constant: 12),
             responseAvatar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             responseAvatar.widthAnchor.constraint(equalToConstant: 40),
             responseAvatar.heightAnchor.constraint(equalToConstant: 40),
             
-            responseMessageLabel.topAnchor.constraint(equalTo: responseAvatar.bottomAnchor, constant: 8),
-            responseMessageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            responseMessageLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
-            responseMessageLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            responseMessageView.topAnchor.constraint(equalTo: responseAvatar.bottomAnchor, constant: 8),
+            responseMessageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            responseMessageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            responseMessageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            
+            responseMessageLabel.topAnchor.constraint(equalTo: responseMessageView.topAnchor, constant: 8),
+            responseMessageLabel.leadingAnchor.constraint(equalTo: responseMessageView.leadingAnchor, constant: 8),
+            responseMessageLabel.trailingAnchor.constraint(equalTo: responseMessageView.trailingAnchor, constant: -8),
+            responseMessageLabel.bottomAnchor.constraint(equalTo: responseMessageView.bottomAnchor, constant: -8)
         ])
     }
     

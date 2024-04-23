@@ -9,7 +9,18 @@ import UIKit
 
 class ChatBotViewController: UIViewController {
     
-    let chatGPTAPI = OpenAIManager(apiKey: "不准commit api key!")
+    var apiKey: String {
+        guard let plistPath = Bundle.main.path(forResource: "APIKey", ofType: "plist"),
+              let plistDict = NSDictionary(contentsOfFile: plistPath),
+              let apiKey = plistDict["apiKey"] as? String else {
+            fatalError("API key not found in plist")
+        }
+        return apiKey
+    }
+    
+    lazy var chatGPTAPI: OpenAIManager = {
+        return OpenAIManager(apiKey: apiKey)
+    }()
     
     let tableView = UITableView()
     let messageInputView = MessageInputView()
