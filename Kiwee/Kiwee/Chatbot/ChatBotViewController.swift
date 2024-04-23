@@ -62,7 +62,7 @@ class ChatBotViewController: UIViewController {
             messageInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             messageInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            messageInputView.heightAnchor.constraint(equalToConstant: 80)
+            messageInputView.heightAnchor.constraint(equalToConstant: 180)
         ])
     }
     
@@ -148,23 +148,5 @@ extension ChatBotViewController {
             }
         }
     }
-    
-//    func sendMessageToChatBot(_ message: String, completion: @escaping (String) -> Void) {
-//        Task {
-//            do {
-//                let stream = try await chatGPTAPI.sendMessageStream(text: message)
-//                for try await word in stream {
-//                    DispatchQueue.main.async {
-//                        completion(word)
-//                    }
-//                }
-//            } catch {
-//                print("Error: \(error)")
-//                DispatchQueue.main.async {
-//                    completion("Failed to get response")
-//                }
-//            }
-//        }
-//    }
-    
+
 }
