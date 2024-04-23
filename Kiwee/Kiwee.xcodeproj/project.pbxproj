@@ -39,7 +39,7 @@
 		0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA22BD6787A0018911F /* Type+Extension.swift */; };
 		0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA42BD67D9C0018911F /* MessageInputView.swift */; };
 		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
-		0E91DCA92BD754CE0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCA82BD754CE0018911F /* APIKey.plist */; };
+		0E91DCAC2BD7C5D20018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCAB2BD7C5D20018911F /* APIKey.plist */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -96,7 +96,7 @@
 		0E91DCA22BD6787A0018911F /* Type+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Type+Extension.swift"; sourceTree = "<group>"; };
 		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
-		0E91DCA82BD754CE0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
+		0E91DCAB2BD7C5D20018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -218,6 +218,7 @@
 		0ECE087A2BC69877003C15B0 = {
 			isa = PBXGroup;
 			children = (
+				0E91DCAB2BD7C5D20018911F /* APIKey.plist */,
 				0ECE08852BC69877003C15B0 /* Kiwee */,
 				0ECE08842BC69877003C15B0 /* Products */,
 				98C616CA13DA3BC47C01686C /* Pods */,
@@ -248,7 +249,6 @@
 				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
-				0E91DCA82BD754CE0018911F /* APIKey.plist */,
 				0ECE08942BC69878003C15B0 /* Info.plist */,
 				0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */,
 			);
@@ -421,7 +421,7 @@
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
 				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
 				0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */,
-				0E91DCA92BD754CE0018911F /* APIKey.plist in Resources */,
+				0E91DCAC2BD7C5D20018911F /* APIKey.plist in Resources */,
 				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
 				0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */,
 			);
