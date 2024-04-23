@@ -33,6 +33,13 @@
 		0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */; };
 		0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */; };
 		0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC6D2BD3DC890018911F /* PostViewController.swift */; };
+		0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */; };
+		0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */; };
+		0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA02BD676F70018911F /* ChatModel.swift */; };
+		0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA22BD6787A0018911F /* Type+Extension.swift */; };
+		0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA42BD67D9C0018911F /* MessageInputView.swift */; };
+		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
+		0E91DCA92BD754CE0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCA82BD754CE0018911F /* APIKey.plist */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -83,6 +90,13 @@
 		0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LSFarm+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		0E91DC6D2BD3DC890018911F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotViewController.swift; sourceTree = "<group>"; };
+		0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIManager.swift; sourceTree = "<group>"; };
+		0E91DCA02BD676F70018911F /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		0E91DCA22BD6787A0018911F /* Type+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Type+Extension.swift"; sourceTree = "<group>"; };
+		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
+		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		0E91DCA82BD754CE0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +197,16 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		0E91DC732BD63F7A0018911F /* Chatbot */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DC712BD63F6A0018911F /* ChatBotViewController.swift */,
+				0E91DCA42BD67D9C0018911F /* MessageInputView.swift */,
+				0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */,
+			);
+			path = Chatbot;
+			sourceTree = "<group>";
+		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,12 +241,14 @@
 				0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */,
 				0ECE08C42BC76A96003C15B0 /* Managers */,
 				0ECE08C32BC76A31003C15B0 /* View */,
+				0E91DC732BD63F7A0018911F /* Chatbot */,
 				0ECE08C22BC76A0F003C15B0 /* Models */,
 				0EAB60EA2BC8F0090005F3C1 /* Resource */,
 				0ECE08C52BC76AE8003C15B0 /* Extension */,
 				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
+				0E91DCA82BD754CE0018911F /* APIKey.plist */,
 				0ECE08942BC69878003C15B0 /* Info.plist */,
 				0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */,
 			);
@@ -236,6 +262,7 @@
 				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
 				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
+				0E91DCA02BD676F70018911F /* ChatModel.swift */,
 				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
 			);
@@ -260,6 +287,7 @@
 				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
 				0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */,
 				0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */,
+				0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -268,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */,
+				0E91DCA22BD6787A0018911F /* Type+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -392,6 +421,7 @@
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
 				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
 				0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */,
+				0E91DCA92BD754CE0018911F /* APIKey.plist in Resources */,
 				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
 				0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */,
 			);
@@ -473,10 +503,12 @@
 				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
+				0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
 				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
 				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
+				0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */,
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
@@ -495,11 +527,15 @@
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
+				0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */,
+				0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */,
 				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
+				0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */,
 				0E91DC362BD0469F0018911F /* ProfileVeiwController.swift in Sources */,
 				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
+				0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
