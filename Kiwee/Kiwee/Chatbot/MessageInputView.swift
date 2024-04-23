@@ -9,6 +9,7 @@ import UIKit
 
 protocol MessageInputViewDelegate: AnyObject {
     func sendMessageButtonTapped(message: String)
+    func faqButtonTapped(message: String)
 }
 
 class MessageInputView: UIView {
@@ -27,7 +28,6 @@ class MessageInputView: UIView {
         let button = UIButton()
         button.setTitle("一份低GI且營養均衡的便當食譜", for: .normal)
         setupFAQButtons(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -35,7 +35,6 @@ class MessageInputView: UIView {
         let button = UIButton()
         button.setTitle("幫助燃脂的食物", for: .normal)
         setupFAQButtons(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -43,7 +42,6 @@ class MessageInputView: UIView {
         let button = UIButton()
         button.setTitle("三餐份量安排", for: .normal)
         setupFAQButtons(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -51,7 +49,6 @@ class MessageInputView: UIView {
         let button = UIButton()
         button.setTitle("運動後飲食計畫", for: .normal)
         setupFAQButtons(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -59,7 +56,6 @@ class MessageInputView: UIView {
         let button = UIButton()
         button.setTitle("20分鐘有氧運動", for: .normal)
         setupFAQButtons(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -97,6 +93,8 @@ class MessageInputView: UIView {
         sender.contentHorizontalAlignment = .center
         sender.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         sender.layer.cornerRadius = 8
+        sender.translatesAutoresizingMaskIntoConstraints = false
+        sender.addTarget(self, action: #selector(getResponse), for: .touchUpInside)
     }
     
     private func setupUI() {
@@ -166,6 +164,11 @@ class MessageInputView: UIView {
         guard let message = messageTextField.text, !message.isEmpty else { return }
         delegate?.sendMessageButtonTapped(message: message)
         messageTextField.text = ""
+    }
+    
+    @objc private func getResponse(_ sender: UIButton) {
+        guard let specificMessage = sender.titleLabel?.text else { return }
+        delegate?.faqButtonTapped(message: specificMessage)
     }
     
 }

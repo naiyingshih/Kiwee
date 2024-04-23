@@ -32,7 +32,7 @@ class ChatBotViewController: UIViewController {
     }
     
     private func setupUI() {
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 200, right: 0)
         setupTableView()
         setupMessageInputView()
     }
@@ -98,6 +98,34 @@ extension ChatBotViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - MessageInputViewDelegate
 
 extension ChatBotViewController: MessageInputViewDelegate {
+    
+    func faqButtonTapped(message: String) {
+        let newMessage = MessageRow(
+            isInteractingWithChatGPT: false,
+            sendText: message,
+            responseText: nil,
+            responseError: nil
+        )
+        messages.append(newMessage)
+        
+        let indexPath = IndexPath(row: messages.count - 1, section: 0)
+        tableView.insertRows(at: [indexPath], with: .none)
+        
+        FirestoreManager.shared.getResponse(sendMessage: message) { responses in
+            let randomResponse = responses.shuffled()
+            let response = randomResponse.first?.responseText
+            
+            DispatchQueue.main.async {
+                if let response = response {
+                    let updatedResponse = response.replacingOccurrences(of: "\\n", with: "\n")
+                    self.messages[indexPath.row].responseText = updatedResponse
+                }
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+                self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+            }
+        }
+        
+    }
     
     func sendMessageButtonTapped(message: String) {
 

@@ -463,4 +463,33 @@ extension FirestoreManager {
             }
     }
     
+    func getResponse(sendMessage: String, completion: @escaping([MessageRow]) -> Void) {
+        database.collection("FAQ")
+            .whereField("send_message", isEqualTo: sendMessage)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    completion([])
+                } else {
+                    var messages = [MessageRow]()
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let responses = data["response_message"] as? [String] ?? []
+                        for response in responses {
+                            let message = MessageRow(
+                                isInteractingWithChatGPT: false,
+                                sendText: sendMessage,
+                                responseText: response,
+                                responseError: nil
+                            )
+                            messages.append(message)
+                            
+                        }
+                        completion(messages)
+                        print(messages)
+                    }
+                }
+            }
+    }
+    
 }
