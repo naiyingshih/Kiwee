@@ -48,21 +48,35 @@ class FirestoreManager {
                     }
                 } else {
                     // No document for the current day, create a new one
+                    let documentID = self.database.collection("intake").document().documentID
+                    let document = self.database.collection("intake").document()
                     let waterDictionary: [String: Any] = [
                         "water_count": waterCount,
                         "date": chosenDate,
-                        "type": "water"
+                        "type": "water",
+                        "documentID": documentID
                     ]
                     
-                    self.database.collection("intake").addDocument(data: waterDictionary) { error in
+                    // Use the documentID to set the document with the specific ID
+                    self.database.collection("intake").document(documentID).setData(waterDictionary) { error in
                         if let error = error {
                             print("Error adding water intake: \(error.localizedDescription)")
                             completion(false)
                         } else {
-                            print("Water intake data added successfully")
+                            print("Water intake data added successfully with ID: \(documentID)")
                             completion(true)
                         }
                     }
+                    
+//                    self.database.collection("intake").addDocument(data: waterDictionary) { error in
+//                        if let error = error {
+//                            print("Error adding water intake: \(error.localizedDescription)")
+//                            completion(false)
+//                        } else {
+//                            print("Water intake data added successfully")
+//                            completion(true)
+//                        }
+//                    }
                 }
             }
     }
@@ -199,18 +213,37 @@ class FirestoreManager {
     }
     
     func publishFoodCollection(id: String, foodName: String, tag: String, imageUrl: String) {
+        let documentID = database.collection("posts").document().documentID
         let publishData: [String: Any] = [
             "id": id,
+            "documentID": documentID,
             "food_name": foodName,
             "tag": tag,
             "image": imageUrl,
             "created_time": FieldValue.serverTimestamp()
         ]
-        database.collection("posts").addDocument(data: publishData) { error in
+        database.collection("posts").document(documentID).setData(publishData) { error in
             if let error = error {
                 print("Error adding document to subcollection: \(error.localizedDescription)")
             } else {
-                print("Document added to subcollection successfully")
+                print("Document added to post successfully")
+            }
+        }
+    }
+    
+    func updateFoodCollection(documentID: String, foodName: String, tag: String, /*imageUrl: String, */completion: @escaping () -> Void) {
+        let updateData: [String: Any] = [
+            "food_name": foodName,
+            "tag": tag
+//            "image": imageUrl
+        ]
+           
+        database.collection("posts").document(documentID).updateData(updateData) { error in
+            if let error = error {
+                print("Error updating document: \(error.localizedDescription)")
+            } else {
+                print("Document updated successfully")
+                completion()
             }
         }
     }
@@ -224,6 +257,32 @@ class FirestoreManager {
                 completion(true)
             }
         }
+    }
+    
+    func resetWaterCount(completion: @escaping (Bool) -> Void) {
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+       
+        database.collection("intake")
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
+            .whereField("type", isEqualTo: "water")
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        self.database.collection("intake").document(document.documentID).delete { err in
+                            if let err = err {
+                                print("Error removing document: \(err)")
+                                completion(false)
+                            } else {
+                                completion(true)
+                            }
+                        }
+                    }
+                }
+            }
     }
     
 }
@@ -453,9 +512,10 @@ extension FirestoreManager {
                         let data = document.data()
                         guard let foodName = data["food_name"] as? String,
                               let image = data["image"] as? String,
-                              let tag = data["tag"] as? String else { continue }
+                              let tag = data["tag"] as? String,
+                              let createdTime = data["created_time"] as? Timestamp else { continue }
                         
-                        let post = Post(id: "Un9y8lW7NM5ghB43ll7r", foodName: foodName, tag: tag, image: image)
+                        let post = Post(id: "Un9y8lW7NM5ghB43ll7r", documenID: document.documentID, foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
                         posts.insert(post, at: 0)
                     }
                     completion(posts)

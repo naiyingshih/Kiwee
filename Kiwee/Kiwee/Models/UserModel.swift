@@ -23,7 +23,9 @@ struct UserData {
 
 struct Post {
     let id: String
-    let foodName: String
-    let tag: String
-    let image: String
+    let documenID: String
+    var foodName: String
+    var tag: String
+    var image: String
+    let createdTime: Date
 }

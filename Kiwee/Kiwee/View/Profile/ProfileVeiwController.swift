@@ -40,6 +40,9 @@ class ProfileVeiwController: UIViewController {
         flowLayout.minimumInteritemSpacing = margin
         flowLayout.minimumLineSpacing = margin
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: margin, bottom: margin, right: margin)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
+        collectionView.addGestureRecognizer(longPressGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,7 +115,78 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
             withIdentifier: String(describing: PostViewController.self)
         ) as? PostViewController else { return }
         postVC.modalPresentationStyle = .popover
+        postVC.postState = .newPost
         self.present(postVC, animated: true)
+    }
+    
+}
+
+// MARK: - Handle post editing
+
+extension ProfileVeiwController {
+    
+    @objc func handleLongPressGesture(gesture: UILongPressGestureRecognizer) {
+        if gesture.state != .began {
+            return
+        }
+        
+        let point = gesture.location(in: collectionView)
+        if let indexPath = collectionView.indexPathForItem(at: point) {
+            // Present options to the user
+            let alertController = UIAlertController(title: nil, message: "選擇執行動作", preferredStyle: .alert)
+            
+            // Edit action
+            let editAction = UIAlertAction(title: "編輯", style: .default) { _ in
+                self.editItem(at: indexPath)
+            }
+            alertController.addAction(editAction)
+            
+            // Delete action
+            let deleteAction = UIAlertAction(title: "刪除", style: .destructive) { _ in
+                // Handle delete action
+                self.deleteItem(at: indexPath)
+            }
+            alertController.addAction(deleteAction)
+            
+            // Cancel action
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func editItem(at indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let postVC = storyboard.instantiateViewController(
+            withIdentifier: String(describing: PostViewController.self)
+        ) as? PostViewController else { return }
+        
+        let foodName = posts[indexPath.row].foodName
+        let buttonTag = posts[indexPath.row].tag
+        let image = posts[indexPath.row].image
+
+        postVC.editingPostID = posts[indexPath.row].documenID
+        postVC.postState = .editingPost(initialFoodText: foodName, initialSelectedButtonTag: buttonTag, initialImage: image)
+        
+        postVC.modalPresentationStyle = .popover
+        self.present(postVC, animated: true)
+    }
+
+    func deleteItem(at indexPath: IndexPath) {
+        let post = posts[indexPath.row]
+        let documentID = post.documenID
+        
+        FirestoreManager.shared.deleteDocument(collectionID: "posts", documentID: documentID) { success in
+            DispatchQueue.main.async {
+                if success {
+                    print("Document successfully removed!")
+                    self.collectionView.reloadData()
+                } else {
+                    print("Error removing document")
+                }
+            }
+        }
     }
     
 }

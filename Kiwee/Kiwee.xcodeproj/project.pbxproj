@@ -248,6 +248,7 @@
 				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
+				0E91DCAB2BD7C5D20018911F /* APIKey.plist */,
 				0ECE08942BC69878003C15B0 /* Info.plist */,
 				0E91DCAE2BD7E82C0018911F /* APIKey.plist */,
 				0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */,

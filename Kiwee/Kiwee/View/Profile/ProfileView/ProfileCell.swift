@@ -9,8 +9,19 @@ import UIKit
 
 class ProfileCell: UICollectionViewCell {
     
+    let dateFormatter = DateFormatterManager.shared.dateFormatter
+    
+    lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var tagLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -57,15 +68,19 @@ class ProfileCell: UICollectionViewCell {
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
+        addSubview(timeLabel)
         addSubview(tagView)
         addSubview(tagLabel)
         addSubview(photoImageView)
         addSubview(foodLabel)
         
         NSLayoutConstraint.activate([
+            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            timeLabel.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
+            
             tagView.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             tagView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            tagView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
+            tagView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             tagView.heightAnchor.constraint(equalToConstant: 24),
             
             tagLabel.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
@@ -83,6 +98,8 @@ class ProfileCell: UICollectionViewCell {
     }
     
     func updatePostResult(_ result: Post) {
+        let dateString = dateFormatter.string(from: result.createdTime)
+        timeLabel.text = dateString
         tagLabel.text = "\(result.tag)"
         foodLabel.text = "\(result.foodName)"
         photoImageView.loadImage(result.image)
