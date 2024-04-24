@@ -119,6 +119,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
             withIdentifier: String(describing: PostViewController.self)
         ) as? PostViewController else { return }
         postVC.modalPresentationStyle = .popover
+        postVC.postState = .newPost
         self.present(postVC, animated: true)
     }
     
@@ -164,8 +165,14 @@ extension ProfileVeiwController {
         guard let postVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: PostViewController.self)
         ) as? PostViewController else { return }
-        postVC.postData = posts[indexPath.row]
-        postVC.tagString = posts[indexPath.row].tag
+        
+        let foodName = posts[indexPath.row].foodName
+        let buttonTag = posts[indexPath.row].tag
+        let image = posts[indexPath.row].image
+
+        postVC.editingPostID = posts[indexPath.row].documenID
+        postVC.postState = .editingPost(initialFoodText: foodName, initialSelectedButtonTag: buttonTag, initialImage: image)
+        
         postVC.modalPresentationStyle = .popover
         self.present(postVC, animated: true)
     }

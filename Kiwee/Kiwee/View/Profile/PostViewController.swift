@@ -8,23 +8,22 @@
 import UIKit
 import MobileCoreServices
 
+enum PostState {
+    case newPost
+    case editingPost(initialFoodText: String?, initialSelectedButtonTag: String?, initialImage: String?)
+}
+
 class PostViewController: UIViewController {
     
-    var postData: Post?
+    var postState: PostState?
+    var editingPostID: String?
+    
     var selectedButton: UIButton?
     var tagString: String?
     var selectedImageData: Data?
     
-    @IBOutlet weak var plusImageView: UIImageView! {
-        didSet {
-            plusImageView.loadImage(postData?.image)
-        }
-    }
-    @IBOutlet weak var foodTextField: UITextField! {
-        didSet {
-            foodTextField.text = postData?.foodName
-        }
-    }
+    @IBOutlet weak var plusImageView: UIImageView!
+    @IBOutlet weak var foodTextField: UITextField!
     @IBOutlet weak var breakfastButton: UIButton!
     @IBOutlet weak var lunchButton: UIButton!
     @IBOutlet weak var dinnerButton: UIButton!
@@ -34,15 +33,38 @@ class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupPostState()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addImage))
         plusImageView.addGestureRecognizer(tapGesture)
-        plusImageView.isUserInteractionEnabled = true
         foodTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         postButton.isEnabled = false
         postButton.alpha = 0.5
-        setInitialButton(forTag: tagString ?? "")
     }
-    
+   
+    func setupPostState() {
+        switch postState {
+        case .editingPost(let initialFoodText, let initialSelectedButtonTag, let initialImage):
+            foodTextField.text = initialFoodText
+            
+            if let tag = initialSelectedButtonTag {
+                tagString = tag
+            }
+            
+            if let image = initialImage {
+                plusImageView.loadImage(image)
+            }
+            setInitialButton(forTag: initialSelectedButtonTag ?? "")
+            plusImageView.isUserInteractionEnabled = false
+            postButton.setTitle("確認變更", for: .normal)
+        case .newPost:
+            plusImageView.isUserInteractionEnabled = true
+            postButton.setTitle("發佈", for: .normal)
+        case .none:
+            break
+        }
+        checkForChanges()
+    }
+
     func setupUI() {
         configureButtonAppearance(button: breakfastButton)
         configureButtonAppearance(button: lunchButton)
@@ -77,24 +99,45 @@ class PostViewController: UIViewController {
     }
     
     @IBAction func postButtonTapped(_ sender: Any) {
-        guard let foodTextField = foodTextField.text, !foodTextField.isEmpty,
-              let tag = tagString,
-              let imageData = selectedImageData else { return }
         
-        FirestoreManager.shared.uploadImageData(imageData: imageData) { [weak self] success, url in
-            guard success, let imageUrl = url else {
-                print("image upload failed")
-                return
+        switch self.postState {
+        case .editingPost(_, _, _):
+            // Editing an existing post
+            if let editingPostID = self.editingPostID {
+                FirestoreManager.shared.updateFoodCollection(
+                    documentID: editingPostID,
+                    foodName: self.foodTextField.text ?? "",
+                    tag: self.tagString ?? ""
+                ) {
+                    print("Post updated successfully")
+                    self.dismiss(animated: true)
+                }
             }
-            FirestoreManager.shared.publishFoodCollection(
-                id: "Un9y8lW7NM5ghB43ll7r",
-                foodName: foodTextField,
-                tag: tag,
-                imageUrl: imageUrl.absoluteString
-            )
-            self?.selectedImageData = nil
+        case .newPost:
+            guard let foodTextField = foodTextField.text, !foodTextField.isEmpty,
+                  let tag = tagString,
+                  let imageData = selectedImageData else { return }
+            
+            FirestoreManager.shared.uploadImageData(imageData: imageData) { [weak self] success, url in
+                guard success, let imageUrl = url else {
+                    print("Image upload failed")
+                    return
+                }
+                // Creating a new post
+                FirestoreManager.shared.publishFoodCollection(
+                    id: "Un9y8lW7NM5ghB43ll7r",
+                    foodName: foodTextField,
+                    tag: tag,
+                    imageUrl: imageUrl.absoluteString
+                )
+                print("Post created successfully")
+                self?.dismiss(animated: true)
+                
+            }
+        default:
+            break
         }
-        self.dismiss(animated: true)
+        self.selectedImageData = nil
     }
     
     @objc func addImage() {
@@ -107,6 +150,7 @@ class PostViewController: UIViewController {
         imagePicker.mediaTypes = ["public.image"]
         present(imagePicker, animated: true, completion: nil)
     }
+    
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -147,7 +191,19 @@ extension PostViewController {
         let isImageSelected = selectedImageData != nil
         let isButtonSelected = selectedButton != nil
         
-        postButton.isEnabled = isFoodTextFieldNotEmpty && isImageSelected && isButtonSelected
+        switch postState {
+        case .editingPost(let initialFoodText, let initialSelectedButtonTag, let initialImage):
+            let hasFoodTextChanged = foodTextField.text != initialFoodText
+            let hasButtonChanged = selectedButton?.currentTitle != initialSelectedButtonTag
+            
+            postButton.isEnabled = hasFoodTextChanged || hasButtonChanged
+        case .newPost:
+            postButton.isEnabled = isFoodTextFieldNotEmpty && isImageSelected && isButtonSelected
+        case .none:
+            break
+        }
+        
         postButton.alpha = postButton.isEnabled ? 1.0 : 0.5
     }
+    
 }

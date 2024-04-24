@@ -226,7 +226,24 @@ class FirestoreManager {
             if let error = error {
                 print("Error adding document to subcollection: \(error.localizedDescription)")
             } else {
-                print("Document added to subcollection successfully")
+                print("Document added to post successfully")
+            }
+        }
+    }
+    
+    func updateFoodCollection(documentID: String, foodName: String, tag: String, /*imageUrl: String, */completion: @escaping () -> Void) {
+        let updateData: [String: Any] = [
+            "food_name": foodName,
+            "tag": tag
+//            "image": imageUrl
+        ]
+           
+        database.collection("posts").document(documentID).updateData(updateData) { error in
+            if let error = error {
+                print("Error updating document: \(error.localizedDescription)")
+            } else {
+                print("Document updated successfully")
+                completion()
             }
         }
     }
