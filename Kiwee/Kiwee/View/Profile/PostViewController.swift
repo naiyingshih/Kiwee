@@ -192,7 +192,7 @@ extension PostViewController {
         let isButtonSelected = selectedButton != nil
         
         switch postState {
-        case .editingPost(let initialFoodText, let initialSelectedButtonTag, let initialImage):
+        case .editingPost(let initialFoodText, let initialSelectedButtonTag, _):
             let hasFoodTextChanged = foodTextField.text != initialFoodText
             let hasButtonChanged = selectedButton?.currentTitle != initialSelectedButtonTag
             

@@ -92,10 +92,6 @@ class ProfileVeiwController: UIViewController {
          let width = (collectionView.bounds.width - (16 * (numberOfColumns + 1))) / numberOfColumns
          return CGSize(width: width, height: 200)
      }
-     
-//     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//         <#code#>
-//     }
     
  }
 
