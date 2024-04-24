@@ -213,14 +213,16 @@ class FirestoreManager {
     }
     
     func publishFoodCollection(id: String, foodName: String, tag: String, imageUrl: String) {
+        let documentID = database.collection("posts").document().documentID
         let publishData: [String: Any] = [
             "id": id,
+            "documentID": documentID,
             "food_name": foodName,
             "tag": tag,
             "image": imageUrl,
             "created_time": FieldValue.serverTimestamp()
         ]
-        database.collection("posts").addDocument(data: publishData) { error in
+        database.collection("posts").document(documentID).setData(publishData) { error in
             if let error = error {
                 print("Error adding document to subcollection: \(error.localizedDescription)")
             } else {
@@ -241,7 +243,12 @@ class FirestoreManager {
     }
     
     func resetWaterCount(completion: @escaping (Bool) -> Void) {
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+       
         database.collection("intake")
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .whereField("type", isEqualTo: "water")
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
@@ -491,7 +498,7 @@ extension FirestoreManager {
                               let tag = data["tag"] as? String,
                               let createdTime = data["created_time"] as? Timestamp else { continue }
                         
-                        let post = Post(id: "Un9y8lW7NM5ghB43ll7r", foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
+                        let post = Post(id: "Un9y8lW7NM5ghB43ll7r", documenID: document.documentID, foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
                         posts.insert(post, at: 0)
                     }
                     completion(posts)

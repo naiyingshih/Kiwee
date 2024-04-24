@@ -199,4 +199,12 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        if indexPath.section == 4 {
+            return "重設"
+        } else {
+            return "刪除"
+        }
+    }
+    
 }
