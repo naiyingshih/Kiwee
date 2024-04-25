@@ -106,11 +106,11 @@ class AddFoodViewController: UIViewController {
             strongSelf.recentFoods = foods.map { food in
                 var modifiedFood = food
                 if modifiedFood.quantity != 0 {
-                    modifiedFood.totalCalories = (modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100)
-                    modifiedFood.nutrients.carbohydrates = (modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100)
-                    modifiedFood.nutrients.protein = (modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100)
-                    modifiedFood.nutrients.fat = (modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100)
-                    modifiedFood.nutrients.fiber = (modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100)
+                    modifiedFood.totalCalories = ((modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.carbohydrates = ((modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.protein = ((modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.fat = ((modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.fiber = ((modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
                 }
                 return modifiedFood
             }

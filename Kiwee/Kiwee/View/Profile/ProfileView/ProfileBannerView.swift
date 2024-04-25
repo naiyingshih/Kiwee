@@ -212,7 +212,7 @@ class ProfileBannerView: UIView {
     
     func updateView(with userData: UserData) {
         let RDA = (userData.height * userData.height) / 10000 * 22 * 25
-        let formattedRDA = String(format: "%.1f", RDA)
+        let formattedRDA = String(format: "%.0f", RDA)
 
         let BMI = (userData.updatedWeight ?? userData.initialWeight) / (userData.height * userData.height) * 10000
         let formattedBMI = String(format: "%.1f", BMI)

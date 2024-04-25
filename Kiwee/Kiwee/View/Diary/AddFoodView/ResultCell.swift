@@ -32,7 +32,7 @@ class ResultCell: UITableViewCell {
         nameLabel.text = "\(result.name) (每100g)"
         totalCalorieLabel.text = "熱量\n\(result.totalCalories)"
         carboLabel.text = "碳水\n\(result.nutrients.carbohydrates)"
-        proteinLabel.text = "蛋白質\n\(result.nutrients.protein)"
+        proteinLabel.text = "蛋白\n\(result.nutrients.protein)"
         fatLabel.text = "脂肪\n\(result.nutrients.fat)"
         fiberLabel.text = "纖維\n\(result.nutrients.fiber)"
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
