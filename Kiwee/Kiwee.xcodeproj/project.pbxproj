@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
+		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
+		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
+		0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */; };
+		0E6FF9A82BDA93E4003B2133 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A72BDA93E4003B2133 /* SignInViewController.swift */; };
 		0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */; };
 		0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC152BCA556D0018911F /* CameraViewController.swift */; };
 		0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC182BCA836D0018911F /* FoodSample.mlmodel */; };
@@ -40,6 +44,7 @@
 		0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA42BD67D9C0018911F /* MessageInputView.swift */; };
 		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
 		0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCAE2BD7E82C0018911F /* APIKey.plist */; };
+		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -65,6 +70,10 @@
 
 /* Begin PBXFileReference section */
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
+		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
+		0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastViewController.swift; sourceTree = "<group>"; };
+		0E6FF9A72BDA93E4003B2133 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E91DC152BCA556D0018911F /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		0E91DC182BCA836D0018911F /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
@@ -97,6 +106,7 @@
 		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
+		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -207,6 +217,17 @@
 			path = Chatbot;
 			sourceTree = "<group>";
 		};
+		0E91DCB82BDA174D0018911F /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */,
+				0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */,
+				0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */,
+				0E6FF9A72BDA93E4003B2133 /* SignInViewController.swift */,
+			);
+			path = Launch;
+			sourceTree = "<group>";
+		};
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,9 +267,9 @@
 				0EAB60EA2BC8F0090005F3C1 /* Resource */,
 				0ECE08C52BC76AE8003C15B0 /* Extension */,
 				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
+				0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */,
 				0ECE088F2BC69878003C15B0 /* Assets.xcassets */,
 				0ECE08912BC69878003C15B0 /* LaunchScreen.storyboard */,
-				0E91DCAB2BD7C5D20018911F /* APIKey.plist */,
 				0ECE08942BC69878003C15B0 /* Info.plist */,
 				0E91DCAE2BD7E82C0018911F /* APIKey.plist */,
 				0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */,
@@ -273,6 +294,7 @@
 		0ECE08C32BC76A31003C15B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0E91DCB82BDA174D0018911F /* Launch */,
 				0E91DC402BD180CB0018911F /* Home */,
 				0ECE08C72BC76C2D003C15B0 /* Diary */,
 				0E91DC212BCD53B40018911F /* Report */,
@@ -421,6 +443,7 @@
 			files = (
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
 				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
+				0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */,
 				0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */,
 				0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */,
 				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
@@ -500,6 +523,7 @@
 				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
+				0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
 				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
@@ -513,6 +537,7 @@
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
 				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
+				0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */,
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
 				0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */,
 				0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */,
@@ -522,10 +547,12 @@
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
+				0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
 				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
 				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
+				0E6FF9A82BDA93E4003B2133 /* SignInViewController.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
 				0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */,
