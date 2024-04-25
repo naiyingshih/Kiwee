@@ -10,7 +10,7 @@ import Foundation
 struct UserData {
     let id: String
     let name: String
-    let gender: String
+    let gender: Int
     let age: Int
     let goal: Int
     let activeness: Int

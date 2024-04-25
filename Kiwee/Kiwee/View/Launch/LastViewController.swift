@@ -84,12 +84,55 @@ class LastViewController: UIViewController {
             currentArea = .achievement
             updateNextButtonState(isEnabled: false)
         } else if currentArea == .achievement {
+            
+            if let goalWeight = goalWeightTextField.text {
+                let achievement = datePicker.date
+                UserDefaults.standard.set(achievement, forKey: "achievement_time")
+                UserDefaults.standard.set(goalWeight, forKey: "goal_weight")
+            }
+            
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             if let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
                 signInVC.modalPresentationStyle = .pageSheet
                 self.present(signInVC, animated: true, completion: nil)
             }
+            postUserInfo()
         }
     }
-
+    
+    func postUserInfo() {
+        let defaults = UserDefaults.standard
+        
+        let name = defaults.string(forKey: "name") ?? ""
+        let gender = defaults.integer(forKey: "gender")
+        let age = defaults.integer(forKey: "age")
+        let goal = defaults.integer(forKey: "goal")
+        let activeness = defaults.integer(forKey: "activeness")
+        let height = defaults.double(forKey: "height")
+        let initialWeight = defaults.double(forKey: "initial_weight")
+        let achievementTime = defaults.object(forKey: "achievement_time") as? Date ?? Date()
+        let goalWeight = defaults.double(forKey: "goal_weight")
+        
+        let userData = UserData(
+            id: "\(UUID())",
+            name: name,
+            gender: gender,
+            age: age,
+            goal: goal,
+            activeness: activeness,
+            height: height,
+            initialWeight: initialWeight,
+            updatedWeight: 0.0,
+            goalWeight: goalWeight,
+            achievementTime: achievementTime)
+        
+        FirestoreManager.shared.postUserData(input: userData) { success in
+            if success {
+                print("user data add successfully")
+            } else {
+                print("Error adding user data")
+            }
+        }
+    }
+    
 }

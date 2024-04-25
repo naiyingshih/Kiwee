@@ -42,6 +42,8 @@ class BasicInfoViewController: UIViewController {
     }
     
     func setInitialUI() {
+        menButton.tag = 0
+        womenButton.tag = 1
         genderStackView.isHidden = true
         ageStackView.isHidden = true
         nextButton.layer.cornerRadius = 8
@@ -95,6 +97,16 @@ class BasicInfoViewController: UIViewController {
             currentBlock = .age
             updateNextButtonState(isEnabled: false)
         } else if currentBlock == .age {
+            // Save data to UserDefaults
+            if let name = nameTextField.text,
+               let age = ageTextField.text,
+               let selectedGender = selectedGenderButton?.tag {
+                UserDefaults.standard.set(name, forKey: "name")
+                UserDefaults.standard.set(selectedGender, forKey: "gender")
+                UserDefaults.standard.set(age, forKey: "age")
+            }
+            
+            // Present VC
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             if let goalVC = storyboard.instantiateViewController(withIdentifier: "GoalViewController") as? GoalViewController {
                 goalVC.modalPresentationStyle = .fullScreen

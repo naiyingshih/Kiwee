@@ -470,7 +470,7 @@ extension FirestoreManager {
                         let data = document.data()
                         let id = "Un9y8lW7NM5ghB43ll7r"
                         let name = data["name"] as? String ?? ""
-                        let gender = data["gender"] as? String ?? ""
+                        let gender = data["gender"] as? Int ?? 0
                         let age = data["age"] as? Int ?? 0
                         let goal = data["goal"] as? Int ?? 0
                         let activeness = data["activeness"] as? Int ?? 0

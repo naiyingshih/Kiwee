@@ -41,6 +41,15 @@ class GoalViewController: UIViewController {
     }
     
     func setInitialUI() {
+        loseWeightButton.tag = 0
+        gainWeightButton.tag = 1
+        maintainWeightButton.tag = 2
+        
+        active1Button.tag = 0
+        active2Button.tag = 1
+        active3Button.tag = 2
+        active4Button.tag = 3
+        
         activenessStackView.isHidden = true
         bodyInfoStackView.isHidden = true
         nextButton.layer.cornerRadius = 8
@@ -104,6 +113,17 @@ class GoalViewController: UIViewController {
             currentPage = .bodyInfo
             updateNextButtonState(isEnabled: false)
         } else if currentPage == .bodyInfo {
+            
+            if let selectedGoal = selectedGoalButton?.tag,
+               let selectedActiveness = selectedActivenessButton?.tag,
+               let height = heightTextField.text,
+               let weight = weightTextField.text {
+                UserDefaults.standard.set(selectedGoal, forKey: "goal")
+                UserDefaults.standard.set(selectedActiveness, forKey: "activeness")
+                UserDefaults.standard.set(height, forKey: "height")
+                UserDefaults.standard.set(weight, forKey: "initial_weight")
+            }
+            
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             if let lastVC = storyboard.instantiateViewController(withIdentifier: "LastViewController") as? LastViewController {
                 lastVC.modalPresentationStyle = .fullScreen
