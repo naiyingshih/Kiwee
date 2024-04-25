@@ -19,7 +19,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     
     var recognizedData: Food?
     
-    private lazy var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "Food_Placeholder")
         imgView.contentMode = .scaleAspectFill
@@ -49,7 +49,6 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        showAlert()
     }
     
     func setupUI() {
@@ -75,34 +74,14 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         ])
     }
     
-    func showAlert() {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        // Check if the device has a camera
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let cameraAction = UIAlertAction(title: "相機", style: .default) { [weak self] _ in
-                self?.presentImagePicker(sourceType: .camera)
+    private func loadFood(_ name: String, completion: @escaping (Food?) -> Void) {
+        FoodDataManager.shared.loadFood { (foodItems, _) in
+            if let food = foodItems?.first(where: { $0.name == name }) {
+                completion(food)
+            } else {
+                completion(nil)
             }
-            alertController.addAction(cameraAction)
         }
-        
-        let photoLibraryAction = UIAlertAction(title: "從相簿選取", style: .default) { [weak self] _ in
-            self?.presentImagePicker(sourceType: .photoLibrary)
-        }
-        alertController.addAction(photoLibraryAction)
-        
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = sourceType
-        imagePicker.allowsEditing = false
-        present(imagePicker, animated: true, completion: nil)
     }
     
     @objc func confirmed() {
@@ -114,32 +93,17 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
                 image: foodData.image
             )
         }
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
     
 }
 
-// MARK: - UIImagePickerControllerDelegate Methods
+// MARK: - Image processing
 
-extension CameraViewController: UIImagePickerControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.originalImage] as? UIImage else { return }
-        imageView.image = image
-        
-        // Convert the image for CIImage
-        if let ciImage = CIImage(image: image) {
-            processImage(ciImage: ciImage)
-        } else {
-            print("CIImage convert error")
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
+extension CameraViewController {
+      
     func processImage(ciImage: CIImage) {
         
         do {
@@ -197,16 +161,6 @@ extension CameraViewController: UIImagePickerControllerDelegate {
                         date: nil
                     )
                 }
-            }
-        }
-    }
-    
-    private func loadFood(_ name: String, completion: @escaping (Food?) -> Void) {
-        FoodDataManager.shared.loadFood { (foodItems, _) in
-            if let food = foodItems?.first(where: { $0.name == name }) {
-                completion(food)
-            } else {
-                completion(nil)
             }
         }
     }

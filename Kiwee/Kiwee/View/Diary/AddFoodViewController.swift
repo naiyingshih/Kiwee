@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Vision
 
 class AddFoodViewController: UIViewController {
     
@@ -120,16 +121,6 @@ class AddFoodViewController: UIViewController {
             }
         }
     }
-    
-//    func fetchRecentRecord() {
-//        guard let secion = self.sectionIndex else { return }
-//        FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
-//            self?.recentFoods = foods
-//            DispatchQueue.main.async {
-//                self?.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-//            }
-//        }
-//    }
     
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
@@ -317,10 +308,32 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
     
     func cameraButtonDidTapped() {
-        let cameraVC = CameraViewController()
-        cameraVC.delegate = self
-        self.navigationController?.pushViewController(cameraVC, animated: false)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // Check if the device has a camera
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "相機", style: .default) { [weak self] _ in
+                self?.presentImagePicker(sourceType: .camera)
+            }
+            alertController.addAction(cameraAction)
+        }
+        
+        let photoLibraryAction = UIAlertAction(title: "從相簿選取", style: .default) { [weak self] _ in
+            self?.presentImagePicker(sourceType: .photoLibrary)
+        }
+        alertController.addAction(photoLibraryAction)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
+    
+//    func cameraButtonDidTapped() {
+//        let cameraVC = CameraViewController()
+//        cameraVC.delegate = self
+//        self.navigationController?.pushViewController(cameraVC, animated: false)
+//    }
     
     func searchBarDidChange(text: String) {
         guard !text.isEmpty else { return }
@@ -346,6 +359,40 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         for foodResult in foodResults {
             filteredFoodItems.append(foodResult)
         }
+    }
+    
+}
+
+// MARK: - Extension: UIImagePickerController
+
+extension AddFoodViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = sourceType
+        imagePicker.allowsEditing = false
+        present(imagePicker, animated: true, completion: nil)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let cameraVC = CameraViewController()
+        guard let image = info[.originalImage] as? UIImage else { return }
+        cameraVC.imageView.image = image
+        
+        // Convert the image for CIImage
+        if let ciImage = CIImage(image: image) {
+            cameraVC.processImage(ciImage: ciImage)
+        } else {
+            print("CIImage convert error")
+        }
+        
+        cameraVC.delegate = self
+        picker.pushViewController(cameraVC, animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
 }

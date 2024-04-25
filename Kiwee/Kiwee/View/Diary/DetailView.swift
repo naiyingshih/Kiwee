@@ -20,7 +20,6 @@ class DetailView: UIView {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-//        label.text = "食物名稱"
         label.textColor = .black
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -30,7 +29,6 @@ class DetailView: UIView {
     
     lazy var totalCalorieLabel: UILabel = {
         let label = UILabel()
-//        label.text = "kcal"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +44,6 @@ class DetailView: UIView {
     
     lazy var carboLabel: UILabel = {
         let label = UILabel()
-//        label.text = "碳水\ng"
         label.numberOfLines = 0
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -56,7 +53,6 @@ class DetailView: UIView {
     
     lazy var proteinLabel: UILabel = {
         let label = UILabel()
-//        label.text = "蛋白\ng"
         label.numberOfLines = 0
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -66,7 +62,6 @@ class DetailView: UIView {
     
     lazy var fatLabel: UILabel = {
         let label = UILabel()
-//        label.text = "脂肪\ng"
         label.numberOfLines = 0
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -77,7 +72,6 @@ class DetailView: UIView {
     lazy var fiberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-//        label.text = "纖維\ng"
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +80,6 @@ class DetailView: UIView {
     
     lazy var quantityLabel: UILabel = {
         let label = UILabel()
-//        label.text = "攝取量\ng"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -123,17 +116,15 @@ class DetailView: UIView {
             foodImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             foodImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
             foodImageView.widthAnchor.constraint(equalTo: foodImageView.heightAnchor),
-            
-//            nameLabel.leadingAnchor.constraint(equalTo: foodImageView.trailingAnchor, constant: 32),
+
             nameLabel.topAnchor.constraint(equalTo: foodImageView.centerYAnchor, constant: -24),
-            
-//            totalCalorieLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 8),
-//            totalCalorieLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+
             totalCalorieLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             
-            dividingLine.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
+            dividingLine.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
             dividingLine.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -8),
             dividingLine.trailingAnchor.constraint(equalTo: totalCalorieLabel.trailingAnchor, constant: 8),
+            dividingLine.heightAnchor.constraint(equalToConstant: 1),
             
             carboLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             carboLabel.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 16),
