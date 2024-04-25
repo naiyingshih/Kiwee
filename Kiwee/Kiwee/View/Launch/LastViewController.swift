@@ -12,6 +12,7 @@ class LastViewController: UIViewController {
     private var currentArea: Block?
     let datePicker = UIDatePicker()
     
+    @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var goalWeightStackView: UIStackView!
     @IBOutlet weak var goalWeightTextField: UITextField!
     @IBOutlet weak var achieveStackView: UIStackView!
@@ -38,14 +39,34 @@ class LastViewController: UIViewController {
         goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
         
-        label1.text = "BMI："
-        label2.text = "理想體重：kg"
+        setupInitialLabels()
         cardView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         cardView.backgroundColor = cardView.backgroundColor?.withAlphaComponent(0.2)
         cardView.layer.cornerRadius = 10
         
         nextButton.layer.cornerRadius = 8
         updateNextButtonState(isEnabled: false)
+    }
+    
+    func setupInitialLabels() {
+        let defaults = UserDefaults.standard
+        
+        let name = defaults.string(forKey: "name")
+
+        let height = defaults.double(forKey: "height")
+        let initialWeight = defaults.double(forKey: "initial_weight")
+        
+        let BMI = initialWeight / (height * height) * 10000
+        let formattedBMI = String(format: "%.1f", BMI)
+        
+        let lowRange = 18.5 * height * height / 10000
+        let highRange = 24 * height * height / 10000
+        let formattedLow = String(format: "%.0f", lowRange)
+        let formattedHigh = String(format: "%.0f", highRange)
+        
+        welcomeLabel.text = "嗨！\(name ?? "")"
+        label1.text = "BMI：\(formattedBMI)"
+        label2.text = "理想體重：\(formattedLow) - \(formattedHigh) kg"
     }
     
     func setupDatePicker() {
@@ -70,6 +91,9 @@ class LastViewController: UIViewController {
     @objc func datePickerDidChange(_ datePicker: UIDatePicker) {
         if datePicker.date != Date() {
             updateNextButtonState(isEnabled: true)
+            let achievement = datePicker.date
+            UserDefaults.standard.set(achievement, forKey: "achievement_time")
+            updateLabel()
         }
     }
     
@@ -78,16 +102,13 @@ class LastViewController: UIViewController {
             // Show achievement area
             goalWeightStackView.isHidden = true
             setupDatePicker()
+            fetchLabelsData()
             achieveStackView.isHidden = false
-            label1.text = "您一天建議攝取熱量為 kcal"
-            label2.text = "您將在 天候達成目標！"
             currentArea = .achievement
             updateNextButtonState(isEnabled: false)
         } else if currentArea == .achievement {
             
             if let goalWeight = goalWeightTextField.text {
-                let achievement = datePicker.date
-                UserDefaults.standard.set(achievement, forKey: "achievement_time")
                 UserDefaults.standard.set(goalWeight, forKey: "goal_weight")
             }
             
@@ -98,6 +119,29 @@ class LastViewController: UIViewController {
             }
             postUserInfo()
         }
+    }
+    
+    func fetchLabelsData() {
+        let defaults = UserDefaults.standard
+        
+        let height = defaults.double(forKey: "height")
+        let RDA = (height * height) / 10000 * 22 * 25
+        let formattedRDA = String(format: "%.0f", RDA)
+
+        label1.text = "您一天建議攝取熱量 \(formattedRDA) kcal"
+        label2.text = "您將在 ... 天後達成目標！"
+        
+    }
+    
+    func updateLabel() {
+        let defaults = UserDefaults.standard
+        
+        let achievementTime = defaults.object(forKey: "achievement_time") as? Date ?? Date()
+        let today = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: today, to: achievementTime)
+        let remainDay = components.day
+        label2.text = "您將在\((remainDay ?? 0) + 1)天後達成目標！"
     }
     
     func postUserInfo() {
@@ -122,7 +166,7 @@ class LastViewController: UIViewController {
             activeness: activeness,
             height: height,
             initialWeight: initialWeight,
-            updatedWeight: 0.0,
+            updatedWeight: initialWeight,
             goalWeight: goalWeight,
             achievementTime: achievementTime)
         

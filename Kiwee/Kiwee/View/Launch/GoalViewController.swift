@@ -41,6 +41,9 @@ class GoalViewController: UIViewController {
     }
     
     func setInitialUI() {
+        let defaults = UserDefaults.standard
+        let name = defaults.string(forKey: "name")
+        welcomeLabel.text = "嗨！\(name ?? "")"
         loseWeightButton.tag = 0
         gainWeightButton.tag = 1
         maintainWeightButton.tag = 2

@@ -511,6 +511,7 @@
                         <outlet property="label1" destination="Zmb-K5-Vi8" id="EqW-Bh-vWi"/>
                         <outlet property="label2" destination="Vwf-Bk-l1k" id="suH-PR-mEH"/>
                         <outlet property="nextButton" destination="0R8-M9-s0b" id="2ZR-la-yUO"/>
+                        <outlet property="welcomeLabel" destination="UAx-Wc-Vlh" id="D3n-SA-6CA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzH-JS-hBn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -225,7 +225,7 @@ class ProfileBannerView: UIView {
         nameLabel.text = userData.name
         BMILabel.text = "BMI:   \(formattedBMI)"
         RDALabel.text = "RDA:  \(formattedRDA) kcal"
-        countDownLabel.text = "距離達標還有：\(remainDay ?? 0) 天"
+        countDownLabel.text = "距離達標還有：\(remainDay ?? 0 + 1) 天"
     }
     
 }
