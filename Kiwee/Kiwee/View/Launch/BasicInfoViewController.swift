@@ -42,8 +42,8 @@ class BasicInfoViewController: UIViewController {
     }
     
     func setInitialUI() {
-        menButton.tag = 0
-        womenButton.tag = 1
+        menButton.tag = 1
+        womenButton.tag = 2
         genderStackView.isHidden = true
         ageStackView.isHidden = true
         nextButton.layer.cornerRadius = 8

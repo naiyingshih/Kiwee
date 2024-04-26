@@ -31,6 +31,11 @@ class RecordManageViewController: UIViewController {
         saveButton.alpha = 0.5
         fetchUserData()
         
+        button1.tag = 1
+        button2.tag = 2
+        button3.tag = 3
+        button4.tag = 4
+        
         heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)

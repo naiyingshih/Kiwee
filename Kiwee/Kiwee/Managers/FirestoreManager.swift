@@ -138,7 +138,6 @@ class FirestoreManager {
                 print("Error adding intake data: \(error.localizedDescription)")
                 completion(false)
             } else {
-                print("Food intake data added successfully")
                 completion(true)
             }
         }

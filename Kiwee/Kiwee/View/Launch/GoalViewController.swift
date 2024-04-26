@@ -48,10 +48,10 @@ class GoalViewController: UIViewController {
         gainWeightButton.tag = 1
         maintainWeightButton.tag = 2
         
-        active1Button.tag = 0
-        active2Button.tag = 1
-        active3Button.tag = 2
-        active4Button.tag = 3
+        active1Button.tag = 1
+        active2Button.tag = 2
+        active3Button.tag = 3
+        active4Button.tag = 4
         
         activenessStackView.isHidden = true
         bodyInfoStackView.isHidden = true

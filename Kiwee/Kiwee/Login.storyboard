@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="B6W-jS-gGm">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
@@ -255,7 +255,7 @@
                                             <color key="baseForegroundColor" red="0.0" green="0.26274509800000001" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="ayi-2w-mvX"/>
+                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="UqP-Nh-CjQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c6L-MB-FI1">
@@ -273,7 +273,7 @@
                                             <color key="baseForegroundColor" red="0.0" green="0.26274509800000001" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="LfH-a6-Y2f"/>
+                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="lIL-0u-OF1"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VKI-2L-jbM">
@@ -284,7 +284,7 @@
                                             <color key="baseForegroundColor" red="0.0" green="0.26274509800000001" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="pwf-vF-18l"/>
+                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="fn1-hk-e1c"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wof-MI-Usr">
@@ -295,7 +295,7 @@
                                             <color key="baseForegroundColor" red="0.0" green="0.26274509800000001" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="bhu-U5-3Xm"/>
+                                            <action selector="activenessButtonTapped:" destination="f7c-1d-ff8" eventType="touchUpInside" id="mRr-Hf-KPm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -354,10 +354,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="qTq-sv-9VR"/>
                     <connections>
-                        <outlet property="active1Button" destination="Wof-MI-Usr" id="fr1-Hw-tBH"/>
-                        <outlet property="active2Button" destination="VKI-2L-jbM" id="Pd7-Ih-IDN"/>
-                        <outlet property="active3Button" destination="c6L-MB-FI1" id="TVO-rx-BeU"/>
-                        <outlet property="active4Button" destination="FXk-ST-P3A" id="Ym2-jX-1J2"/>
+                        <outlet property="active1Button" destination="FXk-ST-P3A" id="vac-CT-d9z"/>
+                        <outlet property="active2Button" destination="c6L-MB-FI1" id="mVn-8E-chG"/>
+                        <outlet property="active3Button" destination="VKI-2L-jbM" id="jyA-Ym-8KB"/>
+                        <outlet property="active4Button" destination="Wof-MI-Usr" id="tRt-mn-bYl"/>
                         <outlet property="activenessStackView" destination="CEF-UJ-RdT" id="5ix-FS-ZGM"/>
                         <outlet property="bodyInfoStackView" destination="bnh-R8-BTT" id="Lb4-G3-oVf"/>
                         <outlet property="gainWeightButton" destination="sye-Y9-qOa" id="zFz-tk-wNv"/>
@@ -383,7 +383,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zBa-FJ-naO">
-                                <rect key="frame" x="146.66666666666666" y="140" width="100" height="98.666666666666686"/>
+                                <rect key="frame" x="146.66666666666666" y="139" width="100" height="100"/>
                                 <color key="tintColor" red="0.74509803919999995" green="0.85882352939999995" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="69Z-MF-Yfi"/>
@@ -517,33 +517,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzH-JS-hBn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1745.8015267175572" y="-2.1126760563380285"/>
-        </scene>
-        <!--Sign In View Controller-->
-        <scene sceneID="9Ve-1d-TZr">
-            <objects>
-                <viewController storyboardIdentifier="SignInViewController" id="l52-lt-2bE" customClass="SignInViewController" customModule="Kiwee" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="lVJ-9S-SuV">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sign in with appleID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ubh-9j-K24">
-                                <rect key="frame" x="122.66666666666669" y="415.66666666666669" width="148" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="rv4-Ja-vHR"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Ubh-9j-K24" firstAttribute="centerX" secondItem="lVJ-9S-SuV" secondAttribute="centerX" id="9PI-h2-BmI"/>
-                            <constraint firstItem="Ubh-9j-K24" firstAttribute="centerY" secondItem="lVJ-9S-SuV" secondAttribute="centerY" id="RqM-rp-fXk"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oip-on-jna" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2592" y="-2"/>
         </scene>
     </scenes>
     <resources>

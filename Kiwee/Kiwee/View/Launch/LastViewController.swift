@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 class LastViewController: UIViewController {
     
@@ -111,13 +112,8 @@ class LastViewController: UIViewController {
             if let goalWeight = goalWeightTextField.text {
                 UserDefaults.standard.set(goalWeight, forKey: "goal_weight")
             }
-            
-            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            if let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
-                signInVC.modalPresentationStyle = .pageSheet
-                self.present(signInVC, animated: true, completion: nil)
-            }
-            postUserInfo()
+            showSignInView()
+//            postUserInfo()
         }
     }
     
@@ -177,6 +173,103 @@ class LastViewController: UIViewController {
                 print("Error adding user data")
             }
         }
+    }
+    
+    func showSignInView() {
+        // Create a semi-transparent black overlay view
+        let overlayView = UIView()
+        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(overlayView)
+        
+        // Constraints for overlayView to cover the entire screen
+        NSLayoutConstraint.activate([
+            overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overlayView.topAnchor.constraint(equalTo: view.topAnchor),
+            overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        // Create and setup your signInView
+        let signinView = SignInView()
+        signinView.delegate = self
+        signinView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(signinView)
+        
+        signinView.layer.cornerRadius = 10
+        signinView.clipsToBounds = true
+        let screenHeight = UIScreen.main.bounds.height
+        let signinViewHeight = screenHeight * 0.4
+        
+        let offScreenConstraint = signinView.topAnchor.constraint(equalTo: view.bottomAnchor)
+        NSLayoutConstraint.activate([
+            signinView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            signinView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            signinView.heightAnchor.constraint(equalToConstant: signinViewHeight),
+            offScreenConstraint
+        ])
+        
+        view.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            offScreenConstraint.isActive = false
+            let finalPositionConstraint = signinView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            finalPositionConstraint.isActive = true
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+}
+
+extension LastViewController: SignInDelegate, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    func didTapSignInWithApple() {
+        let authorizationAppleIDRequest = ASAuthorizationAppleIDProvider().createRequest()
+        authorizationAppleIDRequest.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [authorizationAppleIDRequest])
+        
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        
+        controller.performRequests()
+    }
+    
+    /// 授權成功
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+                
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+//            UserDefaults.setValue(true, forKey: "isLoggedIn")
+            print("user: \(appleIDCredential.user)")
+            print("fullName: \(String(describing: appleIDCredential.fullName))")
+            print("Email: \(String(describing: appleIDCredential.email))")
+            print("realUserStatus: \(String(describing: appleIDCredential.realUserStatus))")
+        }
+    }
+    
+    /// 授權失敗
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+                
+        switch (error) {
+        case ASAuthorizationError.canceled:
+            break
+        case ASAuthorizationError.failed:
+            break
+        case ASAuthorizationError.invalidResponse:
+            break
+        case ASAuthorizationError.notHandled:
+            break
+        case ASAuthorizationError.unknown:
+            break
+        default:
+            break
+        }
+                    
+        print("didCompleteWithError: \(error.localizedDescription)")
+    }
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
     
 }

@@ -11,7 +11,7 @@
 		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
 		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
 		0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */; };
-		0E6FF9A82BDA93E4003B2133 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A72BDA93E4003B2133 /* SignInViewController.swift */; };
+		0E6FF9A82BDA93E4003B2133 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A72BDA93E4003B2133 /* SignInView.swift */; };
 		0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */; };
 		0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC152BCA556D0018911F /* CameraViewController.swift */; };
 		0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC182BCA836D0018911F /* FoodSample.mlmodel */; };
@@ -73,7 +73,7 @@
 		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastViewController.swift; sourceTree = "<group>"; };
-		0E6FF9A72BDA93E4003B2133 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		0E6FF9A72BDA93E4003B2133 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E91DC152BCA556D0018911F /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		0E91DC182BCA836D0018911F /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 				0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */,
 				0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */,
 				0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */,
-				0E6FF9A72BDA93E4003B2133 /* SignInViewController.swift */,
+				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -552,7 +552,7 @@
 				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
 				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
-				0E6FF9A82BDA93E4003B2133 /* SignInViewController.swift in Sources */,
+				0E6FF9A82BDA93E4003B2133 /* SignInView.swift in Sources */,
 				0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */,
 				0E91DC192BCA836D0018911F /* FoodSample.mlmodel in Sources */,
 				0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */,
@@ -714,6 +714,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Kiwee/KiweeDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A79VBQ2875;
@@ -733,6 +735,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.Kiwee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -745,6 +748,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Kiwee/KiweeRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A79VBQ2875;
@@ -764,6 +769,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.Kiwee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
