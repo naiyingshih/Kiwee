@@ -82,21 +82,6 @@ extension FirestoreManager {
             }
     }
     
-    //    func postWeightToSubcollection(id: String, weight: Double) {
-    //        let weightData: [String: Any] = [
-    //            "weight": weight,
-    //            "date": FieldValue.serverTimestamp()
-    //        ]
-    //        database.collection("users").document(id).collection("current_weight")
-    //            .addDocument(data: weightData) { error in
-    //                if let error = error {
-    //                    print("Error adding document to subcollection: \(error.localizedDescription)")
-    //                } else {
-    //                    print("Document added to subcollection successfully")
-    //                }
-    //            }
-    //    }
-    
     func getUserData(completion: @escaping (UserData) -> Void) {
         guard let currentUserUID = userID else { return }
         
@@ -193,16 +178,6 @@ extension FirestoreManager {
                             completion(true)
                         }
                     }
-                    
-                    //                    self.database.collection("intake").addDocument(data: waterDictionary) { error in
-                    //                        if let error = error {
-                    //                            print("Error adding water intake: \(error.localizedDescription)")
-                    //                            completion(false)
-                    //                        } else {
-                    //                            print("Water intake data added successfully")
-                    //                            completion(true)
-                    //                        }
-                    //                    }
                 }
             }
     }
@@ -566,9 +541,9 @@ extension FirestoreManager {
                     for document in querySnapshot!.documents {
                         let data = document.data()
                         if let timestamp = data["date"] as? Timestamp,
-                           let calories = data["totalCalories"] as? Double {
+                           let calories = data["totalCalories"] as? Int {
                             let date = timestamp.dateValue()
-                            let dataPoint = DataPoint(date: date, dataPoint: calories)
+                            let dataPoint = DataPoint(date: date, dataPoint: Double(calories))
                             dataPoints.append(dataPoint)
                         }
                     }

@@ -132,7 +132,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             let foodData = allFood[indexPath.section][indexPath.row]
             diaryCell.configureCellUI()
             diaryCell.foodNameLabel.text = foodData.name
-            diaryCell.calorieLabel.text = "熱量：\(foodData.totalCalories) kcal"
+            diaryCell.calorieLabel.text = String(format: "熱量：%.0f kcal", foodData.totalCalories)
             diaryCell.foodImage.loadImage(foodData.image, placeHolder: UIImage(named: "Food_Placeholder"))
             return diaryCell
         }

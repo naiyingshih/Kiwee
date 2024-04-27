@@ -67,7 +67,7 @@ struct NutrientsChartView: View {
                                     let totalAmount = viewModel.nutrientData.reduce(0, { $0 + $1.amount })
                                     Text("\(element.amount / totalAmount * 100, specifier: "%.1f")%")
                                         .font(.caption)
-                                        .foregroundStyle(.white)
+                                        .foregroundStyle(.black)
                                 }
                             }
                         }

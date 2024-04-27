@@ -34,7 +34,7 @@ struct IntakeCardView: View {
                     .frame(width: 180, height: 180)
                 Spacer()
                 VStack {
-                    Text("已攝取熱量\n\(caloriesIntake, specifier: "%.1f") kcal")
+                    Text("已攝取熱量\n\(caloriesIntake, specifier: "%.0f") kcal")
                         .padding([.leading, .bottom])
                     Text("已飲水量\n\(waterIntake, specifier: "%.0f") ml")
                 }
