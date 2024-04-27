@@ -48,6 +48,7 @@ struct NutrientsChartView: View {
             // Reports
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack(spacing: 0) {
+                    
                     // Container for the Pie Chart
                     VStack {
                         Text("甜甜圈圖")
@@ -58,7 +59,7 @@ struct NutrientsChartView: View {
                             Chart(viewModel.nutrientData, id: \.label) { element in
                                 SectorMark(
                                     angle: .value("攝取量", element.amount),
-                                    innerRadius: .ratio(0.618), 
+                                    innerRadius: .ratio(0.618),
                                     angularInset: 1.5
                                 )
                                 .cornerRadius(5)

@@ -115,13 +115,13 @@ class RecordManageViewController: UIViewController {
         }
         
         if !updates.isEmpty {
-            FirestoreManager.shared.updatePartialUserData(/*id: initialUserData?.id ?? "", */updates: updates) { success in
+            FirestoreManager.shared.updatePartialUserData(updates: updates) { success in
                 if success {
                     print("Data updated successfully")
                     print(self.updates)
                     
                     if let updatedWeight = self.updates["updated_weight"] as? Double {
-                        FirestoreManager.shared.postWeightToSubcollection(/*id: self.initialUserData?.id ?? "", */weight: updatedWeight)
+                        FirestoreManager.shared.postWeightToSubcollection(weight: updatedWeight)
                     }
                     
                 } else {

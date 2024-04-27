@@ -16,13 +16,13 @@ class SignInView: UIView {
     
     weak var delegate: SignInDelegate?
     
-    lazy var closeButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
-        button.addTarget(self, action: #selector(closeLogInPage), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    lazy var closeButton: UIButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
+//        button.addTarget(self, action: #selector(closeLogInPage), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     lazy var titleLabel: UILabel = {
         let title = UILabel()
@@ -77,17 +77,17 @@ class SignInView: UIView {
     
     func setupInitialUI() {
         backgroundColor = .white
-        addSubview(closeButton)
+//        addSubview(closeButton)
         addSubview(titleLabel)
         addSubview(contentLabel)
         addSubview(divingLine)
         addSubview(loginButton)
         
         NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            closeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+//            closeButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+//            closeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
-            titleLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 24),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 40),
             titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
             contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),

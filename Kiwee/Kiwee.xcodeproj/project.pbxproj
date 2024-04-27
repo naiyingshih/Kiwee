@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */; };
+		0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E41B8B62BDD016500159FAA /* Ribbons_animation.json */; };
+		0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0E41B8B92BDD08A300159FAA /* Lottie */; };
 		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
 		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
 		0E6FF9A62BDA73C8003B2133 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */; };
@@ -72,6 +74,7 @@
 /* Begin PBXFileReference section */
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		0E41B8B62BDD016500159FAA /* Ribbons_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ribbons_animation.json; sourceTree = "<group>"; };
 		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 				0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */,
 				0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */,
 				0ECE08A02BC6AFEC003C15B0 /* FirebaseFirestoreSwift in Frameworks */,
+				0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +238,7 @@
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				0E41B8B62BDD016500159FAA /* Ribbons_animation.json */,
 				0E0643922BC8FFF000DFB39B /* FoodData.json */,
 			);
 			path = Resource;
@@ -398,6 +403,7 @@
 				0ECE089D2BC6AFEC003C15B0 /* FirebaseDatabaseSwift */,
 				0ECE089F2BC6AFEC003C15B0 /* FirebaseFirestoreSwift */,
 				0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */,
+				0E41B8B92BDD08A300159FAA /* Lottie */,
 			);
 			productName = Kiwee;
 			productReference = 0ECE08832BC69877003C15B0 /* Kiwee.app */;
@@ -429,6 +435,7 @@
 			mainGroup = 0ECE087A2BC69877003C15B0;
 			packageReferences = (
 				0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0E41B8B82BDD08A300159FAA /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = 0ECE08842BC69877003C15B0 /* Products */;
 			projectDirPath = "";
@@ -444,6 +451,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */,
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
 				0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */,
 				0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */,
@@ -804,6 +812,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0E41B8B82BDD08A300159FAA /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.3;
+			};
+		};
 		0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -815,6 +831,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0E41B8B92BDD08A300159FAA /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E41B8B82BDD08A300159FAA /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
 		0ECE089B2BC6AFEC003C15B0 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -121,16 +121,6 @@ class AddFoodViewController: UIViewController {
         }
     }
     
-//    func fetchRecentRecord() {
-//        guard let secion = self.sectionIndex else { return }
-//        FirestoreManager.shared.getFoodSectionData(section: secion) { [weak self] foods in
-//            self?.recentFoods = foods
-//            DispatchQueue.main.async {
-//                self?.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-//            }
-//        }
-//    }
-    
     @IBAction func imageRecognizeButtonTapped() {
         currentMethod = .imageRecognition
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)

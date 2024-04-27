@@ -56,7 +56,7 @@ extension FirestoreManager {
         }
     }
     
-    func updatePartialUserData(/*id: String, */updates: [String: Any], completion: @escaping (Bool) -> Void) {
+    func updatePartialUserData(updates: [String: Any], completion: @escaping (Bool) -> Void) {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
         database.collection("users")
             .whereField("id", isEqualTo: currentUserUID)
@@ -394,7 +394,7 @@ extension FirestoreManager {
         }
     }
     
-    func updateFoodCollection(documentID: String, foodName: String, tag: String, /*imageUrl: String, */completion: @escaping () -> Void) {
+    func updateFoodCollection(documentID: String, foodName: String, tag: String, completion: @escaping () -> Void) {
         let updateData: [String: Any] = [
             "food_name": foodName,
             "tag": tag
@@ -433,7 +433,7 @@ extension FirestoreManager {
                               let tag = data["tag"] as? String,
                               let createdTime = data["created_time"] as? Timestamp else { continue }
                         
-                        let post = Post(id: currentUserUID, documenID: document.documentID, foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
+                        let post = Post(documenID: document.documentID, foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
                         posts.insert(post, at: 0)
                     }
                     completion(posts)
@@ -447,7 +447,7 @@ extension FirestoreManager {
     
 extension FirestoreManager {
     
-    func postWeightToSubcollection(/*id: String, */weight: Double) {
+    func postWeightToSubcollection(weight: Double) {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
         let weightData: [String: Any] = [
             "weight": weight,
@@ -541,9 +541,9 @@ extension FirestoreManager {
                     for document in querySnapshot!.documents {
                         let data = document.data()
                         if let timestamp = data["date"] as? Timestamp,
-                           let calories = data["totalCalories"] as? Int {
+                           let calories = data["totalCalories"] as? Double {
                             let date = timestamp.dateValue()
-                            let dataPoint = DataPoint(date: date, dataPoint: Double(calories))
+                            let dataPoint = DataPoint(date: date, dataPoint: calories)
                             dataPoints.append(dataPoint)
                         }
                     }

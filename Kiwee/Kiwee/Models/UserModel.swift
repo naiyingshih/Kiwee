@@ -22,7 +22,6 @@ struct UserData {
 }
 
 struct Post {
-    let id: String
     let documenID: String
     var foodName: String
     var tag: String

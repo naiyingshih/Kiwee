@@ -143,36 +143,13 @@ class SignInViewController: UIViewController {
     }
     
     func postUserInfo() {
-//        let defaults = UserDefaults.standard
-//        
-//        let name = defaults.string(forKey: "name") ?? ""
-//        let gender = defaults.integer(forKey: "gender")
-//        let age = defaults.integer(forKey: "age")
-//        let goal = defaults.integer(forKey: "goal")
-//        let activeness = defaults.integer(forKey: "activeness")
-//        let height = defaults.double(forKey: "height")
-//        let initialWeight = defaults.double(forKey: "initial_weight")
-//        let achievementTime = defaults.object(forKey: "achievement_time") as? Date ?? Date()
-//        let goalWeight = defaults.double(forKey: "goal_weight")
-//        
-//        let userData = UserData(
-//            id: Auth.auth().currentUser?.uid ?? "",
-//            name: name,
-//            gender: gender,
-//            age: age,
-//            goal: goal,
-//            activeness: activeness,
-//            height: height,
-//            initialWeight: initialWeight,
-//            updatedWeight: initialWeight,
-//            goalWeight: goalWeight,
-//            achievementTime: achievementTime)
         let id = Auth.auth().currentUser?.uid ?? ""
         let userData = UserDataManager.shared.getCurrentUserData(id: id)
         
         FirestoreManager.shared.postUserData(input: userData) { success in
             if success {
                 print("user data add successfully")
+                FirestoreManager.shared.postWeightToSubcollection(weight: userData.initialWeight)
             } else {
                 print("Error adding user data")
             }
@@ -243,7 +220,7 @@ extension SignInViewController: SignInDelegate, ASAuthorizationControllerPresent
     
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
-        let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
 
@@ -337,13 +314,12 @@ extension SignInViewController {
                 return
             }
             print("log in successfully")
-            self.getFirebaseUserInfo()
-            self.checkAppleIDCredentialState(userID: Auth.auth().currentUser?.uid ?? "")
-            self.postUserInfo()
-            
             DispatchQueue.main.async {
                 self.transitionToWelcomeView()
             }
+            self.getFirebaseUserInfo()
+            self.checkAppleIDCredentialState(userID: Auth.auth().currentUser?.uid ?? "")
+            self.postUserInfo()
         }
     }
     
@@ -351,9 +327,9 @@ extension SignInViewController {
         let welcomeVC = WelcomeViewController()
         welcomeVC.modalPresentationStyle = .fullScreen
         self.present(welcomeVC, animated: true) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                welcomeVC.dismiss(animated: true) {
-                    // Now transition to the initial page of the "Main" storyboard
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+//                welcomeVC.dismiss(animated: true) {
+                    // transition to the initial page of the "Main" storyboard
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     if let initialViewController = storyboard.instantiateInitialViewController() {
                        
@@ -361,14 +337,16 @@ extension SignInViewController {
                         guard let window = windowScene.windows.first else { return }
                         
                         window.rootViewController = initialViewController
+                        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil)
+                        
                         window.makeKeyAndVisible()
                     }
-                }
             }
         }
     }
     
     // MARK: - Firebase 取得登入使用者的資訊
+    
     func getFirebaseUserInfo() {
         let currentUser = Auth.auth().currentUser
         guard let user = currentUser else {
