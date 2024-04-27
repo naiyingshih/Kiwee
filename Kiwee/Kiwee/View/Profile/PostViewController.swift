@@ -125,7 +125,6 @@ class PostViewController: UIViewController {
                 }
                 // Creating a new post
                 FirestoreManager.shared.publishFoodCollection(
-                    id: "Un9y8lW7NM5ghB43ll7r",
                     foodName: foodTextField,
                     tag: tag,
                     imageUrl: imageUrl.absoluteString

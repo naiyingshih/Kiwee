@@ -128,7 +128,7 @@ class GoalViewController: UIViewController {
             }
             
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            if let lastVC = storyboard.instantiateViewController(withIdentifier: "LastViewController") as? LastViewController {
+            if let lastVC = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
                 lastVC.modalPresentationStyle = .fullScreen
                 self.present(lastVC, animated: true, completion: nil)
             }

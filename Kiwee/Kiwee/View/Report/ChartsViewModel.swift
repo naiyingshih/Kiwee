@@ -108,7 +108,7 @@ class ChartsViewModel: ObservableObject {
     }
     
     func fetchUserWeight() {
-        FirestoreManager.shared.getUserWeight { [weak self] userInputs in
+        FirestoreManager.shared.getUserWeight(/*id: id*/) { [weak self] userInputs in
             DispatchQueue.main.async {
                 self?.userInputData = userInputs
             }

@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
+		0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */; };
 		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
 		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
-		0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */; };
+		0E6FF9A62BDA73C8003B2133 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */; };
 		0E6FF9A82BDA93E4003B2133 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A72BDA93E4003B2133 /* SignInView.swift */; };
 		0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */; };
 		0E91DC162BCA556D0018911F /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DC152BCA556D0018911F /* CameraViewController.swift */; };
@@ -70,9 +71,10 @@
 
 /* Begin PBXFileReference section */
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
+		0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
-		0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastViewController.swift; sourceTree = "<group>"; };
+		0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A72BDA93E4003B2133 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		0E91DC132BC9C74D0018911F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E91DC152BCA556D0018911F /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -222,7 +224,8 @@
 			children = (
 				0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */,
 				0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */,
-				0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */,
+				0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */,
+				0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */,
 				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
 			);
 			path = Launch;
@@ -547,9 +550,10 @@
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
-				0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */,
+				0E6FF9A62BDA73C8003B2133 /* SignInViewController.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
 				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
+				0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */,
 				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
 				0E6FF9A82BDA93E4003B2133 /* SignInView.swift in Sources */,

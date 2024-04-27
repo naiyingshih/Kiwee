@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,23 +23,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Determine which storyboard to use
         let storyboardName: String
-        if UserDefaults.standard.bool(forKey: "isLoggedIn") {
+        
+        let user = Auth.auth().currentUser
+        if user != nil {
             // User is logged in, use the main storyboard
             storyboardName = "Main"
         } else {
             // User is not logged in, use the login storyboard
             storyboardName = "Login"
         }
-
         // Load the storyboard
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
 
-        // Instantiate the initial view controller
         let initialViewController = storyboard.instantiateInitialViewController()
 
-        // Set the root view controller of the window
         window.rootViewController = initialViewController
-
         // Make this window the key window and visible
         window.makeKeyAndVisible()
 
