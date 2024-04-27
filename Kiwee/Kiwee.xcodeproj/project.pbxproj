@@ -48,6 +48,7 @@
 		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
 		0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCAE2BD7E82C0018911F /* APIKey.plist */; };
 		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
+		0E91DCB52BD961230018911F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB42BD961230018911F /* DetailView.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -112,6 +113,7 @@
 		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
+		0E91DCB42BD961230018911F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailView.swift; path = Kiwee/View/Diary/DetailView.swift; sourceTree = SOURCE_ROOT; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		0E91DC172BCA561D0018911F /* DiaryView */ = {
 			isa = PBXGroup;
 			children = (
+				0E91DCB42BD961230018911F /* DetailView.swift */,
 				0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */,
 				0E91DC1C2BCC30220018911F /* WaterViewCell.swift */,
 				0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */,
@@ -533,6 +536,7 @@
 				0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */,
 				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
+				0E91DCB52BD961230018911F /* DetailView.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
 				0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,

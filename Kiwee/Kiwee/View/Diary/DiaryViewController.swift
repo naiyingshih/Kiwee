@@ -13,7 +13,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     var waterCount: Int = 0 {
         didSet {
             DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+                self.tableView.reloadSections(IndexSet(integer: 4), with: .none)
             }
         }
     }
@@ -169,6 +169,18 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
         return 80
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailView = DetailView()
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+        let cellFrameInSuperview = tableView.convert(cell.frame, to: self.view)
+            let tapLocation = CGPoint(x: cellFrameInSuperview.midX, y: cellFrameInSuperview.midY)
+            let food = allFood[indexPath.section][indexPath.row]
+            detailView.configureView(food)
+            detailView.presentView(onView: self.view, atTapLocation: tapLocation)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if indexPath.section >= 0 && indexPath.section <= 3 {
@@ -179,7 +191,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                     DispatchQueue.main.async {
                         if success {
                             print("Document successfully removed!")
-                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
                         } else {
                             print("Error removing document")
                         }
@@ -189,7 +201,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 FirestoreManager.shared.resetWaterCount { success in
                     DispatchQueue.main.async {
                         if success {
-                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
                         } else {
                             print("Error removing document")
                         }
