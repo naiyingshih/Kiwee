@@ -26,7 +26,7 @@ struct IntakeCardView: View {
             Text("今日剩餘攝取量")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.blue)
+                .foregroundColor(Color(hex: "004358"))
                 .padding([.leading, .bottom])
             HStack {
                 Spacer()
@@ -42,7 +42,7 @@ struct IntakeCardView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.yellow)
+        .background(Color(hex: "BEDB39"))
         .cornerRadius(10)
         .shadow(radius: 5)
     }
@@ -65,8 +65,9 @@ struct PieChartView: View {
                     innerRadius: .ratio(0.618),
                     angularInset: 1.5
                 )
-                .opacity(0.2)
+                .opacity(0.3)
                 .cornerRadius(5)
+                .foregroundStyle(Color(hex: "fb8500"))
                 .annotation(position: .overlay) {
                     Text("\(percentage, specifier: "%.1f")%")
                         .font(.headline)
@@ -83,6 +84,7 @@ struct PieChartView: View {
                 )
                 .opacity(1.0)
                 .cornerRadius(5)
+                .foregroundStyle(Color(hex: "fb8500"))
                 .annotation(position: .overlay) {
                     Text("\(remainingPercentage, specifier: "%.1f")%")
                         .font(.headline)
@@ -98,7 +100,7 @@ struct PieChartView: View {
                     Text("\((RDA ?? 0) - caloriesIntake, specifier: "%.0f") kcal")
                         .font(.title3.bold())
                         .foregroundStyle(.primary)
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(hex: "004358"))
                     Text("/\(RDA ?? 0, specifier: "%.0f") kcal")
                         .font(.callout)
                         .foregroundColor(.secondary)

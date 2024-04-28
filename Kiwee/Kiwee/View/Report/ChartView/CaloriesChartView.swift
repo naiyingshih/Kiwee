@@ -33,16 +33,25 @@ struct CaloriesChartView: View {
                         y: .value("熱量", element.dataPoint)
                       )
                       .interpolationMethod(.catmullRom)
+                      .foregroundStyle(Color(hex: "DBEC90"))
+                      .lineStyle(StrokeStyle(lineWidth: 2))
                       
                       PointMark(
                         x: .value("日期", element.date),
                         y: .value("熱量", element.dataPoint)
                       )
-                      .foregroundStyle(by: .value("熱量", element.dataPoint))
+                      .foregroundStyle(Color(hex: "BEDB39"))
+//                      .foregroundStyle(by: .value("熱量", element.dataPoint))
+                      .annotation(position: .topTrailing, alignment: .center) {
+                          Text("\(element.dataPoint, specifier: "%.0f")")
+                              .font(.caption)
+                              .foregroundColor(.black)
+                      }
                       
                       let RDA = viewModel.calculatedBodyInfo?.RDA
                       RuleMark(y: .value("熱量", RDA ?? 0))
                           .foregroundStyle(.gray)
+                          .lineStyle(StrokeStyle(lineWidth: 1))
                           .annotation(position: .top,
                                       alignment: .topLeading) {
                               Text("建議攝取量:\(RDA ?? 0, specifier: "%.0f") kcal")
@@ -50,9 +59,13 @@ struct CaloriesChartView: View {
                                   .foregroundColor(.gray)
                           }
                   }
+                  .padding([.all])
                   .frame(height: 200)
                   .chartScrollableAxes(.horizontal)
-                  .chartXVisibleDomain(length: 365000 * 2)
+                  .chartXVisibleDomain(length: 365000)
+                  .chartXAxis {
+                      AxisMarks(preset: .aligned, position: .bottom)
+                  }
               }
           }
           .padding()

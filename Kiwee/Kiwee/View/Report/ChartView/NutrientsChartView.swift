@@ -22,15 +22,15 @@ struct NutrientsChartView: View {
     @State private var selectedTimeRange: TimeRange = .last7Days
     
     init() {
-        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.hexStringToUIColor(hex: "004358")
         UIPageControl.appearance().pageIndicatorTintColor = .lightGray
     }
     
     let colorMapping: [String: Color] = [
-        "碳水": Color(red: 167/255, green: 201/255, blue: 87/255),
-        "蛋白": Color(red: 255/255, green: 146/255, blue: 139/255),
-        "脂肪": Color(red: 252/255, green: 202/255, blue: 70/255),
-        "纖維": Color(red: 203/255, green: 153/255, blue: 126/255)
+        "碳水": Color(hex: "a1c181"),
+        "蛋白": Color(hex: "ff928b"),
+        "脂肪": Color(hex: "fcca46"),
+        "纖維": Color(hex: "cb997e")
     ]
     
     var body: some View {
@@ -47,7 +47,7 @@ struct NutrientsChartView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-            .padding(.top, 20)
+            .padding([.all])
             .onChange(of: selectedTimeRange, initial: true, { _, newValue in
                 switch newValue {
                 case .last7Days:

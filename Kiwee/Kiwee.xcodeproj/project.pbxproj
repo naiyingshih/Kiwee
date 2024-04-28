@@ -47,8 +47,8 @@
 		0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA42BD67D9C0018911F /* MessageInputView.swift */; };
 		0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */; };
 		0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCAE2BD7E82C0018911F /* APIKey.plist */; };
-		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
 		0E91DCB52BD961230018911F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB42BD961230018911F /* DetailView.swift */; };
+		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -64,7 +64,7 @@
 		0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */; };
 		0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */; };
 		0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */; };
-		0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */; };
+		0ECE08C12BC71A9A003C15B0 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */; };
 		0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */; };
 		0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */; };
 		0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */; };
@@ -112,8 +112,8 @@
 		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
-		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		0E91DCB42BD961230018911F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailView.swift; path = Kiwee/View/Diary/DetailView.swift; sourceTree = SOURCE_ROOT; };
+		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 		0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
-		0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		0ECE08C82BC76C60003C15B0 /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewController.swift; sourceTree = "<group>"; };
 		0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodMethodCell.swift; sourceTree = "<group>"; };
@@ -329,7 +329,7 @@
 		0ECE08C52BC76AE8003C15B0 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				0ECE08C02BC71A9A003C15B0 /* UIColor+Extension.swift */,
+				0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */,
 				0E91DCA22BD6787A0018911F /* Type+Extension.swift */,
 			);
 			path = Extension;
@@ -578,7 +578,7 @@
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */,
 				0E91DC362BD0469F0018911F /* ProfileVeiwController.swift in Sources */,
-				0ECE08C12BC71A9A003C15B0 /* UIColor+Extension.swift in Sources */,
+				0ECE08C12BC71A9A003C15B0 /* Color+Extension.swift in Sources */,
 				0E91DCA32BD6787A0018911F /* Type+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

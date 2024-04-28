@@ -26,10 +26,16 @@ class SwiftUIHostingCell: UICollectionViewCell {
         newHostingController.view.frame = contentViewContainer.bounds
         newHostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         newHostingController.didMove(toParent: parentViewController)
+        
+        newHostingController.view.backgroundColor = .white
         newHostingController.view.layer.cornerRadius = 10
-        newHostingController.view.layer.borderWidth = 3
-        newHostingController.view.layer.borderColor = UIColor.systemYellow.cgColor
 
+        // Set the shadow color
+        newHostingController.view.layer.shadowColor = UIColor.black.cgColor
+        newHostingController.view.layer.shadowOpacity = 0.5
+        newHostingController.view.layer.shadowOffset = CGSize(width: 0, height: 1)
+        newHostingController.view.layer.shadowRadius = 6
+        
         // Keep a reference to the new hosting controller
         hostingController = newHostingController
     }

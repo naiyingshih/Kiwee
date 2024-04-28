@@ -14,6 +14,8 @@ class ReportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.backgroundColor = UIColor.hexStringToUIColor(hex: "F5F5F5")
+        collectionView.backgroundColor = collectionView.backgroundColor?.withAlphaComponent(0.2)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SwiftUIHostingCell.self, forCellWithReuseIdentifier: "SwiftUIHostingCell")
@@ -22,6 +24,7 @@ class ReportViewController: UIViewController {
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         flowLayout.minimumInteritemSpacing = margin
         flowLayout.minimumLineSpacing = margin
+        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: 0, bottom: margin, right: 0)
     }
     
 }
