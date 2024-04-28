@@ -62,7 +62,7 @@ extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollection
         case 0:
             return CGSize(width: collectionViewWidth, height: 250)
         case 3:
-            return CGSize(width: collectionViewWidth, height: 400)
+            return CGSize(width: collectionViewWidth, height: 450)
         default:
             return CGSize(width: collectionViewWidth, height: 300)
         }
