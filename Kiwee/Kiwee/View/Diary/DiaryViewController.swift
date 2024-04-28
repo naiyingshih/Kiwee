@@ -21,6 +21,9 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
+        picker.layer.cornerRadius = 10
+        picker.layer.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A").cgColor
+        picker.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         picker.sizeToFit()
         picker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         picker.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +38,8 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         loadData(for: Date())
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.sectionHeaderTopPadding = 8
     }
 
     @objc func dateChanged(datePicker: UIDatePicker) {
@@ -130,21 +135,22 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let diaryCell = cell as? DiaryViewCell else { return cell }
             let foodData = allFood[indexPath.section][indexPath.row]
-            diaryCell.configureCellUI()
-            diaryCell.foodNameLabel.text = foodData.name
-            diaryCell.calorieLabel.text = String(format: "熱量：%.0f kcal", foodData.totalCalories)
-            diaryCell.foodImage.loadImage(foodData.image, placeHolder: UIImage(named: "Food_Placeholder"))
+//            diaryCell.configureCellUI()
+            diaryCell.update(foodData)
             return diaryCell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        if indexPath.section == 4 {
+            return 200
+        } else {
+            return 80
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = CategoryHeaderView()
-        header.backgroundColor = UIColor.hexStringToUIColor(hex: "BEDB39")
         header.section = section
         header.delegate = self
         switch section {
@@ -166,18 +172,21 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        return 60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailView = DetailView()
-        
-        if let cell = tableView.cellForRow(at: indexPath) {
-        let cellFrameInSuperview = tableView.convert(cell.frame, to: self.view)
-            let tapLocation = CGPoint(x: cellFrameInSuperview.midX, y: cellFrameInSuperview.midY)
-            let food = allFood[indexPath.section][indexPath.row]
-            detailView.configureView(food)
-            detailView.presentView(onView: self.view, atTapLocation: tapLocation)
+        if indexPath.section != 4 {
+            let detailView = DetailView()
+            if let cell = tableView.cellForRow(at: indexPath) {
+                let cellFrameInSuperview = tableView.convert(cell.frame, to: self.view)
+                let tapLocation = CGPoint(x: cellFrameInSuperview.midX, y: cellFrameInSuperview.midY)
+                let food = allFood[indexPath.section][indexPath.row]
+                detailView.configureView(food)
+                detailView.presentView(onView: self.view, atTapLocation: tapLocation)
+            }
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
@@ -198,10 +207,11 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             } else if indexPath.section == 4 {
-                FirestoreManager.shared.resetWaterCount { success in
+                FirestoreManager.shared.resetWaterCount(chosenDate: datePicker.date) { success in
                     DispatchQueue.main.async {
                         if success {
                             tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+                            print("water successfully reset")
                         } else {
                             print("Error removing document")
                         }

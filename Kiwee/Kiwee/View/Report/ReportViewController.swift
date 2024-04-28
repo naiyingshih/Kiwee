@@ -14,17 +14,27 @@ class ReportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "F5F5F5")
         collectionView.backgroundColor = UIColor.hexStringToUIColor(hex: "F5F5F5")
-        collectionView.backgroundColor = collectionView.backgroundColor?.withAlphaComponent(0.2)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SwiftUIHostingCell.self, forCellWithReuseIdentifier: "SwiftUIHostingCell")
         
-        let margin: CGFloat = 16
+        let margin: CGFloat = 20
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         flowLayout.minimumInteritemSpacing = margin
         flowLayout.minimumLineSpacing = margin
-        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: 0, bottom: margin, right: 0)
+        flowLayout.sectionInset = UIEdgeInsets(top: margin * 2, left: 0, bottom: margin * 2, right: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        navigationController?.navigationBar.isHidden = false
     }
     
 }

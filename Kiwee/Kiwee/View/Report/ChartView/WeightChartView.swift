@@ -44,7 +44,6 @@ struct WeightChartView: View {
                         .foregroundColor(.black)
                 }
                 
-//                let initWeight = viewModel.calculatedBodyInfo?.initWeight
                 RuleMark(y: .value("體重", initWeight))
                     .foregroundStyle(.gray)
                     .lineStyle(StrokeStyle(lineWidth: 1))
@@ -54,8 +53,7 @@ struct WeightChartView: View {
                             .font(.system(size: 12))
                             .foregroundColor(.gray)
                     }
-                // Add your second RuleMark here
-//                let goalWeight = viewModel.calculatedBodyInfo?.goalWeight
+
                 RuleMark(y: .value("體重", goalWeight))
                     .foregroundStyle(.yellow)
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))

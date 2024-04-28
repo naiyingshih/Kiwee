@@ -34,7 +34,7 @@ class SwiftUIHostingCell: UICollectionViewCell {
         newHostingController.view.layer.shadowColor = UIColor.black.cgColor
         newHostingController.view.layer.shadowOpacity = 0.5
         newHostingController.view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        newHostingController.view.layer.shadowRadius = 6
+        newHostingController.view.layer.shadowRadius = 5
         
         // Keep a reference to the new hosting controller
         hostingController = newHostingController

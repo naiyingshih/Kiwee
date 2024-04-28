@@ -107,17 +107,6 @@ struct NutrientsChartView: View {
                         }
                     }
                     .frame(width: 280, height: 200, alignment: .top)
-                    HStack {
-                        ForEach(colorMapping.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-                            HStack {
-                                Circle()
-                                    .fill(value)
-                                    .frame(width: 8, height: 8)
-                                Text(key)
-                                    .font(.caption)
-                            }
-                        }
-                    }
                 }
                 .tag(1)
             }
