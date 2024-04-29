@@ -135,7 +135,6 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let diaryCell = cell as? DiaryViewCell else { return cell }
             let foodData = allFood[indexPath.section][indexPath.row]
-//            diaryCell.configureCellUI()
             diaryCell.update(foodData)
             return diaryCell
         }

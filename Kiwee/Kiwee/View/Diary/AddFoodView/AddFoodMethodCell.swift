@@ -25,7 +25,7 @@ class AddFoodMethodCell: UITableViewCell {
     
     private lazy var cameraButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "camera"), for: .normal)
+        button.setImage(UIImage(named: "Camera"), for: .normal)
         button.addTarget(self, action: #selector(openCamera), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -34,6 +34,8 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "搜尋食物"
+        searchBar.searchBarStyle = .minimal
+        searchBar.searchTextField.backgroundColor = UIColor.hexStringToUIColor(hex: "eaf4f4")
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
@@ -50,7 +52,8 @@ class AddFoodMethodCell: UITableViewCell {
     
     private lazy var calorieTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "總熱量(kcal)"
+        textField.placeholder = "熱量(kcal/100g)"
+        textField.keyboardType = .decimalPad
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +63,7 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var carboTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "碳水(100g)"
+        textField.keyboardType = .decimalPad
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +73,7 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var proteinTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "蛋白(100g)"
+        textField.keyboardType = .decimalPad
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +83,7 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var fatTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "脂肪(100g)"
+        textField.keyboardType = .decimalPad
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +93,7 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var fiberTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "纖維(100g)"
+        textField.keyboardType = .decimalPad
         textField.font = UIFont.systemFont(ofSize: 12)
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -97,14 +104,29 @@ class AddFoodMethodCell: UITableViewCell {
        let button = UIButton()
         button.setTitle("確認", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        button.layer.cornerRadius = 10
+        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         button.addTarget(self, action: #selector(confirmedTextField), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var clearButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("清除", for: .normal)
+        button.setTitleColor(UIColor.hexStringToUIColor(hex: "004358"), for: .normal)
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+        button.addTarget(self, action: #selector(removeTextField), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupTextFieldObservers()
+        updateConfirmButtonState(isEnabled: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -148,6 +170,42 @@ class AddFoodMethodCell: UITableViewCell {
         delegate.textFieldConfirmed(foodResults: [foodResult])
     }
     
+    @objc func removeTextField() {
+        nameTextField.text = ""
+        calorieTextField.text = ""
+        carboTextField.text = ""
+        proteinTextField.text = ""
+        fatTextField.text = ""
+        fiberTextField.text = ""
+        updateConfirmButtonState(isEnabled: false)
+    }
+    
+    func setupTextFieldObservers() {
+        nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        calorieTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        carboTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        proteinTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        fatTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        fiberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    }
+    
+    @objc func textFieldDidChange() {
+        let areAllTextFieldsNotEmpty = !nameTextField.text!.isEmpty &&
+        !calorieTextField.text!.isEmpty &&
+        !carboTextField.text!.isEmpty &&
+        !proteinTextField.text!.isEmpty &&
+        !fatTextField.text!.isEmpty &&
+        !fiberTextField.text!.isEmpty
+        
+        updateConfirmButtonState(isEnabled: areAllTextFieldsNotEmpty)
+    }
+    
+    func updateConfirmButtonState(isEnabled: Bool) {
+        confirmButton.isEnabled = isEnabled
+        let alpha: CGFloat = isEnabled ? 1.0 : 0.5
+        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(alpha)
+    }
+    
     func configureCellForMethod(_ method: AddFoodMethod?) {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         switch method {
@@ -168,7 +226,10 @@ class AddFoodMethodCell: UITableViewCell {
         NSLayoutConstraint.activate([
             cameraButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
             cameraButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
-            cameraButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            cameraButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            cameraButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            cameraButton.heightAnchor.constraint(equalToConstant: 40),
+            cameraButton.widthAnchor.constraint(equalTo: cameraButton.heightAnchor)
         ])
     }
     
@@ -191,6 +252,7 @@ class AddFoodMethodCell: UITableViewCell {
         contentView.addSubview(fatTextField)
         contentView.addSubview(fiberTextField)
         contentView.addSubview(confirmButton)
+        contentView.addSubview(clearButton)
         
         NSLayoutConstraint.activate([
             nameTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
@@ -213,11 +275,16 @@ class AddFoodMethodCell: UITableViewCell {
             fiberTextField.leadingAnchor.constraint(equalTo: fatTextField.trailingAnchor, constant: 8),
             fiberTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             fiberTextField.topAnchor.constraint(equalTo: carboTextField.topAnchor),
-
-            confirmButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60),
-            confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -60),
+            
+            confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -60),
+            confirmButton.widthAnchor.constraint(equalToConstant: 100),
             confirmButton.topAnchor.constraint(equalTo: carboTextField.bottomAnchor, constant: 24),
-            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
+            
+            clearButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 60),
+            clearButton.widthAnchor.constraint(equalToConstant: 100),
+            clearButton.topAnchor.constraint(equalTo: carboTextField.bottomAnchor, constant: 24),
+            clearButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
         
         let equalWidths = [carboTextField, proteinTextField, fatTextField, fiberTextField].map {

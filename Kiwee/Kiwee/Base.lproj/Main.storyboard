@@ -730,31 +730,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4e-zm-l78">
-                                <rect key="frame" x="16" y="103" width="361" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="I4e-zm-l78">
+                                <rect key="frame" x="24" y="59" width="345" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QV8-NS-ZV6">
-                                        <rect key="frame" x="0.0" y="0.0" width="120.33333333333333" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QV8-NS-ZV6">
+                                        <rect key="frame" x="0.0" y="0.0" width="111.66666666666667" height="50"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="影像辨識"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="影像辨識">
+                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                        </buttonConfiguration>
                                         <connections>
-                                            <action selector="imageRecognizeButtonTapped" destination="BQ0-u7-WOd" eventType="touchUpInside" id="Jvg-PE-jzS"/>
+                                            <action selector="imageRecognizeButtonTapped:" destination="BQ0-u7-WOd" eventType="touchUpInside" id="869-0y-03d"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RqF-kQ-zqF">
-                                        <rect key="frame" x="120.33333333333334" y="0.0" width="120.33333333333334" height="50"/>
+                                        <rect key="frame" x="116.66666666666666" y="0.0" width="111.66666666666666" height="50"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="搜尋食物"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="搜尋食物">
+                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                        </buttonConfiguration>
                                         <connections>
-                                            <action selector="searchFoodButtonTapped" destination="BQ0-u7-WOd" eventType="touchUpInside" id="W12-6N-bNR"/>
+                                            <action selector="searchFoodButtonTapped:" destination="BQ0-u7-WOd" eventType="touchUpInside" id="oys-5x-T3m"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5is-gJ-Tix">
-                                        <rect key="frame" x="240.66666666666671" y="0.0" width="120.33333333333334" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5is-gJ-Tix">
+                                        <rect key="frame" x="233.33333333333329" y="0.0" width="111.66666666666666" height="50"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="手動輸入"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="手動輸入">
+                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                        </buttonConfiguration>
                                         <connections>
-                                            <action selector="manualButtonTapped" destination="BQ0-u7-WOd" eventType="touchUpInside" id="pEG-MY-x2M"/>
+                                            <action selector="manualButtonTapped:" destination="BQ0-u7-WOd" eventType="touchUpInside" id="E5L-a3-kod"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -763,7 +769,7 @@
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nU1-dS-1j4">
-                                <rect key="frame" x="0.0" y="153" width="393" height="699"/>
+                                <rect key="frame" x="0.0" y="109" width="393" height="743"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddFoodMethodCell" id="IR0-mP-Ajf" customClass="AddFoodMethodCell" customModule="Kiwee" customModuleProvider="target">
@@ -820,6 +826,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="collectionView" destination="989-Sy-wCC" id="2cv-4f-RzC"/>
+                                            <outlet property="titleLabel" destination="hhY-Qg-Aif" id="rAo-sA-QSh"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ResultCell" id="XWw-TG-0Zc" customClass="ResultCell" customModule="Kiwee" customModuleProvider="target">
@@ -948,14 +955,16 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="nU1-dS-1j4" secondAttribute="bottom" id="0fK-Sk-N9a"/>
                             <constraint firstItem="nU1-dS-1j4" firstAttribute="leading" secondItem="aNT-9I-jBj" secondAttribute="leading" id="HgC-of-Nmx"/>
-                            <constraint firstItem="I4e-zm-l78" firstAttribute="top" secondItem="aNT-9I-jBj" secondAttribute="top" constant="44" id="LJm-uU-btR"/>
+                            <constraint firstItem="I4e-zm-l78" firstAttribute="top" secondItem="aNT-9I-jBj" secondAttribute="top" id="LJm-uU-btR"/>
                             <constraint firstAttribute="trailing" secondItem="nU1-dS-1j4" secondAttribute="trailing" id="V56-Yp-EVO"/>
                             <constraint firstItem="nU1-dS-1j4" firstAttribute="top" secondItem="I4e-zm-l78" secondAttribute="bottom" id="hak-j6-DzL"/>
-                            <constraint firstItem="aNT-9I-jBj" firstAttribute="trailing" secondItem="I4e-zm-l78" secondAttribute="trailing" constant="16" id="mDZ-Ob-zei"/>
-                            <constraint firstItem="I4e-zm-l78" firstAttribute="leading" secondItem="aNT-9I-jBj" secondAttribute="leading" constant="16" id="omg-te-78e"/>
+                            <constraint firstItem="I4e-zm-l78" firstAttribute="leading" secondItem="aNT-9I-jBj" secondAttribute="leading" constant="24" id="qZD-8c-Qaa"/>
+                            <constraint firstItem="aNT-9I-jBj" firstAttribute="trailing" secondItem="I4e-zm-l78" secondAttribute="trailing" constant="24" id="rGw-KG-S6C"/>
+                            <constraint firstItem="I4e-zm-l78" firstAttribute="centerX" secondItem="vyG-DK-UtF" secondAttribute="centerX" id="tUz-EW-siT"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonStackView" destination="I4e-zm-l78" id="NZL-gY-gBl"/>
                         <outlet property="imageRecognizeButton" destination="QV8-NS-ZV6" id="llF-Ot-6Ll"/>
                         <outlet property="manualButton" destination="5is-gJ-Tix" id="zKc-LY-XNA"/>
                         <outlet property="searchFoodButton" destination="RqF-kQ-zqF" id="Otg-sC-pio"/>
@@ -964,7 +973,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uaV-tC-hb0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-631" y="1532"/>
+            <point key="canvasLocation" x="-631.29770992366412" y="1531.6901408450706"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6z3-Ei-R4q">

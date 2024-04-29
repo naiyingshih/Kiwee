@@ -19,11 +19,9 @@ class AddFoodViewController: UIViewController {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 if !self.filteredFoodItems.isEmpty {
-                    self.confirmButton.isEnabled = true
-                    self.confirmButton.alpha = 1.0
+                    self.updateConfirmButtonState(isEnabled: true)
                 } else {
-                    self.confirmButton.isEnabled = false
-                    self.confirmButton.alpha = 0.5
+                    self.updateConfirmButtonState(isEnabled: false)
                 }
             }
         }
@@ -33,13 +31,16 @@ class AddFoodViewController: UIViewController {
     var updatedQuantity: Double?
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var imageRecognizeButton: UIButton!
     @IBOutlet weak var searchFoodButton: UIButton!
     @IBOutlet weak var manualButton: UIButton!
     
+    private var underlineView: UIView!
+    
     lazy var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f4f4f4")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -47,8 +48,9 @@ class AddFoodViewController: UIViewController {
     lazy var confirmButton: UIButton = {
         let button = UIButton()
         button.setTitle("確認加入", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(confirmed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -58,6 +60,8 @@ class AddFoodViewController: UIViewController {
         super.viewDidLoad()
         setupBottomBlock()
         setupInitialUI()
+        setupUnderlineView()
+        setupNavigationItemUI()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
@@ -76,9 +80,30 @@ class AddFoodViewController: UIViewController {
     }
     
     func setupInitialUI() {
-        confirmButton.isEnabled = false
-        confirmButton.alpha = 0.3
+        buttonStackView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        imageRecognizeButton.tintColor = .white
+        searchFoodButton.tintColor = .lightGray
+        manualButton.tintColor = .lightGray
+        updateConfirmButtonState(isEnabled: false)
         currentMethod = .imageRecognition
+    }
+    
+    func setupNavigationItemUI() {
+        let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(navigateBack))
+        barButtonItem.tintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        navigationItem.leftBarButtonItem = barButtonItem
+    }
+    
+    func setupUnderlineView() {
+        guard let firstButton = buttonStackView.arrangedSubviews[0] as? UIButton else {
+            return
+        }
+        let stackViewHeight = buttonStackView.frame.maxY
+        let initialFrame = firstButton.convert(firstButton.bounds, to: self.view)
+        underlineView = UIView(frame: CGRect(x: initialFrame.origin.x, y: stackViewHeight + 36, width: initialFrame.width, height: 2.5))
+        underlineView.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        view.addSubview(underlineView)
     }
     
     func setupBottomBlock() {
@@ -89,52 +114,59 @@ class AddFoodViewController: UIViewController {
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 100),
+            bottomView.heightAnchor.constraint(equalToConstant: 120),
             
-            confirmButton.centerXAnchor.constraint(equalTo: bottomView.centerXAnchor),
-            confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
+            confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor, constant: -8),
             confirmButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 24),
             confirmButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -24),
             confirmButton.heightAnchor.constraint(equalToConstant: 48)
         ])
     }
     
-    func fetchRecentRecord() {
-        guard let section = self.sectionIndex else { return }
-        FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
-            guard let strongSelf = self else { return }
-            
-            strongSelf.recentFoods = foods.map { food in
-                var modifiedFood = food
-                if modifiedFood.quantity != 0 {
-                    modifiedFood.totalCalories = ((modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.carbohydrates = ((modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.protein = ((modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.fat = ((modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.fiber = ((modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                }
-                return modifiedFood
-            }
-            
-            DispatchQueue.main.async {
-                strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-            }
-        }
+    func updateConfirmButtonState(isEnabled: Bool) {
+        confirmButton.isEnabled = isEnabled
+        let alpha: CGFloat = isEnabled ? 1.0 : 0.5
+        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(alpha)
     }
     
-    @IBAction func imageRecognizeButtonTapped() {
+    @IBAction func imageRecognizeButtonTapped(_ sender: UIButton) {
+        updateButtonColors(selectedButton: sender)
+        moveUnderline(to: sender)
         currentMethod = .imageRecognition
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
-    @IBAction func searchFoodButtonTapped() {
+    @IBAction func searchFoodButtonTapped(_ sender: UIButton) {
+        updateButtonColors(selectedButton: sender)
+        moveUnderline(to: sender)
         currentMethod = .search
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
-    @IBAction func manualButtonTapped() {
+    @IBAction func manualButtonTapped(_ sender: UIButton) {
+        updateButtonColors(selectedButton: sender)
+        moveUnderline(to: sender)
         currentMethod = .manual
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+    }
+    
+    private func moveUnderline(to button: UIButton) {
+        UIView.animate(withDuration: 0.3) {
+            let buttonFrame = button.convert(button.bounds, to: self.view)
+            self.underlineView.frame.origin.x = buttonFrame.origin.x
+            self.underlineView.frame.size.width = buttonFrame.size.width
+        }
+    }
+    
+    private func updateButtonColors(selectedButton: UIButton) {
+        imageRecognizeButton.tintColor = .lightGray
+        searchFoodButton.tintColor = .lightGray
+        manualButton.tintColor = .lightGray
+        selectedButton.tintColor = .white
+    }
+    
+    @objc func navigateBack() {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func confirmed() {
@@ -173,6 +205,29 @@ class AddFoodViewController: UIViewController {
                 }
         }
 
+    }
+    
+    func fetchRecentRecord() {
+        guard let section = self.sectionIndex else { return }
+        FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.recentFoods = foods.map { food in
+                var modifiedFood = food
+                if modifiedFood.quantity != 0 {
+                    modifiedFood.totalCalories = ((modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.carbohydrates = ((modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.protein = ((modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.fat = ((modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                    modifiedFood.nutrients.fiber = ((modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
+                }
+                return modifiedFood
+            }
+            
+            DispatchQueue.main.async {
+                strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+            }
+        }
     }
         
     func calculateIntakeData(input: Food) -> Food? {
@@ -236,10 +291,14 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let recentRecordCell = cell as? RecentRecordCell else { return cell }
-            recentRecordCell.collectionView.delegate = self
-            recentRecordCell.collectionView.dataSource = self
-            return recentRecordCell
-            
+            if recentFoods.isEmpty {
+                recentRecordCell.setupDefaultLabel()
+                return recentRecordCell
+            } else {
+                recentRecordCell.collectionView.delegate = self
+                recentRecordCell.collectionView.dataSource = self
+                return recentRecordCell
+            }
         case 2:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: ResultCell.self),
@@ -264,6 +323,8 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
         case 1:
+//            tableView.estimatedRowHeight = 200
+//            return UITableView.automaticDimension
             return 200
         case 2:
             return 180
@@ -328,12 +389,6 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         
         present(alertController, animated: true, completion: nil)
     }
-    
-//    func cameraButtonDidTapped() {
-//        let cameraVC = CameraViewController()
-//        cameraVC.delegate = self
-//        self.navigationController?.pushViewController(cameraVC, animated: false)
-//    }
     
     func searchBarDidChange(text: String) {
         guard !text.isEmpty else { return }
