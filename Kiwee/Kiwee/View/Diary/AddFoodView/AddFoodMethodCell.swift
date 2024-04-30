@@ -116,7 +116,7 @@ class AddFoodMethodCell: UITableViewCell {
         button.setTitle("清除", for: .normal)
         button.setTitleColor(UIColor.hexStringToUIColor(hex: "004358"), for: .normal)
         button.layer.cornerRadius = 10
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
         button.addTarget(self, action: #selector(removeTextField), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -168,6 +168,7 @@ class AddFoodMethodCell: UITableViewCell {
             date: nil
         )
         delegate.textFieldConfirmed(foodResults: [foodResult])
+        removeTextField()
     }
     
     @objc func removeTextField() {

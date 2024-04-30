@@ -36,11 +36,15 @@ class AddFoodViewController: UIViewController {
     @IBOutlet weak var searchFoodButton: UIButton!
     @IBOutlet weak var manualButton: UIButton!
     
-    private var underlineView: UIView!
+    @IBOutlet weak var underlineView: UIView!
+    private var indicatorView = UIView()
+    var indicatorCenterXConstraint: NSLayoutConstraint?
+    var indicatorWidthConstraint: NSLayoutConstraint?
     
     lazy var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f4f4f4")
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        view.addTopBorder(color: .lightGray, width: 0.5)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -60,7 +64,6 @@ class AddFoodViewController: UIViewController {
         super.viewDidLoad()
         setupBottomBlock()
         setupInitialUI()
-        setupUnderlineView()
         setupNavigationItemUI()
         tableView.delegate = self
         tableView.dataSource = self
@@ -80,6 +83,18 @@ class AddFoodViewController: UIViewController {
     }
     
     func setupInitialUI() {
+        view.addSubview(indicatorView)
+        indicatorView.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        indicatorWidthConstraint = indicatorView.widthAnchor.constraint(equalTo: imageRecognizeButton.widthAnchor)
+        indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: imageRecognizeButton.centerXAnchor)
+        NSLayoutConstraint.activate([
+            indicatorWidthConstraint!,
+            indicatorCenterXConstraint!,
+            indicatorView.bottomAnchor.constraint(equalTo: underlineView.bottomAnchor),
+            indicatorView.heightAnchor.constraint(equalToConstant: 2.5)
+        ])
+
         buttonStackView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         imageRecognizeButton.tintColor = .white
@@ -93,17 +108,6 @@ class AddFoodViewController: UIViewController {
         let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(navigateBack))
         barButtonItem.tintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
         navigationItem.leftBarButtonItem = barButtonItem
-    }
-    
-    func setupUnderlineView() {
-        guard let firstButton = buttonStackView.arrangedSubviews[0] as? UIButton else {
-            return
-        }
-        let stackViewHeight = buttonStackView.frame.maxY
-        let initialFrame = firstButton.convert(firstButton.bounds, to: self.view)
-        underlineView = UIView(frame: CGRect(x: initialFrame.origin.x, y: stackViewHeight + 36, width: initialFrame.width, height: 2.5))
-        underlineView.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
-        view.addSubview(underlineView)
     }
     
     func setupBottomBlock() {
@@ -131,30 +135,35 @@ class AddFoodViewController: UIViewController {
     
     @IBAction func imageRecognizeButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
-        moveUnderline(to: sender)
+        updateBottomBorder(for: sender)
         currentMethod = .imageRecognition
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func searchFoodButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
-        moveUnderline(to: sender)
+        updateBottomBorder(for: sender)
         currentMethod = .search
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func manualButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
-        moveUnderline(to: sender)
+        updateBottomBorder(for: sender)
         currentMethod = .manual
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
-    private func moveUnderline(to button: UIButton) {
-        UIView.animate(withDuration: 0.3) {
-            let buttonFrame = button.convert(button.bounds, to: self.view)
-            self.underlineView.frame.origin.x = buttonFrame.origin.x
-            self.underlineView.frame.size.width = buttonFrame.size.width
+    func updateBottomBorder(for selectedButton: UIButton) {
+        // Deactivate the existing centerX constraint
+        indicatorCenterXConstraint?.isActive = false
+        
+        // Create a new centerX constraint to align the indicator with the selected button
+        indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: selectedButton.centerXAnchor)
+        indicatorCenterXConstraint?.isActive = true
+ 
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded() // Animates the constraint changes
         }
     }
     
@@ -323,8 +332,6 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.estimatedRowHeight = 300
             return UITableView.automaticDimension
         case 1:
-//            tableView.estimatedRowHeight = 200
-//            return UITableView.automaticDimension
             return 200
         case 2:
             return 180

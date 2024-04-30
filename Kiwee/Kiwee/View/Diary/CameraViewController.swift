@@ -38,10 +38,23 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     
     private lazy var confirmButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         button.setTitle("確認", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         button.addTarget(self, action: #selector(confirmed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var cancelButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("取消", for: .normal)
+        button.setTitleColor(UIColor.hexStringToUIColor(hex: "004358"), for: .normal)
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+        button.addTarget(self, action: #selector(canceled), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -56,6 +69,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         view.addSubview(imageView)
         view.addSubview(resultLabel)
         view.addSubview(confirmButton)
+        view.addSubview(cancelButton)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -68,9 +82,14 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
             resultLabel.heightAnchor.constraint(equalToConstant: 100),
             
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            confirmButton.heightAnchor.constraint(equalToConstant: 50)
+            confirmButton.heightAnchor.constraint(equalToConstant: 48),
+            
+            cancelButton.leadingAnchor.constraint(equalTo: confirmButton.trailingAnchor, constant: 20),
+            cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            cancelButton.heightAnchor.constraint(equalToConstant: 48),
+            cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            cancelButton.widthAnchor.constraint(equalTo: confirmButton.widthAnchor)
         ])
     }
     
@@ -93,6 +112,12 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
                 image: foodData.image
             )
         }
+        self.dismiss(animated: true) { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc func canceled() {
         self.dismiss(animated: true) { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }

@@ -34,12 +34,15 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         self.navigationItem.titleView = datePicker
         loadData(for: Date())
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.sectionHeaderTopPadding = 8
+//        UIView.setAnimationsEnabled(false)
     }
 
     @objc func dateChanged(datePicker: UIDatePicker) {
@@ -126,6 +129,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
             waterCell.waterSectionConfigure(count: waterCount)
+//            waterCell.backgroundColor = UIColor.hexStringToUIColor(hex: "e8e4d3")
             return waterCell
 
         } else {

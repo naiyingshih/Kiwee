@@ -9,6 +9,16 @@ import UIKit
 
 class WaterViewCell: UITableViewCell {
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+    }
+    
     func waterSectionConfigure(count: Int) {
         
         contentView.subviews.forEach { subview in

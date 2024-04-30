@@ -14,8 +14,8 @@ class ReportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "F5F5F5")
-        collectionView.backgroundColor = UIColor.hexStringToUIColor(hex: "F5F5F5")
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        collectionView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SwiftUIHostingCell.self, forCellWithReuseIdentifier: "SwiftUIHostingCell")

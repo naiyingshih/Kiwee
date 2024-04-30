@@ -195,12 +195,18 @@ class DetailView: UIView {
         // Set the frame to be at the tap location, adjusted to be within parent view bounds
         self.frame = CGRect(x: adjustedOriginX, y: adjustedOriginY, width: cardWidth, height: cardHeight)
         
-        // Style the view to look like a card
+        // gradient view
+//        let color1 = UIColor.hexStringToUIColor(hex: "fff6cc")
+//        let color2 = UIColor.hexStringToUIColor(hex: "ffffff")
+//        self.applyGradient(isVertical: false, colorArray: [color1, color2])
+//        self.layer.masksToBounds = true
+//        self.layer.borderWidth = 1
+//        self.layer.borderColor = UIColor.hexStringToUIColor(hex: "fff2b2").cgColor
         self.backgroundColor = .white
         self.layer.cornerRadius = 10
         self.layer.shadowOpacity = 0.2
         self.layer.shadowRadius = 5
-        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowOffset = CGSize(width: 2, height: 2)
         
         self.alpha = 0
         parentView.addSubview(self)

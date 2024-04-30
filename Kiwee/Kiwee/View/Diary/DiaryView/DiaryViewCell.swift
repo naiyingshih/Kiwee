@@ -16,6 +16,7 @@ class DiaryViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureCellUI()
+        self.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}

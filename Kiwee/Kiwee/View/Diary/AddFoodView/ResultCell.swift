@@ -28,6 +28,24 @@ class ResultCell: UITableViewCell {
         deleteButtonTapped?()
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupCardUI()
+    }
+    
+    func setupCardUI() {
+        cardView.layer.cornerRadius = 10
+        cardView.backgroundColor = UIColor.hexStringToUIColor(hex: "f4f4f4")
+        cardView.layer.shadowColor = UIColor.gray.cgColor
+        cardView.layer.shadowOpacity = 0.5
+        cardView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        cardView.layer.shadowRadius = 3
+        
+        deleteButton.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        
+        quantityTextField.keyboardType = .decimalPad
+    }
+    
     func updateResult(_ result: Food) {
         nameLabel.text = "\(result.name) (每100g)"
         totalCalorieLabel.text = "熱量\n\(result.totalCalories)"

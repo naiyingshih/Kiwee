@@ -12,12 +12,13 @@ class PlantSelectionView: UIView {
     var selectedIconButton: UIButton?
     var shuffledImageNames: [String] = []
     var onPlantSelected: ((String) -> Void)?
+    var viewDismissed: (() -> Void)?
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "今天想種什麼呢？"
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -25,6 +26,7 @@ class PlantSelectionView: UIView {
     lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
+        button.tintColor = UIColor.hexStringToUIColor(hex: "004358")
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -61,6 +63,7 @@ class PlantSelectionView: UIView {
         let button = UIButton()
         button.setTitle("加入農場", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
         button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         button.addTarget(self, action: #selector(plantInFarm), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +81,8 @@ class PlantSelectionView: UIView {
     }
     
     private func setupView() {
+        confirmButton.isEnabled = false
+        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(0.5)
         setRandomImagesForButtons()
         addSubview(titleLabel)
         addSubview(closeButton)
@@ -90,7 +95,7 @@ class PlantSelectionView: UIView {
             closeButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             closeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             
-            titleLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 8),
             titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
             iconButton2.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
@@ -128,6 +133,7 @@ class PlantSelectionView: UIView {
     
     @objc func close() {
         self.removeFromSuperview()
+        viewDismissed?()
     }
     
     @objc func selectPlant(_ sender: UIButton) {
@@ -138,11 +144,13 @@ class PlantSelectionView: UIView {
             previousSelectedButton.layer.borderWidth = 0
         }
     
-        sender.layer.borderWidth = 1
+        sender.layer.borderWidth = 1.5
         sender.layer.cornerRadius = 8
         sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
         
         selectedIconButton = sender
+        confirmButton.isEnabled = true
+        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(1.0)
     }
     
     @objc func plantInFarm() {

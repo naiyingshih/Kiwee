@@ -62,13 +62,11 @@ class RecordCollectionCell: UICollectionViewCell {
     lazy var foodLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-//    @IBOutlet weak var foodLabel: UILabel!
-//    @IBOutlet weak var foodImageView: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
