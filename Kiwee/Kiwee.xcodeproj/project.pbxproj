@@ -12,6 +12,7 @@
 		0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E41B8B62BDD016500159FAA /* Ribbons_animation.json */; };
 		0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0E41B8B92BDD08A300159FAA /* Lottie */; };
 		0E5B7E882BDFAB3E0056397D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */; };
+		0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5B7E892BE0D7BB0056397D /* GuideViewController.swift */; };
 		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
 		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
 		0E6FF9A62BDA73C8003B2133 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */; };
@@ -78,6 +79,7 @@
 		0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		0E41B8B62BDD016500159FAA /* Ribbons_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ribbons_animation.json; sourceTree = "<group>"; };
 		0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		0E5B7E892BE0D7BB0056397D /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC412BD1811E0018911F /* HomeViewController.swift */,
+				0E5B7E892BE0D7BB0056397D /* GuideViewController.swift */,
 				0E91DC432BD21DC30018911F /* PlantSelectionView.swift */,
 			);
 			path = Home;
@@ -546,6 +549,7 @@
 				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
+				0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */,
 				0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,

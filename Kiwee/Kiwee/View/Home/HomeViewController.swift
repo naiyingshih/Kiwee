@@ -14,12 +14,17 @@ class HomeViewController: UIViewController {
     var plantImageView: UIImageView?
     var addTime: Int = 0
     
+    var pages: [UIViewController] = []
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var wateringImageView: UIImageView!
     @IBOutlet weak var plantButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if isFirstTimeOpeningApp() {
+            setupGuideTour()
+        }
 //        setupBackground()
         scrollView.layer.cornerRadius = 10
         view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
@@ -235,6 +240,49 @@ extension HomeViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + splashImageView.animationDuration - 0.1) {
             splashImageView.removeFromSuperview()
+        }
+    }
+    
+}
+
+// MARK: - Pages for guide
+
+extension HomeViewController/*: UIPageViewControllerDataSource*/ {
+        
+    func isFirstTimeOpeningApp() -> Bool {
+        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+        if hasLaunchedBefore {
+            return false
+        } else {
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+            return true
+        }
+    }
+    
+    func setupGuideTour() {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 10
+        containerView.layer.masksToBounds = true
+        self.view.addSubview(containerView)
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerView.widthAnchor.constraint(equalToConstant: 300),
+            containerView.heightAnchor.constraint(equalToConstant: 400)
+        ])
+        
+        let guideVC = GuideViewController()
+        addChild(guideVC)
+        containerView.addSubview(guideVC.view)
+
+        guideVC.view.frame = containerView.bounds
+        guideVC.didMove(toParent: self)
+        
+        guideVC.startbuttonTapped = {
+            containerView.removeFromSuperview()
         }
     }
     
