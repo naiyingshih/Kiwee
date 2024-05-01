@@ -77,21 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
         }
-        
-//        let content = UNMutableNotificationContent()
-//        content.title = "Hi Emma"
-//        content.subtitle = "早安！"
-//        content.body = "body：記得紀錄飲食哦！"
-//        content.badge = 1
-//        content.sound = UNNotificationSound.default
-        
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-//        
-//        let request = UNNotificationRequest(identifier: "notification", content: content, trigger: nil)
-//
-//        UNUserNotificationCenter.current().add(request, withCompletionHandler: {error in
-//            print("成功建立通知...")
-//        })
     }
 
     // MARK: UISceneSession Lifecycle
