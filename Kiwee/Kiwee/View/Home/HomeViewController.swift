@@ -247,7 +247,7 @@ extension HomeViewController {
 
 // MARK: - Pages for guide
 
-extension HomeViewController/*: UIPageViewControllerDataSource*/ {
+extension HomeViewController {
         
     func isFirstTimeOpeningApp() -> Bool {
         let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
