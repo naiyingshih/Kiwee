@@ -375,7 +375,7 @@ extension FirestoreManager {
         }
     }
     
-    func publishFoodCollection(foodName: String, tag: String, imageUrl: String) {
+    func publishFoodCollection(foodName: String, tag: String, imageUrl: String, completion: @escaping (Bool) -> Void) {
         let documentID = database.collection("posts").document().documentID
         let publishData: [String: Any] = [
             "id": userID as Any,
@@ -388,8 +388,10 @@ extension FirestoreManager {
         database.collection("posts").document(documentID).setData(publishData) { error in
             if let error = error {
                 print("Error adding document to subcollection: \(error.localizedDescription)")
+                completion(false)
             } else {
                 print("Document added to post successfully")
+                completion(true)
             }
         }
     }

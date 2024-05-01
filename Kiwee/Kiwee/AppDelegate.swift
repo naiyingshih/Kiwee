@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let contents = [
             "08:00": ("早安\(name ?? "")", "以營養又健康的早餐來開啟美好的一天！"),
             "12:30": ("午安\(name ?? "")", "午餐時間到了，記得補充點能量！"),
-            "18:30": ("晚安\(name ?? "")", "一整天辛苦了，享受晚餐放鬆一下，也別忘記在農場種菜哦！")
+            "19:00": ("晚安\(name ?? "")", "一整天辛苦了，享受晚餐放鬆一下，也別忘記在農場種菜哦！")
         ]
         
         for time in notificationTimes {

@@ -7,6 +7,7 @@
 
 import UIKit
 import MobileCoreServices
+import Lottie
 
 enum PostState {
     case newPost
@@ -30,6 +31,13 @@ class PostViewController: UIViewController {
     @IBOutlet weak var snackButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
     
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -37,8 +45,6 @@ class PostViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addImage))
         plusImageView.addGestureRecognizer(tapGesture)
         foodTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        postButton.isEnabled = false
-        postButton.alpha = 0.5
     }
    
     func setupPostState() {
@@ -66,15 +72,24 @@ class PostViewController: UIViewController {
     }
 
     func setupUI() {
+        postButton.isEnabled = false
+        postButton.layer.cornerRadius = 10
+        postButton.backgroundColor = postButton.backgroundColor?.withAlphaComponent(0.5)
         configureButtonAppearance(button: breakfastButton)
         configureButtonAppearance(button: lunchButton)
         configureButtonAppearance(button: dinnerButton)
         configureButtonAppearance(button: snackButton)
+        
+        view.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: postButton.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: postButton.centerYAnchor)
+        ])
     }
 
     func configureButtonAppearance(button: UIButton) {
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
+        button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
         button.layer.cornerRadius = 10
     }
     
@@ -82,7 +97,7 @@ class PostViewController: UIViewController {
         let buttons: [UIButton] = [breakfastButton, lunchButton, dinnerButton, snackButton]
         for button in buttons where button.titleLabel?.text == tag {
             if button.titleLabel?.text == tag {
-                button.backgroundColor = .lightGray
+                button.backgroundColor = UIColor.hexStringToUIColor(hex: "d6d5c6")
                 selectedButton = button
             }
         }
@@ -92,14 +107,14 @@ class PostViewController: UIViewController {
         if let previousSelectedButton = selectedButton {
             previousSelectedButton.backgroundColor = .clear
         }
-        sender.backgroundColor = .lightGray
+        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "d6d5c6")
         selectedButton = sender
         self.tagString = sender.titleLabel?.text
         checkForChanges()
     }
     
     @IBAction func postButtonTapped(_ sender: Any) {
-        
+        activityIndicator.startAnimating()
         switch self.postState {
         case .editingPost(_, _, _):
             // Editing an existing post
@@ -108,9 +123,14 @@ class PostViewController: UIViewController {
                     documentID: editingPostID,
                     foodName: self.foodTextField.text ?? "",
                     tag: self.tagString ?? ""
-                ) {
+                ) { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.activityIndicator.stopAnimating()
+                        self?.showSuccess {
+                            self?.dismiss(animated: true)
+                        }
+                    }
                     print("Post updated successfully")
-                    self.dismiss(animated: true)
                 }
             }
         case .newPost:
@@ -124,14 +144,19 @@ class PostViewController: UIViewController {
                     return
                 }
                 // Creating a new post
-                FirestoreManager.shared.publishFoodCollection(
-                    foodName: foodTextField,
-                    tag: tag,
-                    imageUrl: imageUrl.absoluteString
-                )
-                print("Post created successfully")
-                self?.dismiss(animated: true)
-                
+                FirestoreManager.shared.publishFoodCollection(foodName: foodTextField, tag: tag, imageUrl: imageUrl.absoluteString) { success in
+                    if success {
+                        self?.activityIndicator.stopAnimating()
+                        self?.showSuccess {
+                            DispatchQueue.main.async {
+                                self?.dismiss(animated: true)
+                            }
+                        }
+                        print("Post created successfully")
+                    } else {
+                        print("Post failed")
+                    }
+                }
             }
         default:
             break
@@ -202,7 +227,29 @@ extension PostViewController {
             break
         }
         
-        postButton.alpha = postButton.isEnabled ? 1.0 : 0.5
+        let alpha = postButton.isEnabled ? 1.0 : 0.5
+        postButton.backgroundColor = postButton.backgroundColor?.withAlphaComponent(alpha)
+    }
+    
+}
+
+// MARK: - success animation
+
+extension PostViewController {
+    
+    func showSuccess(completion: @escaping () -> Void) {
+        let successView = LottieAnimationView(name: "Success_animation")
+        successView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        successView.center = self.view.center
+        successView.contentMode = .scaleAspectFill
+        view.addSubview(successView)
+        successView.play { (finished) in
+            if finished {
+                completion()
+            }
+        }
+        successView.animationSpeed = 0.9
+        successView.loopMode = .playOnce
     }
     
 }

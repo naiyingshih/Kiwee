@@ -52,6 +52,7 @@
 		0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E91DCAE2BD7E82C0018911F /* APIKey.plist */; };
 		0E91DCB52BD961230018911F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB42BD961230018911F /* DetailView.swift */; };
 		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
+		0EB00C922BE267CD0091E6C3 /* Success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EB00C912BE267CD0091E6C3 /* Success_animation.json */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -120,6 +121,7 @@
 		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		0E91DCB42BD961230018911F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailView.swift; path = Kiwee/View/Diary/DetailView.swift; sourceTree = SOURCE_ROOT; };
 		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
+		0EB00C912BE267CD0091E6C3 /* Success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success_animation.json; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 		0EAB60EA2BC8F0090005F3C1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				0EB00C912BE267CD0091E6C3 /* Success_animation.json */,
 				0E41B8B62BDD016500159FAA /* Ribbons_animation.json */,
 				0E0643922BC8FFF000DFB39B /* FoodData.json */,
 			);
@@ -470,6 +473,7 @@
 				0E91DC142BC9C74D0018911F /* GoogleService-Info.plist in Resources */,
 				0E91DCAF2BD7E82C0018911F /* APIKey.plist in Resources */,
 				0ECE08902BC69878003C15B0 /* Assets.xcassets in Resources */,
+				0EB00C922BE267CD0091E6C3 /* Success_animation.json in Resources */,
 				0ECE088E2BC69877003C15B0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
