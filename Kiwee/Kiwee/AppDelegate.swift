@@ -8,16 +8,91 @@
 import UIKit
 import CoreData
 import FirebaseCore
+import UserNotifications
 import IQKeyboardManagerSwift
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (granted, _) in
+            if granted {
+                print("允許")
+                DispatchQueue.main.async {
+                    self.scheduleLocalNotifications()
+                }
+            } else {
+                print("不允許")
+            }
+        }
+        UNUserNotificationCenter.current().delegate = self
+        
         IQKeyboardManager.shared.enable = true
         FirebaseApp.configure()
         return true
+    }
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        print("在前景收到通知...")
+        completionHandler([.badge, .banner, .list])
+    }
+    
+    func scheduleLocalNotifications() {
+        let name = UserDefaults.standard.string(forKey: "name")
+        let notificationTimes = ["08:00", "12:30", "19:00"]
+        
+        let contents = [
+            "08:00": ("早安\(name ?? "")", "以營養又健康的早餐來開啟美好的一天！"),
+            "12:30": ("午安\(name ?? "")", "午餐時間到了，記得補充點能量！"),
+            "18:30": ("晚安\(name ?? "")", "一整天辛苦了，享受晚餐放鬆一下，也別忘記在農場種菜哦！")
+        ]
+        
+        for time in notificationTimes {
+            var dateComponents = DateComponents()
+            let timeParts = time.split(separator: ":").map { Int($0) }
+            dateComponents.hour = timeParts[0]
+            dateComponents.minute = timeParts[1]
+            
+            // Create a new content instance for each time
+            let content = UNMutableNotificationContent()
+            if let contentDetails = contents[time] {
+                content.title = contentDetails.0
+                content.body = contentDetails.1
+                content.badge = 1
+                content.sound = UNNotificationSound.default
+            } else {
+                return
+            }
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error scheduling notification: \(error)")
+                }
+            }
+        }
+        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Hi Emma"
+//        content.subtitle = "早安！"
+//        content.body = "body：記得紀錄飲食哦！"
+//        content.badge = 1
+//        content.sound = UNNotificationSound.default
+        
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+//        
+//        let request = UNNotificationRequest(identifier: "notification", content: content, trigger: nil)
+//        
+//        UNUserNotificationCenter.current().add(request, withCompletionHandler: {error in
+//            print("成功建立通知...")
+//        })
     }
 
     // MARK: UISceneSession Lifecycle
