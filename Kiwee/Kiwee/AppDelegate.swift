@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (granted, _) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .carPlay, .sound]) { (granted, _) in
             if granted {
                 print("允許")
                 DispatchQueue.main.async {
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         print("在前景收到通知...")
-        completionHandler([.badge, .banner, .list])
+        completionHandler([.banner, .list])
     }
     
     func scheduleLocalNotifications() {
@@ -63,7 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let contentDetails = contents[time] {
                 content.title = contentDetails.0
                 content.body = contentDetails.1
-                content.badge = 1
                 content.sound = UNNotificationSound.default
             } else {
                 return
@@ -89,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
 //        
 //        let request = UNNotificationRequest(identifier: "notification", content: content, trigger: nil)
-//        
+//
 //        UNUserNotificationCenter.current().add(request, withCompletionHandler: {error in
 //            print("成功建立通知...")
 //        })

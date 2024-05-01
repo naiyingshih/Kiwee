@@ -119,16 +119,29 @@ class SignInViewController: UIViewController {
         }
     }
     
-    func fetchLabelsData() {
+    func calculateRDA() -> Double {
         let defaults = UserDefaults.standard
-        
-        let height = defaults.double(forKey: "height")
-        let RDA = (height * height) / 10000 * 22 * 25
-        let formattedRDA = String(format: "%.0f", RDA)
+        let userData = UserData(
+            id: "",
+            name: "",
+            gender: defaults.integer(forKey: "gender"),
+            age: defaults.integer(forKey: "age"),
+            goal: defaults.integer(forKey: "goal"),
+            activeness: defaults.integer(forKey: "activeness"),
+            height: defaults.double(forKey: "height"),
+            initialWeight: defaults.double(forKey: "initial_weight"),
+            updatedWeight: 0,
+            goalWeight: 0,
+            achievementTime: datePicker.date)
 
+        return BMRUtility.calculateBMR(with: userData)
+    }
+    
+    func fetchLabelsData() {
+        let RDA = calculateRDA()
+        let formattedRDA = String(format: "%.0f", RDA)
         label1.text = "您一天建議攝取熱量 \(formattedRDA) kcal"
         label2.text = "您將在 ... 天後達成目標！"
-        
     }
     
     func updateLabel() {
@@ -137,9 +150,31 @@ class SignInViewController: UIViewController {
         let achievementTime = defaults.object(forKey: "achievement_time") as? Date ?? Date()
         let today = Date()
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: today, to: achievementTime)
-        let remainDay = components.day
-        label2.text = "您將在\((remainDay ?? 0) + 1)天後達成目標！"
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: today)
+        let achievementTimeComponents = calendar.dateComponents([.year, .month, .day], from: achievementTime)
+
+        // Convert components back to dates for comparison
+        let dateOnlyToday = calendar.date(from: todayComponents)!
+        let dateOnlyAchievementTime = calendar.date(from: achievementTimeComponents)!
+
+        if dateOnlyToday <= dateOnlyAchievementTime {
+            // If today is before the achievementTime
+            let components = calendar.dateComponents([.day], from: dateOnlyToday, to: dateOnlyAchievementTime)
+            if let remainDay = components.day {
+                label2.text = "您將在\(remainDay)天後達成目標！"
+            } else {
+                return
+            }
+        } else if dateOnlyToday > dateOnlyAchievementTime {
+            // If the achievementTime has passed
+            let components = calendar.dateComponents([.day], from: dateOnlyToday, to: dateOnlyAchievementTime)
+            if let remainDay = components.day {
+                label2.text = "已過目標時間：\(remainDay) 天"
+                updateNextButtonState(isEnabled: false)
+            } else {
+                return
+            }
+        }
     }
     
     func postUserInfo() {
@@ -201,6 +236,8 @@ class SignInViewController: UIViewController {
     }
     
 }
+
+// MARK: - Sign in with Apple
 
 extension SignInViewController: SignInDelegate, ASAuthorizationControllerPresentationContextProviding {
     

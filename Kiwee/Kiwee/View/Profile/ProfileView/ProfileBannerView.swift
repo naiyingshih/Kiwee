@@ -211,21 +211,47 @@ class ProfileBannerView: UIView {
     }
     
     func updateView(with userData: UserData) {
-        let RDA = (userData.height * userData.height) / 10000 * 22 * 25
+        
+        let RDA = BMRUtility.calculateBMR(with: userData)
         let formattedRDA = String(format: "%.0f", RDA)
 
         let BMI = (userData.updatedWeight ?? userData.initialWeight) / (userData.height * userData.height) * 10000
         let formattedBMI = String(format: "%.1f", BMI)
-
-        let today = Date()
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: today, to: userData.achievementTime)
-        let remainDay = components.day
         
         nameLabel.text = userData.name
         BMILabel.text = "BMI:   \(formattedBMI)"
         RDALabel.text = "RDA:  \(formattedRDA) kcal"
-        countDownLabel.text = "距離達標還有：\(remainDay ?? 0 + 1) 天"
+
+        let today = Date()
+        let calendar = Calendar.current
+       
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: today)
+        let achievementTimeComponents = calendar.dateComponents([.year, .month, .day], from: userData.achievementTime)
+
+        // Convert components back to dates for comparison
+        let dateOnlyToday = calendar.date(from: todayComponents)!
+        let dateOnlyAchievementTime = calendar.date(from: achievementTimeComponents)!
+
+        if dateOnlyToday < dateOnlyAchievementTime {
+            // If today is before the achievementTime
+            let components = calendar.dateComponents([.day], from: dateOnlyToday, to: dateOnlyAchievementTime)
+            if let remainDay = components.day {
+                countDownLabel.text = "距離達標還有：\(remainDay) 天"
+            } else {
+                return
+            }
+        } else if dateOnlyToday > dateOnlyAchievementTime {
+            // If the achievementTime has passed
+            let components = calendar.dateComponents([.day], from: dateOnlyToday, to: dateOnlyAchievementTime)
+            if let remainDay = components.day {
+                countDownLabel.text = "已過目標時間：\(remainDay) 天"
+            } else {
+                return
+            }
+        } else {
+            // If today is the achievementTime
+            countDownLabel.text = "今天是達標日！您可以在紀錄管理設定新目標"
+        }
     }
     
 }

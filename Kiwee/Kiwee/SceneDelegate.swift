@@ -26,10 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let user = Auth.auth().currentUser
         if user != nil {
-            // User is logged in, use the main storyboard
             storyboardName = "Main"
         } else {
-            // User is not logged in, use the login storyboard
             storyboardName = "Login"
         }
         // Load the storyboard
@@ -38,7 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let initialViewController = storyboard.instantiateInitialViewController()
 
         window.rootViewController = initialViewController
-        // Make this window the key window and visible
         window.makeKeyAndVisible()
 
         // Assign the window to the scene's window property

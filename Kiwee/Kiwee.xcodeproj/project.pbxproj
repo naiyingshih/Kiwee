@@ -13,6 +13,7 @@
 		0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0E41B8B92BDD08A300159FAA /* Lottie */; };
 		0E5B7E882BDFAB3E0056397D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */; };
 		0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5B7E892BE0D7BB0056397D /* GuideViewController.swift */; };
+		0E5B7E8C2BE213D30056397D /* CustomFunctionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5B7E8B2BE213D30056397D /* CustomFunctionManager.swift */; };
 		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
 		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
 		0E6FF9A62BDA73C8003B2133 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */; };
@@ -80,6 +81,7 @@
 		0E41B8B62BDD016500159FAA /* Ribbons_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ribbons_animation.json; sourceTree = "<group>"; };
 		0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		0E5B7E892BE0D7BB0056397D /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
+		0E5B7E8B2BE213D30056397D /* CustomFunctionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFunctionManager.swift; sourceTree = "<group>"; };
 		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */,
 				0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */,
 				0E91DC9E2BD6767A0018911F /* OpenAIManager.swift */,
+				0E5B7E8B2BE213D30056397D /* CustomFunctionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
 				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
+				0E5B7E8C2BE213D30056397D /* CustomFunctionManager.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
 				0E6FF9A62BDA73C8003B2133 /* SignInViewController.swift in Sources */,
