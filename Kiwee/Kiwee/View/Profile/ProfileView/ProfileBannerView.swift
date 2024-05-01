@@ -40,10 +40,19 @@ class ProfileBannerView: UIView {
         return label
     }()
     
+    lazy var targetLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var BMILabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -51,7 +60,7 @@ class ProfileBannerView: UIView {
     lazy var RDALabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -82,7 +91,8 @@ class ProfileBannerView: UIView {
     
     lazy var manageButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.forward.circle"), for: .normal)
+        button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
+        button.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         button.addTarget(self, action: #selector(manageProfile), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -114,6 +124,7 @@ class ProfileBannerView: UIView {
     lazy var addPostButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = UIColor.hexStringToUIColor(hex: "004358")
         button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -136,6 +147,7 @@ class ProfileBannerView: UIView {
         backgroundView.addSubview(countDownLabel)
         backgroundView.addSubview(profileImage)
         backgroundView.addSubview(nameLabel)
+        backgroundView.addSubview(targetLabel)
         backgroundView.addSubview(BMILabel)
         backgroundView.addSubview(RDALabel)
         self.addSubview(outlineView)
@@ -152,9 +164,9 @@ class ProfileBannerView: UIView {
             backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: RDALabel.bottomAnchor, constant: 16),
+            backgroundView.bottomAnchor.constraint(equalTo: RDALabel.bottomAnchor, constant: 12),
             
-            countDownLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 60),
+            countDownLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             countDownLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             
             profileImage.topAnchor.constraint(equalTo: countDownLabel.bottomAnchor, constant: 16),
@@ -162,19 +174,22 @@ class ProfileBannerView: UIView {
             profileImage.heightAnchor.constraint(equalToConstant: 80),
             profileImage.widthAnchor.constraint(equalToConstant: 80),
             
-            nameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
+            nameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor, constant: -16),
             nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: -30),
             
-            BMILabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            BMILabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 80),
+            targetLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor, constant: 16),
+            targetLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            
+            BMILabel.centerYAnchor.constraint(equalTo: targetLabel.centerYAnchor),
+            BMILabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 100),
 
             RDALabel.leadingAnchor.constraint(equalTo: BMILabel.leadingAnchor),
             RDALabel.topAnchor.constraint(equalTo: BMILabel.bottomAnchor, constant: 8),
             
-            outlineView.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 16),
+            outlineView.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 12),
             outlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             outlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -32),
-            outlineView.heightAnchor.constraint(equalToConstant: 60),
+            outlineView.heightAnchor.constraint(equalToConstant: 50),
             
             titleLabel.leadingAnchor.constraint(equalTo: outlineView.leadingAnchor, constant: 24),
             titleLabel.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
@@ -182,15 +197,15 @@ class ProfileBannerView: UIView {
             manageButton.trailingAnchor.constraint(equalTo: outlineView.trailingAnchor, constant: -24),
             manageButton.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
             
-            dividingLine.topAnchor.constraint(equalTo: outlineView.bottomAnchor, constant: 16),
+            dividingLine.topAnchor.constraint(equalTo: outlineView.bottomAnchor, constant: 12),
             dividingLine.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             dividingLine.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
             dividingLine.heightAnchor.constraint(equalToConstant: 1),
             
-            cardOutlineView.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 16),
+            cardOutlineView.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 12),
             cardOutlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             cardOutlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -32),
-            cardOutlineView.heightAnchor.constraint(equalToConstant: 60),
+            cardOutlineView.heightAnchor.constraint(equalToConstant: 50),
             
             menuLabel.leadingAnchor.constraint(equalTo: cardOutlineView.leadingAnchor, constant: 24),
             menuLabel.centerYAnchor.constraint(equalTo: cardOutlineView.centerYAnchor),
@@ -211,21 +226,57 @@ class ProfileBannerView: UIView {
     }
     
     func updateView(with userData: UserData) {
-        let RDA = (userData.height * userData.height) / 10000 * 22 * 25
-        let formattedRDA = String(format: "%.1f", RDA)
+        
+        let RDA = BMRUtility.calculateBMR(with: userData)
+        let formattedRDA = String(format: "%.0f", RDA)
 
         let BMI = (userData.updatedWeight ?? userData.initialWeight) / (userData.height * userData.height) * 10000
         let formattedBMI = String(format: "%.1f", BMI)
+        
+        nameLabel.text = userData.name
+        
+        let goalTitles: [Int: String] = [
+            0: "減重",
+            1: "增重",
+            2: "維持體重"
+        ]
+        if let goalTitle = goalTitles[userData.goal] {
+            targetLabel.text = "\(goalTitle)中..."
+        }
+            
+        BMILabel.text = "BMI:   \(formattedBMI)"
+        RDALabel.text = "RDA:  \(formattedRDA) kcal"
 
         let today = Date()
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: today, to: userData.achievementTime)
-        let remainDay = components.day
-        
-        nameLabel.text = userData.name
-        BMILabel.text = "BMI:   \(formattedBMI)"
-        RDALabel.text = "RDA:  \(formattedRDA) kcal"
-        countDownLabel.text = "距離達標還有：\(remainDay ?? 0) 天"
+       
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: today)
+        let achievementTimeComponents = calendar.dateComponents([.year, .month, .day], from: userData.achievementTime)
+
+        // Convert components back to dates for comparison
+        let dateOnlyToday = calendar.date(from: todayComponents)!
+        let dateOnlyAchievementTime = calendar.date(from: achievementTimeComponents)!
+
+        if dateOnlyToday < dateOnlyAchievementTime {
+            // If today is before the achievementTime
+            let components = calendar.dateComponents([.day], from: dateOnlyToday, to: dateOnlyAchievementTime)
+            if let remainDay = components.day {
+                countDownLabel.text = "距離達標還有：\(remainDay) 天"
+            } else {
+                return
+            }
+        } else if dateOnlyToday > dateOnlyAchievementTime {
+            // If the achievementTime has passed
+            let components = calendar.dateComponents([.day], from: dateOnlyToday, to: dateOnlyAchievementTime)
+            if let remainDay = components.day {
+                countDownLabel.text = "已過目標時間：\(remainDay) 天"
+            } else {
+                return
+            }
+        } else {
+            // If today is the achievementTime
+            countDownLabel.text = "今天是達標日！您可以在紀錄管理設定新目標"
+        }
     }
     
 }

@@ -13,7 +13,7 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     var waterCount: Int = 0 {
         didSet {
             DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 4), with: .automatic)
+                self.tableView.reloadSections(IndexSet(integer: 4), with: .none)
             }
         }
     }
@@ -21,6 +21,9 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
+        picker.layer.cornerRadius = 10
+        picker.layer.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A").cgColor
+        picker.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         picker.sizeToFit()
         picker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         picker.translatesAutoresizingMaskIntoConstraints = false
@@ -31,10 +34,15 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         self.navigationItem.titleView = datePicker
         loadData(for: Date())
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.sectionHeaderTopPadding = 8
+//        UIView.setAnimationsEnabled(false)
     }
 
     @objc func dateChanged(datePicker: UIDatePicker) {
@@ -121,6 +129,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
             waterCell.waterSectionConfigure(count: waterCount)
+//            waterCell.backgroundColor = UIColor.hexStringToUIColor(hex: "e8e4d3")
             return waterCell
 
         } else {
@@ -130,21 +139,21 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let diaryCell = cell as? DiaryViewCell else { return cell }
             let foodData = allFood[indexPath.section][indexPath.row]
-            diaryCell.configureCellUI()
-            diaryCell.foodNameLabel.text = foodData.name
-            diaryCell.calorieLabel.text = "熱量：\(foodData.totalCalories) kcal"
-            diaryCell.foodImage.loadImage(foodData.image, placeHolder: UIImage(named: "Food_Placeholder"))
+            diaryCell.update(foodData)
             return diaryCell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        if indexPath.section == 4 {
+            return 200
+        } else {
+            return 80
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = CategoryHeaderView()
-        header.backgroundColor = UIColor.hexStringToUIColor(hex: "BEDB39")
         header.section = section
         header.delegate = self
         switch section {
@@ -166,25 +175,60 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section != 4 {
+            let detailView = DetailView()
+            if let cell = tableView.cellForRow(at: indexPath) {
+                let cellFrameInSuperview = tableView.convert(cell.frame, to: self.view)
+                let tapLocation = CGPoint(x: cellFrameInSuperview.midX, y: cellFrameInSuperview.midY)
+                let food = allFood[indexPath.section][indexPath.row]
+                detailView.configureView(food)
+                detailView.presentView(onView: self.view, atTapLocation: tapLocation)
+            }
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
-            let foodItem = allFood[indexPath.section][indexPath.row]
-            let documentID = foodItem.documentID ?? ""
-
-            FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in
-                DispatchQueue.main.async {
-                    if success {
-                        print("Document successfully removed!")
-                        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
-                    } else {
-                        print("Error removing document")
+            if indexPath.section >= 0 && indexPath.section <= 3 {
+                let foodItem = allFood[indexPath.section][indexPath.row]
+                let documentID = foodItem.documentID ?? ""
+                
+                FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in
+                    DispatchQueue.main.async {
+                        if success {
+                            print("Document successfully removed!")
+                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+                        } else {
+                            print("Error removing document")
+                        }
+                    }
+                }
+            } else if indexPath.section == 4 {
+                FirestoreManager.shared.resetWaterCount(chosenDate: datePicker.date) { success in
+                    DispatchQueue.main.async {
+                        if success {
+                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+                            print("water successfully reset")
+                        } else {
+                            print("Error removing document")
+                        }
                     }
                 }
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        if indexPath.section == 4 {
+            return "重設"
+        } else {
+            return "刪除"
         }
     }
     

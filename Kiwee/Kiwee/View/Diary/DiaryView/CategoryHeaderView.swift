@@ -26,14 +26,16 @@ class CategoryHeaderView: UIView {
     
     lazy var categoryLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
         return label
     }()
     
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
         button.addTarget(self, action: #selector(addFood), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -47,9 +49,10 @@ class CategoryHeaderView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
-    }
+    } 
     
     private func setupViews() {
+        self.backgroundColor = UIColor.hexStringToUIColor(hex: "BEDB39")
         addSubview(iconImageView)
         addSubview(categoryLabel)
         addSubview(addButton)

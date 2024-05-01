@@ -7,19 +7,37 @@
 
 import UIKit
 
+enum TagColor {
+    case breakfast
+    case lunch
+    case dinner
+    case snack
+}
+
 class ProfileCell: UICollectionViewCell {
+    
+    let dateFormatter = DateFormatterManager.shared.dateFormatter
+    var color: TagColor?
+    
+    lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     lazy var tagLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var tagView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
-        view.alpha = 0.5
+//        view.alpha = 0.8
         view.layer.cornerRadius = 6
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -27,7 +45,6 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 6
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -55,17 +72,25 @@ class ProfileCell: UICollectionViewCell {
     
     func setupView() {
         self.layer.cornerRadius = 10
-        self.layer.borderWidth = 2
-        self.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
+//        self.layer.borderWidth = 2
+//        self.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
+        backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 2, height: 2)
+        
+        addSubview(timeLabel)
         addSubview(tagView)
         addSubview(tagLabel)
         addSubview(photoImageView)
         addSubview(foodLabel)
         
         NSLayoutConstraint.activate([
+            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            timeLabel.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
+            
             tagView.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             tagView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            tagView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
+            tagView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             tagView.heightAnchor.constraint(equalToConstant: 24),
             
             tagLabel.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
@@ -74,6 +99,7 @@ class ProfileCell: UICollectionViewCell {
             photoImageView.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 8),
             photoImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
             photoImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
+            photoImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.6),
 
             foodLabel.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 8),
             foodLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
@@ -83,9 +109,31 @@ class ProfileCell: UICollectionViewCell {
     }
     
     func updatePostResult(_ result: Post) {
+        let dateString = dateFormatter.string(from: result.createdTime)
+        timeLabel.text = dateString
         tagLabel.text = "\(result.tag)"
         foodLabel.text = "\(result.foodName)"
         photoImageView.loadImage(result.image)
+        tagView.backgroundColor = updateTagColor(result)
     }
     
+    func updateTagColor(_ result: Post) -> UIColor {
+        switch result.tag {
+        case "早餐":
+            color = .breakfast
+            return UIColor.hexStringToUIColor(hex: "e1b739")
+        case "午餐":
+            color = .lunch
+            return UIColor.hexStringToUIColor(hex: "e08161")
+        case "晚餐":
+            color = .dinner
+            return UIColor.hexStringToUIColor(hex: "657760")
+        case "點心":
+            color = .snack
+            return UIColor.hexStringToUIColor(hex: "632623")
+        default:
+            break
+        }
+        return UIColor()
+    }
 }

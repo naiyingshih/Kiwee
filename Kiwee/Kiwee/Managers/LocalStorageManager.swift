@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 
+// MARK: - Plant storage manager
+
 class StorageManager {
     
     static let shared = StorageManager()
@@ -83,5 +85,27 @@ class StorageManager {
 //        context.delete(object)
 //        saveContext()
 //    }
-    
+}
+
+// MARK: - User data manager
+
+class UserDataManager {
+    static let shared = UserDataManager()
+
+    func getCurrentUserData(id: String) -> UserData {
+        let defaults = UserDefaults.standard
+        return UserData(
+            id: id,
+            name: defaults.string(forKey: "name") ?? "",
+            gender: defaults.integer(forKey: "gender"),
+            age: defaults.integer(forKey: "age"),
+            goal: defaults.integer(forKey: "goal"),
+            activeness: defaults.integer(forKey: "activeness"),
+            height: defaults.double(forKey: "height"),
+            initialWeight: defaults.double(forKey: "initial_weight"),
+            updatedWeight: defaults.double(forKey: "initial_weight"),
+            goalWeight: defaults.double(forKey: "goal_weight"),
+            achievementTime: defaults.object(forKey: "achievement_time") as? Date ?? Date()
+        )
+    }
 }

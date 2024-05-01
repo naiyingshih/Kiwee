@@ -31,6 +31,11 @@ class RecordManageViewController: UIViewController {
         saveButton.alpha = 0.5
         fetchUserData()
         
+        button1.tag = 1
+        button2.tag = 2
+        button3.tag = 3
+        button4.tag = 4
+        
         heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -110,13 +115,13 @@ class RecordManageViewController: UIViewController {
         }
         
         if !updates.isEmpty {
-            FirestoreManager.shared.updatePartialUserData(id: initialUserData?.id ?? "", updates: updates) { success in
+            FirestoreManager.shared.updatePartialUserData(updates: updates) { success in
                 if success {
                     print("Data updated successfully")
                     print(self.updates)
                     
                     if let updatedWeight = self.updates["updated_weight"] as? Double {
-                        FirestoreManager.shared.postWeightToSubcollection(id: self.initialUserData?.id ?? "", weight: updatedWeight)
+                        FirestoreManager.shared.postWeightToSubcollection(weight: updatedWeight)
                     }
                     
                 } else {

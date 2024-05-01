@@ -19,6 +19,7 @@ struct DataPoint {
 
 struct BodyInfo {
     var initWeight: Double
+    var goalWeight: Double
     var RDA: Double
 }
 
@@ -117,8 +118,10 @@ class ChartsViewModel: ObservableObject {
     
     func calculatedInfo() {
         FirestoreManager.shared.getUserData { [weak self] userData in
+            let RDA = BMRUtility.calculateBMR(with: userData)
             let bodyInfo = BodyInfo(initWeight: userData.initialWeight,
-                                    RDA: (userData.height * userData.height) / 10000 * 22 * 25
+                                    goalWeight: userData.goalWeight,
+                                    RDA: RDA
             )
             DispatchQueue.main.async {
                 self?.calculatedBodyInfo = bodyInfo

@@ -14,13 +14,23 @@ class HomeViewController: UIViewController {
     var plantImageView: UIImageView?
     var addTime: Int = 0
     
+    var pages: [UIViewController] = []
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var wateringImageView: UIImageView!
     @IBOutlet weak var plantButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if isFirstTimeOpeningApp() {
+            setupGuideTour()
+        }
+//        setupBackground()
+        scrollView.layer.cornerRadius = 10
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         checkDataForToday()
+        updateButtonAppearance()
+        plantButton.layer.cornerRadius = 10
         plantImageView = UIImageView()
         if let plantImageView = plantImageView {
             scrollView.addSubview(plantImageView)
@@ -39,24 +49,23 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func checkDataForToday() {
-        FirestoreManager.shared.getIntakeCard(
-            collectionID: "intake",
-            chosenDate: Date()
-        ) { [weak self] foods, water in
-            if !foods.isEmpty {
-                self?.updateButtonStatus()
-            }
-            if water != 0 {
-                self?.updateImageStatus()
-            }
-            if foods.isEmpty && water == 0 {
-                self?.setInitialUI()
-            }
-        }
-    }
+//    func setupBackground() {
+//        let backgroundView = UIImageView()
+//        backgroundView.image = UIImage(named: "Background")
+//        view.addSubview(backgroundView)
+//        view.sendSubviewToBack(backgroundView)
+//        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+//            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        ])
+//    }
     
-    @IBAction func plantButtonTapped (_ sender: Any) {
+    @IBAction func plantButtonTapped (_ sender: UIButton) {
+        updateButtonStatus(enabled: false)
+        
         let selectionView = PlantSelectionView(frame: CGRect(x: 0, y: 0, width: 300, height: 280))
         selectionView.center = self.view.center
         selectionView.backgroundColor = .white
@@ -67,8 +76,8 @@ class HomeViewController: UIViewController {
             guard let self = self else { return }
             self.addTime += 1
             
-            let xPosition = scrollView.bounds.minX
-            let yPosition = scrollView.bounds.minY
+            let xPosition = scrollView.bounds.maxX / 2 - 25
+            let yPosition = scrollView.bounds.maxY / 2 - 25
             
             // Use StorageManager to save to CoreData
             StorageManager.shared.savePlantImage(imageName: imageName, addTime: Int32(self.addTime), xPosition: xPosition, yPosition: yPosition)
@@ -77,7 +86,15 @@ class HomeViewController: UIViewController {
             
             selectionView.removeFromSuperview()
             updateUIForSelectedPlant(imageName: imageName, addTime: addTime, xPosition: xPosition, yPosition: yPosition)
+            
+            UserDefaults.standard.set(Date(), forKey: "lastTappedDate")
+            updateButtonAppearance()
         }
+        
+        selectionView.viewDismissed = { [weak self] in
+            self?.updateButtonStatus(enabled: true)
+        }
+        
     }
     
     func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat) {
@@ -138,22 +155,66 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController {
     
-    func setInitialUI() {
-        plantButton.isEnabled = false
-        plantButton.alpha = 0.7
-        wateringImageView.alpha = 0.7
+    func checkDataForToday() {
+        FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
+            if !foods.isEmpty {
+                self?.updateButtonStatus(enabled: true)
+            } else {
+                self?.updateButtonStatus(enabled: false)
+            }
+            
+            if water != 0 {
+                self?.updateImageStatus(enabled: true)
+            } else {
+                self?.updateImageStatus(enabled: false)
+            }
+        }
     }
     
-    func updateButtonStatus() {
-        plantButton.isEnabled = true
-        plantButton.alpha = 1.0
+    func updateButtonAppearance() {
+        plantButton.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        let calendar = Calendar.current
+        let defaults = UserDefaults.standard
+        
+        if let lastTappedDate = defaults.object(forKey: "lastTappedDate") as? Date, calendar.isDateInToday(lastTappedDate) {
+            plantButton.setTitle("今日已種菜", for: .normal)
+            plantButton.setTitleColor(.white, for: .normal)
+            updateButtonStatus(enabled: false)
+        } else {
+            // It's a different day or the button hasn't been tapped before, enable the button and set to default title
+            plantButton.setTitle("開始種菜", for: .normal)
+            plantButton.setTitleColor(.white, for: .normal)
+            updateButtonStatus(enabled: true)
+        }
     }
     
-    func updateImageStatus() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(wateringImageTapped(_:)))
-        wateringImageView.addGestureRecognizer(tapGesture)
-        wateringImageView.isUserInteractionEnabled = true
-        wateringImageView.alpha = 1.0
+    func canButtonBeTapped() -> Bool {
+        if let lastTappedDate = UserDefaults.standard.object(forKey: "lastTappedDate") as? Date {
+            let calendar = Calendar.current
+            if calendar.isDateInToday(lastTappedDate) {
+                // It's the same day, button should not be enabled
+                return false
+            }
+        }
+        // Either the button hasn't been tapped before, or it was tapped on a different day
+        return true
+    }
+    
+    func updateButtonStatus(enabled: Bool) {
+        let canTap = canButtonBeTapped()
+        plantButton.isEnabled = enabled && canTap
+        plantButton.backgroundColor = (enabled && canTap) ? plantButton.backgroundColor?.withAlphaComponent(1.0) : plantButton.backgroundColor?.withAlphaComponent(0.5)
+    }
+    
+    func updateImageStatus(enabled: Bool) {
+        wateringImageView.isUserInteractionEnabled = enabled
+        wateringImageView.alpha = enabled ? 1.0 : 0.7
+        if enabled {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(wateringImageTapped(_:)))
+            wateringImageView.addGestureRecognizer(tapGesture)
+        } else {
+            wateringImageView.gestureRecognizers?.forEach(wateringImageView.removeGestureRecognizer)
+        }
     }
     
     @objc private func wateringImageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -179,6 +240,49 @@ extension HomeViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + splashImageView.animationDuration - 0.1) {
             splashImageView.removeFromSuperview()
+        }
+    }
+    
+}
+
+// MARK: - Pages for guide
+
+extension HomeViewController {
+        
+    func isFirstTimeOpeningApp() -> Bool {
+        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+        if hasLaunchedBefore {
+            return false
+        } else {
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+            return true
+        }
+    }
+    
+    func setupGuideTour() {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 10
+        containerView.layer.masksToBounds = true
+        self.view.addSubview(containerView)
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerView.widthAnchor.constraint(equalToConstant: 300),
+            containerView.heightAnchor.constraint(equalToConstant: 400)
+        ])
+        
+        let guideVC = GuideViewController()
+        addChild(guideVC)
+        containerView.addSubview(guideVC.view)
+
+        guideVC.view.frame = containerView.bounds
+        guideVC.didMove(toParent: self)
+        
+        guideVC.startbuttonTapped = {
+            containerView.removeFromSuperview()
         }
     }
     

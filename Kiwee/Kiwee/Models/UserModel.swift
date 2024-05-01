@@ -10,7 +10,7 @@ import Foundation
 struct UserData {
     let id: String
     let name: String
-    let gender: String
+    let gender: Int
     let age: Int
     let goal: Int
     let activeness: Int
@@ -22,8 +22,9 @@ struct UserData {
 }
 
 struct Post {
-    let id: String
-    let foodName: String
-    let tag: String
-    let image: String
+    let documenID: String
+    var foodName: String
+    var tag: String
+    var image: String
+    let createdTime: Date
 }
