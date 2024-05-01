@@ -28,7 +28,6 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
                 controlStackView.isHidden = true
                 pillButton.setTitle("旅程開始", for: .normal)
             }
-            print("目前第\(currentIndex)頁")
         }
     }
     
@@ -38,7 +37,7 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
-        scrollView.isScrollEnabled = false
+//        scrollView.isScrollEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -66,10 +65,8 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
     
     lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        pageControl.isUserInteractionEnabled = false
         pageControl.pageIndicatorTintColor = .darkGray
         pageControl.currentPageIndicatorTintColor = .white
-        pageControl.allowsContinuousInteraction = false
         pageControl.backgroundStyle = .minimal
         pageControl.numberOfPages = tutorialImages.count
         pageControl.currentPage = currentIndex
@@ -197,6 +194,7 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
         let pageWidth = scrollView.frame.size.width
         let currentPage = Int(scrollView.contentOffset.x / pageWidth)
         currentIndex = currentPage
+        pageControl.currentPage = currentPage
         print(currentPage)
     }
     
