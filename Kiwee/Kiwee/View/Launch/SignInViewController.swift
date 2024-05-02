@@ -12,7 +12,7 @@ import CryptoKit
 
 class SignInViewController: UIViewController {
     
-    fileprivate var currentNonce: String?
+    /*fileprivate*/ var currentNonce: String?
     private var currentArea: Block?
     let datePicker = UIDatePicker()
     

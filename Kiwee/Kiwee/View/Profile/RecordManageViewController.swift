@@ -22,13 +22,18 @@ class RecordManageViewController: UIViewController {
     @IBOutlet weak var button3: UIButton!
     @IBOutlet weak var button4: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var backView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "紀錄管理"
-        saveButton.isEnabled = false
-        saveButton.alpha = 0.5
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        backView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        backView.layer.cornerRadius = 20
+        datePicker.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        setupButtons()
+        
         fetchUserData()
         
         button1.tag = 1
@@ -40,6 +45,33 @@ class RecordManageViewController: UIViewController {
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
+    }
+    
+    func setupButtons() {
+        saveButton.layer.cornerRadius = 10
+        saveButton.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        saveButton.isEnabled = false
+        saveButton.backgroundColor = saveButton.backgroundColor?.withAlphaComponent(0.5)
+//        saveButton.alpha = 0.5
+        cancelButton.tintColor = UIColor.hexStringToUIColor(hex: "004358")
+        cancelButton.layer.cornerRadius = 10
+        cancelButton.layer.borderWidth = 1.5
+        cancelButton.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+        
+        configureActivenessButton(button1)
+        configureActivenessButton(button2)
+        configureActivenessButton(button3)
+        configureActivenessButton(button4)
+    }
+    
+    func configureActivenessButton(_ sender: UIButton) {
+        sender.layer.cornerRadius = 8
+        sender.titleLabel?.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        sender.tintColor = .clear
+        sender.layer.borderWidth = 1
+        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+//        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+//        sender.backgroundColor = sender.backgroundColor?.withAlphaComponent(0.1)
     }
     
     func fetchUserData() {
@@ -68,10 +100,11 @@ class RecordManageViewController: UIViewController {
     func setInitialButtonBorder(forActiveness activeness: Int) {
         let buttons: [UIButton] = [button1, button2, button3, button4]
         for button in buttons where button.tag == activeness {
-                button.layer.borderWidth = 2
-                button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-                selectedButton = button
-                break
+            button.backgroundColor = UIColor.hexStringToUIColor(hex: "e5e5e5")
+//            button.layer.borderWidth = 2
+//            button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+            selectedButton = button
+            break
         }
     }
     
@@ -80,10 +113,12 @@ class RecordManageViewController: UIViewController {
         updates["activeness"] = activeness
         
         if let previousSelectedButton = selectedButton {
-            previousSelectedButton.layer.borderWidth = 0
+            previousSelectedButton.backgroundColor = .clear
+//            previousSelectedButton.layer.borderWidth = 0
         }
-        sender.layer.borderWidth = 2
-        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "e5e5e5")
+//        sender.layer.borderWidth = 2
+//        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
         
         selectedButton = sender
         checkForChanges()
@@ -133,6 +168,10 @@ class RecordManageViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 // MARK: - Extension: check status
@@ -164,6 +203,7 @@ extension RecordManageViewController {
         }
         
         saveButton.isEnabled = hasChanged
-        saveButton.alpha = hasChanged ? 1.0 : 0.3
+        let alpha = hasChanged ? 1.0 : 0.3
+        saveButton.backgroundColor = saveButton.backgroundColor?.withAlphaComponent(alpha)
     }
 }

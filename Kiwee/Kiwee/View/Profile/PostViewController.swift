@@ -115,8 +115,11 @@ class PostViewController: UIViewController {
     
     @IBAction func postButtonTapped(_ sender: Any) {
         activityIndicator.startAnimating()
+        postButton.isEnabled = false
+        postButton.backgroundColor = postButton.backgroundColor?.withAlphaComponent(0.5)
+        
         switch self.postState {
-        case .editingPost(_, _, _):
+        case .editingPost:
             // Editing an existing post
             if let editingPostID = self.editingPostID {
                 FirestoreManager.shared.updateFoodCollection(
@@ -218,7 +221,8 @@ extension PostViewController {
         switch postState {
         case .editingPost(let initialFoodText, let initialSelectedButtonTag, _):
             let hasFoodTextChanged = foodTextField.text != initialFoodText
-            let hasButtonChanged = selectedButton?.currentTitle != initialSelectedButtonTag
+            let hasButtonChanged = selectedButton?.titleLabel?.text != initialSelectedButtonTag
+//            let hasButtonChanged = selectedButton?.currentTitle != initialSelectedButtonTag
             
             postButton.isEnabled = hasFoodTextChanged || hasButtonChanged
         case .newPost:

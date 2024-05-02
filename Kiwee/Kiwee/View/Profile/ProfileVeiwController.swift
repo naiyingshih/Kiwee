@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
+import CryptoKit
+import AuthenticationServices
 
 class ProfileVeiwController: UIViewController {
+    
+    var user = Auth.auth().currentUser
     
     var userData: UserData? {
         didSet {
@@ -153,8 +158,8 @@ extension ProfileVeiwController: UICollectionViewDelegate {
 
 // MARK: - ProfileBanneViewDelegate
 
-extension ProfileVeiwController: ProfileBanneViewDelegate {
-    
+extension ProfileVeiwController: ProfileBanneViewDelegate, ASAuthorizationControllerDelegate {
+        
     func presentManageVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let manageVC = storyboard.instantiateViewController(
@@ -175,4 +180,63 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         self.present(postVC, animated: true)
     }
     
+    func presentHelpPage() {
+        print("present help page")
+    }
+    
+    func logoutAccount() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    func removeAccount() {
+        
+//        user?.delete { error in
+//          if let error = error {
+//              print("account remove failed:\(error)")
+//          } else {
+//              print("account deleted")
+//            // Account deleted.
+//          }
+//        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential
+        else {
+            print("Unable to retrieve AppleIDCredential")
+            return
+        }
+        
+        let signinVC = SignInViewController()
+        guard let _ = signinVC.currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+        }
+        
+        guard let appleAuthCode = appleIDCredential.authorizationCode else {
+            print("Unable to fetch authorization code")
+            return
+        }
+        
+        guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+            print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
+            return
+        }
+        
+        Task {
+            do {
+                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
+                try await user?.delete()
+                //          self.updateUI()
+            } catch {
+                //          self.displayError(error)
+            }
+        }
+    }
+
 }

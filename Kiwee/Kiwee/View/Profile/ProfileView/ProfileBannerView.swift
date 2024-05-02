@@ -10,6 +10,9 @@ import UIKit
 protocol ProfileBanneViewDelegate: AnyObject {
     func presentManageVC()
     func presentPostVC()
+    func presentHelpPage()
+    func logoutAccount()
+    func removeAccount()
 }
 
 class ProfileBannerView: UIView {
@@ -19,21 +22,46 @@ class ProfileBannerView: UIView {
     lazy var countDownLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    lazy var settingButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        button.tintColor = .white
+        button.showsMenuAsPrimaryAction = true
+        button.menu = UIMenu(children: [
+            UIAction(title: "使用說明", image: UIImage(systemName: "questionmark.circle"), handler: { _ in
+                print("Select Help")
+                self.delegate?.presentHelpPage()
+            }),
+            UIAction(title: "登出", image: UIImage(systemName: "rectangle.portrait.and.arrow.right"), handler: { _ in
+                print("log out pressed")
+                self.delegate?.logoutAccount()
+            }),
+            UIAction(title: "刪除帳戶", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { _ in
+                print("remove account pressed")
+                self.delegate?.removeAccount()
+            })
+        ])
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Kiwee")
+        imageView.tintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        imageView.image = UIImage(systemName: "person.crop.circle")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = UIColor.hexStringToUIColor(hex: "FFE11A")
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +95,7 @@ class ProfileBannerView: UIView {
     
     lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -145,6 +173,7 @@ class ProfileBannerView: UIView {
     private func setupViews() {
         self.addSubview(backgroundView)
         backgroundView.addSubview(countDownLabel)
+        backgroundView.addSubview(settingButton)
         backgroundView.addSubview(profileImage)
         backgroundView.addSubview(nameLabel)
         backgroundView.addSubview(targetLabel)
@@ -168,6 +197,9 @@ class ProfileBannerView: UIView {
             
             countDownLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             countDownLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
+            
+            settingButton.centerYAnchor.constraint(equalTo: countDownLabel.centerYAnchor),
+            settingButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
             profileImage.topAnchor.constraint(equalTo: countDownLabel.bottomAnchor, constant: 16),
             profileImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
@@ -275,7 +307,7 @@ class ProfileBannerView: UIView {
             }
         } else {
             // If today is the achievementTime
-            countDownLabel.text = "今天是達標日！您可以在紀錄管理設定新目標"
+            countDownLabel.text = "今天是達標日！\n您可以前往紀錄管理設定新目標"
         }
     }
     

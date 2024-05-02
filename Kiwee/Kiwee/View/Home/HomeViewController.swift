@@ -254,7 +254,7 @@ extension HomeViewController {
         if hasLaunchedBefore {
             return false
         } else {
-            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+//            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
             return true
         }
     }
@@ -283,6 +283,7 @@ extension HomeViewController {
         
         guideVC.startbuttonTapped = {
             containerView.removeFromSuperview()
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
         }
     }
     
