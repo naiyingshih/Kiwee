@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -22,21 +23,55 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         // Determine which storyboard to use
-        let storyboardName: String
+//        let storyboardName: String
         
         let user = Auth.auth().currentUser
-        if user != nil {
-            storyboardName = "Main"
+        
+        if let user = user {
+            // Reference to Firestore database
+            let database = Firestore.firestore()
+            
+            // Check if a document exists for the current user
+            database.collection("users").whereField("id", isEqualTo: user.uid).getDocuments { (querySnapshot, error) in
+                let storyboardName: String
+                if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
+                    // At least one document for user exists, proceed to Main storyboard
+                    storyboardName = "Main"
+                } else {
+                    // No document for user, show Login storyboard
+                    storyboardName = "Login"
+                }
+                
+                // Load the storyboard
+                DispatchQueue.main.async {
+                    let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+                    if let initialViewController = storyboard.instantiateInitialViewController() {
+                        window.rootViewController = initialViewController
+                        window.makeKeyAndVisible()
+                    }
+                }
+            }
         } else {
-            storyboardName = "Login"
+            // No user logged in, show Login storyboard
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            if let initialViewController = storyboard.instantiateInitialViewController() {
+                window.rootViewController = initialViewController
+                window.makeKeyAndVisible()
+            }
         }
-        // Load the storyboard
-        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
-
-        let initialViewController = storyboard.instantiateInitialViewController()
-
-        window.rootViewController = initialViewController
-        window.makeKeyAndVisible()
+        
+//        if user != nil {
+//            storyboardName = "Main"
+//        } else {
+//            storyboardName = "Login"
+//        }
+//        // Load the storyboard
+//        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+//
+//        let initialViewController = storyboard.instantiateInitialViewController()
+//
+//        window.rootViewController = initialViewController
+//        window.makeKeyAndVisible()
 
         // Assign the window to the scene's window property
         self.window = window

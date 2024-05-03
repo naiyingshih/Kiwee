@@ -1,15 +1,15 @@
+////
+////  AuthenticationViewModel.swift
+////  Kiwee
+////
+////  Created by NY on 2024/5/2.
+////
 //
-//  AuthenticationViewModel.swift
-//  Kiwee
+//import Foundation
+//import FirebaseAuth
+//import AuthenticationServices
+//import CryptoKit
 //
-//  Created by NY on 2024/5/2.
-//
-
-import Foundation
-import FirebaseAuth
-import AuthenticationServices
-import CryptoKit
-
 //class AuthenticationViewModel {
 //    
 //    var user: User?

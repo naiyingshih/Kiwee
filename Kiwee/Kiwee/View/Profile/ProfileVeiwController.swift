@@ -12,7 +12,6 @@ import AuthenticationServices
 
 class ProfileVeiwController: UIViewController {
     
-    var user = Auth.auth().currentUser
     fileprivate var currentNonce: String?
 //    private var appleIDCredential: ASAuthorizationAppleIDCredential?
     
@@ -187,6 +186,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate, ASAuthorizationContro
     }
     
     func logoutAccount() {
+        backtoSigninPage()
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
@@ -196,8 +196,27 @@ extension ProfileVeiwController: ProfileBanneViewDelegate, ASAuthorizationContro
     }
     
     func removeAccount() {
+        backtoSigninPage()
         deleteCurrentUser()
     }
+    
+    private func backtoSigninPage() {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        if let signinVC = storyboard.instantiateViewController(withIdentifier: "SigninViewController") as? SigninViewController {
+            signinVC.modalPresentationStyle = .fullScreen
+            self.present(signinVC, animated: false, completion: nil)
+        }
+    }
+    
+//    private func deleteAccount() {
+//        let viewModel = AuthenticationViewModel()
+//        Task {
+//            if await viewModel.deleteAccount() == true {
+//                print("account delete!!!")
+////                dismiss()
+//            }
+//        }
+//    }
     
     private func deleteCurrentUser() {
         let nonce = self.randomNonceString()
@@ -235,16 +254,22 @@ extension ProfileVeiwController: ProfileBanneViewDelegate, ASAuthorizationContro
             return
         }
         
-        guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+        guard String(data: appleAuthCode, encoding: .utf8) != nil else {
             print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
             return
         }
         
+        guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+          print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
+          return
+        }
+        
         Task {
+            let user = Auth.auth().currentUser
+            
             do {
-                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
                 try await user?.delete()
-                //          self.updateUI()
+                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
             } catch {
                 print("Fail: \(error.localizedDescription)")
             }
