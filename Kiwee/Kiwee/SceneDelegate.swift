@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let database = Firestore.firestore()
             
             // Check if a document exists for the current user
-            database.collection("users").whereField("id", isEqualTo: user.uid).getDocuments { (querySnapshot, error) in
+            database.collection("users").whereField("id", isEqualTo: user.uid).getDocuments { (querySnapshot, _) in
                 let storyboardName: String
                 if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
                     // At least one document for user exists, proceed to Main storyboard
