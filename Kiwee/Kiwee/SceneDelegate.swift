@@ -23,8 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         // Determine which storyboard to use
-//        let storyboardName: String
-        
         let user = Auth.auth().currentUser
         
         if let user = user {
@@ -59,20 +57,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.makeKeyAndVisible()
             }
         }
-        
-//        if user != nil {
-//            storyboardName = "Main"
-//        } else {
-//            storyboardName = "Login"
-//        }
-//        // Load the storyboard
-//        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
-//
-//        let initialViewController = storyboard.instantiateInitialViewController()
-//
-//        window.rootViewController = initialViewController
-//        window.makeKeyAndVisible()
-
         // Assign the window to the scene's window property
         self.window = window
     }

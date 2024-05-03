@@ -14,7 +14,6 @@ import Lottie
 
 class SigninViewController: UIViewController {
 
-//     fileprivate var currentNonce: String?
     private var signInWithAppleViewModel = SignInWithAppleViewModel()
     private var signInWithAppleMate = SignInWithAppleMate()
     
@@ -128,7 +127,7 @@ extension SigninViewController: SignInDelegate, ASAuthorizationControllerPresent
                 let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                           idToken: idTokenString,
                                                           rawNonce: nonce)
-                // Now, sign in with Firebase using the credential
+                // sign in with Firebase using the credential
                 firebaseSignInWithApple(credential: credential)
             } catch {
                 // Handle error: could be user cancellation or an actual error
@@ -136,20 +135,7 @@ extension SigninViewController: SignInDelegate, ASAuthorizationControllerPresent
             }
         }
     }
-        
-//        let nonce = randomNonceString()
-//        currentNonce = nonce
-//        let appleIDProvider = ASAuthorizationAppleIDProvider()
-//        let request = appleIDProvider.createRequest()
-//        request.requestedScopes = [.fullName, .email]
-//        request.nonce = sha256(nonce)
-//
-//        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-//        authorizationController.delegate = self
-//        authorizationController.presentationContextProvider = self
-//        authorizationController.performRequests()
-//    }
-    
+
     // MARK: - ASAuthorizationControllerPresentationContextProviding
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -158,50 +144,11 @@ extension SigninViewController: SignInDelegate, ASAuthorizationControllerPresent
    
 }
 
-//extension SigninViewController: ASAuthorizationControllerDelegate {
-//    
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-//        // 登入成功
-//        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-//            guard let nonce = currentNonce else {
-//                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-//            }
-//            guard let appleIDToken = appleIDCredential.identityToken else {
-//                print("Unable to fetch identity token")
-//                return
-//            }
-//            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-//                print("Unable to serialize token string from data\n\(appleIDToken.debugDescription)")
-//                return
-//            }
-//            // 產生 Apple ID 登入的 Credential
-//            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-//            // 與 Firebase Auth 進行串接
-//            firebaseSignInWithApple(credential: credential)
-//        }
-//    }
-//    
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-//        // 登入失敗，處理 Error
-//        switch error {
-//        case ASAuthorizationError.canceled:
-//            print("使用者取消登入")
-//        case ASAuthorizationError.failed:
-//            print("授權請求失敗")
-//        case ASAuthorizationError.invalidResponse:
-//            print("授權請求無回應")
-//        case ASAuthorizationError.notHandled:
-//            print("授權請求未處理")
-//        case ASAuthorizationError.unknown:
-//            print("授權失敗，原因不知")
-//        default:
-//            break
-//        }
-//    }
-//}
+
+// MARK: - 透過 Credential 與 Firebase Auth 串接
 
 extension SigninViewController {
-    // MARK: - 透過 Credential 與 Firebase Auth 串接
+    
     func firebaseSignInWithApple(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { [weak self] authResult, error in
             guard let self = self, error == nil else {

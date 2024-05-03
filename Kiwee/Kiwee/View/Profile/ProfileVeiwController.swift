@@ -6,15 +6,10 @@
 //
 
 import UIKit
-import FirebaseAuth
-import CryptoKit
-import AuthenticationServices
 
 class ProfileVeiwController: UIViewController {
     
     var viewModel = SignInWithAppleViewModel()
-    fileprivate var currentNonce: String?
-//    private var appleIDCredential: ASAuthorizationAppleIDCredential?
     
     var userData: UserData? {
         didSet {
@@ -160,7 +155,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
 
 // MARK: - ProfileBanneViewDelegate
 
-extension ProfileVeiwController: ProfileBanneViewDelegate/*, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding*/ {
+extension ProfileVeiwController: ProfileBanneViewDelegate {
         
     func presentManageVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
