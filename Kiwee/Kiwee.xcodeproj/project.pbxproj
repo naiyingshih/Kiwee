@@ -74,6 +74,7 @@
 		0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */; };
 		0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */; };
 		0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */; };
+		0EE85C5D2BE3CE16007B069F /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodMethodCell.swift; sourceTree = "<group>"; };
 		0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
 		0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCell.swift; sourceTree = "<group>"; };
+		0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		5D8FFB9C402A9846FDBDBE55 /* Pods-Kiwee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.release.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.release.xcconfig"; sourceTree = "<group>"; };
 		5F3486E2506676D81D150C73 /* Pods-Kiwee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kiwee.debug.xcconfig"; path = "Target Support Files/Pods-Kiwee/Pods-Kiwee.debug.xcconfig"; sourceTree = "<group>"; };
 		99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kiwee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +245,7 @@
 				0E6FF9A52BDA73C8003B2133 /* SignInViewController.swift */,
 				0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */,
 				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
+				0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
 				0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */,
 				0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */,
+				0EE85C5D2BE3CE16007B069F /* AuthenticationViewModel.swift in Sources */,
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
 				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
