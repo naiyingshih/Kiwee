@@ -16,6 +16,9 @@
 		0E5B7E8C2BE213D30056397D /* CustomFunctionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5B7E8B2BE213D30056397D /* CustomFunctionManager.swift */; };
 		0E61B2DE2BE46B590043A82B /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61B2DD2BE46B590043A82B /* SigninViewController.swift */; };
 		0E61B2E02BE4C10A0043A82B /* Food_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E61B2DF2BE4C10A0043A82B /* Food_animation.json */; };
+		0E61B2E22BE5586D0043A82B /* HelperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61B2E12BE5586D0043A82B /* HelperViewController.swift */; };
+		0E61B3112BE625FC0043A82B /* NutrientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61B3102BE625FC0043A82B /* NutrientCell.swift */; };
+		0E61B3132BE629340043A82B /* NutrientCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61B3122BE629340043A82B /* NutrientCardModel.swift */; };
 		0E6FF9A22BDA3BF7003B2133 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */; };
 		0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */; };
 		0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */; };
@@ -88,6 +91,9 @@
 		0E5B7E8B2BE213D30056397D /* CustomFunctionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFunctionManager.swift; sourceTree = "<group>"; };
 		0E61B2DD2BE46B590043A82B /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SigninViewController.swift; path = Kiwee/SigninViewController.swift; sourceTree = SOURCE_ROOT; };
 		0E61B2DF2BE4C10A0043A82B /* Food_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Food_animation.json; sourceTree = "<group>"; };
+		0E61B2E12BE5586D0043A82B /* HelperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperViewController.swift; sourceTree = "<group>"; };
+		0E61B3102BE625FC0043A82B /* NutrientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NutrientCell.swift; path = Kiwee/NutrientCell.swift; sourceTree = SOURCE_ROOT; };
+		0E61B3122BE629340043A82B /* NutrientCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutrientCardModel.swift; sourceTree = "<group>"; };
 		0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +174,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E61B2E32BE5FB940043A82B /* HelperCell */ = {
+			isa = PBXGroup;
+			children = (
+				0E61B3102BE625FC0043A82B /* NutrientCell.swift */,
+			);
+			path = HelperCell;
+			sourceTree = "<group>";
+		};
 		0E91DC172BCA561D0018911F /* DiaryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,7 +221,9 @@
 				0E91DC352BD0469F0018911F /* ProfileVeiwController.swift */,
 				0E91DC6D2BD3DC890018911F /* PostViewController.swift */,
 				0E91DC3B2BD0BCD00018911F /* RecordManageViewController.swift */,
+				0E61B2E12BE5586D0043A82B /* HelperViewController.swift */,
 				0E91DC3F2BD0D8DE0018911F /* ProfileView */,
+				0E61B2E32BE5FB940043A82B /* HelperCell */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -315,6 +331,7 @@
 				0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */,
 				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
 				0E91DCA02BD676F70018911F /* ChatModel.swift */,
+				0E61B3122BE629340043A82B /* NutrientCardModel.swift */,
 				0E91DC622BD382080018911F /* KiweeCoreData.xcdatamodeld */,
 				0E91DC182BCA836D0018911F /* FoodSample.mlmodel */,
 			);
@@ -560,6 +577,7 @@
 				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0E91DCB52BD961230018911F /* DetailView.swift in Sources */,
+				0E61B3112BE625FC0043A82B /* NutrientCell.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
 				0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */,
 				0E61B2DE2BE46B590043A82B /* SigninViewController.swift in Sources */,
@@ -573,6 +591,7 @@
 				0ECE08C92BC76C60003C15B0 /* CategoryHeaderView.swift in Sources */,
 				0E91DC2B2BCE18060018911F /* CaloriesChartView.swift in Sources */,
 				0E91DC6E2BD3DC890018911F /* PostViewController.swift in Sources */,
+				0E61B2E22BE5586D0043A82B /* HelperViewController.swift in Sources */,
 				0E91DC3A2BD0A4E30018911F /* ProfileBannerView.swift in Sources */,
 				0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */,
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
@@ -588,6 +607,7 @@
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0E5B7E8C2BE213D30056397D /* CustomFunctionManager.swift in Sources */,
 				0ECE08CD2BC78AC0003C15B0 /* AddFoodMethodCell.swift in Sources */,
+				0E61B3132BE629340043A82B /* NutrientCardModel.swift in Sources */,
 				0E91DC332BCFDEAC0018911F /* UserModel.swift in Sources */,
 				0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,

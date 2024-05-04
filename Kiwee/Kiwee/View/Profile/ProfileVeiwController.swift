@@ -178,7 +178,12 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
     }
     
     func presentHelpPage() {
-        print("present help page")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let helperVC = storyboard.instantiateViewController(withIdentifier: "HelperViewController") as? HelperViewController {
+            helperVC.modalPresentationStyle = .popover
+            self.present(helperVC, animated: true)
+            print("present help page")
+        }
     }
     
     func logoutAccount() {

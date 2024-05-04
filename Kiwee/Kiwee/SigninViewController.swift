@@ -19,6 +19,7 @@ class SigninViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
         setupInitialUI {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.showSignInView()

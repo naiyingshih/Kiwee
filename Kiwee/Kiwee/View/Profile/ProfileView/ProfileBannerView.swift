@@ -34,7 +34,7 @@ class ProfileBannerView: UIView {
         button.tintColor = .white
         button.showsMenuAsPrimaryAction = true
         button.menu = UIMenu(children: [
-            UIAction(title: "使用說明", image: UIImage(systemName: "questionmark.circle"), handler: { _ in
+            UIAction(title: "飲食指南", image: UIImage(systemName: "questionmark.circle"), handler: { _ in
                 print("Select Help")
                 self.delegate?.presentHelpPage()
             }),
@@ -261,6 +261,7 @@ class ProfileBannerView: UIView {
         
         let RDA = BMRUtility.calculateBMR(with: userData)
         let formattedRDA = String(format: "%.0f", RDA)
+        UserDefaults.standard.set(formattedRDA, forKey: "RDA")
 
         let BMI = (userData.updatedWeight ?? userData.initialWeight) / (userData.height * userData.height) * 10000
         let formattedBMI = String(format: "%.1f", BMI)
