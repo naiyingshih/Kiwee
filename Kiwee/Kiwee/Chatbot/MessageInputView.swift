@@ -10,6 +10,8 @@ import UIKit
 protocol MessageInputViewDelegate: AnyObject {
     func sendMessageButtonTapped(message: String)
     func faqButtonTapped(message: String)
+    func dismissMessageView()
+    func openMessageView()
 }
 
 class MessageInputView: UIView {
@@ -22,6 +24,15 @@ class MessageInputView: UIView {
         label.font = UIFont.systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.tintColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     lazy var q1Button: UIButton = {
@@ -101,6 +112,7 @@ class MessageInputView: UIView {
         backgroundColor = UIColor.hexStringToUIColor(hex: "BEDB39")
 
         addSubview(FAQLabel)
+        addSubview(dismissButton)
         addSubview(q1Button)
         addSubview(q2Button)
         addSubview(q3Button)
@@ -117,6 +129,9 @@ class MessageInputView: UIView {
         NSLayoutConstraint.activate([
             FAQLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             FAQLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+        
+            dismissButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
+            dismissButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
             
             q1Button.topAnchor.constraint(equalTo: FAQLabel.bottomAnchor, constant: 8),
             q1Button.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
@@ -169,6 +184,18 @@ class MessageInputView: UIView {
     @objc private func getResponse(_ sender: UIButton) {
         guard let specificMessage = sender.titleLabel?.text else { return }
         delegate?.faqButtonTapped(message: specificMessage)
+    }
+    
+    @objc private func dismissView() {
+        delegate?.dismissMessageView()
+        dismissButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+        dismissButton.addTarget(self, action: #selector(openView), for: .touchUpInside)
+    }
+    
+    @objc private func openView() {
+        delegate?.openMessageView()
+        dismissButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        dismissButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
     }
     
 }

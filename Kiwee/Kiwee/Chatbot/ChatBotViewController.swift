@@ -25,6 +25,8 @@ class ChatBotViewController: UIViewController {
     let tableView = UITableView()
     let messageInputView = MessageInputView()
     var messages: [MessageRow] = []
+    var messageInputViewHeightConstraint: NSLayoutConstraint?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +34,13 @@ class ChatBotViewController: UIViewController {
     }
     
     private func setupUI() {
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 200, right: 0)
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.hexStringToUIColor(hex: "FFCA28")]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
         setupTableView()
         setupMessageInputView()
     }
@@ -42,6 +50,8 @@ class ChatBotViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "MessageTableViewCell")
         tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 200, right: 0)
         view.addSubview(tableView)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,13 +66,15 @@ class ChatBotViewController: UIViewController {
     private func setupMessageInputView() {
         messageInputView.delegate = self
         view.addSubview(messageInputView)
-        
+
         messageInputView.translatesAutoresizingMaskIntoConstraints = false
+        messageInputViewHeightConstraint = messageInputView.heightAnchor.constraint(equalToConstant: 180)
         NSLayoutConstraint.activate([
             messageInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             messageInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            messageInputView.heightAnchor.constraint(equalToConstant: 180)
+            messageInputViewHeightConstraint!
+//            messageInputView.heightAnchor.constraint(equalToConstant: 180)
         ])
     }
     
@@ -98,6 +110,24 @@ extension ChatBotViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - MessageInputViewDelegate
 
 extension ChatBotViewController: MessageInputViewDelegate {
+    
+    func dismissMessageView() {
+        guard let heightConstraint = messageInputViewHeightConstraint else { return }
+        heightConstraint.constant = 40
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func openMessageView() {
+        guard let heightConstraint = messageInputViewHeightConstraint else { return }
+        heightConstraint.constant = 180
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
     
     func faqButtonTapped(message: String) {
         let newMessage = MessageRow(

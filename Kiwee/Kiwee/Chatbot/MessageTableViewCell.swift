@@ -71,6 +71,7 @@ class MessageTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
     func setupUI() {
+        backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         contentView.addSubview(sendAvatar)
         contentView.addSubview(sendMessageView)
         contentView.addSubview(responseAvatar)
