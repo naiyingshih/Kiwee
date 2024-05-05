@@ -198,7 +198,7 @@ class AddFoodViewController: UIViewController {
                                      section: index,
                                      date: filteredFoodItem.date)
                 if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
-                    calculatedIntakeDataArray.append(calculatedIntakeData)
+                    calculatedIntakeDataArray.insert(calculatedIntakeData, at: 0)
                 }
             }
             FirestoreManager.shared.postIntakeData(
@@ -367,7 +367,7 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recentFood = recentFoods[indexPath.row]
-        filteredFoodItems.append(recentFood)
+        filteredFoodItems.insert(recentFood, at: 0)
     }
 }
     
@@ -402,7 +402,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         loadFood()
         let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
         for filterFood in filterFoods {
-            filteredFoodItems.append(filterFood)
+            filteredFoodItems.insert(filterFood, at: 0)
         }
     }
     
@@ -419,7 +419,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     func textFieldConfirmed(foodResults: [Food]?) {
         guard let foodResults = foodResults else { return }
         for foodResult in foodResults {
-            filteredFoodItems.append(foodResult)
+            filteredFoodItems.insert(foodResult, at: 0)
         }
     }
     
@@ -463,6 +463,12 @@ extension AddFoodViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension AddFoodViewController: FoodDataDelegate {
     
+    func didTappedRetake(_ controller: CameraViewController) {
+        controller.dismiss(animated: true) {
+            self.presentImagePicker(sourceType: .camera)
+        }
+    }
+
     func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String) {
         let identifiedFood = Food(
             documentID: "",
@@ -474,7 +480,7 @@ extension AddFoodViewController: FoodDataDelegate {
             section: nil, 
             date: nil
         )
-        filteredFoodItems.append(identifiedFood)
+        filteredFoodItems.insert(identifiedFood, at: 0)
     }
     
 }

@@ -11,6 +11,7 @@ import CoreML
 
 protocol FoodDataDelegate: AnyObject {
     func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String)
+    func didTappedRetake(_ controller: CameraViewController)
 }
 
 class CameraViewController: UIViewController, UINavigationControllerDelegate {
@@ -32,6 +33,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,36 +61,53 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         return button
     }()
     
+    private lazy var retakeButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("重新拍攝", for: .normal)
+        button.setTitleColor(UIColor.hexStringToUIColor(hex: "004358"), for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.backgroundColor = button.backgroundColor?.withAlphaComponent(0.2)
+        button.addTarget(self, action: #selector(retake), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
     func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         view.addSubview(imageView)
         view.addSubview(resultLabel)
         view.addSubview(confirmButton)
         view.addSubview(cancelButton)
+        view.addSubview(retakeButton)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
             
-            resultLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            resultLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor,constant: 24),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            resultLabel.heightAnchor.constraint(equalToConstant: 100),
             
-            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             confirmButton.heightAnchor.constraint(equalToConstant: 48),
+            confirmButton.trailingAnchor.constraint(equalTo: retakeButton.leadingAnchor, constant: -20),
+            confirmButton.widthAnchor.constraint(equalToConstant: 90),
             
-            cancelButton.leadingAnchor.constraint(equalTo: confirmButton.trailingAnchor, constant: 20),
+            retakeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            retakeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            retakeButton.heightAnchor.constraint(equalToConstant: 48),
+            retakeButton.widthAnchor.constraint(equalTo: confirmButton.widthAnchor),
+            
+            cancelButton.leadingAnchor.constraint(equalTo: retakeButton.trailingAnchor, constant: 20),
             cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             cancelButton.heightAnchor.constraint(equalToConstant: 48),
-            cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             cancelButton.widthAnchor.constraint(equalTo: confirmButton.widthAnchor)
         ])
     }
@@ -121,6 +140,10 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
         self.dismiss(animated: true) { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @objc func retake() {
+        delegate?.didTappedRetake(self)
     }
     
 }
@@ -167,7 +190,31 @@ extension CameraViewController {
             
             if let topClassification = classifications.first {
                 let confidence = Int(topClassification.confidence * 100)
-                self.resultLabel.text = "\(topClassification.identifier) (\(confidence)%)"
+
+                let fullText = "是 \(topClassification.identifier) 嗎？\n\n辨識信心度：(\(confidence)%)"
+                // Create an NSMutableAttributedString that we'll append everything to
+                let attributedString = NSMutableAttributedString(string: fullText)
+                // Define the attributes for the different parts of the text
+                let identifierAttributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 24),
+                    .foregroundColor: UIColor.hexStringToUIColor(hex: "004358")
+                ]
+                let confidenceAttributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 14),
+                    .foregroundColor: UIColor.lightGray
+                ]
+                // Apply the attributes to the specific parts of the text
+                if let identifierRange = fullText.range(of: topClassification.identifier) {
+                    let nsRange = NSRange(identifierRange, in: fullText)
+                    attributedString.addAttributes(identifierAttributes, range: nsRange)
+                }
+
+                if let confidenceRange = fullText.range(of: "辨識信心度：(\(confidence)%)") {
+                    let nsRange = NSRange(confidenceRange, in: fullText)
+                    attributedString.addAttributes(confidenceAttributes, range: nsRange)
+                }
+                // Set the attributed text to the label
+                self.resultLabel.attributedText = attributedString
                 print("===\(results)")
                 
                 self.loadFood(topClassification.identifier) { foods in
