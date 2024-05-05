@@ -208,7 +208,7 @@ extension HomeViewController {
     
     func updateImageStatus(enabled: Bool) {
         wateringImageView.isUserInteractionEnabled = enabled
-        wateringImageView.alpha = enabled ? 1.0 : 0.7
+        wateringImageView.alpha = enabled ? 1.0 : 0.3
         if enabled {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(wateringImageTapped(_:)))
             wateringImageView.addGestureRecognizer(tapGesture)
@@ -254,7 +254,6 @@ extension HomeViewController {
         if hasLaunchedBefore {
             return false
         } else {
-//            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
             return true
         }
     }

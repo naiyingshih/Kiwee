@@ -398,11 +398,14 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     }
     
     func searchBarDidChange(text: String) {
-        guard !text.isEmpty else { return }
         loadFood()
         let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
-        for filterFood in filterFoods {
-            filteredFoodItems.insert(filterFood, at: 0)
+        if filterFoods.isEmpty {
+            showNoResultsAlert()
+        } else {
+            for filterFood in filterFoods {
+                filteredFoodItems.insert(filterFood, at: 0)
+            }
         }
     }
     
@@ -414,6 +417,12 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
                 print("Failed to load food data: \(error)")
             }
         }
+    }
+    
+    private func showNoResultsAlert() {
+        let alert = UIAlertController(title: "查無相關結果！", message: "很抱歉，請重新搜尋或嘗試其他方法", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "確認", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func textFieldConfirmed(foodResults: [Food]?) {

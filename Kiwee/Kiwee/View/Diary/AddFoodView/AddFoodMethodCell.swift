@@ -305,9 +305,18 @@ class AddFoodMethodCell: UITableViewCell {
 
 extension AddFoodMethodCell: UISearchBarDelegate {
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let delegate = delegate else { return }
+        guard let searchText = searchBar.text else { return }
         delegate.searchBarDidChange(text: searchText)
+        // Dismiss the keyboard
+        searchBar.resignFirstResponder()
+        searchBar.text = ""
     }
+    
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        guard let delegate = delegate else { return }
+//        delegate.searchBarDidChange(text: searchText)
+//    }
     
 }

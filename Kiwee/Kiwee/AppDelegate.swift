@@ -28,7 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         UNUserNotificationCenter.current().delegate = self
         
+//        IQKeyboardManager.shared.toolbarConfiguration.doneBarButtonConfiguration?.accessibilityLabel = "返回"
         IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.resignOnTouchOutside = true
+        IQKeyboardManager.shared.toolbarConfiguration.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        
         FirebaseApp.configure()
         return true
     }
