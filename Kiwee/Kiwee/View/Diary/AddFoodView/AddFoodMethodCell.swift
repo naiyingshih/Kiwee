@@ -313,10 +313,5 @@ extension AddFoodMethodCell: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchBar.text = ""
     }
-    
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        guard let delegate = delegate else { return }
-//        delegate.searchBarDidChange(text: searchText)
-//    }
-    
+
 }

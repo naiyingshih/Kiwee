@@ -27,7 +27,6 @@ class ChatBotViewController: UIViewController {
     var messages: [MessageRow] = []
     var messageInputViewHeightConstraint: NSLayoutConstraint?
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -36,7 +35,8 @@ class ChatBotViewController: UIViewController {
     private func setupUI() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.hexStringToUIColor(hex: "FFCA28")]
+        appearance.backgroundColor = appearance.backgroundColor?.withAlphaComponent(0.3)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance

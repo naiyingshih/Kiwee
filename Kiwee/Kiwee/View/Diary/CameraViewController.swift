@@ -63,7 +63,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate {
     
     private lazy var retakeButton: UIButton = {
        let button = UIButton()
-        button.setTitle("重新拍攝", for: .normal)
+        button.setTitle("重新辨識", for: .normal)
         button.setTitleColor(UIColor.hexStringToUIColor(hex: "004358"), for: .normal)
         button.layer.cornerRadius = 10
         button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")

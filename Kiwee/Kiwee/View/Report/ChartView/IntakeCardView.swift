@@ -26,8 +26,9 @@ struct IntakeCardView: View {
             Text("今日剩餘攝取量")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(Color(hex: "004358"))
+                .foregroundColor(.white)
                 .padding([.leading, .bottom])
+                .shadow(color: .black, radius: 1, x: 1, y: 1)
             HStack {
                 Spacer()
                 PieChartView()
@@ -36,13 +37,15 @@ struct IntakeCardView: View {
                 VStack {
                     Text("已攝取熱量\n\(caloriesIntake, specifier: "%.0f") kcal")
                         .padding([.leading, .bottom])
+                        .foregroundColor(.white)
                     Text("已飲水量\n\(waterIntake, specifier: "%.0f") ml")
+                        .foregroundColor(.white)
                 }
                 Spacer()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hex: "BEDB39"))
+        .background(Color(hex: "004358"))
         .cornerRadius(10)
         .shadow(radius: 5)
     }
@@ -56,10 +59,14 @@ struct PieChartView: View {
         viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0
     }
     
+    var RDA: Double {
+        viewModel.calculatedBodyInfo?.RDA ?? 0
+    }
+    
     var body: some View {
         Chart(viewModel.todayIntake, id: \.label) { item in
             if item.label == "已攝取量" {
-                let percentage = item.amount / 2500 * 100
+                let percentage = item.amount / RDA * 100
                 SectorMark(
                     angle: .value("Value", percentage),
                     innerRadius: .ratio(0.618),
@@ -67,15 +74,16 @@ struct PieChartView: View {
                 )
                 .opacity(0.3)
                 .cornerRadius(5)
-                .foregroundStyle(Color(hex: "fb8500"))
+                .foregroundStyle(Color(hex: "FFCA28"))
                 .annotation(position: .overlay) {
                     Text("\(percentage, specifier: "%.1f")%")
                         .font(.headline)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color(hex: "CCCCCC"))
+                        .shadow(color: .black, radius: 1, x: 1, y: 1)
                 }
             } else {
                 // Calculate the remaining percentage
-                let remainingAmount = (viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0) / 2500 * 100
+                let remainingAmount = (viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0) / RDA * 100
                 let remainingPercentage = 100 - remainingAmount
                 SectorMark(
                     angle: .value("Value", remainingPercentage),
@@ -84,11 +92,12 @@ struct PieChartView: View {
                 )
                 .opacity(1.0)
                 .cornerRadius(5)
-                .foregroundStyle(Color(hex: "fb8500"))
+                .foregroundStyle(Color(hex: "FFCA28"))
                 .annotation(position: .overlay) {
                     Text("\(remainingPercentage, specifier: "%.1f")%")
                         .font(.headline)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(remainingPercentage < 0 ? .red : .white)
+                        .shadow(color: .black, radius: 1, x: 1, y: 1)
                 }
             }
         }
@@ -100,10 +109,10 @@ struct PieChartView: View {
                     Text("\((RDA ?? 0) - caloriesIntake, specifier: "%.0f") kcal")
                         .font(.title3.bold())
                         .foregroundStyle(.primary)
-                        .foregroundColor(Color(hex: "004358"))
+                        .foregroundColor((RDA ?? 0) - caloriesIntake < 0 ? .red : Color(hex: "FFCA28"))
                     Text("/\(RDA ?? 0, specifier: "%.0f") kcal")
                         .font(.callout)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Color(hex: "CCCCCC"))
                 }
                 .position(x: frame.midX, y: frame.midY)
             }

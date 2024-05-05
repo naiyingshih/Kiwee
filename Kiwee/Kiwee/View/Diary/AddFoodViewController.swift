@@ -376,6 +376,10 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
     
     func cameraButtonDidTapped() {
+        showImagePickerAlert()
+    }
+    
+    func showImagePickerAlert() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         // Check if the device has a camera
@@ -474,7 +478,9 @@ extension AddFoodViewController: FoodDataDelegate {
     
     func didTappedRetake(_ controller: CameraViewController) {
         controller.dismiss(animated: true) {
-            self.presentImagePicker(sourceType: .camera)
+            DispatchQueue.main.async {
+                self.showImagePickerAlert()
+            }
         }
     }
 
@@ -491,5 +497,4 @@ extension AddFoodViewController: FoodDataDelegate {
         )
         filteredFoodItems.insert(identifiedFood, at: 0)
     }
-    
 }
