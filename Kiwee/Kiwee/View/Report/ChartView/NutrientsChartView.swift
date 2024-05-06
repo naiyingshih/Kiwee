@@ -27,10 +27,10 @@ struct NutrientsChartView: View {
     }
     
     let colorMapping: [String: Color] = [
-        "碳水": Color(hex: "a1c181"),
-        "蛋白": Color(hex: "ff928b"),
-        "脂肪": Color(hex: "fcca46"),
-        "纖維": Color(hex: "cb997e")
+        "碳水": Color(hex: "A1C181"),
+        "蛋白": Color(hex: "FF928B"),
+        "脂肪": Color(hex: "FCCA46"),
+        "纖維": Color(hex: "CB997E")
     ]
     
     var body: some View {

@@ -29,15 +29,14 @@ struct WeightChartView: View {
                     y: .value("體重", element.dataPoint)
                 )
                 .interpolationMethod(.catmullRom)
-                .foregroundStyle(Color(hex: "fb8500"))
+                .foregroundStyle(Color(hex: "FB8500"))
                 .lineStyle(StrokeStyle(lineWidth: 2))
                 
                 PointMark(
                     x: .value("日期", element.date),
                     y: .value("體重", element.dataPoint)
                 )
-                .foregroundStyle(Color(hex: "fb8500"))
-                //                  .foregroundStyle(by: .value("體重", element.dataPoint))
+                .foregroundStyle(Color(hex: "FB8500"))
                 .annotation(position: .bottomTrailing, alignment: .center) {
                     Text("\(element.dataPoint, specifier: "%.0f")")
                         .font(.caption)

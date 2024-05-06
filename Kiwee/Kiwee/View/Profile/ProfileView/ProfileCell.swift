@@ -121,10 +121,10 @@ class ProfileCell: UICollectionViewCell {
         switch result.tag {
         case "早餐":
             color = .breakfast
-            return UIColor.hexStringToUIColor(hex: "e1b739")
+            return UIColor.hexStringToUIColor(hex: "E1B739")
         case "午餐":
             color = .lunch
-            return UIColor.hexStringToUIColor(hex: "e08161")
+            return UIColor.hexStringToUIColor(hex: "E08161")
         case "晚餐":
             color = .dinner
             return UIColor.hexStringToUIColor(hex: "657760")

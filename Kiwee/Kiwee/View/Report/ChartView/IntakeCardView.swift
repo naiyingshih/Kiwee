@@ -78,9 +78,9 @@ struct PieChartView: View {
                 .annotation(position: .overlay) {
                     Text("\(percentage, specifier: "%.1f")%")
                         .font(.headline)
-                        .foregroundStyle(Color(hex: "CCCCCC"))
+                        .foregroundStyle(.white)
                         .shadow(color: .black, radius: 1, x: 1, y: 1)
-                }
+                }.zIndex(1)
             } else {
                 // Calculate the remaining percentage
                 let remainingAmount = (viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0) / RDA * 100
@@ -98,7 +98,7 @@ struct PieChartView: View {
                         .font(.headline)
                         .foregroundStyle(remainingPercentage < 0 ? .red : .white)
                         .shadow(color: .black, radius: 1, x: 1, y: 1)
-                }
+                }.zIndex(0)
             }
         }
         .chartBackground { proxy in
