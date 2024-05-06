@@ -7,8 +7,8 @@
 
 import UIKit
 
-class DiaryViewController: UIViewController, TableViewHeaderDelegate {
-
+class DiaryViewController: UIViewController {
+    
     var allFood: [[Food]] = Array(repeating: [], count: 5)
     var waterCount: Int = 0 {
         didSet {
@@ -22,42 +22,47 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
         picker.layer.cornerRadius = 10
-        picker.layer.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A").cgColor
-        picker.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        picker.layer.backgroundColor = KWColor.lightY.cgColor
+        picker.tintColor = KWColor.darkG
         picker.sizeToFit()
         picker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         picker.translatesAutoresizingMaskIntoConstraints = false
         return picker
     }()
-
+    
     @IBOutlet weak var tableView: UITableView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
-        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        view.backgroundColor = KWColor.background
         self.navigationItem.titleView = datePicker
+        setupTableView()
         loadData(for: Date())
+    }
+    
+    // MARK: - UI setting functions
+    private func setupTableView() {
+        tableView.backgroundColor = KWColor.background
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.sectionHeaderTopPadding = 8
-//        UIView.setAnimationsEnabled(false)
     }
-
+    
+    // MARK: - Actions
     @objc func dateChanged(datePicker: UIDatePicker) {
         loadData(for: datePicker.date)
     }
     
-    func loadData(for date: Date) {
+    // MARK: - Fetch data functions
+    private func loadData(for date: Date) {
         FirestoreManager.shared.getIntakeCard(
-            collectionID: "intake", 
+            collectionID: "intake",
             chosenDate: datePicker.date
         ) { foods, water in
             self.organizeAndDisplayFoods(foods: foods)
             self.waterCount = water
-            print("===foods:\(foods)")
-            print("===water:\(water)")
         }
     }
     
@@ -71,10 +76,13 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
         }
         DispatchQueue.main.async {
             self.allFood = newAllFood
-            print("\(self.allFood)")
             self.tableView.reloadData()
         }
     }
+}
+
+// MARK: - TableViewHeaderDelegate
+extension DiaryViewController: TableViewHeaderDelegate {
     
     func didTappedAddButton(section: Int) {
         if section == 4 {
@@ -91,7 +99,6 @@ class DiaryViewController: UIViewController, TableViewHeaderDelegate {
                     print("Failed to post water intake data")
                 }
             }
-            
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let addFoodVC = storyboard.instantiateViewController(
@@ -129,7 +136,6 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
             waterCell.waterSectionConfigure(count: waterCount)
-//            waterCell.backgroundColor = UIColor.hexStringToUIColor(hex: "e8e4d3")
             return waterCell
 
         } else {

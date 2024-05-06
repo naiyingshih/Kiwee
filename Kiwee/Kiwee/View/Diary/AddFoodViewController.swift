@@ -35,15 +35,15 @@ class AddFoodViewController: UIViewController {
     @IBOutlet weak var imageRecognizeButton: UIButton!
     @IBOutlet weak var searchFoodButton: UIButton!
     @IBOutlet weak var manualButton: UIButton!
-    
     @IBOutlet weak var underlineView: UIView!
+    
     private var indicatorView = UIView()
     var indicatorCenterXConstraint: NSLayoutConstraint?
     var indicatorWidthConstraint: NSLayoutConstraint?
     
     lazy var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        view.backgroundColor = KWColor.background
         view.addTopBorder(color: .lightGray, width: 0.5)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -52,23 +52,19 @@ class AddFoodViewController: UIViewController {
     lazy var confirmButton: UIButton = {
         let button = UIButton()
         button.setTitle("確認加入", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        button.layer.cornerRadius = 10
+        button.applyPrimaryStyle(size: 17)
         button.addTarget(self, action: #selector(confirmed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBottomBlock()
         setupInitialUI()
         setupNavigationItemUI()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 120, right: 0)
+        setupTableView()
         fetchRecentRecord()
     }
     
@@ -82,9 +78,11 @@ class AddFoodViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - UI Setting Functions
     func setupInitialUI() {
+        view.backgroundColor = KWColor.darkB
         view.addSubview(indicatorView)
-        indicatorView.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        indicatorView.backgroundColor = KWColor.lightY
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         indicatorWidthConstraint = indicatorView.widthAnchor.constraint(equalTo: imageRecognizeButton.widthAnchor)
         indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: imageRecognizeButton.centerXAnchor)
@@ -95,8 +93,7 @@ class AddFoodViewController: UIViewController {
             indicatorView.heightAnchor.constraint(equalToConstant: 2.5)
         ])
 
-        buttonStackView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        buttonStackView.backgroundColor = KWColor.darkB
         imageRecognizeButton.tintColor = .white
         searchFoodButton.tintColor = .lightGray
         manualButton.tintColor = .lightGray
@@ -106,8 +103,15 @@ class AddFoodViewController: UIViewController {
     
     func setupNavigationItemUI() {
         let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(navigateBack))
-        barButtonItem.tintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        barButtonItem.tintColor = KWColor.lightY
         navigationItem.leftBarButtonItem = barButtonItem
+    }
+    
+    func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 120, right: 0)
     }
     
     func setupBottomBlock() {
@@ -118,9 +122,9 @@ class AddFoodViewController: UIViewController {
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 120),
+            bottomView.heightAnchor.constraint(equalToConstant: 100),
             
-            confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor, constant: -8),
+            confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
             confirmButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 24),
             confirmButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -24),
             confirmButton.heightAnchor.constraint(equalToConstant: 48)

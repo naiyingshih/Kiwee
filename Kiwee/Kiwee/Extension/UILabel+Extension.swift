@@ -10,7 +10,7 @@ import UIKit
 extension UILabel {
     
     func applyTitle(size: CGFloat, color: UIColor) {
-        self.font = UIFont.boldSystemFont(ofSize: 20)
+        self.font = UIFont.medium(size: size)
         self.adjustsFontForContentSizeCategory = true
         self.textColor = color
         self.numberOfLines = 0

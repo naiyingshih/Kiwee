@@ -20,17 +20,15 @@ class DetailView: UIView {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.applyTitle(size: 20, color: KWColor.darkB)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var totalCalorieLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.applyTitle(size: 18, color: .black)
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -44,44 +42,35 @@ class DetailView: UIView {
     
     lazy var carboLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.applyContent(size: 15, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var proteinLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.applyContent(size: 15, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var fatLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.applyContent(size: 15, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var fiberLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.applyContent(size: 15, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var quantityLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        label.applyContent(size: 15, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -117,17 +106,17 @@ class DetailView: UIView {
             foodImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
             foodImageView.widthAnchor.constraint(equalTo: foodImageView.heightAnchor),
 
-            nameLabel.topAnchor.constraint(equalTo: foodImageView.centerYAnchor, constant: -24),
+            nameLabel.topAnchor.constraint(equalTo: foodImageView.topAnchor),
 
             totalCalorieLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             
-            dividingLine.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
+            dividingLine.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
             dividingLine.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: -8),
             dividingLine.trailingAnchor.constraint(equalTo: totalCalorieLabel.trailingAnchor, constant: 8),
             dividingLine.heightAnchor.constraint(equalToConstant: 1),
             
             carboLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            carboLabel.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 16),
+            carboLabel.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 12),
             
             proteinLabel.leadingAnchor.constraint(equalTo: carboLabel.trailingAnchor, constant: 8),
             proteinLabel.topAnchor.constraint(equalTo: carboLabel.topAnchor),
@@ -194,19 +183,8 @@ class DetailView: UIView {
         
         // Set the frame to be at the tap location, adjusted to be within parent view bounds
         self.frame = CGRect(x: adjustedOriginX, y: adjustedOriginY, width: cardWidth, height: cardHeight)
-        
-        // gradient view
-//        let color1 = UIColor.hexStringToUIColor(hex: "fff6cc")
-//        let color2 = UIColor.hexStringToUIColor(hex: "ffffff")
-//        self.applyGradient(isVertical: false, colorArray: [color1, color2])
-//        self.layer.masksToBounds = true
-//        self.layer.borderWidth = 1
-//        self.layer.borderColor = UIColor.hexStringToUIColor(hex: "fff2b2").cgColor
-        self.backgroundColor = .white
-        self.layer.cornerRadius = 10
-        self.layer.shadowOpacity = 0.2
-        self.layer.shadowRadius = 5
-        self.layer.shadowOffset = CGSize(width: 2, height: 2)
+       
+        self.applyCardStyle(backgroundColor: .white)
         
         self.alpha = 0
         parentView.addSubview(self)

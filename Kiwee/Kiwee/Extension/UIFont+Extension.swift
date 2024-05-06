@@ -8,26 +8,15 @@
 import UIKit
 
 private enum KWFontName: String {
-    case regular = "Ping Fang TC"
+    case regular = "NotoSansTC-Regular"
+    case medium = "NotoSansTC-Medium"
 }
 
 extension UIFont {
     
-//    static func bold(size: CGFloat) -> UIFont? {
-//        var descriptor = UIFontDescriptor(name: KWFontName.regular.rawValue, size: size)
-//        descriptor = descriptor.addingAttributes(
-//            [.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.bold]]
-//        )
-//        return UIFont(descriptor: descriptor, size: size)
-//    }
-//
-//    static func medium(size: CGFloat) -> UIFont? {
-//        var descriptor = UIFontDescriptor(name: KWFontName.regular.rawValue, size: size)
-//        descriptor = descriptor.addingAttributes(
-//            [.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.medium]]
-//        )
-//        return UIFont(descriptor: descriptor, size: size)
-//    }
+    static func medium(size: CGFloat) -> UIFont? {
+        return KWFont(.medium, size: size)
+    }
 
     static func regular(size: CGFloat) -> UIFont? {
         return KWFont(.regular, size: size)

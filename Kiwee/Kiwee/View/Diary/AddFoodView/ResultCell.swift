@@ -23,26 +23,15 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
-    
-    @IBAction func deleteResult(_ sender: Any) {
-        deleteButtonTapped?()
-    }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCardUI()
     }
     
     func setupCardUI() {
-        cardView.layer.cornerRadius = 10
-        cardView.backgroundColor = UIColor.hexStringToUIColor(hex: "f4f4f4")
-        cardView.layer.shadowColor = UIColor.gray.cgColor
-        cardView.layer.shadowOpacity = 0.5
-        cardView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        cardView.layer.shadowRadius = 3
-        
-        deleteButton.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
-        
+        cardView.applyCardStyle()
+        deleteButton.tintColor = KWColor.darkG
         quantityTextField.keyboardType = .decimalPad
     }
     
@@ -56,4 +45,10 @@ class ResultCell: UITableViewCell {
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
         quantityTextField.text = "\(result.quantity ?? 100)"
     }
+    
+    // MARK: - Actions
+    @IBAction func deleteResult(_ sender: Any) {
+        deleteButtonTapped?()
+    }
+    
 }

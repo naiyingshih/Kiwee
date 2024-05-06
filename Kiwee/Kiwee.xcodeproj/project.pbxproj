@@ -12,6 +12,8 @@
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
 		0E1567A72BE8A475002D25AB /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A62BE8A475002D25AB /* UILabel+Extension.swift */; };
+		0E1567AF2BE8EE7A002D25AB /* NotoSansTC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E1567AD2BE8EE07002D25AB /* NotoSansTC-Regular.ttf */; };
+		0E1567B02BE8EE7A002D25AB /* NotoSansTC-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E1567AE2BE8EE16002D25AB /* NotoSansTC-Medium.ttf */; };
 		0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */; };
 		0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E41B8B62BDD016500159FAA /* Ribbons_animation.json */; };
 		0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0E41B8B92BDD08A300159FAA /* Lottie */; };
@@ -91,6 +93,8 @@
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A62BE8A475002D25AB /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		0E1567AD2BE8EE07002D25AB /* NotoSansTC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.ttf"; sourceTree = "<group>"; };
+		0E1567AE2BE8EE16002D25AB /* NotoSansTC-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Medium.ttf"; sourceTree = "<group>"; };
 		0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		0E41B8B62BDD016500159FAA /* Ribbons_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ribbons_animation.json; sourceTree = "<group>"; };
 		0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -180,6 +184,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E1567A82BE8CAFF002D25AB /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				0E1567AD2BE8EE07002D25AB /* NotoSansTC-Regular.ttf */,
+				0E1567AE2BE8EE16002D25AB /* NotoSansTC-Medium.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		0E61B2E32BE5FB940043A82B /* HelperCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +330,7 @@
 				0E91DC732BD63F7A0018911F /* Chatbot */,
 				0ECE08C22BC76A0F003C15B0 /* Models */,
 				0EAB60EA2BC8F0090005F3C1 /* Resource */,
+				0E1567A82BE8CAFF002D25AB /* Font */,
 				0ECE08C52BC76AE8003C15B0 /* Extension */,
 				0ECE088C2BC69877003C15B0 /* Main.storyboard */,
 				0E6FF9A12BDA3BF7003B2133 /* Login.storyboard */,
@@ -501,6 +515,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E1567AF2BE8EE7A002D25AB /* NotoSansTC-Regular.ttf in Resources */,
+				0E1567B02BE8EE7A002D25AB /* NotoSansTC-Medium.ttf in Resources */,
 				0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */,
 				0ECE08932BC69878003C15B0 /* LaunchScreen.storyboard in Resources */,
 				0E61B2E02BE4C10A0043A82B /* Food_animation.json in Resources */,

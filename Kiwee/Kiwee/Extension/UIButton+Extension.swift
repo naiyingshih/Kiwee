@@ -15,7 +15,7 @@ extension UIButton {
         self.layer.cornerRadius = 10
         self.backgroundColor = KWColor.darkB
         self.titleLabel?.adjustsFontSizeToFitWidth = true
-        self.titleLabel?.font = UIFont.regular(size: size)
+        self.titleLabel?.font = UIFont.medium(size: size)
     }
     
     func applySecondaryStyle(size: CGFloat) {
@@ -24,7 +24,7 @@ extension UIButton {
         self.layer.cornerRadius = 10
         self.backgroundColor = KWColor.darkB.withAlphaComponent(0.2)
         self.titleLabel?.adjustsFontSizeToFitWidth = true
-        self.titleLabel?.font = UIFont.regular(size: size)
+        self.titleLabel?.font = UIFont.medium(size: size)
     }
     
     func applyThirdStyle(size: CGFloat) {
@@ -34,7 +34,7 @@ extension UIButton {
         self.layer.borderWidth = 1.5
         self.layer.borderColor = KWColor.darkB.cgColor
         self.backgroundColor = .white
-        self.titleLabel?.font = UIFont.regular(size: size)
+        self.titleLabel?.font = UIFont.medium(size: size)
         self.titleLabel?.adjustsFontSizeToFitWidth = true
     }
     

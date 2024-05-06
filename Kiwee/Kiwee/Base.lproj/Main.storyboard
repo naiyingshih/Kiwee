@@ -9,6 +9,14 @@
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSansTC-Medium.ttf">
+            <string>NotoSansTC-Medium</string>
+        </array>
+        <array key="NotoSansTC-Regular.ttf">
+            <string>NotoSansTC-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Home View Controller-->
         <scene sceneID="nHJ-L0-htF">
@@ -48,7 +56,9 @@
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Label"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Label"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Label">
+                                    <fontDescription key="titleFontDescription" name="NotoSansTC-Medium" family="Noto Sans TC" pointSize="17"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="plantButtonTapped:" destination="ndt-1K-pSR" eventType="touchUpInside" id="zOu-VJ-MPE"/>
                                 </connections>
@@ -88,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NpR-vq-hdl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1619" y="851"/>
+            <point key="canvasLocation" x="-1619.0839694656488" y="850.70422535211276"/>
         </scene>
         <!--Diary View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -975,7 +985,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="127.66666666666667" height="42.666666666666664"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="影像辨識">
-                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                            <fontDescription key="titleFontDescription" name="NotoSansTC-Medium" family="Noto Sans TC" pointSize="17"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="imageRecognizeButtonTapped:" destination="BQ0-u7-WOd" eventType="touchUpInside" id="869-0y-03d"/>
@@ -985,7 +995,7 @@
                                         <rect key="frame" x="132.66666666666666" y="0.0" width="127.66666666666666" height="42.666666666666664"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="搜尋食物">
-                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                            <fontDescription key="titleFontDescription" name="NotoSansTC-Medium" family="Noto Sans TC" pointSize="17"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="searchFoodButtonTapped:" destination="BQ0-u7-WOd" eventType="touchUpInside" id="oys-5x-T3m"/>
@@ -995,7 +1005,7 @@
                                         <rect key="frame" x="265.33333333333331" y="0.0" width="127.66666666666669" height="42.666666666666664"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="手動輸入">
-                                            <fontDescription key="titleFontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                            <fontDescription key="titleFontDescription" name="NotoSansTC-Medium" family="Noto Sans TC" pointSize="17"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="manualButtonTapped:" destination="BQ0-u7-WOd" eventType="touchUpInside" id="E5L-a3-kod"/>
@@ -1023,13 +1033,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="近期紀錄：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhY-Qg-Aif">
-                                                    <rect key="frame" x="16" y="15.999999999999998" width="361" height="20.333333333333329"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="16" y="16" width="361" height="24.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Medium" family="Noto Sans TC" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="989-Sy-wCC">
-                                                    <rect key="frame" x="16" y="44.333333333333329" width="361" height="139.66666666666669"/>
+                                                    <rect key="frame" x="16" y="48.666666666666671" width="361" height="135.33333333333331"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vBh-zr-XAd">
                                                         <size key="itemSize" width="128" height="128"/>
@@ -1065,61 +1075,61 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ResultCell" id="XWw-TG-0Zc" customClass="ResultCell" customModule="Kiwee" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="294.66666793823242" width="393" height="164"/>
+                                        <rect key="frame" x="0.0" y="294.66666793823242" width="393" height="172.66667175292969"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XWw-TG-0Zc" id="cCZ-FK-fQ6">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="164"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="172.66667175292969"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9LT-9p-9fe">
-                                                    <rect key="frame" x="20" y="16" width="353" height="132"/>
+                                                    <rect key="frame" x="20" y="16" width="353" height="140.66666666666666"/>
                                                     <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right" translatesAutoresizingMaskIntoConstraints="NO" id="x6R-3J-T11">
-                                                    <rect key="frame" x="283" y="47" width="70" height="70"/>
+                                                    <rect key="frame" x="283" y="51.333333333333343" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="1WS-fu-CVJ"/>
                                                         <constraint firstAttribute="width" secondItem="x6R-3J-T11" secondAttribute="height" multiplier="1:1" id="5oU-6o-d1d"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1MY-Fr-cGk">
-                                                    <rect key="frame" x="40" y="30" width="43.666666666666657" height="21.666666666666671"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <rect key="frame" x="40" y="30" width="47.333333333333343" height="26.333333333333329"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Medium" family="Noto Sans TC" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-9n-vZh">
-                                                    <rect key="frame" x="40" y="59.666666666666657" width="37.333333333333343" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <rect key="frame" x="40" y="64.333333333333329" width="38.666666666666657" height="22"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Regular" family="Noto Sans TC" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouq-5t-5i2">
-                                                    <rect key="frame" x="101.33333333333333" y="61.666666666666664" width="30.999999999999986" height="14.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="102.66666666666667" y="66.666666666666671" width="31.000000000000014" height="17.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Regular" family="Noto Sans TC" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wby-SW-RvB">
-                                                    <rect key="frame" x="144.33333333333334" y="61.666666666666664" width="31" height="14.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="145.66666666666666" y="66.666666666666671" width="31" height="17.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Regular" family="Noto Sans TC" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDW-D0-do0">
-                                                    <rect key="frame" x="187.33333333333334" y="61.666666666666664" width="31" height="14.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="188.66666666666666" y="66.666666666666671" width="31" height="17.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Regular" family="Noto Sans TC" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Il1-xH-vZL">
-                                                    <rect key="frame" x="230.33333333333334" y="61.666666666666664" width="31.000000000000028" height="14.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="231.66666666666666" y="66.666666666666671" width="30.999999999999972" height="17.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Regular" family="Noto Sans TC" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hsn-zM-MqR">
-                                                    <rect key="frame" x="40" y="97.666666666666671" width="100" height="34.333333333333329"/>
+                                                    <rect key="frame" x="40" y="106.33333333333333" width="100" height="34.333333333333329"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="s9N-ny-nNb"/>
                                                     </constraints>
@@ -1127,8 +1137,8 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8a-iV-59S">
-                                                    <rect key="frame" x="156" y="106" width="9" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <rect key="frame" x="156" y="112.66666666666667" width="8.6666666666666572" height="22.000000000000014"/>
+                                                    <fontDescription key="fontDescription" name="NotoSansTC-Regular" family="Noto Sans TC" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>

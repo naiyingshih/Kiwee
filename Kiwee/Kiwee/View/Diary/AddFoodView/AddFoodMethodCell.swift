@@ -35,7 +35,7 @@ class AddFoodMethodCell: UITableViewCell {
         let searchBar = UISearchBar()
         searchBar.placeholder = "搜尋食物"
         searchBar.searchBarStyle = .minimal
-        searchBar.searchTextField.backgroundColor = UIColor.hexStringToUIColor(hex: "eaf4f4")
+        searchBar.searchTextField.backgroundColor = UIColor.hexStringToUIColor(hex: "EAF4F4")
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
@@ -44,68 +44,49 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "輸入食物名稱"
-        textField.font = UIFont.systemFont(ofSize: 12)
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        setupTextFieldStyle(textField)
         return textField
     }()
     
     private lazy var calorieTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "熱量(kcal/100g)"
-        textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 12)
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        setupTextFieldStyle(textField)
         return textField
     }()
     
     private lazy var carboTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "碳水(100g)"
-        textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 12)
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        setupTextFieldStyle(textField)
         return textField
     }()
     
     private lazy var proteinTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "蛋白(100g)"
-        textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 12)
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        setupTextFieldStyle(textField)
         return textField
     }()
     
     private lazy var fatTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "脂肪(100g)"
-        textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 12)
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        setupTextFieldStyle(textField)
         return textField
     }()
     
     private lazy var fiberTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "纖維(100g)"
-        textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 12)
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        setupTextFieldStyle(textField)
         return textField
     }()
     
     private lazy var confirmButton: UIButton = {
        let button = UIButton()
         button.setTitle("確認", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.applyPrimaryStyle(size: 17)
         button.addTarget(self, action: #selector(confirmedTextField), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -114,15 +95,20 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var clearButton: UIButton = {
        let button = UIButton()
         button.setTitle("清除", for: .normal)
-        button.setTitleColor(UIColor.hexStringToUIColor(hex: "004358"), for: .normal)
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+        button.applyThirdStyle(size: 17)
         button.addTarget(self, action: #selector(removeTextField), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    private func setupTextFieldStyle(_ textField: UITextField) {
+        textField.keyboardType = .decimalPad
+        textField.font = UIFont.regular(size: 13)
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTextFieldObservers()
@@ -135,6 +121,21 @@ class AddFoodMethodCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
+    // MARK: - Status Check Functions
+    func setupTextFieldObservers() {
+        nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        calorieTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        carboTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        proteinTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        fatTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        fiberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    }
+    
+    func updateConfirmButtonState(isEnabled: Bool) {
+        ButtonManager.updateButtonEnableStatus(for: confirmButton, enabled: isEnabled)
+    }
+    
+    // MARK: - Actions
     @objc func openCamera() {
         guard let delegate = delegate else { return }
         delegate.cameraButtonDidTapped()
@@ -181,15 +182,6 @@ class AddFoodMethodCell: UITableViewCell {
         updateConfirmButtonState(isEnabled: false)
     }
     
-    func setupTextFieldObservers() {
-        nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        calorieTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        carboTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        proteinTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        fatTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        fiberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-    }
-    
     @objc func textFieldDidChange() {
         let areAllTextFieldsNotEmpty = !nameTextField.text!.isEmpty &&
         !calorieTextField.text!.isEmpty &&
@@ -201,12 +193,7 @@ class AddFoodMethodCell: UITableViewCell {
         updateConfirmButtonState(isEnabled: areAllTextFieldsNotEmpty)
     }
     
-    func updateConfirmButtonState(isEnabled: Bool) {
-        confirmButton.isEnabled = isEnabled
-        let alpha: CGFloat = isEnabled ? 1.0 : 0.5
-        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(alpha)
-    }
-    
+    // MARK: - Method Configure
     func configureCellForMethod(_ method: AddFoodMethod?) {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         switch method {
@@ -221,7 +208,7 @@ class AddFoodMethodCell: UITableViewCell {
         }
     }
     
-    func setupCameraButton() {
+    private func setupCameraButton() {
         contentView.addSubview(cameraButton)
         
         NSLayoutConstraint.activate([
@@ -234,7 +221,7 @@ class AddFoodMethodCell: UITableViewCell {
         ])
     }
     
-    func setupSearchBar() {
+    private func setupSearchBar() {
         contentView.addSubview(searchBar)
         
         NSLayoutConstraint.activate([
@@ -245,7 +232,7 @@ class AddFoodMethodCell: UITableViewCell {
         ])
     }
     
-    func setupTextField() {
+    private func setupTextField() {
         contentView.addSubview(nameTextField)
         contentView.addSubview(calorieTextField)
         contentView.addSubview(carboTextField)
@@ -303,6 +290,7 @@ class AddFoodMethodCell: UITableViewCell {
     
 }
 
+// MARK: - UISearchBarDelegate
 extension AddFoodMethodCell: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
