@@ -17,6 +17,8 @@ class PlantSelectionView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "今天想種什麼呢？"
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .medium(size: 20)
         label.textColor = UIColor.hexStringToUIColor(hex: "004358")
         label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
