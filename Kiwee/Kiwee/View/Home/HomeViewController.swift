@@ -223,8 +223,7 @@ extension HomeViewController {
     
     private func updateButtonStatus(enabled: Bool) {
         let canTap = canButtonBeTapped()
-        plantButton.isEnabled = enabled && canTap
-        plantButton.backgroundColor = (enabled && canTap) ? plantButton.backgroundColor?.withAlphaComponent(1.0) : plantButton.backgroundColor?.withAlphaComponent(0.5)
+        ButtonManager.updateButtonEnableStatus(for: plantButton, enabled: enabled && canTap)
     }
     
     private func updateImageStatus(enabled: Bool) {

@@ -8,7 +8,6 @@
 import UIKit
 
 // MARK: - RDA Calculation
-
 class BMRUtility {
     
     static func calculateBMR(with userData: UserData) -> Double {
@@ -61,6 +60,29 @@ class BMRUtility {
         default:
             return BMR
         }
+    }
+    
+}
+
+// MARK: - Button Status
+class ButtonManager {
+    
+    static func updateButtonEnableStatus(for button: UIButton, enabled: Bool) {
+        button.isEnabled = enabled
+        button.backgroundColor = enabled ? button.backgroundColor?.withAlphaComponent(1.0) : button.backgroundColor?.withAlphaComponent(0.5)
+    }
+    
+    static func setSelectedButtonStatus(currentButton: UIButton, previousButton: UIButton?, additionalUIUpdates: (() -> Void)?) {
+        
+        if let previousSelectedButton = previousButton {
+            previousSelectedButton.layer.borderWidth = 0
+        }
+        
+        currentButton.layer.borderWidth = 1.5
+        currentButton.layer.cornerRadius = 10
+        currentButton.layer.borderColor = KWColor.darkB.cgColor
+        
+        additionalUIUpdates?()
     }
     
 }

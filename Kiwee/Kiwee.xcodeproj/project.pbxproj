@@ -11,6 +11,7 @@
 		0E1567A12BE7C3D5002D25AB /* FoodSample.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A02BE7C3D5002D25AB /* FoodSample.mlmodel */; };
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
+		0E1567A72BE8A475002D25AB /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A62BE8A475002D25AB /* UILabel+Extension.swift */; };
 		0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */; };
 		0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E41B8B62BDD016500159FAA /* Ribbons_animation.json */; };
 		0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0E41B8B92BDD08A300159FAA /* Lottie */; };
@@ -89,6 +90,7 @@
 		0E1567A02BE7C3D5002D25AB /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		0E1567A62BE8A475002D25AB /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		0E41B8B62BDD016500159FAA /* Ribbons_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ribbons_animation.json; sourceTree = "<group>"; };
 		0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */,
 				0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */,
 				0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */,
+				0E1567A62BE8A475002D25AB /* UILabel+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
 				0E91DC382BD0A3740018911F /* ProfileCell.swift in Sources */,
 				0E91DC2D2BCE18190018911F /* WeightChartView.swift in Sources */,
+				0E1567A72BE8A475002D25AB /* UILabel+Extension.swift in Sources */,
 				0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */,
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
 				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,

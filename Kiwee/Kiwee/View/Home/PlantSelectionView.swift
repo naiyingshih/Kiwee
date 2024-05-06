@@ -17,10 +17,7 @@ class PlantSelectionView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "今天想種什麼呢？"
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .medium(size: 20)
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.applyTitle(size: 20, color: KWColor.darkB)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -28,7 +25,7 @@ class PlantSelectionView: UIView {
     lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
-        button.tintColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.tintColor = KWColor.darkB
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -64,9 +61,7 @@ class PlantSelectionView: UIView {
     lazy var confirmButton: UIButton = {
         let button = UIButton()
         button.setTitle("加入農場", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.applyPrimaryStyle(size: 16)
         button.addTarget(self, action: #selector(plantInFarm), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -83,8 +78,7 @@ class PlantSelectionView: UIView {
     }
     
     private func setupView() {
-        confirmButton.isEnabled = false
-        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(0.5)
+        ButtonManager.updateButtonEnableStatus(for: confirmButton, enabled: false)
         setRandomImagesForButtons()
         addSubview(titleLabel)
         addSubview(closeButton)
@@ -142,17 +136,10 @@ class PlantSelectionView: UIView {
         let selectedPlant = sender.tag
         print("===\(selectedPlant)")
         
-        if let previousSelectedButton = selectedIconButton {
-            previousSelectedButton.layer.borderWidth = 0
+        ButtonManager.setSelectedButtonStatus(currentButton: sender, previousButton: selectedIconButton) {
+            ButtonManager.updateButtonEnableStatus(for: self.confirmButton, enabled: true)
+            self.selectedIconButton = sender
         }
-    
-        sender.layer.borderWidth = 1.5
-        sender.layer.cornerRadius = 8
-        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        
-        selectedIconButton = sender
-        confirmButton.isEnabled = true
-        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(1.0)
     }
     
     @objc func plantInFarm() {
