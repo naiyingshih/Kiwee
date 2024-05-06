@@ -21,9 +21,7 @@ class ProfileBannerView: UIView {
     
     lazy var countDownLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.applyTitle(size: 16, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,7 +51,7 @@ class ProfileBannerView: UIView {
     
     lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        imageView.tintColor = KWColor.lightY
         imageView.image = UIImage(systemName: "person.crop.circle")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -61,41 +59,35 @@ class ProfileBannerView: UIView {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hexStringToUIColor(hex: "FFE11A")
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.applyTitle(size: 20, color: KWColor.lightY)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var targetLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.applyContent(size: 16, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var BMILabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.applyContent(size: 14, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var RDALabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.applyContent(size: 14, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        view.backgroundColor = KWColor.darkB
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -104,7 +96,7 @@ class ProfileBannerView: UIView {
         let view = UIView()
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
+        view.layer.borderColor = KWColor.darkG.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -112,7 +104,7 @@ class ProfileBannerView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "紀錄管理"
-        label.textColor = .black
+        label.applyContent(size: 17, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -120,7 +112,7 @@ class ProfileBannerView: UIView {
     lazy var manageButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
-        button.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        button.tintColor = KWColor.darkG
         button.addTarget(self, action: #selector(manageProfile), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -136,7 +128,7 @@ class ProfileBannerView: UIView {
     lazy var cardOutlineView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "BEDB39")
+        view.backgroundColor = KWColor.lightG
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -144,7 +136,7 @@ class ProfileBannerView: UIView {
     lazy var menuLabel: UILabel = {
         let label = UILabel()
         label.text = "我的菜單"
-        label.textColor = .black
+        label.applyContent(size: 17, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -152,12 +144,13 @@ class ProfileBannerView: UIView {
     lazy var addPostButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.tintColor = KWColor.darkB
         button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -170,6 +163,7 @@ class ProfileBannerView: UIView {
         setupConstraints()
     }
     
+    // MARK: - UI setting functions
     private func setupViews() {
         self.addSubview(backgroundView)
         backgroundView.addSubview(countDownLabel)
@@ -193,7 +187,7 @@ class ProfileBannerView: UIView {
             backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: RDALabel.bottomAnchor, constant: 12),
+            backgroundView.bottomAnchor.constraint(equalTo: RDALabel.bottomAnchor, constant: 8),
             
             countDownLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             countDownLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
@@ -216,12 +210,12 @@ class ProfileBannerView: UIView {
             BMILabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 100),
 
             RDALabel.leadingAnchor.constraint(equalTo: BMILabel.leadingAnchor),
-            RDALabel.topAnchor.constraint(equalTo: BMILabel.bottomAnchor, constant: 8),
+            RDALabel.topAnchor.constraint(equalTo: BMILabel.bottomAnchor, constant: 4),
             
-            outlineView.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 12),
+            outlineView.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 8),
             outlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             outlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -32),
-            outlineView.heightAnchor.constraint(equalToConstant: 50),
+            outlineView.heightAnchor.constraint(equalToConstant: 45),
             
             titleLabel.leadingAnchor.constraint(equalTo: outlineView.leadingAnchor, constant: 24),
             titleLabel.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
@@ -229,15 +223,16 @@ class ProfileBannerView: UIView {
             manageButton.trailingAnchor.constraint(equalTo: outlineView.trailingAnchor, constant: -24),
             manageButton.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
             
-            dividingLine.topAnchor.constraint(equalTo: outlineView.bottomAnchor, constant: 12),
+            dividingLine.topAnchor.constraint(equalTo: outlineView.bottomAnchor, constant: 10),
             dividingLine.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             dividingLine.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.9),
             dividingLine.heightAnchor.constraint(equalToConstant: 1),
             
-            cardOutlineView.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 12),
+            cardOutlineView.topAnchor.constraint(equalTo: dividingLine.bottomAnchor, constant: 10),
             cardOutlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             cardOutlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -32),
-            cardOutlineView.heightAnchor.constraint(equalToConstant: 50),
+            cardOutlineView.heightAnchor.constraint(equalTo: outlineView.heightAnchor),
+            cardOutlineView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             
             menuLabel.leadingAnchor.constraint(equalTo: cardOutlineView.leadingAnchor, constant: 24),
             menuLabel.centerYAnchor.constraint(equalTo: cardOutlineView.centerYAnchor),

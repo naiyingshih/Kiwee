@@ -86,3 +86,8 @@ class ButtonManager {
     }
     
 }
+
+// MARK: - Alert Manager
+class AlertManager {
+    
+}

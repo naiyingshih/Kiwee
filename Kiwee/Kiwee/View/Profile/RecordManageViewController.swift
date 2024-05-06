@@ -26,20 +26,16 @@ class RecordManageViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var backView: UIView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        backView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        view.backgroundColor = KWColor.darkB
+        backView.backgroundColor = KWColor.background
         backView.layer.cornerRadius = 20
-        datePicker.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
+        datePicker.tintColor = KWColor.darkG
         setupButtons()
         
         fetchUserData()
-        
-        button1.tag = 1
-        button2.tag = 2
-        button3.tag = 3
-        button4.tag = 4
         
         heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -47,31 +43,31 @@ class RecordManageViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
     }
     
+    // MARK: - UI Setting Functions
     func setupButtons() {
-        saveButton.layer.cornerRadius = 10
-        saveButton.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        saveButton.isEnabled = false
-        saveButton.backgroundColor = saveButton.backgroundColor?.withAlphaComponent(0.5)
-//        saveButton.alpha = 0.5
-        cancelButton.tintColor = UIColor.hexStringToUIColor(hex: "004358")
-        cancelButton.layer.cornerRadius = 10
-        cancelButton.layer.borderWidth = 1.5
-        cancelButton.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        
+        saveButton.setTitle("確認變更", for: .normal)
+        saveButton.applyPrimaryStyle(size: 17)
+        ButtonManager.updateButtonEnableStatus(for: saveButton, enabled: false)
+
+        cancelButton.setTitle("取消", for: .normal)
+        cancelButton.applyThirdStyle(size: 17)
+
         configureActivenessButton(button1)
         configureActivenessButton(button2)
         configureActivenessButton(button3)
         configureActivenessButton(button4)
+        button1.tag = 1
+        button2.tag = 2
+        button3.tag = 3
+        button4.tag = 4
     }
     
     func configureActivenessButton(_ sender: UIButton) {
         sender.layer.cornerRadius = 8
-        sender.titleLabel?.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        sender.titleLabel?.textColor = KWColor.darkB
         sender.tintColor = .clear
         sender.layer.borderWidth = 1
-        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-//        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-//        sender.backgroundColor = sender.backgroundColor?.withAlphaComponent(0.1)
+        sender.layer.borderColor = KWColor.darkB.cgColor
     }
     
     func fetchUserData() {
@@ -100,26 +96,21 @@ class RecordManageViewController: UIViewController {
     func setInitialButtonBorder(forActiveness activeness: Int) {
         let buttons: [UIButton] = [button1, button2, button3, button4]
         for button in buttons where button.tag == activeness {
-            button.backgroundColor = UIColor.hexStringToUIColor(hex: "e5e5e5")
-//            button.layer.borderWidth = 2
-//            button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
+            button.backgroundColor = UIColor.hexStringToUIColor(hex: "CCCCCC")
             selectedButton = button
             break
         }
     }
     
+    // MARK: - Actions
     @IBAction func activenessButtonTapped(_ sender: UIButton) {
         let activeness = sender.tag
         updates["activeness"] = activeness
         
         if let previousSelectedButton = selectedButton {
             previousSelectedButton.backgroundColor = .clear
-//            previousSelectedButton.layer.borderWidth = 0
         }
-        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "e5e5e5")
-//        sender.layer.borderWidth = 2
-//        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        
+        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "CCCCCC")
         selectedButton = sender
         checkForChanges()
         print("Activeness set to: \(activeness)")

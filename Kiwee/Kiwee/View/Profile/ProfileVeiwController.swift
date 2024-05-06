@@ -28,6 +28,7 @@ class ProfileVeiwController: UIViewController {
     @IBOutlet weak var bannerView: ProfileBannerView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserData()
@@ -41,7 +42,7 @@ class ProfileVeiwController: UIViewController {
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         flowLayout.minimumInteritemSpacing = margin
         flowLayout.minimumLineSpacing = margin
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: margin, bottom: margin, right: margin)
+        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +50,7 @@ class ProfileVeiwController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Fetch data functions
     func fetchUserData() {
         FirestoreManager.shared.getUserData { [weak self] userData in
             DispatchQueue.main.async {
@@ -68,7 +70,6 @@ class ProfileVeiwController: UIViewController {
 }
 
 // MARK: - collectionDataSource and Delegate
-
  extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
      
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -94,6 +95,7 @@ class ProfileVeiwController: UIViewController {
      
  }
 
+// MARK: - collectionViewDelegate
 extension ProfileVeiwController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -118,7 +120,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
         return context
     }
     
-    func editItem(at index: Int) {
+    private func editItem(at index: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let postVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: PostViewController.self)
@@ -135,7 +137,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
         self.present(postVC, animated: true)
     }
     
-    func deleteItem(at index: Int) {
+    private func deleteItem(at index: Int) {
         let post = posts[index]
         let documentID = post.documenID
         

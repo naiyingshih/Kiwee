@@ -38,6 +38,7 @@ class PostViewController: UIViewController {
         return indicator
     }()
     
+    // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -47,6 +48,7 @@ class PostViewController: UIViewController {
         foodTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
    
+    // MARK: - UI Setting functions
     func setupPostState() {
         switch postState {
         case .editingPost(let initialFoodText, let initialSelectedButtonTag, let initialImage):
@@ -59,7 +61,7 @@ class PostViewController: UIViewController {
             if let image = initialImage {
                 plusImageView.loadImage(image)
             }
-            setInitialButton(forTag: initialSelectedButtonTag ?? "")
+            setInitialTagButton(forTag: initialSelectedButtonTag ?? "")
             plusImageView.isUserInteractionEnabled = false
             postButton.setTitle("確認變更", for: .normal)
         case .newPost:
@@ -72,13 +74,12 @@ class PostViewController: UIViewController {
     }
 
     func setupUI() {
-        postButton.isEnabled = false
-        postButton.layer.cornerRadius = 10
-        postButton.backgroundColor = postButton.backgroundColor?.withAlphaComponent(0.5)
-        configureButtonAppearance(button: breakfastButton)
-        configureButtonAppearance(button: lunchButton)
-        configureButtonAppearance(button: dinnerButton)
-        configureButtonAppearance(button: snackButton)
+        ButtonManager.updateButtonEnableStatus(for: postButton, enabled: false)
+        postButton.applyPrimaryStyle(size: 17)
+        breakfastButton.applyThirdStyle(size: 15)
+        lunchButton.applyThirdStyle(size: 15)
+        dinnerButton.applyThirdStyle(size: 15)
+        snackButton.applyThirdStyle(size: 15)
         
         view.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
@@ -86,28 +87,24 @@ class PostViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: postButton.centerYAnchor)
         ])
     }
-
-    func configureButtonAppearance(button: UIButton) {
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        button.layer.cornerRadius = 10
-    }
     
-    func setInitialButton(forTag tag: String) {
+    func setInitialTagButton(forTag tag: String) {
         let buttons: [UIButton] = [breakfastButton, lunchButton, dinnerButton, snackButton]
         for button in buttons where button.titleLabel?.text == tag {
             if button.titleLabel?.text == tag {
-                button.backgroundColor = UIColor.hexStringToUIColor(hex: "d6d5c6")
+                button.backgroundColor = UIColor.hexStringToUIColor(hex: "CCCCCC")
                 selectedButton = button
             }
         }
     }
     
+    // MARK: - Actions
     @IBAction func tagButtonsSelected(_ sender: UIButton) {
+
         if let previousSelectedButton = selectedButton {
             previousSelectedButton.backgroundColor = .clear
         }
-        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "d6d5c6")
+        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "CCCCCC")
         selectedButton = sender
         self.tagString = sender.titleLabel?.text
         checkForChanges()
@@ -115,8 +112,7 @@ class PostViewController: UIViewController {
     
     @IBAction func postButtonTapped(_ sender: Any) {
         activityIndicator.startAnimating()
-        postButton.isEnabled = false
-        postButton.backgroundColor = postButton.backgroundColor?.withAlphaComponent(0.5)
+        ButtonManager.updateButtonEnableStatus(for: postButton, enabled: false)
         
         switch self.postState {
         case .editingPost:
@@ -222,17 +218,14 @@ extension PostViewController {
         case .editingPost(let initialFoodText, let initialSelectedButtonTag, _):
             let hasFoodTextChanged = foodTextField.text != initialFoodText
             let hasButtonChanged = selectedButton?.titleLabel?.text != initialSelectedButtonTag
-//            let hasButtonChanged = selectedButton?.currentTitle != initialSelectedButtonTag
-            
-            postButton.isEnabled = hasFoodTextChanged || hasButtonChanged
+            ButtonManager.updateButtonEnableStatus(for: postButton, enabled: hasFoodTextChanged || hasButtonChanged)
+
         case .newPost:
-            postButton.isEnabled = isFoodTextFieldNotEmpty && isImageSelected && isButtonSelected
+            ButtonManager.updateButtonEnableStatus(for: postButton, enabled: isFoodTextFieldNotEmpty && isImageSelected && isButtonSelected)
+            
         case .none:
             break
         }
-        
-        let alpha = postButton.isEnabled ? 1.0 : 0.5
-        postButton.backgroundColor = postButton.backgroundColor?.withAlphaComponent(alpha)
     }
     
 }
