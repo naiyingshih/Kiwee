@@ -29,6 +29,7 @@ class AddFoodViewController: UIViewController {
     var recentFoods: [Food] = []
     var selectedDate: Date?
     var foodQuantities: [String: Double] = [:]
+    var isEditingTextField = false
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
@@ -321,23 +322,10 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let resultCell = cell as? ResultCell else { return cell }
+            resultCell.delegate = self
+            
             let foodResult = filteredFoodItems[indexPath.row]
-//            resultCell.updateResult(foodResult)
-            
-//            let identifier = foodResult.generateIdentifier()
-//            let quantity = foodQuantities[identifier] ?? 100
-//            resultCell.updateResult(foodResult, quantity: foodResult.quantity ?? quantity)
-            
-//            resultCell.onQuantityChange = { [weak self, weak resultCell] quantity in
-//                guard let self = self else { return }
-//                var foodItem = self.filteredFoodItems[indexPath.row]
-//                foodItem.quantity = quantity
-//                self.foodQuantities[foodItem.generateIdentifier()] = quantity
-//                // Optionally, update the cell immediately with the new quantity
-//                resultCell?.updateResult(foodItem, quantity: quantity)
-//            }
-            
-            let identifier = foodResult.generateIdentifier() ?? ""
+            let identifier = foodResult.generateIdentifier()
             let quantity = foodQuantities[identifier] ?? (foodResult.quantity ?? 100)
             resultCell.updateResult(foodResult, quantity: quantity)
             
@@ -345,8 +333,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let self = self else { return }
                 var foodItem = self.filteredFoodItems[indexPath.row]
                 foodItem.quantity = quantity
-                self.foodQuantities[foodItem.generateIdentifier() ?? ""] = quantity
-                // Optionally, update the cell immediately with the new quantity
+                self.foodQuantities[foodItem.generateIdentifier()] = quantity
                 resultCell?.updateResult(foodItem, quantity: quantity)
             }
             
@@ -374,6 +361,26 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+}
+
+// MARK: - DeleteButtonDelegate
+
+extension AddFoodViewController: DeleteButtonDelegate {
+    func didStartEditingTextField(in cell: UITableViewCell) {
+        isEditingTextField = true
+        updateDismissButtons()
+    }
+
+    func didEndEditingTextField(in cell: UITableViewCell) {
+        isEditingTextField = false
+        updateDismissButtons()
+    }
+    
+    func updateDismissButtons() {
+        for case let cell as ResultCell in tableView.visibleCells {
+            cell.deleteButton.isEnabled = !isEditingTextField
+        }
+    }
 }
 
 // MARK: - CollectionView

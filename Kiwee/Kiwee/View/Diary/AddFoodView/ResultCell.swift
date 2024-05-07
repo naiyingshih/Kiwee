@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol DeleteButtonDelegate: AnyObject {
+    func didStartEditingTextField(in cell: UITableViewCell)
+    func didEndEditingTextField(in cell: UITableViewCell)
+}
+
 class ResultCell: UITableViewCell {
     
+    weak var delegate: DeleteButtonDelegate?
     var deleteButtonTapped: (() -> Void)?
     var onQuantityChange: ((Double) -> Void)?
-    var foodQuantities: [String: Double] = [:]
     
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var foodImage: UIImageView!
@@ -29,7 +34,8 @@ class ResultCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCardUI()
-        quantityTextField.addTarget(self, action: #selector(quantityChanged), for: .editingDidEnd)
+        quantityTextField.addTarget(self, action: #selector(quantityEndEditing), for: .editingDidEnd)
+        quantityTextField.addTarget(self, action: #selector(quantityStartEditing), for: .editingDidBegin)
     }
     
     func setupCardUI() {
@@ -38,9 +44,14 @@ class ResultCell: UITableViewCell {
         quantityTextField.keyboardType = .decimalPad
     }
 
-    @objc func quantityChanged() {
+    @objc func quantityStartEditing() {
+        delegate?.didStartEditingTextField(in: self)
+    }
+    
+    @objc func quantityEndEditing() {
         if let text = quantityTextField.text, let quantity = Double(text) {
             onQuantityChange?(quantity)
+            delegate?.didEndEditingTextField(in: self)
         }
     }
     
@@ -52,15 +63,7 @@ class ResultCell: UITableViewCell {
         fatLabel.text = "脂肪\n\(result.nutrients.fat)"
         fiberLabel.text = "纖維\n\(result.nutrients.fiber)"
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
-//        quantityTextField.text = "\(result.quantity ?? quantity)"
         quantityTextField.text = "\(quantity)"
-        
-//        if let identifier = result.generateIdentifier(),
-//           let quantity = foodQuantities[identifier] {
-//            quantityTextField.text = "\(quantity)"
-//        } else {
-//            quantityTextField.text = "\(result.quantity ?? 100)"
-//        }
     }
     
     // MARK: - Actions
