@@ -10,6 +10,8 @@ import UIKit
 class ResultCell: UITableViewCell {
     
     var deleteButtonTapped: (() -> Void)?
+    var onQuantityChange: ((Double) -> Void)?
+    var foodQuantities: [String: Double] = [:]
     
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var foodImage: UIImageView!
@@ -27,6 +29,7 @@ class ResultCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCardUI()
+        quantityTextField.addTarget(self, action: #selector(quantityChanged), for: .editingDidEnd)
     }
     
     func setupCardUI() {
@@ -34,8 +37,14 @@ class ResultCell: UITableViewCell {
         deleteButton.tintColor = KWColor.darkG
         quantityTextField.keyboardType = .decimalPad
     }
+
+    @objc func quantityChanged() {
+        if let text = quantityTextField.text, let quantity = Double(text) {
+            onQuantityChange?(quantity)
+        }
+    }
     
-    func updateResult(_ result: Food) {
+    func updateResult(_ result: Food, quantity: Double) {
         nameLabel.text = "\(result.name) (每100g)"
         totalCalorieLabel.text = "熱量\n\(result.totalCalories)"
         carboLabel.text = "碳水\n\(result.nutrients.carbohydrates)"
@@ -43,7 +52,15 @@ class ResultCell: UITableViewCell {
         fatLabel.text = "脂肪\n\(result.nutrients.fat)"
         fiberLabel.text = "纖維\n\(result.nutrients.fiber)"
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
-        quantityTextField.text = "\(result.quantity ?? 100)"
+//        quantityTextField.text = "\(result.quantity ?? quantity)"
+        quantityTextField.text = "\(quantity)"
+        
+//        if let identifier = result.generateIdentifier(),
+//           let quantity = foodQuantities[identifier] {
+//            quantityTextField.text = "\(quantity)"
+//        } else {
+//            quantityTextField.text = "\(result.quantity ?? 100)"
+//        }
     }
     
     // MARK: - Actions

@@ -28,7 +28,7 @@ class AddFoodViewController: UIViewController {
     }
     var recentFoods: [Food] = []
     var selectedDate: Date?
-    var updatedQuantity: Double?
+    var foodQuantities: [String: Double] = [:]
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
@@ -183,41 +183,44 @@ class AddFoodViewController: UIViewController {
     }
     
     @objc func confirmed() {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ResultCell else { return }
-        guard !filteredFoodItems.isEmpty else {
-            print("No food result")
-            return
-        }
-        if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
-            guard let index = self.sectionIndex else { return }
-            var calculatedIntakeDataArray: [Food] = []
-            
-            for filteredFoodItem in filteredFoodItems {
-                let foodInput = Food(documentID: filteredFoodItem.documentID, 
-                                     name: filteredFoodItem.name,
-                                     totalCalories: filteredFoodItem.totalCalories,
-                                     nutrients: filteredFoodItem.nutrients,
-                                     image: filteredFoodItem.image,
-                                     quantity: quantity,
-                                     section: index,
-                                     date: filteredFoodItem.date)
-                if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
-                    calculatedIntakeDataArray.insert(calculatedIntakeData, at: 0)
-                }
+        guard !filteredFoodItems.isEmpty else { return }
+        guard let index = self.sectionIndex else { return }
+        var calculatedIntakeDataArray: [Food] = []
+        
+        for (rowIndex, filteredFoodItem) in filteredFoodItems.enumerated() {
+            let indexPath = IndexPath(row: rowIndex, section: 2)
+            guard let cell = tableView.cellForRow(at: indexPath) as? ResultCell,
+                  let quantityText = cell.quantityTextField.text,
+                  let quantity = Double(quantityText) else {
+                print("Could not find cell or invalid quantity for row \(rowIndex)")
+                continue
             }
-            FirestoreManager.shared.postIntakeData(
-                intakeDataArray: calculatedIntakeDataArray,
-                chosenDate: selectedDate ?? Date()
-            ) { success in
-                    if success {
-                        print("Food intake data posted successfully")
-                        self.navigationController?.popViewController(animated: true)
-                    } else {
-                        print("Failed to post food intake data")
-                    }
-                }
+            
+            let foodInput = Food(documentID: filteredFoodItem.documentID,
+                                 name: filteredFoodItem.name,
+                                 totalCalories: filteredFoodItem.totalCalories,
+                                 nutrients: filteredFoodItem.nutrients,
+                                 image: filteredFoodItem.image,
+                                 quantity: quantity,
+                                 section: index,
+                                 date: filteredFoodItem.date)
+            
+            if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
+                calculatedIntakeDataArray.append(calculatedIntakeData)
+            }
         }
-
+        
+        FirestoreManager.shared.postIntakeData(
+            intakeDataArray: calculatedIntakeDataArray,
+            chosenDate: selectedDate ?? Date()
+        ) { success in
+            if success {
+                print("Food intake data posted successfully")
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                print("Failed to post food intake data")
+            }
+        }
     }
     
     func fetchRecentRecord() {
@@ -319,7 +322,34 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let resultCell = cell as? ResultCell else { return cell }
             let foodResult = filteredFoodItems[indexPath.row]
-            resultCell.updateResult(foodResult)
+//            resultCell.updateResult(foodResult)
+            
+//            let identifier = foodResult.generateIdentifier()
+//            let quantity = foodQuantities[identifier] ?? 100
+//            resultCell.updateResult(foodResult, quantity: foodResult.quantity ?? quantity)
+            
+//            resultCell.onQuantityChange = { [weak self, weak resultCell] quantity in
+//                guard let self = self else { return }
+//                var foodItem = self.filteredFoodItems[indexPath.row]
+//                foodItem.quantity = quantity
+//                self.foodQuantities[foodItem.generateIdentifier()] = quantity
+//                // Optionally, update the cell immediately with the new quantity
+//                resultCell?.updateResult(foodItem, quantity: quantity)
+//            }
+            
+            let identifier = foodResult.generateIdentifier() ?? ""
+            let quantity = foodQuantities[identifier] ?? (foodResult.quantity ?? 100)
+            resultCell.updateResult(foodResult, quantity: quantity)
+            
+            resultCell.onQuantityChange = { [weak self, weak resultCell] quantity in
+                guard let self = self else { return }
+                var foodItem = self.filteredFoodItems[indexPath.row]
+                foodItem.quantity = quantity
+                self.foodQuantities[foodItem.generateIdentifier() ?? ""] = quantity
+                // Optionally, update the cell immediately with the new quantity
+                resultCell?.updateResult(foodItem, quantity: quantity)
+            }
+            
             resultCell.deleteButtonTapped = { [weak self] in
                 self?.filteredFoodItems.remove(at: indexPath.row)
             }
