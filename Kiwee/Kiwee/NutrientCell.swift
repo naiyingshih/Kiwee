@@ -17,7 +17,16 @@ class NutrientCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = UIColor.hexStringToUIColor(hex: "ffd500")
+        setupUI()
+    }
+    
+    func setupUI() {
+        nutrientLabel.applyTitle(size: 17, color: .black)
+        descriptionLabel.applyContent(size: 13, color: .black)
+        contentLabel.applyTitle(size: 14, color: .black)
+        customLabel.applyTitle(size: 14, color: KWColor.darkB)
+        
+        backgroundColor = KWColor.lightY
         layer.cornerRadius = 20
     }
     

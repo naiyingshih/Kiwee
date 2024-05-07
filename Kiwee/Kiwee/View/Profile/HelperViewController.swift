@@ -13,6 +13,11 @@ class HelperViewController: UIViewController {
     @IBOutlet weak var card2View: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var verticleConstraint1: NSLayoutConstraint!
+    @IBOutlet weak var verticleConstraint2: NSLayoutConstraint!
+    @IBOutlet weak var verticleConstraint3: NSLayoutConstraint!
+    @IBOutlet weak var verticleConstraint4: NSLayoutConstraint!
+    
     let weight = UserDefaults.standard.double(forKey: "initial_weight")
     let RDA = UserDefaults.standard.double(forKey: "RDA")
     
@@ -45,6 +50,11 @@ class HelperViewController: UIViewController {
         setupInitialUI()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        adjustConstraintsForDevice()
+    }
+    
     // MARK: - UI Setting Function
     func setupInitialUI() {
         view.backgroundColor = .white
@@ -54,6 +64,30 @@ class HelperViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+    
+    func adjustConstraintsForDevice() {
+        let screenSize = UIScreen.main.bounds.size
+
+        if screenSize.width > 414 {
+            // Adjust constraints for larger screens
+            verticleConstraint1.constant = 40
+            verticleConstraint2.constant = 40
+            verticleConstraint3.constant = 20
+            verticleConstraint4.constant = 70
+        } else if screenSize.height > 736 {
+            // Adjust constraints for medium screens
+            verticleConstraint1.constant = 30
+            verticleConstraint2.constant = 30
+            verticleConstraint3.constant = 10
+            verticleConstraint4.constant = 60
+        } else {
+            // Adjust constraints for smaller screens
+            verticleConstraint1.constant = 10
+            verticleConstraint2.constant = 10
+            verticleConstraint3.constant = 5
+            verticleConstraint4.constant = 10
+        }
     }
     
 }

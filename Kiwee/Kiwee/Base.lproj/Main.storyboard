@@ -955,6 +955,10 @@
                         <outlet property="card1View" destination="5nl-1M-nWZ" id="Mlb-AY-I10"/>
                         <outlet property="card2View" destination="2jf-X3-Vhn" id="CHa-bA-Tmf"/>
                         <outlet property="collectionView" destination="FFS-1K-vH4" id="4xN-dq-0r7"/>
+                        <outlet property="verticleConstraint1" destination="NiJ-7Z-eGX" id="Xw5-rF-7gy"/>
+                        <outlet property="verticleConstraint2" destination="mZc-g0-z6B" id="xKB-UR-YCe"/>
+                        <outlet property="verticleConstraint3" destination="r0Z-hL-14L" id="bd9-Zp-nKF"/>
+                        <outlet property="verticleConstraint4" destination="V8G-3O-66I" id="Q9A-mH-bQU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="25a-k8-qsz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
