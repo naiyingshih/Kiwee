@@ -16,19 +16,10 @@ class SignInView: UIView {
     
     weak var delegate: SignInDelegate?
     
-//    lazy var closeButton: UIButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
-//        button.addTarget(self, action: #selector(closeLogInPage), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-    
     lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.text = "請登入以獲取個人化體驗"
-        title.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        title.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        title.applyContent(size: 20, color: KWColor.darkB)
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
     }()
@@ -43,8 +34,7 @@ class SignInView: UIView {
     lazy var contentLabel: UILabel = {
         let label = UILabel()
         label.text = "在不同裝置隨時隨地記錄飲食"
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.applyContent(size: 15, color: KWColor.darkB)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,15 +46,6 @@ class SignInView: UIView {
         return button
     }()
 
-    @objc func closeLogInPage(sender: UIButton) {
-        self.removeFromSuperview()
-//        activityIndicator?.stopAnimating()
-    }
-    
-    @objc func pressSignInWithAppleButton() {
-        delegate?.didTapSignInWithApple()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupInitialUI()
@@ -75,18 +56,15 @@ class SignInView: UIView {
         setupInitialUI()
     }
     
+    // MARK: - UI Setting Function
     func setupInitialUI() {
         backgroundColor = .white
-//        addSubview(closeButton)
         addSubview(titleLabel)
         addSubview(contentLabel)
         addSubview(divingLine)
         addSubview(loginButton)
         
         NSLayoutConstraint.activate([
-//            closeButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-//            closeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 40),
             titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
@@ -103,5 +81,10 @@ class SignInView: UIView {
             loginButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
             loginButton.heightAnchor.constraint(equalToConstant: 48)
         ])
+    }
+    
+    // MARK: - Action
+    @objc func pressSignInWithAppleButton() {
+        delegate?.didTapSignInWithApple()
     }
 }

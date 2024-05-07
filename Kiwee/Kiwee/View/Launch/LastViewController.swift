@@ -22,38 +22,37 @@ class LastViewController: UIViewController {
     @IBOutlet weak var label2: UILabel!
     @IBOutlet weak var nextButton: UIButton!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialUI()
+        goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
     }
     
+    // MARK: - UI Setting Functions
     func updateNextButtonState(isEnabled: Bool) {
-        nextButton.isEnabled = isEnabled
-        let alpha: CGFloat = isEnabled ? 1.0 : 0.5
-        nextButton.backgroundColor = nextButton.backgroundColor?.withAlphaComponent(alpha)
+        ButtonManager.updateButtonEnableStatus(for: nextButton, enabled: isEnabled)
     }
     
-    func setInitialUI() {
+    private func setInitialUI() {
         achieveStackView.isHidden = true
         
         goalWeightTextField.keyboardType = .decimalPad
-        goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
-        
+        datePicker.tintColor = KWColor.darkG
         setupInitialLabels()
-        cardView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        cardView.backgroundColor = cardView.backgroundColor?.withAlphaComponent(0.2)
-        cardView.layer.cornerRadius = 10
-        
-        nextButton.layer.cornerRadius = 8
+        cardView.applyCardStyle()
+        nextButton.applyPrimaryStyle(size: 18)
         updateNextButtonState(isEnabled: false)
     }
     
-    func setupInitialLabels() {
+    private func setupInitialLabels() {
+        label1.applyContent(size: 16, color: .black)
+        label2.applyContent(size: 16, color: .black)
+        
         let defaults = UserDefaults.standard
         
         let name = defaults.string(forKey: "name")
-
         let height = defaults.double(forKey: "height")
         let initialWeight = defaults.double(forKey: "initial_weight")
         
@@ -81,6 +80,7 @@ class LastViewController: UIViewController {
         datePicker.datePickerMode = .date
     }
     
+    // MARK: - Actions
     @objc func textFieldDidChange() {
         if let textField = goalWeightTextField.text, !textField.isEmpty {
             updateNextButtonState(isEnabled: true)
@@ -116,16 +116,14 @@ class LastViewController: UIViewController {
                 self.transitionToWelcomeView()
             }
             self.postUserInfo()
-//            showSignInView()
         }
     }
     
-    func transitionToWelcomeView() {
+    private func transitionToWelcomeView() {
         let welcomeVC = WelcomeViewController()
         welcomeVC.modalPresentationStyle = .fullScreen
         self.present(welcomeVC, animated: true) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-//                welcomeVC.dismiss(animated: true) {
                     // transition to the initial page of the "Main" storyboard
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     if let initialViewController = storyboard.instantiateInitialViewController() {
@@ -142,6 +140,7 @@ class LastViewController: UIViewController {
         }
     }
     
+    // MARK: - Fetch data functions
     func calculateRDA() -> Double {
         let defaults = UserDefaults.standard
         let userData = UserData(

@@ -12,7 +12,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "BEDB39")
+        view.backgroundColor = KWColor.lightG
         displayLabelWithFadeIn()
         displayRibbons()
     }
