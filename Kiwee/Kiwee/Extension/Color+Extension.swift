@@ -8,6 +8,16 @@
 import UIKit
 import SwiftUI
 
+struct KWColor {
+    static let background = UIColor.hexStringToUIColor(hex: "F8F7F2")
+    static let cardBackground = UIColor.hexStringToUIColor(hex: "F4F4F4")
+    static let darkB = UIColor.hexStringToUIColor(hex: "004358")
+    static let darkG = UIColor.hexStringToUIColor(hex: "1F8A70")
+    static let lightY = UIColor.hexStringToUIColor(hex: "FFD500")
+    static let lightG = UIColor.hexStringToUIColor(hex: "BEDB39")
+    static let lightO = UIColor.hexStringToUIColor(hex: "FB8500")
+}
+
 extension UIColor {
 
     static func hexStringToUIColor(hex: String) -> UIColor {

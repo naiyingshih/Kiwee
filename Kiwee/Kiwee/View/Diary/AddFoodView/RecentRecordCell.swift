@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - TableViewCell
 class RecentRecordCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -15,7 +16,7 @@ class RecentRecordCell: UITableViewCell {
     lazy var defaultLabel: UILabel = {
         let label = UILabel()
         label.text = "還沒有近期紀錄！"
-        label.textColor = .gray
+        label.applyContent(size: 18, color: .gray)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,21 +49,21 @@ class RecentRecordCell: UITableViewCell {
     }
 }
 
+// MARK: - CollectionViewCell
 class RecordCollectionCell: UICollectionViewCell {
     
     lazy var foodImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        imageView.backgroundColor = KWColor.darkB
         imageView.layer.cornerRadius = 8
         return imageView
     }()
     
     lazy var foodLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.applyContent(size: 16, color: KWColor.darkB)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -87,7 +88,7 @@ class RecordCollectionCell: UICollectionViewCell {
             foodImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             foodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             foodImageView.widthAnchor.constraint(equalToConstant: 80),
-            foodImageView.heightAnchor.constraint(equalToConstant: 100),
+            foodImageView.heightAnchor.constraint(equalToConstant: 90),
             
             foodLabel.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 8),
             foodLabel.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor),

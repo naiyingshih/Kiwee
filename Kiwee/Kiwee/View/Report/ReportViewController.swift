@@ -12,10 +12,11 @@ class ReportViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
-        collectionView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        view.backgroundColor = KWColor.background
+        collectionView.backgroundColor = KWColor.background
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SwiftUIHostingCell.self, forCellWithReuseIdentifier: "SwiftUIHostingCell")
@@ -39,6 +40,7 @@ class ReportViewController: UIViewController {
     
 }
 
+// MARK: - UICollectionView
 extension ReportViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

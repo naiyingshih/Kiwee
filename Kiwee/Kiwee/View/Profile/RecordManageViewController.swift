@@ -22,24 +22,52 @@ class RecordManageViewController: UIViewController {
     @IBOutlet weak var button3: UIButton!
     @IBOutlet weak var button4: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var backView: UIView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "紀錄管理"
-        saveButton.isEnabled = false
-        saveButton.alpha = 0.5
-        fetchUserData()
+        view.backgroundColor = KWColor.darkB
+        backView.backgroundColor = KWColor.background
+        backView.layer.cornerRadius = 20
+        datePicker.tintColor = KWColor.darkG
+        setupButtons()
         
-        button1.tag = 1
-        button2.tag = 2
-        button3.tag = 3
-        button4.tag = 4
+        fetchUserData()
         
         heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         datePicker.addTarget(self, action: #selector(datePickerDidChange), for: .valueChanged)
+    }
+    
+    // MARK: - UI Setting Functions
+    func setupButtons() {
+        saveButton.setTitle("確認變更", for: .normal)
+        saveButton.applyPrimaryStyle(size: 17)
+        ButtonManager.updateButtonEnableStatus(for: saveButton, enabled: false)
+
+        cancelButton.setTitle("取消", for: .normal)
+        cancelButton.applyThirdStyle(size: 17)
+
+        configureActivenessButton(button1)
+        configureActivenessButton(button2)
+        configureActivenessButton(button3)
+        configureActivenessButton(button4)
+        button1.tag = 1
+        button2.tag = 2
+        button3.tag = 3
+        button4.tag = 4
+    }
+    
+    func configureActivenessButton(_ sender: UIButton) {
+        sender.layer.cornerRadius = 8
+        sender.titleLabel?.textColor = KWColor.darkB
+        sender.tintColor = .clear
+        sender.layer.borderWidth = 1
+        sender.layer.borderColor = KWColor.darkB.cgColor
     }
     
     func fetchUserData() {
@@ -68,23 +96,21 @@ class RecordManageViewController: UIViewController {
     func setInitialButtonBorder(forActiveness activeness: Int) {
         let buttons: [UIButton] = [button1, button2, button3, button4]
         for button in buttons where button.tag == activeness {
-                button.layer.borderWidth = 2
-                button.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-                selectedButton = button
-                break
+            button.backgroundColor = UIColor.hexStringToUIColor(hex: "CCCCCC")
+            selectedButton = button
+            break
         }
     }
     
+    // MARK: - Actions
     @IBAction func activenessButtonTapped(_ sender: UIButton) {
         let activeness = sender.tag
         updates["activeness"] = activeness
         
         if let previousSelectedButton = selectedButton {
-            previousSelectedButton.layer.borderWidth = 0
+            previousSelectedButton.backgroundColor = .clear
         }
-        sender.layer.borderWidth = 2
-        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        
+        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "CCCCCC")
         selectedButton = sender
         checkForChanges()
         print("Activeness set to: \(activeness)")
@@ -133,6 +159,10 @@ class RecordManageViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 // MARK: - Extension: check status
@@ -164,6 +194,7 @@ extension RecordManageViewController {
         }
         
         saveButton.isEnabled = hasChanged
-        saveButton.alpha = hasChanged ? 1.0 : 0.3
+        let alpha = hasChanged ? 1.0 : 0.3
+        saveButton.backgroundColor = saveButton.backgroundColor?.withAlphaComponent(alpha)
     }
 }

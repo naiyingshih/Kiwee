@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol DeleteButtonDelegate: AnyObject {
+    func didStartEditingTextField(in cell: UITableViewCell)
+    func didEndEditingTextField(in cell: UITableViewCell)
+}
+
 class ResultCell: UITableViewCell {
     
+    weak var delegate: DeleteButtonDelegate?
     var deleteButtonTapped: (() -> Void)?
+    var onQuantityChange: ((Double) -> Void)?
     
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var foodImage: UIImageView!
@@ -23,30 +30,32 @@ class ResultCell: UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
-    
-    @IBAction func deleteResult(_ sender: Any) {
-        deleteButtonTapped?()
-    }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCardUI()
+        quantityTextField.addTarget(self, action: #selector(quantityEndEditing), for: .editingDidEnd)
+        quantityTextField.addTarget(self, action: #selector(quantityStartEditing), for: .editingDidBegin)
     }
     
     func setupCardUI() {
-        cardView.layer.cornerRadius = 10
-        cardView.backgroundColor = UIColor.hexStringToUIColor(hex: "f4f4f4")
-        cardView.layer.shadowColor = UIColor.gray.cgColor
-        cardView.layer.shadowOpacity = 0.5
-        cardView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        cardView.layer.shadowRadius = 3
-        
-        deleteButton.tintColor = UIColor.hexStringToUIColor(hex: "1F8A70")
-        
+        cardView.applyCardStyle()
+        deleteButton.tintColor = KWColor.darkG
         quantityTextField.keyboardType = .decimalPad
     }
+
+    @objc func quantityStartEditing() {
+        delegate?.didStartEditingTextField(in: self)
+    }
     
-    func updateResult(_ result: Food) {
+    @objc func quantityEndEditing() {
+        if let text = quantityTextField.text, let quantity = Double(text) {
+            onQuantityChange?(quantity)
+            delegate?.didEndEditingTextField(in: self)
+        }
+    }
+    
+    func updateResult(_ result: Food, quantity: Double) {
         nameLabel.text = "\(result.name) (每100g)"
         totalCalorieLabel.text = "熱量\n\(result.totalCalories)"
         carboLabel.text = "碳水\n\(result.nutrients.carbohydrates)"
@@ -54,6 +63,12 @@ class ResultCell: UITableViewCell {
         fatLabel.text = "脂肪\n\(result.nutrients.fat)"
         fiberLabel.text = "纖維\n\(result.nutrients.fiber)"
         foodImage.loadImage(result.image, placeHolder: UIImage(named: "Food_Placeholder"))
-        quantityTextField.text = "\(result.quantity ?? 100)"
+        quantityTextField.text = "\(quantity)"
     }
+    
+    // MARK: - Actions
+    @IBAction func deleteResult(_ sender: Any) {
+        deleteButtonTapped?()
+    }
+    
 }

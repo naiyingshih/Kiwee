@@ -24,3 +24,9 @@ struct Nutrient: Codable {
     var fat: Double
     var fiber: Double
 }
+
+extension Food {
+    func generateIdentifier() -> String {
+        return "\(name)-\(totalCalories)-\(nutrients.carbohydrates)-\(nutrients.protein)-\(nutrients.fat)-\(nutrients.fiber)".hashValue.description
+    }
+}

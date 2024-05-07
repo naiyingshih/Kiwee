@@ -28,16 +28,16 @@ class GoalViewController: UIViewController {
     @IBOutlet weak var heightTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialUI()
         setupTextFieldObservers()
     }
     
+    // MARK: - UI Setting Functions
     func updateNextButtonState(isEnabled: Bool) {
-        nextButton.isEnabled = isEnabled
-        let alpha: CGFloat = isEnabled ? 1.0 : 0.5
-        nextButton.backgroundColor = nextButton.backgroundColor?.withAlphaComponent(alpha)
+        ButtonManager.updateButtonEnableStatus(for: nextButton, enabled: isEnabled)
     }
     
     func setInitialUI() {
@@ -47,6 +47,9 @@ class GoalViewController: UIViewController {
         loseWeightButton.tag = 0
         gainWeightButton.tag = 1
         maintainWeightButton.tag = 2
+        loseWeightButton.applySecondaryStyle(size: 17)
+        gainWeightButton.applySecondaryStyle(size: 17)
+        maintainWeightButton.applySecondaryStyle(size: 17)
         
         active1Button.tag = 1
         active2Button.tag = 2
@@ -55,36 +58,25 @@ class GoalViewController: UIViewController {
         
         activenessStackView.isHidden = true
         bodyInfoStackView.isHidden = true
-        nextButton.layer.cornerRadius = 8
         heightTextField.keyboardType = .decimalPad
         weightTextField.keyboardType = .decimalPad
+        nextButton.applyPrimaryStyle(size: 18)
         updateNextButtonState(isEnabled: false)
     }
     
     @IBAction func goalButtonTapped(_ sender: UIButton) {
-        if let previousSelectedButton = selectedGoalButton {
-            previousSelectedButton.layer.borderWidth = 0
+        ButtonManager.setSelectedButtonStatus(currentButton: sender, previousButton: selectedGoalButton) {
+            self.selectedGoalButton = sender
+            self.updateNextButtonState(isEnabled: true)
         }
-        sender.layer.borderWidth = 2
-        sender.layer.cornerRadius = 8
-        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        
-        selectedGoalButton = sender
-        
-        updateNextButtonState(isEnabled: true)
     }
     
     @IBAction func activenessButtonTapped(_ sender: UIButton) {
-        if let previousSelectedButton = selectedActivenessButton {
-            previousSelectedButton.layer.borderWidth = 0
+        
+        ButtonManager.setSelectedButtonStatus(currentButton: sender, previousButton: selectedActivenessButton) {
+            self.selectedActivenessButton = sender
+            self.updateNextButtonState(isEnabled: true)
         }
-        sender.layer.borderWidth = 2
-        sender.layer.cornerRadius = 8
-        sender.layer.borderColor = UIColor.hexStringToUIColor(hex: "004358").cgColor
-        
-        selectedActivenessButton = sender
-        
-        updateNextButtonState(isEnabled: true)
     }
     
     func setupTextFieldObservers() {
@@ -128,7 +120,7 @@ class GoalViewController: UIViewController {
             }
             
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            if let lastVC = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
+            if let lastVC = storyboard.instantiateViewController(withIdentifier: "LastViewController") as? LastViewController {
                 lastVC.modalPresentationStyle = .fullScreen
                 self.present(lastVC, animated: true, completion: nil)
             }

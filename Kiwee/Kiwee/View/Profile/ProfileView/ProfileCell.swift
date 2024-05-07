@@ -21,23 +21,20 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
+        label.applyContent(size: 13, color: KWColor.darkB)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var tagLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .white
+        label.applyContent(size: 15, color: .white)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var tagView: UIView = {
         let view = UIView()
-//        view.alpha = 0.8
         view.layer.cornerRadius = 6
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -54,8 +51,7 @@ class ProfileCell: UICollectionViewCell {
     
     lazy var foodLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hexStringToUIColor(hex: "004358")
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.applyContent(size: 16, color: KWColor.darkB)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,13 +66,10 @@ class ProfileCell: UICollectionViewCell {
         setupView()
     }
     
+    // MARK: - UI setting function
     func setupView() {
-        self.layer.cornerRadius = 10
-//        self.layer.borderWidth = 2
-//        self.layer.borderColor = UIColor.hexStringToUIColor(hex: "1F8A70").cgColor
-        backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = CGSize(width: 2, height: 2)
+        backgroundColor = KWColor.cardBackground
+        applyCardStyle()
         
         addSubview(timeLabel)
         addSubview(tagView)
@@ -121,10 +114,10 @@ class ProfileCell: UICollectionViewCell {
         switch result.tag {
         case "早餐":
             color = .breakfast
-            return UIColor.hexStringToUIColor(hex: "e1b739")
+            return UIColor.hexStringToUIColor(hex: "E1B739")
         case "午餐":
             color = .lunch
-            return UIColor.hexStringToUIColor(hex: "e08161")
+            return UIColor.hexStringToUIColor(hex: "E08161")
         case "晚餐":
             color = .dinner
             return UIColor.hexStringToUIColor(hex: "657760")

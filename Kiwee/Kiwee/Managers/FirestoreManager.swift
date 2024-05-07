@@ -29,6 +29,7 @@ class FirestoreManager {
 }
 
 // MARK: - User data
+
 extension FirestoreManager {
     
     func postUserData(input: UserData, completion: @escaping (Bool) -> Void) {
@@ -46,14 +47,44 @@ extension FirestoreManager {
             "date": FieldValue.serverTimestamp()
         ]
         
-        database.collection("users").addDocument(data: userDictionary) { error in
-            if let error = error {
-                print("Error adding intake data: \(error.localizedDescription)")
-                completion(false)
-            } else {
-                completion(true)
+        database.collection("users")
+            .whereField("id", isEqualTo: input.id)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error.localizedDescription)")
+                    completion(false)
+                } else if let querySnapshot = querySnapshot, querySnapshot.documents.isEmpty {
+                    self.database.collection("users").addDocument(data: userDictionary) { error in
+                        if let error = error {
+                            print("Error adding user data: \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            print("User data added successfully")
+                            completion(true)
+                        }
+                    }
+                } else {
+                    if let document = querySnapshot?.documents.first {
+                        document.reference.updateData(userDictionary) { error in
+                            if let error = error {
+                                print("Error updating user data: \(error.localizedDescription)")
+                                completion(false)
+                            } else {
+                                print("User data updated successfully")
+                                completion(true)
+                            }
+                        }
+                    }
+                }
             }
-        }
+//        database.collection("users").addDocument(data: userDictionary) { error in
+//            if let error = error {
+//                print("Error adding intake data: \(error.localizedDescription)")
+//                completion(false)
+//            } else {
+//                completion(true)
+//            }
+//        }
     }
     
     func updatePartialUserData(updates: [String: Any], completion: @escaping (Bool) -> Void) {
@@ -123,6 +154,28 @@ extension FirestoreManager {
                 }
             }
     }
+    
+    func updateAccountStatus() {
+        guard let currentUserUID = userID else { return }
+        
+        database.collection("users").whereField("id", isEqualTo: currentUserUID).getDocuments { querySnapshot, error in
+            if let error = error {
+                print("Error finding user document: \(error.localizedDescription)")
+            } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
+                let document = querySnapshot.documents.first
+                document?.reference.updateData(["status": "delete"]) { error in
+                    if let error = error {
+                        print("Error updating document: \(error.localizedDescription)")
+                    } else {
+                        print("Account status updated successfully")
+                    }
+                }
+            } else {
+                print("No document found for user ID: \(currentUserUID)")
+            }
+        }
+    }
+    
 }
 
 // MARK: - Food and Water

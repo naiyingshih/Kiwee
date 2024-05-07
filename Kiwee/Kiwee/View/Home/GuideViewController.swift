@@ -37,7 +37,6 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
-//        scrollView.isScrollEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -99,13 +98,15 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        view.backgroundColor = KWColor.darkB
         setupUI()
         addPageView()
     }
     
+    // MARK: - UI setting functions
     func setupUI() {
         view.addSubview(scrollView)
         scrollView.delegate = self
@@ -129,36 +130,21 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
             stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             
-            controlStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             controlStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 36),
             controlStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -36),
-            controlStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12),
+            controlStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
             
             circleButton.widthAnchor.constraint(equalToConstant: 40),
             circleButton.heightAnchor.constraint(equalToConstant: 40),
             
-            pillButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pillButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 36),
             pillButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -36),
-            pillButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+            pillButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             pillButton.heightAnchor.constraint(equalToConstant: 36)
         ])
-
-    }
-    
-    @objc func buttonPressed() {
-        if currentIndex < pageViews.count - 1 {
-            currentIndex += 1
-            scrollView.setContentOffset(pageViews[currentIndex].frame.origin, animated: true)
-            
-        } else if currentIndex == pageViews.count - 1 {
-            startbuttonTapped?()
-        }
-        pageControl.currentPage = currentIndex
     }
     
     func addPageView() {
-        
         for image in tutorialImages {
             
             let pageView = UIView()
@@ -172,11 +158,13 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
             
             pageView.addSubview(imageView)
             imageView.translatesAutoresizingMaskIntoConstraints = false
+            let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: pageView.bottomAnchor, constant: -50)
+            bottomConstraint.priority = UILayoutPriority(999)
             NSLayoutConstraint.activate([
                 imageView.topAnchor.constraint(equalTo: pageView.topAnchor, constant: 8),
                 imageView.leadingAnchor.constraint(equalTo: pageView.leadingAnchor, constant: 8),
                 imageView.trailingAnchor.constraint(equalTo: pageView.trailingAnchor, constant: -8),
-                imageView.bottomAnchor.constraint(equalTo: pageView.bottomAnchor, constant: -50)
+                bottomConstraint
             ])
             
             stackView.addArrangedSubview(pageView)
@@ -190,6 +178,19 @@ class GuideViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    // MARK: - Actions
+    @objc func buttonPressed() {
+        if currentIndex < pageViews.count - 1 {
+            currentIndex += 1
+            scrollView.setContentOffset(pageViews[currentIndex].frame.origin, animated: true)
+            
+        } else if currentIndex == pageViews.count - 1 {
+            startbuttonTapped?()
+        }
+        pageControl.currentPage = currentIndex
+    }
+    
+    // MARK: - ScrollViewDelegate
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let currentPage = Int(scrollView.contentOffset.x / pageWidth)

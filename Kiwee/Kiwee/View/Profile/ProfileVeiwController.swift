@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileVeiwController: UIViewController {
     
+    var viewModel = SignInWithAppleViewModel()
+    
     var userData: UserData? {
         didSet {
             if let userData = userData {
@@ -26,6 +28,7 @@ class ProfileVeiwController: UIViewController {
     @IBOutlet weak var bannerView: ProfileBannerView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserData()
@@ -39,7 +42,7 @@ class ProfileVeiwController: UIViewController {
         guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         flowLayout.minimumInteritemSpacing = margin
         flowLayout.minimumLineSpacing = margin
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: margin, bottom: margin, right: margin)
+        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,11 +50,13 @@ class ProfileVeiwController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Fetch data functions
     func fetchUserData() {
         FirestoreManager.shared.getUserData { [weak self] userData in
             DispatchQueue.main.async {
                 self?.userData = userData
             }
+            UserDefaults.standard.set(userData.updatedWeight, forKey: "initial_weight")
         }
     }
     
@@ -66,7 +71,6 @@ class ProfileVeiwController: UIViewController {
 }
 
 // MARK: - collectionDataSource and Delegate
-
  extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
      
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,6 +96,7 @@ class ProfileVeiwController: UIViewController {
      
  }
 
+// MARK: - collectionViewDelegate
 extension ProfileVeiwController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -116,7 +121,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
         return context
     }
     
-    func editItem(at index: Int) {
+    private func editItem(at index: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let postVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: PostViewController.self)
@@ -133,7 +138,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
         self.present(postVC, animated: true)
     }
     
-    func deleteItem(at index: Int) {
+    private func deleteItem(at index: Int) {
         let post = posts[index]
         let documentID = post.documenID
         
@@ -154,7 +159,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
 // MARK: - ProfileBanneViewDelegate
 
 extension ProfileVeiwController: ProfileBanneViewDelegate {
-    
+        
     func presentManageVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let manageVC = storyboard.instantiateViewController(
@@ -175,4 +180,67 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         self.present(postVC, animated: true)
     }
     
+    func presentHelpPage() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let helperVC = storyboard.instantiateViewController(withIdentifier: "HelperViewController") as? HelperViewController {
+            helperVC.modalPresentationStyle = .popover
+            self.present(helperVC, animated: true)
+            print("present help page")
+        }
+    }
+    
+    func logoutAccount() {
+        backtoSigninPage(notificationName: .logoutSuccess)
+        viewModel.signOut()
+    }
+    
+    func removeAccount() {
+        let alertController = UIAlertController(title: "確定要刪除帳戶嗎？", message: "刪除帳戶後，您所有的紀錄將會刪除且無法復原！\n若想暫停使用，可以先選擇登出！", preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "確定刪除", style: .destructive) { [weak self] _ in
+            self?.deleteAccount()
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    private func deleteAccount() {
+        Task {
+            if await viewModel.deleteAccount() == true {
+                print("Account deleted successfully")
+                // Move back to the Signin page and post notification only after successful deletion
+                DispatchQueue.main.async {
+                    self.backtoSigninPage(notificationName: .accountDeletionSuccess)
+                }
+                FirestoreManager.shared.updateAccountStatus()
+                UserDefaults.standard.set(false, forKey: "hasLaunchedBefore")
+            } else {
+                print("Failed to delete account")
+            }
+        }
+    }
+    
+    private func backtoSigninPage(notificationName: Notification.Name) {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        if let signinVC = storyboard.instantiateViewController(withIdentifier: "SigninViewController") as? SigninViewController {
+            signinVC.modalPresentationStyle = .fullScreen
+            self.present(signinVC, animated: false) {
+                NotificationCenter.default.post(name: notificationName, object: nil)
+            }
+        }
+    }
+    
+}
+
+// MARK: - Notification
+
+extension Notification.Name {
+    static let logoutSuccess = Notification.Name("logoutSuccess")
+    static let accountDeletionSuccess = Notification.Name("accountDeletionSuccess")
 }

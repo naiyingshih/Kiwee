@@ -8,11 +8,10 @@
 import UIKit
 
 // MARK: - RDA Calculation
-
 class BMRUtility {
     
     static func calculateBMR(with userData: UserData) -> Double {
-        let weight = userData.initialWeight
+        let weight = userData.updatedWeight ?? userData.initialWeight
         let height = userData.height
         let age = userData.age
         let gender = userData.gender
@@ -62,5 +61,33 @@ class BMRUtility {
             return BMR
         }
     }
+    
+}
+
+// MARK: - Button Status
+class ButtonManager {
+    
+    static func updateButtonEnableStatus(for button: UIButton, enabled: Bool) {
+        button.isEnabled = enabled
+        button.backgroundColor = enabled ? button.backgroundColor?.withAlphaComponent(1.0) : button.backgroundColor?.withAlphaComponent(0.5)
+    }
+    
+    static func setSelectedButtonStatus(currentButton: UIButton, previousButton: UIButton?, additionalUIUpdates: (() -> Void)?) {
+        
+        if let previousSelectedButton = previousButton {
+            previousSelectedButton.layer.borderWidth = 0
+        }
+        
+        currentButton.layer.borderWidth = 1.5
+        currentButton.layer.cornerRadius = 10
+        currentButton.layer.borderColor = KWColor.darkB.cgColor
+        
+        additionalUIUpdates?()
+    }
+    
+}
+
+// MARK: - Alert Manager
+class AlertManager {
     
 }

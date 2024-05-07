@@ -20,17 +20,25 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var wateringImageView: UIImageView!
     @IBOutlet weak var plantButton: UIButton!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         if isFirstTimeOpeningApp() {
             setupGuideTour()
         }
-//        setupBackground()
-        scrollView.layer.cornerRadius = 10
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
         checkDataForToday()
+        setupBackgroundUI()
+        setupPlantImageView()
+    }
+    
+    // MARK: - UI setting functions
+    private func setupBackgroundUI() {
+        view.backgroundColor = KWColor.background
+        scrollView.layer.cornerRadius = 10
         updateButtonAppearance()
-        plantButton.layer.cornerRadius = 10
+    }
+    
+    private func setupPlantImageView() {
         plantImageView = UIImageView()
         if let plantImageView = plantImageView {
             scrollView.addSubview(plantImageView)
@@ -49,19 +57,39 @@ class HomeViewController: UIViewController {
         }
     }
     
-//    func setupBackground() {
-//        let backgroundView = UIImageView()
-//        backgroundView.image = UIImage(named: "Background")
-//        view.addSubview(backgroundView)
-//        view.sendSubviewToBack(backgroundView)
-//        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-//            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
-//    }
+    private func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat) {
+        let imagePosition = CGPoint(x: xPosition, y: yPosition)
+        let imageSize = CGSize(width: 50, height: 50)
+        
+        // Create a new UIImageView for each plant image
+        let newPlantImageView = UIImageView(frame: CGRect(origin: imagePosition, size: imageSize))
+        newPlantImageView.image = UIImage(named: imageName)
+        newPlantImageView.alpha = 0
+        scrollView.addSubview(newPlantImageView)
+        
+        // Add pan gesture recognizer to the newPlantImageView
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        newPlantImageView.isUserInteractionEnabled = true
+        newPlantImageView.addGestureRecognizer(panGesture)
+        
+        plantImageViews[addTime] = newPlantImageView
+        
+        // Animate with spring damping for a bounce effect
+        newPlantImageView.transform = CGAffineTransform(translationX: 0, y: -20)
+        UIView.animate(
+            withDuration: 2.0,
+            delay: 0,
+            usingSpringWithDamping: 0.2,
+            initialSpringVelocity: 0,
+            options: [],
+            animations: {
+                newPlantImageView.alpha = 1.0
+                newPlantImageView.transform = CGAffineTransform.identity // Return to original position
+            },
+            completion: nil)
+    }
+    
+    // MARK: - Actions
     
     @IBAction func plantButtonTapped (_ sender: UIButton) {
         updateButtonStatus(enabled: false)
@@ -97,38 +125,6 @@ class HomeViewController: UIViewController {
         
     }
     
-    func updateUIForSelectedPlant(imageName: String, addTime: Int, xPosition: CGFloat, yPosition: CGFloat) {
-        let imagePosition = CGPoint(x: xPosition, y: yPosition)
-        let imageSize = CGSize(width: 50, height: 50)
-        
-        // Create a new UIImageView for each plant image
-        let newPlantImageView = UIImageView(frame: CGRect(origin: imagePosition, size: imageSize))
-        newPlantImageView.image = UIImage(named: imageName)
-        newPlantImageView.alpha = 0
-        scrollView.addSubview(newPlantImageView)
-        
-        // Add pan gesture recognizer to the newPlantImageView
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-        newPlantImageView.isUserInteractionEnabled = true
-        newPlantImageView.addGestureRecognizer(panGesture)
-        
-        plantImageViews[addTime] = newPlantImageView
-        
-        // Animate with spring damping for a bounce effect
-        newPlantImageView.transform = CGAffineTransform(translationX: 0, y: -20)
-        UIView.animate(
-            withDuration: 2.0,
-            delay: 0,
-            usingSpringWithDamping: 0.2,
-            initialSpringVelocity: 0,
-            options: [],
-            animations: {
-                newPlantImageView.alpha = 1.0
-                newPlantImageView.transform = CGAffineTransform.identity // Return to original position
-            },
-            completion: nil)
-    }
-    
     @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.view)
         guard let gestureView = gesture.view else { return }
@@ -146,74 +142,6 @@ class HomeViewController: UIViewController {
             StorageManager.shared.updatePlantImagePosition(addTime: Int32(addTime), xPosition: xPosition, yPosition: yPosition)
         default:
             break
-        }
-    }
-    
-}
-
-// MARK: - Handle button status
-
-extension HomeViewController {
-    
-    func checkDataForToday() {
-        FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
-            if !foods.isEmpty {
-                self?.updateButtonStatus(enabled: true)
-            } else {
-                self?.updateButtonStatus(enabled: false)
-            }
-            
-            if water != 0 {
-                self?.updateImageStatus(enabled: true)
-            } else {
-                self?.updateImageStatus(enabled: false)
-            }
-        }
-    }
-    
-    func updateButtonAppearance() {
-        plantButton.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        let calendar = Calendar.current
-        let defaults = UserDefaults.standard
-        
-        if let lastTappedDate = defaults.object(forKey: "lastTappedDate") as? Date, calendar.isDateInToday(lastTappedDate) {
-            plantButton.setTitle("今日已種菜", for: .normal)
-            plantButton.setTitleColor(.white, for: .normal)
-            updateButtonStatus(enabled: false)
-        } else {
-            // It's a different day or the button hasn't been tapped before, enable the button and set to default title
-            plantButton.setTitle("開始種菜", for: .normal)
-            plantButton.setTitleColor(.white, for: .normal)
-            updateButtonStatus(enabled: true)
-        }
-    }
-    
-    func canButtonBeTapped() -> Bool {
-        if let lastTappedDate = UserDefaults.standard.object(forKey: "lastTappedDate") as? Date {
-            let calendar = Calendar.current
-            if calendar.isDateInToday(lastTappedDate) {
-                // It's the same day, button should not be enabled
-                return false
-            }
-        }
-        // Either the button hasn't been tapped before, or it was tapped on a different day
-        return true
-    }
-    
-    func updateButtonStatus(enabled: Bool) {
-        let canTap = canButtonBeTapped()
-        plantButton.isEnabled = enabled && canTap
-        plantButton.backgroundColor = (enabled && canTap) ? plantButton.backgroundColor?.withAlphaComponent(1.0) : plantButton.backgroundColor?.withAlphaComponent(0.5)
-    }
-    
-    func updateImageStatus(enabled: Bool) {
-        wateringImageView.isUserInteractionEnabled = enabled
-        wateringImageView.alpha = enabled ? 1.0 : 0.7
-        if enabled {
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(wateringImageTapped(_:)))
-            wateringImageView.addGestureRecognizer(tapGesture)
-        } else {
-            wateringImageView.gestureRecognizers?.forEach(wateringImageView.removeGestureRecognizer)
         }
     }
     
@@ -245,21 +173,86 @@ extension HomeViewController {
     
 }
 
+// MARK: - Handle button status functions
+
+extension HomeViewController {
+    
+    private func checkDataForToday() {
+        FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
+            if !foods.isEmpty {
+                self?.updateButtonStatus(enabled: true)
+            } else {
+                self?.updateButtonStatus(enabled: false)
+            }
+            
+            if water != 0 {
+                self?.updateImageStatus(enabled: true)
+            } else {
+                self?.updateImageStatus(enabled: false)
+            }
+        }
+    }
+    
+    private func updateButtonAppearance() {
+        let calendar = Calendar.current
+        let defaults = UserDefaults.standard
+        
+        if let lastTappedDate = defaults.object(forKey: "lastTappedDate") as? Date, calendar.isDateInToday(lastTappedDate) {
+            plantButton.setTitle("今日已種菜", for: .normal)
+            plantButton.applyPrimaryStyle(size: 17)
+            updateButtonStatus(enabled: false)
+        } else {
+            // It's a different day or the button hasn't been tapped before, enable the button and set to default title
+            plantButton.setTitle("開始種菜", for: .normal)
+            plantButton.applyPrimaryStyle(size: 17)
+            updateButtonStatus(enabled: true)
+        }
+    }
+    
+    private func canButtonBeTapped() -> Bool {
+        if let lastTappedDate = UserDefaults.standard.object(forKey: "lastTappedDate") as? Date {
+            let calendar = Calendar.current
+            if calendar.isDateInToday(lastTappedDate) {
+                // It's the same day, button should not be enabled
+                return false
+            }
+        }
+        // Either the button hasn't been tapped before, or it was tapped on a different day
+        return true
+    }
+    
+    private func updateButtonStatus(enabled: Bool) {
+        let canTap = canButtonBeTapped()
+        ButtonManager.updateButtonEnableStatus(for: plantButton, enabled: enabled && canTap)
+    }
+    
+    private func updateImageStatus(enabled: Bool) {
+        wateringImageView.isUserInteractionEnabled = enabled
+        wateringImageView.alpha = enabled ? 1.0 : 0.3
+        if enabled {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(wateringImageTapped(_:)))
+            wateringImageView.addGestureRecognizer(tapGesture)
+        } else {
+            wateringImageView.gestureRecognizers?.forEach(wateringImageView.removeGestureRecognizer)
+        }
+    }
+    
+}
+
 // MARK: - Pages for guide
 
 extension HomeViewController {
         
-    func isFirstTimeOpeningApp() -> Bool {
+    private func isFirstTimeOpeningApp() -> Bool {
         let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
         if hasLaunchedBefore {
             return false
         } else {
-            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
             return true
         }
     }
     
-    func setupGuideTour() {
+    private func setupGuideTour() {
         let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 10
@@ -283,6 +276,7 @@ extension HomeViewController {
         
         guideVC.startbuttonTapped = {
             containerView.removeFromSuperview()
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
         }
     }
     

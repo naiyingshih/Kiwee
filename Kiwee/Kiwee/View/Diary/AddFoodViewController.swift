@@ -28,22 +28,23 @@ class AddFoodViewController: UIViewController {
     }
     var recentFoods: [Food] = []
     var selectedDate: Date?
-    var updatedQuantity: Double?
+    var foodQuantities: [String: Double] = [:]
+    var isEditingTextField = false
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var imageRecognizeButton: UIButton!
     @IBOutlet weak var searchFoodButton: UIButton!
     @IBOutlet weak var manualButton: UIButton!
-    
     @IBOutlet weak var underlineView: UIView!
+    
     private var indicatorView = UIView()
     var indicatorCenterXConstraint: NSLayoutConstraint?
     var indicatorWidthConstraint: NSLayoutConstraint?
     
     lazy var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        view.backgroundColor = KWColor.background
         view.addTopBorder(color: .lightGray, width: 0.5)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -52,23 +53,19 @@ class AddFoodViewController: UIViewController {
     lazy var confirmButton: UIButton = {
         let button = UIButton()
         button.setTitle("確認加入", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        button.layer.cornerRadius = 10
+        button.applyPrimaryStyle(size: 17)
         button.addTarget(self, action: #selector(confirmed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBottomBlock()
         setupInitialUI()
         setupNavigationItemUI()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        setupTableView()
         fetchRecentRecord()
     }
     
@@ -82,9 +79,11 @@ class AddFoodViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - UI Setting Functions
     func setupInitialUI() {
+        view.backgroundColor = KWColor.darkB
         view.addSubview(indicatorView)
-        indicatorView.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        indicatorView.backgroundColor = KWColor.lightY
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         indicatorWidthConstraint = indicatorView.widthAnchor.constraint(equalTo: imageRecognizeButton.widthAnchor)
         indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: imageRecognizeButton.centerXAnchor)
@@ -95,8 +94,7 @@ class AddFoodViewController: UIViewController {
             indicatorView.heightAnchor.constraint(equalToConstant: 2.5)
         ])
 
-        buttonStackView.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        buttonStackView.backgroundColor = KWColor.darkB
         imageRecognizeButton.tintColor = .white
         searchFoodButton.tintColor = .lightGray
         manualButton.tintColor = .lightGray
@@ -106,8 +104,15 @@ class AddFoodViewController: UIViewController {
     
     func setupNavigationItemUI() {
         let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(navigateBack))
-        barButtonItem.tintColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        barButtonItem.tintColor = KWColor.lightY
         navigationItem.leftBarButtonItem = barButtonItem
+    }
+    
+    func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(AddFoodMethodCell.self, forCellReuseIdentifier: "AddFoodMethodCell")
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 120, right: 0)
     }
     
     func setupBottomBlock() {
@@ -118,9 +123,9 @@ class AddFoodViewController: UIViewController {
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 120),
+            bottomView.heightAnchor.constraint(equalToConstant: 100),
             
-            confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor, constant: -8),
+            confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
             confirmButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 24),
             confirmButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -24),
             confirmButton.heightAnchor.constraint(equalToConstant: 48)
@@ -179,41 +184,44 @@ class AddFoodViewController: UIViewController {
     }
     
     @objc func confirmed() {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ResultCell else { return }
-        guard !filteredFoodItems.isEmpty else {
-            print("No food result")
-            return
-        }
-        if let quantityText = cell.quantityTextField.text, let quantity = Double(quantityText) {
-            guard let index = self.sectionIndex else { return }
-            var calculatedIntakeDataArray: [Food] = []
-            
-            for filteredFoodItem in filteredFoodItems {
-                let foodInput = Food(documentID: filteredFoodItem.documentID, 
-                                     name: filteredFoodItem.name,
-                                     totalCalories: filteredFoodItem.totalCalories,
-                                     nutrients: filteredFoodItem.nutrients,
-                                     image: filteredFoodItem.image,
-                                     quantity: quantity,
-                                     section: index,
-                                     date: filteredFoodItem.date)
-                if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
-                    calculatedIntakeDataArray.append(calculatedIntakeData)
-                }
+        guard !filteredFoodItems.isEmpty else { return }
+        guard let index = self.sectionIndex else { return }
+        var calculatedIntakeDataArray: [Food] = []
+        
+        for (rowIndex, filteredFoodItem) in filteredFoodItems.enumerated() {
+            let indexPath = IndexPath(row: rowIndex, section: 2)
+            guard let cell = tableView.cellForRow(at: indexPath) as? ResultCell,
+                  let quantityText = cell.quantityTextField.text,
+                  let quantity = Double(quantityText) else {
+                print("Could not find cell or invalid quantity for row \(rowIndex)")
+                continue
             }
-            FirestoreManager.shared.postIntakeData(
-                intakeDataArray: calculatedIntakeDataArray,
-                chosenDate: selectedDate ?? Date()
-            ) { success in
-                    if success {
-                        print("Food intake data posted successfully")
-                        self.navigationController?.popViewController(animated: true)
-                    } else {
-                        print("Failed to post food intake data")
-                    }
-                }
+            
+            let foodInput = Food(documentID: filteredFoodItem.documentID,
+                                 name: filteredFoodItem.name,
+                                 totalCalories: filteredFoodItem.totalCalories,
+                                 nutrients: filteredFoodItem.nutrients,
+                                 image: filteredFoodItem.image,
+                                 quantity: quantity,
+                                 section: index,
+                                 date: filteredFoodItem.date)
+            
+            if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
+                calculatedIntakeDataArray.append(calculatedIntakeData)
+            }
         }
-
+        
+        FirestoreManager.shared.postIntakeData(
+            intakeDataArray: calculatedIntakeDataArray,
+            chosenDate: selectedDate ?? Date()
+        ) { success in
+            if success {
+                print("Food intake data posted successfully")
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                print("Failed to post food intake data")
+            }
+        }
     }
     
     func fetchRecentRecord() {
@@ -314,8 +322,21 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let resultCell = cell as? ResultCell else { return cell }
+            resultCell.delegate = self
+            
             let foodResult = filteredFoodItems[indexPath.row]
-            resultCell.updateResult(foodResult)
+            let identifier = foodResult.generateIdentifier()
+            let quantity = foodQuantities[identifier] ?? (foodResult.quantity ?? 100)
+            resultCell.updateResult(foodResult, quantity: quantity)
+            
+            resultCell.onQuantityChange = { [weak self, weak resultCell] quantity in
+                guard let self = self else { return }
+                var foodItem = self.filteredFoodItems[indexPath.row]
+                foodItem.quantity = quantity
+                self.foodQuantities[foodItem.generateIdentifier()] = quantity
+                resultCell?.updateResult(foodItem, quantity: quantity)
+            }
+            
             resultCell.deleteButtonTapped = { [weak self] in
                 self?.filteredFoodItems.remove(at: indexPath.row)
             }
@@ -340,6 +361,26 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+}
+
+// MARK: - DeleteButtonDelegate
+
+extension AddFoodViewController: DeleteButtonDelegate {
+    func didStartEditingTextField(in cell: UITableViewCell) {
+        isEditingTextField = true
+        updateDismissButtons()
+    }
+
+    func didEndEditingTextField(in cell: UITableViewCell) {
+        isEditingTextField = false
+        updateDismissButtons()
+    }
+    
+    func updateDismissButtons() {
+        for case let cell as ResultCell in tableView.visibleCells {
+            cell.deleteButton.isEnabled = !isEditingTextField
+        }
+    }
 }
 
 // MARK: - CollectionView
@@ -367,7 +408,7 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recentFood = recentFoods[indexPath.row]
-        filteredFoodItems.append(recentFood)
+        filteredFoodItems.insert(recentFood, at: 0)
     }
 }
     
@@ -376,6 +417,10 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
     
     func cameraButtonDidTapped() {
+        showImagePickerAlert()
+    }
+    
+    func showImagePickerAlert() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         // Check if the device has a camera
@@ -398,11 +443,14 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     }
     
     func searchBarDidChange(text: String) {
-        guard !text.isEmpty else { return }
         loadFood()
         let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
-        for filterFood in filterFoods {
-            filteredFoodItems.append(filterFood)
+        if filterFoods.isEmpty {
+            showNoResultsAlert()
+        } else {
+            for filterFood in filterFoods {
+                filteredFoodItems.insert(filterFood, at: 0)
+            }
         }
     }
     
@@ -416,10 +464,16 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         }
     }
     
+    private func showNoResultsAlert() {
+        let alert = UIAlertController(title: "查無相關結果！", message: "很抱歉，請重新搜尋或嘗試其他方法", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "確認", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func textFieldConfirmed(foodResults: [Food]?) {
         guard let foodResults = foodResults else { return }
         for foodResult in foodResults {
-            filteredFoodItems.append(foodResult)
+            filteredFoodItems.insert(foodResult, at: 0)
         }
     }
     
@@ -463,6 +517,14 @@ extension AddFoodViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension AddFoodViewController: FoodDataDelegate {
     
+    func didTappedRetake(_ controller: CameraViewController) {
+        controller.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                self.showImagePickerAlert()
+            }
+        }
+    }
+
     func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String) {
         let identifiedFood = Food(
             documentID: "",
@@ -474,7 +536,6 @@ extension AddFoodViewController: FoodDataDelegate {
             section: nil, 
             date: nil
         )
-        filteredFoodItems.append(identifiedFood)
+        filteredFoodItems.insert(identifiedFood, at: 0)
     }
-    
 }

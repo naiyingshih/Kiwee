@@ -11,12 +11,12 @@ class WaterViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        self.backgroundColor = KWColor.background
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        self.backgroundColor = KWColor.background
     }
     
     func waterSectionConfigure(count: Int) {
@@ -27,18 +27,12 @@ class WaterViewCell: UITableViewCell {
             }
         }
         
-//        for index in 0..<count {
-//            let imageView = UIImageView(frame: CGRect(x: 24 + index * 40, y: 15, width: 50, height: 50))
-//            imageView.image = UIImage(named: "Glass")
-//            contentView.addSubview(imageView)
-//        }
-        
         let imageWidth: CGFloat = 50
         let imageHeight: CGFloat = 50
         let startX: CGFloat = 24
         let startY: CGFloat = 15
         let spaceBetweenImages: CGFloat = 40
-        let spaceBetweenRows: CGFloat = 10 // Adjust the space between rows as needed
+        let spaceBetweenRows: CGFloat = 10
         
         for index in 0..<count {
             let row = index / 8 // Calculate current row based on index

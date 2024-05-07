@@ -64,5 +64,503 @@
             "fiber": 0.0
         },
         "image": "https://cdn-icons-png.flaticon.com/128/837/837560.png"
+    },
+    {
+        "name": "薯條",
+        "totalCalories": 274.0,
+        "nutrients": {
+            "protein": 3.5,
+            "fat": 14.1,
+            "carbohydrates": 35.7,
+            "fiber": 3.3
+        },
+        "image": "https://cdn-icons-png.flaticon.com/128/1784/1784133.png"
+    },
+    {
+        "name": "牛肉",
+        "totalCalories": 288.0,
+        "nutrients": {
+            "protein": 26.3,
+            "fat": 19.5,
+            "carbohydrates": 0.0,
+            "fiber": 0.0
+        },
+        "image": "https://cdn-icons-png.flaticon.com/128/5371/5371117.png"
+    },
+    {
+        "name": "豬肉",
+        "totalCalories": 242.0,
+        "nutrients": {
+            "protein": 27.3,
+            "fat": 13.9,
+            "carbohydrates": 0.0,
+            "fiber": 0.0
+        },
+        "image": "https://cdn-icons-png.flaticon.com/128/4062/4062551.png"
+    },
+    {
+        "name": "雞肉",
+        "totalCalories": 110.0,
+        "nutrients": {
+            "protein": 23.1,
+            "fat": 1.2,
+            "carbohydrates": 0.0,
+            "fiber": 0.0
+        },
+        "image": "https://cdn-icons-png.flaticon.com/128/2002/2002616.png"
+    },
+    {
+        "name": "小籠包",
+        "totalCalories": 220.0,
+        "nutrients": {
+            "protein": 7.1,
+            "fat": 11.1,
+            "carbohydrates": 20.0,
+            "fiber": 0.5
+        },
+        "image": ""
+    },
+    {
+        "name": "巴沙魚",
+        "totalCalories": 180.0,
+        "nutrients": {
+            "protein": 20.0,
+            "fat": 10.0,
+            "carbohydrates": 0.0,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "水餃",
+        "totalCalories": 250.0,
+        "nutrients": {
+            "protein": 8.0,
+            "fat": 12.0,
+            "carbohydrates": 25.0,
+            "fiber": 1.0
+        },
+        "image": ""
+    },
+    {
+        "name": "牛奶",
+        "totalCalories": 42.0,
+        "nutrients": {
+            "protein": 3.4,
+            "fat": 1.0,
+            "carbohydrates": 4.7,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "牛肉麵",
+        "totalCalories": 300.0,
+        "nutrients": {
+            "protein": 12.0,
+            "fat": 10.0,
+            "carbohydrates": 30.0,
+            "fiber": 2.0
+        },
+        "image": ""
+    },
+    {
+        "name": "玉米",
+        "totalCalories": 86.0,
+        "nutrients": {
+            "protein": 3.3,
+            "fat": 1.2,
+            "carbohydrates": 19.0,
+            "fiber": 2.7
+        },
+        "image": ""
+    },
+    {
+        "name": "生菜沙拉",
+        "totalCalories": 15.0,
+        "nutrients": {
+            "protein": 1.3,
+            "fat": 0.2,
+            "carbohydrates": 2.9,
+            "fiber": 1.3
+        },
+        "image": ""
+    },
+    {
+        "name": "白飯",
+        "totalCalories": 130.0,
+        "nutrients": {
+            "protein": 2.7,
+            "fat": 0.3,
+            "carbohydrates": 28.7,
+            "fiber": 0.4
+        },
+        "image": ""
+    },
+    {
+        "name": "地瓜",
+        "totalCalories": 86.0,
+        "nutrients": {
+            "protein": 1.6,
+            "fat": 0.1,
+            "carbohydrates": 20.1,
+            "fiber": 3.0
+        },
+        "image": ""
+    },
+    {
+        "name": "肉圓",
+        "totalCalories": 224.0,
+        "nutrients": {
+            "protein": 7.8,
+            "fat": 8.7,
+            "carbohydrates": 28.3,
+            "fiber": 2.4
+        },
+        "image": ""
+    },
+    {
+        "name": "豆腐",
+        "totalCalories": 70.0,
+        "nutrients": {
+            "protein": 8.1,
+            "fat": 4.2,
+            "carbohydrates": 1.9,
+            "fiber": 0.3
+        },
+        "image": ""
+    },
+    {
+        "name": "豆漿",
+        "totalCalories": 54.0,
+        "nutrients": {
+            "protein": 3.3,
+            "fat": 1.8,
+            "carbohydrates": 3.9,
+            "fiber": 0.5
+        },
+        "image": ""
+    },
+    {
+        "name": "咖啡",
+        "totalCalories": 1.0,
+        "nutrients": {
+            "protein": 0.1,
+            "fat": 0.0,
+            "carbohydrates": 0.0,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "披薩",
+        "totalCalories": 266.0,
+        "nutrients": {
+            "protein": 11.5,
+            "fat": 10.2,
+            "carbohydrates": 31.6,
+            "fiber": 1.9
+        },
+        "image": ""
+    },
+    {
+        "name": "花椰菜",
+        "totalCalories": 25.0,
+        "nutrients": {
+            "protein": 1.9,
+            "fat": 0.3,
+            "carbohydrates": 4.7,
+            "fiber": 2.0
+        },
+        "image": ""
+    },
+    {
+        "name": "珍珠奶茶",
+        "totalCalories": 160.0,
+        "nutrients": {
+            "protein": 2.8,
+            "fat": 6.0,
+            "carbohydrates": 25.0,
+            "fiber": 0.5
+        },
+        "image": ""
+    },
+    {
+        "name": "苦瓜鹹蛋",
+        "totalCalories": 150.0,
+        "nutrients": {
+            "protein": 7.0,
+            "fat": 11.0,
+            "carbohydrates": 4.0,
+            "fiber": 0.6
+        },
+        "image": ""
+    },
+    {
+        "name": "茄子",
+        "totalCalories": 25.0,
+        "nutrients": {
+            "protein": 1.0,
+            "fat": 0.2,
+            "carbohydrates": 6.0,
+            "fiber": 3.0
+        },
+        "image": ""
+    },
+    {
+        "name": "香菇",
+        "totalCalories": 22.0,
+        "nutrients": {
+            "protein": 2.5,
+            "fat": 0.3,
+            "carbohydrates": 3.3,
+            "fiber": 1.6
+        },
+        "image": ""
+    },
+    {
+        "name": "香菇雞湯",
+        "totalCalories": 40.0,
+        "nutrients": {
+            "protein": 4.5,
+            "fat": 1.0,
+            "carbohydrates": 2.0,
+            "fiber": 0.8
+        },
+        "image": ""
+    },
+    {
+        "name": "挫冰",
+        "totalCalories": 80.0,
+        "nutrients": {
+            "protein": 0.5,
+            "fat": 0.1,
+            "carbohydrates": 20.0,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "高麗菜",
+        "totalCalories": 25.0,
+        "nutrients": {
+            "protein": 1.3,
+            "fat": 0.1,
+            "carbohydrates": 5.8,
+            "fiber": 2.5
+        },
+        "image": ""
+    },
+    {
+        "name": "涼麵",
+        "totalCalories": 110.0,
+        "nutrients": {
+            "protein": 2.5,
+            "fat": 1.0,
+            "carbohydrates": 22.0,
+            "fiber": 1.0
+        },
+        "image": ""
+    },
+    {
+        "name": "甜甜圈",
+        "totalCalories": 190.0,
+        "nutrients": {
+            "protein": 2.8,
+            "fat": 10.1,
+            "carbohydrates": 22.8,
+            "fiber": 0.5
+        },
+        "image": ""
+    },
+    {
+        "name": "蛋餅",
+        "totalCalories": 130.0,
+        "nutrients": {
+            "protein": 6.0,
+            "fat": 7.0,
+            "carbohydrates": 11.0,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "麻糬",
+        "totalCalories": 120.0,
+        "nutrients": {
+            "protein": 1.5,
+            "fat": 0.5,
+            "carbohydrates": 28.0,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "湯圓",
+        "totalCalories": 120.0,
+        "nutrients": {
+            "protein": 2.0,
+            "fat": 0.5,
+            "carbohydrates": 27.0,
+            "fiber": 1.0
+        },
+        "image": ""
+    },
+    {
+        "name": "番茄",
+        "totalCalories": 18.0,
+        "nutrients": {
+            "protein": 0.9,
+            "fat": 0.2,
+            "carbohydrates": 3.9,
+            "fiber": 1.2
+        },
+        "image": ""
+    },
+    {
+        "name": "蛤蠣絲瓜",
+        "totalCalories": 32.0,
+        "nutrients": {
+            "protein": 1.0,
+            "fat": 0.1,
+            "carbohydrates": 6.8,
+            "fiber": 0.6
+        },
+        "image": ""
+    },
+    {
+        "name": "葡萄",
+        "totalCalories": 69.0,
+        "nutrients": {
+            "protein": 0.6,
+            "fat": 0.2,
+            "carbohydrates": 18.1,
+            "fiber": 0.9
+        },
+        "image": ""
+    },
+    {
+        "name": "壽司",
+        "totalCalories": 250.0,
+        "nutrients": {
+            "protein": 6.0,
+            "fat": 6.0,
+            "carbohydrates": 45.0,
+            "fiber": 2.0
+        },
+        "image": ""
+    },
+    {
+        "name": "滷肉飯",
+        "totalCalories": 260.0,
+        "nutrients": {
+            "protein": 12.0,
+            "fat": 12.0,
+            "carbohydrates": 30.0,
+            "fiber": 1.0
+        },
+        "image": ""
+    },
+    {
+        "name": "漢堡",
+        "totalCalories": 295.0,
+        "nutrients": {
+            "protein": 13.0,
+            "fat": 14.0,
+            "carbohydrates": 30.0,
+            "fiber": 1.5
+        },
+        "image": ""
+    },
+    {
+        "name": "餅乾",
+        "totalCalories": 450.0,
+        "nutrients": {
+            "protein": 6.0,
+            "fat": 20.0,
+            "carbohydrates": 60.0,
+            "fiber": 2.5
+        },
+        "image": ""
+    },
+    {
+        "name": "鳳梨",
+        "totalCalories": 50.0,
+        "nutrients": {
+            "protein": 0.5,
+            "fat": 0.2,
+            "carbohydrates": 13.1,
+            "fiber": 1.4
+        },
+        "image": ""
+    },
+    {
+        "name": "橘子",
+        "totalCalories": 47.0,
+        "nutrients": {
+            "protein": 0.9,
+            "fat": 0.1,
+            "carbohydrates": 11.8,
+            "fiber": 2.4
+        },
+        "image": ""
+    },
+    {
+        "name": "燕麥",
+        "totalCalories": 389.0,
+        "nutrients": {
+            "protein": 16.9,
+            "fat": 6.9,
+            "carbohydrates": 66.3,
+            "fiber": 10.6
+        },
+        "image": ""
+    },
+    {
+        "name": "鮭魚",
+        "totalCalories": 208.0,
+        "nutrients": {
+            "protein": 20.4,
+            "fat": 13.4,
+            "carbohydrates": 0.0,
+            "fiber": 0.0
+        },
+        "image": ""
+    },
+    {
+        "name": "雞肉飯",
+        "totalCalories": 129.0,
+        "nutrients": {
+            "protein": 4.2,
+            "fat": 2.3,
+            "carbohydrates": 23.6,
+            "fiber": 1.6
+        },
+        "image": ""
+    },
+    {
+        "name": "藜麥",
+        "totalCalories": 120.0,
+        "nutrients": {
+            "protein": 4.4,
+            "fat": 1.9,
+            "carbohydrates": 21.3,
+            "fiber": 3.5
+        },
+        "image": ""
+    },
+    {
+        "name": "麵包",
+        "totalCalories": 265.0,
+        "nutrients": {
+            "protein": 9.4,
+            "fat": 3.3,
+            "carbohydrates": 48.8,
+            "fiber": 2.7
+        },
+        "image": ""
     }
 ]
+
+
+ 

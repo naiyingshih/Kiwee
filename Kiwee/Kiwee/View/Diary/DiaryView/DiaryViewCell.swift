@@ -16,7 +16,6 @@ class DiaryViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureCellUI()
-        self.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
@@ -27,15 +26,10 @@ class DiaryViewCell: UITableViewCell {
     }
     
     func configureCellUI() {
-        calorieLabel.font = UIFont.systemFont(ofSize: 15)
-        
-        cardOutlineView.backgroundColor = UIColor.hexStringToUIColor(hex: "f4f4f4")
-        cardOutlineView.layer.cornerRadius = 10
-        cardOutlineView.layer.shadowColor = UIColor.gray.cgColor
-        cardOutlineView.layer.shadowOpacity = 0.5
-        cardOutlineView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        cardOutlineView.layer.shadowRadius = 3
-        
+        self.backgroundColor = KWColor.background
+        foodNameLabel.applyTitle(size: 18, color: .black)
+        calorieLabel.applyTitle(size: 18, color: .black)
+        cardOutlineView.applyCardStyle()
         foodImage.contentMode = .scaleAspectFill
     }
     
