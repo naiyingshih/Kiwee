@@ -211,14 +211,19 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
     }
     
     private func deleteAccount() {
-        backtoSigninPage(notificationName: .accountDeletionSuccess)
         Task {
             if await viewModel.deleteAccount() == true {
-                print("deleteAccount!!!")
+                print("Account deleted successfully")
+                // Move back to the Signin page and post notification only after successful deletion
+                DispatchQueue.main.async {
+                    self.backtoSigninPage(notificationName: .accountDeletionSuccess)
+                }
+                FirestoreManager.shared.updateAccountStatus()
+                UserDefaults.standard.set(false, forKey: "hasLaunchedBefore")
+            } else {
+                print("Failed to delete account")
             }
         }
-        FirestoreManager.shared.updateAccountStatus()
-        UserDefaults.standard.set(false, forKey: "hasLaunchedBefore")
     }
     
     private func backtoSigninPage(notificationName: Notification.Name) {
