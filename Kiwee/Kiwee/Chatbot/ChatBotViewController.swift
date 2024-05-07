@@ -27,16 +27,17 @@ class ChatBotViewController: UIViewController {
     var messages: [MessageRow] = []
     var messageInputViewHeightConstraint: NSLayoutConstraint?
 
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
+    // MARK: - UI Setting functions
     private func setupUI() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        appearance.backgroundColor = appearance.backgroundColor?.withAlphaComponent(0.3)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.backgroundColor = KWColor.lightG.withAlphaComponent(0.5)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black, .font: UIFont.medium(size: 17) as Any]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -50,7 +51,7 @@ class ChatBotViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "MessageTableViewCell")
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        tableView.backgroundColor = KWColor.background
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 200, right: 0)
         view.addSubview(tableView)
         
@@ -74,7 +75,6 @@ class ChatBotViewController: UIViewController {
             messageInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             messageInputViewHeightConstraint!
-//            messageInputView.heightAnchor.constraint(equalToConstant: 180)
         ])
     }
     

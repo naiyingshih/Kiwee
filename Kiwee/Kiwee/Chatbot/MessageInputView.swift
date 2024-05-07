@@ -21,7 +21,7 @@ class MessageInputView: UIView {
     lazy var FAQLabel: UILabel = {
         let label = UILabel()
         label.text = "常見問題集"
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.applyContent(size: 17, color: .black)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -29,7 +29,7 @@ class MessageInputView: UIView {
     lazy var dismissButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        button.tintColor = UIColor.hexStringToUIColor(hex: "004358")
+        button.tintColor = KWColor.darkB
         button.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -87,6 +87,7 @@ class MessageInputView: UIView {
         return button
     }()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -97,13 +98,10 @@ class MessageInputView: UIView {
         setupUI()
     }
     
+    // MARK: - UI Setting Functions
     private func setupFAQButtons(_ sender: UIButton) {
-        sender.setTitleColor(.white, for: .normal)
-        sender.setTitleColor(.lightGray, for: .highlighted)
-        sender.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        sender.applyPrimaryStyle(size: 13)
         sender.contentHorizontalAlignment = .center
-        sender.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
-        sender.layer.cornerRadius = 8
         sender.translatesAutoresizingMaskIntoConstraints = false
         sender.addTarget(self, action: #selector(getResponse), for: .touchUpInside)
     }
@@ -175,6 +173,7 @@ class MessageInputView: UIView {
         }
     }
     
+    // MARK: - Actions
     @objc private func sendButtonTapped() {
         guard let message = messageTextField.text, !message.isEmpty else { return }
         delegate?.sendMessageButtonTapped(message: message)

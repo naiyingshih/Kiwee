@@ -11,7 +11,7 @@ import UIKit
 class BMRUtility {
     
     static func calculateBMR(with userData: UserData) -> Double {
-        let weight = userData.initialWeight
+        let weight = userData.updatedWeight ?? userData.initialWeight
         let height = userData.height
         let age = userData.age
         let gender = userData.gender

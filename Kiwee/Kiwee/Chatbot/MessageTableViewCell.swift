@@ -25,17 +25,15 @@ class MessageTableViewCell: UITableViewCell {
     
     lazy var sendMessageLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.applyContent(size: 16, color: .black)
         label.textAlignment = .left
-        label.textColor = UIColor.black
-        label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var sendMessageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "FFE11A")
+        view.backgroundColor = KWColor.lightY
         view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -43,22 +41,21 @@ class MessageTableViewCell: UITableViewCell {
     
     lazy var responseMessageLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.applyContent(size: 16, color: .white)
         label.textAlignment = .left
-        label.textColor = UIColor.white
-        label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var responseMessageView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "004358")
+        view.backgroundColor = KWColor.darkB
         view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -70,8 +67,9 @@ class MessageTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
+    // MARK: - UI Setting Functions
     func setupUI() {
-        backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
+        backgroundColor = KWColor.background
         contentView.addSubview(sendAvatar)
         contentView.addSubview(sendMessageView)
         contentView.addSubview(responseAvatar)

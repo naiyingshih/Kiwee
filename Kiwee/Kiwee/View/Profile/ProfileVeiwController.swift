@@ -56,6 +56,7 @@ class ProfileVeiwController: UIViewController {
             DispatchQueue.main.async {
                 self?.userData = userData
             }
+            UserDefaults.standard.set(userData.updatedWeight, forKey: "initial_weight")
         }
     }
     

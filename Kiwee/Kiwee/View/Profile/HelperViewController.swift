@@ -13,30 +13,6 @@ class HelperViewController: UIViewController {
     @IBOutlet weak var card2View: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        setupInitialUI()
-    }
-    
-    func setupInitialUI() {
-        card1View.layer.cornerRadius = 10
-        card1View.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
-        card1View.layer.shadowOpacity = 0.2
-        card1View.layer.shadowRadius = 5
-        card1View.layer.shadowOffset = CGSize(width: 2, height: 2)
-        
-        card2View.layer.cornerRadius = 10
-        card2View.backgroundColor = UIColor.hexStringToUIColor(hex: "f8f7f2")
-        card2View.layer.shadowOpacity = 0.2
-        card2View.layer.shadowRadius = 5
-        card2View.layer.shadowOffset = CGSize(width: 2, height: 2)
-        
-        collectionView.backgroundColor = .clear
-        collectionView.dataSource = self
-        collectionView.delegate = self
-    }
-    
     let weight = UserDefaults.standard.double(forKey: "initial_weight")
     let RDA = UserDefaults.standard.double(forKey: "RDA")
     
@@ -63,8 +39,26 @@ class HelperViewController: UIViewController {
                           image: "fiber")
     ]
     
+    // MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupInitialUI()
+    }
+    
+    // MARK: - UI Setting Function
+    func setupInitialUI() {
+        view.backgroundColor = .white
+        card1View.applyCardStyle()
+        card2View.applyCardStyle()
+
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
 }
 
+// MARK: - UICollectionView
 extension HelperViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
