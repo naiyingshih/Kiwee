@@ -14,6 +14,8 @@
 		0E1567AF2BE8EE7A002D25AB /* NotoSansTC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E1567AD2BE8EE07002D25AB /* NotoSansTC-Regular.ttf */; };
 		0E1567B02BE8EE7A002D25AB /* NotoSansTC-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E1567AE2BE8EE16002D25AB /* NotoSansTC-Medium.ttf */; };
 		0E1567B42BEA5C76002D25AB /* FoodSample.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567B32BEA5C76002D25AB /* FoodSample.mlmodel */; };
+		0E1567B62BEB6C8C002D25AB /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E1567B52BEB6C8C002D25AB /* FirebaseAnalyticsSwift */; };
+		0E1567B82BEB6C96002D25AB /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0E1567B72BEB6C96002D25AB /* FirebaseCrashlytics */; };
 		0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */; };
 		0E41B8B72BDD016500159FAA /* Ribbons_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E41B8B62BDD016500159FAA /* Ribbons_animation.json */; };
 		0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0E41B8B92BDD08A300159FAA /* Lottie */; };
@@ -177,6 +179,8 @@
 				0ECE089C2BC6AFEC003C15B0 /* FirebaseAuth in Frameworks */,
 				0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */,
 				0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */,
+				0E1567B62BEB6C8C002D25AB /* FirebaseAnalyticsSwift in Frameworks */,
+				0E1567B82BEB6C96002D25AB /* FirebaseCrashlytics in Frameworks */,
 				0ECE08A02BC6AFEC003C15B0 /* FirebaseFirestoreSwift in Frameworks */,
 				0E41B8BA2BDD08A300159FAA /* Lottie in Frameworks */,
 			);
@@ -466,6 +470,7 @@
 				0ECE08812BC69877003C15B0 /* Resources */,
 				0ECE08A72BC6C6E9003C15B0 /* ShellScript */,
 				C298F40E0CB9507DD8CE5832 /* [CP] Embed Pods Frameworks */,
+				0E1567B92BEB6CBD002D25AB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -478,6 +483,8 @@
 				0ECE089F2BC6AFEC003C15B0 /* FirebaseFirestoreSwift */,
 				0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */,
 				0E41B8B92BDD08A300159FAA /* Lottie */,
+				0E1567B52BEB6C8C002D25AB /* FirebaseAnalyticsSwift */,
+				0E1567B72BEB6C96002D25AB /* FirebaseCrashlytics */,
 			);
 			productName = Kiwee;
 			productReference = 0ECE08832BC69877003C15B0 /* Kiwee.app */;
@@ -543,6 +550,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0E1567B92BEB6CBD002D25AB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
 		0ECE08A72BC6C6E9003C15B0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -725,7 +754,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -824,11 +853,12 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kiwee/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Kiwee想取用您的相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -858,11 +888,12 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kiwee/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Kiwee想取用您的相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -921,6 +952,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0E1567B52BEB6C8C002D25AB /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		0E1567B72BEB6C96002D25AB /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0ECE089A2BC6AFEC003C15B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		0E41B8B92BDD08A300159FAA /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0E41B8B82BDD08A300159FAA /* XCRemoteSwiftPackageReference "lottie-spm" */;

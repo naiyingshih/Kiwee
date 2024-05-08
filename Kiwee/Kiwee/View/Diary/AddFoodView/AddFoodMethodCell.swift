@@ -44,7 +44,9 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "輸入食物名稱"
-        setupTextFieldStyle(textField)
+        textField.font = UIFont.regular(size: 13)
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -85,7 +87,7 @@ class AddFoodMethodCell: UITableViewCell {
     
     private lazy var confirmButton: UIButton = {
        let button = UIButton()
-        button.setTitle("確認", for: .normal)
+        button.setTitle("完成", for: .normal)
         button.applyPrimaryStyle(size: 17)
         button.addTarget(self, action: #selector(confirmedTextField), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

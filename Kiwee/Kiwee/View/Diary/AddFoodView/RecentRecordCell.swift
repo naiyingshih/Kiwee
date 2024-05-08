@@ -87,7 +87,7 @@ class RecordCollectionCell: UICollectionViewCell {
             foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             foodImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             foodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            foodImageView.widthAnchor.constraint(equalToConstant: 80),
+            foodImageView.widthAnchor.constraint(equalToConstant: 75),
             foodImageView.heightAnchor.constraint(equalToConstant: 90),
             
             foodLabel.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 8),
