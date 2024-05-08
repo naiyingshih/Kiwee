@@ -7,8 +7,6 @@
 		<string>NotoSansTC-Regular.ttf</string>
 		<string>NotoSansTC-Medium.ttf</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Kiwee想取用您的相機</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

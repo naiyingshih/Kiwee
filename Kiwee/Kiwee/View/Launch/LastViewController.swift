@@ -152,7 +152,7 @@ class LastViewController: UIViewController {
             activeness: defaults.integer(forKey: "activeness"),
             height: defaults.double(forKey: "height"),
             initialWeight: defaults.double(forKey: "initial_weight"),
-            updatedWeight: 0,
+            updatedWeight: defaults.double(forKey: "initial_weight"),
             goalWeight: 0,
             achievementTime: datePicker.date)
 
