@@ -853,7 +853,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kiwee/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "需要您允許使用相機功能以進行影像辨識";
+				INFOPLIST_KEY_NSCameraUsageDescription = "為了幫助您更方便記錄飲食，食物影像辨識的功能需要您授予相機權限。允許後，您可以輕鬆地將自動辨識的食物結果添加到您的飲食日記中。我們確保您的隱私安全，您拍攝的相片將不會用於其他目的。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -892,7 +892,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kiwee/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "需要您允許使用相機功能以進行影像辨識";
+				INFOPLIST_KEY_NSCameraUsageDescription = "為了幫助您更方便記錄飲食，食物影像辨識的功能需要您授予相機權限。允許後，您可以輕鬆地將自動辨識的食物結果添加到您的飲食日記中。我們確保您的隱私安全，您拍攝的相片將不會用於其他目的。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
