@@ -110,8 +110,8 @@ class SigninViewController: UIViewController {
 // MARK: - Sign in with Apple
 
 extension SigninViewController: SignInDelegate, ASAuthorizationControllerPresentationContextProviding {
-    
-    func didTapSignInWithApple() {
+
+    func didTapSignInWithApple(_ view: SignInView) {
         Task {
             do {
                 let appleIDCredential = try await self.signInWithAppleMate()
@@ -130,6 +130,7 @@ extension SigninViewController: SignInDelegate, ASAuthorizationControllerPresent
                                                           rawNonce: nonce)
                 // sign in with Firebase using the credential
                 firebaseSignInWithApple(credential: credential)
+//                view.loginButton.isEnabled = true
             } catch {
                 // Handle error: could be user cancellation or an actual error
                 print("Authentication error: \(error.localizedDescription)")
@@ -144,7 +145,6 @@ extension SigninViewController: SignInDelegate, ASAuthorizationControllerPresent
     }
    
 }
-
 
 // MARK: - 透過 Credential 與 Firebase Auth 串接
 

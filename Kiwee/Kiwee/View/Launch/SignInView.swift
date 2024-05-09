@@ -9,7 +9,7 @@ import UIKit
 import AuthenticationServices
 
 protocol SignInDelegate: AnyObject {
-    func didTapSignInWithApple()
+    func didTapSignInWithApple(_ view: SignInView)
 }
 
 class SignInView: UIView {
@@ -85,6 +85,12 @@ class SignInView: UIView {
     
     // MARK: - Action
     @objc func pressSignInWithAppleButton() {
-        delegate?.didTapSignInWithApple()
+        loginButton.isEnabled = false
+        loginButton.alpha = 0.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.loginButton.isEnabled = true
+            self.loginButton.alpha = 1.0
+        }
+        delegate?.didTapSignInWithApple(self)
     }
 }

@@ -17,7 +17,6 @@ class SignInWithAppleViewModel {
     
 }
 
-
 // MARK: - signout, revoke and deletion of the current user
 
 extension SignInWithAppleViewModel {
@@ -25,8 +24,7 @@ extension SignInWithAppleViewModel {
     func signOut() {
       do {
         try Auth.auth().signOut()
-      }
-      catch {
+      } catch {
           print(error.localizedDescription)
       }
     }
@@ -69,8 +67,7 @@ extension SignInWithAppleViewModel {
             
             try await user.delete()
             return true
-        }
-        catch {
+        } catch {
             print(error.localizedDescription)
             return false
         }
