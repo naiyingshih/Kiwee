@@ -48,7 +48,6 @@ class DiaryViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.sectionHeaderTopPadding = 8
-        tableView.estimatedRowHeight = 100
     }
     
     // MARK: - Actions
@@ -137,6 +136,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
             waterCell.waterSectionConfigure(count: waterCount)
+            scrollToBottomIfNeeded()
             return waterCell
 
         } else {
@@ -153,8 +153,11 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 4 {
-            return UITableView.automaticDimension
-//            return 200
+            let numberOfRows = (waterCount + 7) / 8
+            let imageHeight: CGFloat = 50
+            let spaceBetweenRows: CGFloat = 10
+            let totalHeight = CGFloat(numberOfRows) * imageHeight + CGFloat(numberOfRows - 1) * spaceBetweenRows
+            return totalHeight + 30
         } else {
             return 80
         }
@@ -211,7 +214,6 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                     DispatchQueue.main.async {
                         if success {
                             print("Document successfully removed!")
-                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
                         } else {
                             print("Error removing document")
                         }
@@ -221,7 +223,6 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 FirestoreManager.shared.resetWaterCount(chosenDate: datePicker.date) { success in
                     DispatchQueue.main.async {
                         if success {
-//                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
                             print("water successfully reset")
                         } else {
                             print("Error removing document")
@@ -237,6 +238,13 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             return "重設"
         } else {
             return "刪除"
+        }
+    }
+    
+    private func scrollToBottomIfNeeded() {
+        DispatchQueue.main.async {
+            let bottomIndexPath = IndexPath(row: 0, section: 4)
+            self.tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
         }
     }
     
