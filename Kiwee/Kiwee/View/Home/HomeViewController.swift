@@ -253,6 +253,12 @@ extension HomeViewController {
     }
     
     private func setupGuideTour() {
+        // Semi-transparent background view
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        backgroundView.frame = self.view.bounds
+        self.view.addSubview(backgroundView)
+        
         let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 10
@@ -276,6 +282,7 @@ extension HomeViewController {
         
         guideVC.startbuttonTapped = {
             containerView.removeFromSuperview()
+            backgroundView.removeFromSuperview()
             UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
         }
     }
