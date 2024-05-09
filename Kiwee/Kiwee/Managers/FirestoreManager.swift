@@ -189,6 +189,7 @@ extension FirestoreManager {
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
         
         database.collection("intake")
+            .whereField("id", isEqualTo: currentUserUID)
             .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
             .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .whereField("type", isEqualTo: "water")
@@ -274,10 +275,12 @@ extension FirestoreManager {
     }
     
     func resetWaterCount(chosenDate: Date, completion: @escaping (Bool) -> Void) {
+        guard let currentUserUID = userID else { return }
         let startOfDay = Calendar.current.startOfDay(for: chosenDate)
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
 
         database.collection("intake")
+            .whereField("id", isEqualTo: currentUserUID)
             .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
             .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .whereField("type", isEqualTo: "water")

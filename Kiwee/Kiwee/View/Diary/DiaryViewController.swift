@@ -48,6 +48,7 @@ class DiaryViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.sectionHeaderTopPadding = 8
+        tableView.estimatedRowHeight = 100
     }
     
     // MARK: - Actions
@@ -152,7 +153,8 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 4 {
-            return 200
+            return UITableView.automaticDimension
+//            return 200
         } else {
             return 80
         }
@@ -219,7 +221,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 FirestoreManager.shared.resetWaterCount(chosenDate: datePicker.date) { success in
                     DispatchQueue.main.async {
                         if success {
-                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+//                            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
                             print("water successfully reset")
                         } else {
                             print("Error removing document")
