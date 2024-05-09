@@ -73,20 +73,20 @@ class HelperViewController: UIViewController {
             // Adjust constraints for larger screens
             verticleConstraint1.constant = 40
             verticleConstraint2.constant = 40
-            verticleConstraint3.constant = 20
-            verticleConstraint4.constant = 70
+            verticleConstraint3.constant = 60
+            verticleConstraint4.constant = 120
         } else if screenSize.height > 736 {
             // Adjust constraints for medium screens
             verticleConstraint1.constant = 30
             verticleConstraint2.constant = 30
-            verticleConstraint3.constant = 10
-            verticleConstraint4.constant = 60
+            verticleConstraint3.constant = 45
+            verticleConstraint4.constant = 90
         } else {
             // Adjust constraints for smaller screens
-            verticleConstraint1.constant = 10
-            verticleConstraint2.constant = 10
+            verticleConstraint1.constant = 8
+            verticleConstraint2.constant = 8
             verticleConstraint3.constant = 5
-            verticleConstraint4.constant = 10
+            verticleConstraint4.constant = 60
         }
     }
     
