@@ -97,6 +97,7 @@ class ProfileBannerView: UIView {
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 2
         view.layer.borderColor = KWColor.darkG.cgColor
+        view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -129,6 +130,7 @@ class ProfileBannerView: UIView {
         let view = UIView()
         view.layer.cornerRadius = 10
         view.backgroundColor = KWColor.lightG
+        view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -155,12 +157,14 @@ class ProfileBannerView: UIView {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
+        setupViewsInteraction()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
         setupConstraints()
+        setupViewsInteraction()
     }
     
     // MARK: - UI setting functions
@@ -193,7 +197,9 @@ class ProfileBannerView: UIView {
             countDownLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
             
             settingButton.centerYAnchor.constraint(equalTo: countDownLabel.centerYAnchor),
-            settingButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            settingButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            settingButton.widthAnchor.constraint(equalToConstant: 30),
+            settingButton.heightAnchor.constraint(equalToConstant: 30),
             
             profileImage.topAnchor.constraint(equalTo: countDownLabel.bottomAnchor, constant: 16),
             profileImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
@@ -240,6 +246,14 @@ class ProfileBannerView: UIView {
             addPostButton.trailingAnchor.constraint(equalTo: cardOutlineView.trailingAnchor, constant: -24),
             addPostButton.centerYAnchor.constraint(equalTo: cardOutlineView.centerYAnchor)
         ])
+    }
+    
+    private func setupViewsInteraction() {
+        let manageTapGesture = UITapGestureRecognizer(target: self, action: #selector(manageProfile))
+        outlineView.addGestureRecognizer(manageTapGesture)
+        
+        let addTapGesture = UITapGestureRecognizer(target: self, action: #selector(cameraButtonTapped))
+        cardOutlineView.addGestureRecognizer(addTapGesture)
     }
     
     @objc func manageProfile() {

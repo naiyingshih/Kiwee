@@ -33,7 +33,8 @@ class CategoryHeaderView: UIView {
     
     lazy var addButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(named: "Plus"), for: .normal)
+//        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = KWColor.darkG
         button.addTarget(self, action: #selector(addFood), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -65,9 +66,10 @@ class CategoryHeaderView: UIView {
             categoryLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             categoryLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 24),
             
-            addButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
-            addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24)
+            addButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            addButton.widthAnchor.constraint(equalToConstant: 24),
+            addButton.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
     
