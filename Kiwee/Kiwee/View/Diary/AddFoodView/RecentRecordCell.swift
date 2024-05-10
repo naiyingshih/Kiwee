@@ -35,6 +35,7 @@ class RecentRecordCell: UITableViewCell {
             layout.scrollDirection = .horizontal
             layout.minimumInteritemSpacing = 10
             layout.minimumLineSpacing = 10
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
         }
     }
     
@@ -84,16 +85,16 @@ class RecordCollectionCell: UICollectionViewCell {
         addSubview(foodLabel)
         
         NSLayoutConstraint.activate([
-            foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            foodImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            foodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            foodImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            foodImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            foodImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             foodImageView.widthAnchor.constraint(equalToConstant: 75),
             foodImageView.heightAnchor.constraint(equalToConstant: 90),
             
-            foodLabel.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 8),
+            foodLabel.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 6),
             foodLabel.leadingAnchor.constraint(equalTo: foodImageView.leadingAnchor),
             foodLabel.trailingAnchor.constraint(equalTo: foodImageView.trailingAnchor),
-            foodLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            foodLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     

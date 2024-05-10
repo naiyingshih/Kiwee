@@ -621,7 +621,7 @@ extension FirestoreManager {
             .whereField("id", isEqualTo: currentUserUID)
             .whereField("section", isEqualTo: section)
             .order(by: "date", descending: true)
-            .limit(to: 6)
+            .limit(to: 10)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
