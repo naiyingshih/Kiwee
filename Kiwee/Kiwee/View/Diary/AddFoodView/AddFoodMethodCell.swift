@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AddFoodMethodCellDelegate: AnyObject {
-    func searchBarDidChange(text: String)
+    func searchBarDidChange(text: String, withCell: AddFoodMethodCell)
     func cameraButtonDidTapped()
     func textFieldConfirmed(foodResults: [Food]?)
 }
@@ -22,6 +22,7 @@ enum AddFoodMethod {
 class AddFoodMethodCell: UITableViewCell {
     
     weak var delegate: AddFoodMethodCellDelegate?
+    var collectionView: UICollectionView!
     
     private lazy var cameraButton: UIButton = {
         let button = UIButton()
@@ -114,6 +115,7 @@ class AddFoodMethodCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupTextFieldObservers()
+        setupCollectionView()
         updateConfirmButtonState(isEnabled: false)
     }
     
@@ -124,6 +126,18 @@ class AddFoodMethodCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
     // MARK: - Status Check Functions
+    
+    func setupCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+//        layout.itemSize = CGSize(width: 100, height: 30) // Adjust based on your needs
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemYellow
+        collectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchListCollectionViewCell")
+        collectionView.tag = 1
+    }
+    
     func setupTextFieldObservers() {
         nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         calorieTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -225,12 +239,19 @@ class AddFoodMethodCell: UITableViewCell {
     
     private func setupSearchBar() {
         contentView.addSubview(searchBar)
-        
+        contentView.addSubview(collectionView)
+       
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             searchBar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            searchBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+//            searchBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
         ])
     }
     
@@ -298,10 +319,50 @@ extension AddFoodMethodCell: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let delegate = delegate else { return }
         guard let searchText = searchBar.text else { return }
-        delegate.searchBarDidChange(text: searchText)
+        delegate.searchBarDidChange(text: searchText, withCell: self)
         // Dismiss the keyboard
         searchBar.resignFirstResponder()
         searchBar.text = ""
     }
 
+}
+
+// MARK: - CollectionViewCell
+
+class SearchListCollectionViewCell: UICollectionViewCell {
+    
+    lazy var foodLabel: UILabel = {
+        let label = UILabel()
+        label.applyContent(size: 16, color: .black)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLabel()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupLabel()
+//        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupLabel() {
+        contentView.addSubview(foodLabel)
+        
+        NSLayoutConstraint.activate([
+            foodLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            foodLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            foodLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            foodLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+    }
+    
+    func updateResults(_ results: Food) {
+        foodLabel.text = results.name
+    }
+    
 }

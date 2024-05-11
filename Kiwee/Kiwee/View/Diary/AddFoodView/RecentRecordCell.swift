@@ -31,6 +31,7 @@ class RecentRecordCell: UITableViewCell {
     
     private func setupCollectionView() {
         collectionView.register(RecordCollectionCell.self, forCellWithReuseIdentifier: "RecordCollectionCell")
+        collectionView.tag = 2
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumInteritemSpacing = 10

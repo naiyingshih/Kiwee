@@ -26,6 +26,13 @@ class AddFoodViewController: UIViewController {
             }
         }
     }
+    var searchFoodResult: [Food] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
+            }
+        }
+    }
     var recentFoods: [Food] = []
     var selectedDate: Date?
     var foodQuantities: [String: Double] = [:]
@@ -300,6 +307,9 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             guard let addMethodCell = cell as? AddFoodMethodCell else { return cell }
             addMethodCell.delegate = self
             addMethodCell.configureCellForMethod(currentMethod)
+            addMethodCell.collectionView.delegate = self
+            addMethodCell.collectionView.dataSource = self
+//            addMethodCell.collectionView.reloadData()
             return addMethodCell
             
         case 1:
@@ -388,27 +398,67 @@ extension AddFoodViewController: DeleteButtonDelegate {
 extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return recentFoods.count
+        switch collectionView.tag {
+        case 1:
+            return searchFoodResult.count
+        case 2:
+            return recentFoods.count
+        default:
+            return 0
+        }
+//        return recentFoods.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: String(describing: RecordCollectionCell.self),
-            for: indexPath)
-        guard let collectionViewCell = cell as? RecordCollectionCell else { return cell }
-        let recentFood = recentFoods[indexPath.row]
-        collectionViewCell.updateResults(recentFood)
-        return collectionViewCell
+        switch collectionView.tag {
+        case 1:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: SearchListCollectionViewCell.self),
+                for: indexPath)
+            guard let searchCollectionViewCell = cell as? SearchListCollectionViewCell else { return cell }
+            let searchedFood = searchFoodResult[indexPath.row]
+            searchCollectionViewCell.updateResults(searchedFood)
+            return searchCollectionViewCell
+        case 2:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: RecordCollectionCell.self),
+                for: indexPath)
+            guard let recentCollectionViewCell = cell as? RecordCollectionCell else { return cell }
+            let recentFood = recentFoods[indexPath.row]
+            recentCollectionViewCell.updateResults(recentFood)
+            return recentCollectionViewCell
+        default:
+            return UICollectionViewCell()
+        }
+//        let cell = collectionView.dequeueReusableCell(
+//            withReuseIdentifier: String(describing: RecordCollectionCell.self),
+//            for: indexPath)
+//        guard let collectionViewCell = cell as? RecordCollectionCell else { return cell }
+//        let recentFood = recentFoods[indexPath.row]
+//        collectionViewCell.updateResults(recentFood)
+//        return collectionViewCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.bounds.height
-        return CGSize(width: 80, height: height)
+        if collectionView.tag == 2 {
+            let height = collectionView.bounds.height
+            return CGSize(width: 80, height: height)
+        }
+        return CGSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recentFood = recentFoods[indexPath.row]
-        filteredFoodItems.insert(recentFood, at: 0)
+        switch collectionView.tag {
+        case 1:
+            let seletedFood = searchFoodResult[indexPath.row]
+            filteredFoodItems.insert(seletedFood, at: 0)
+        case 2:let recentFood = recentFoods[indexPath.row]
+            filteredFoodItems.insert(recentFood, at: 0)
+        default:
+            return
+        }
+//        let recentFood = recentFoods[indexPath.row]
+//        filteredFoodItems.insert(recentFood, at: 0)
     }
 }
     
@@ -442,16 +492,17 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         present(alertController, animated: true, completion: nil)
     }
     
-    func searchBarDidChange(text: String) {
+    func searchBarDidChange(text: String, withCell: AddFoodMethodCell) {
         loadFood()
         let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
         if filterFoods.isEmpty {
             showNoResultsAlert()
         } else {
             for filterFood in filterFoods {
-                filteredFoodItems.insert(filterFood, at: 0)
+                searchFoodResult.insert(filterFood, at: 0)
             }
         }
+        withCell.collectionView.reloadData()
     }
     
     private func loadFood() {
