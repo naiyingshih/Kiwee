@@ -9,7 +9,8 @@ import UIKit
 
 protocol AddFoodMethodCellDelegate: AnyObject {
     func searchBarDidChange(text: String)
-    func seletedSearchResult(at indexPath: Int)
+    func seletedSearchResult(at indexPath: IndexPath)
+    func removeAllSearchResult()
     func cameraButtonDidTapped()
     func textFieldConfirmed(foodResults: [Food]?)
 }
@@ -328,6 +329,13 @@ extension AddFoodMethodCell: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchBar.text = ""
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        DispatchQueue.main.async {
+            self.delegate?.removeAllSearchResult()
+            searchBar.becomeFirstResponder()
+        }
+    }
 
 }
 
@@ -336,7 +344,7 @@ extension AddFoodMethodCell: UISearchBarDelegate {
 class SearchListCollectionViewCell: UICollectionViewCell {
     
     weak var delegate: AddFoodMethodCellDelegate?
-    var indexPath: Int?
+    var indexPath: IndexPath?
     
     lazy var foodLabel: UILabel = {
         let label = UILabel()
@@ -346,20 +354,20 @@ class SearchListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var checkButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "circle"), for: .normal)
-        button.tintColor = KWColor.darkG
-        button.tag = 0
-        button.addTarget(self, action: #selector(setSeleted), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    lazy var checkButton: UIButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(systemName: "circle"), for: .normal)
+//        button.tintColor = KWColor.darkG
+//        button.tag = 0
+//        button.addTarget(self, action: #selector(setSelected), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLabel()
-        self.applyCardStyle()
+        applyCardStyle()
         self.clipsToBounds = true
     }
     
@@ -369,25 +377,48 @@ class SearchListCollectionViewCell: UICollectionViewCell {
 //        fatalError("init(coder:) has not been implemented")
     }
     
+    override var isSelected: Bool {
+        didSet {
+            configureForSelection(isSelected: isSelected)
+        }
+    }
+    
     private func setupLabel() {
         contentView.addSubview(foodLabel)
-        contentView.addSubview(checkButton)
+//        contentView.addSubview(checkButton)
         
         NSLayoutConstraint.activate([
             foodLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             foodLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             foodLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            foodLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            foodLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
             
-            checkButton.centerYAnchor.constraint(equalTo: foodLabel.centerYAnchor),
-            checkButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+//            checkButton.centerYAnchor.constraint(equalTo: foodLabel.centerYAnchor),
+//            checkButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
-    @objc func setSeleted() {
-        let newState = checkButton.tag == 0 ? 1 : 0
-        checkButton.setImage(UIImage(systemName: newState == 1 ? "checkmark.circle" : "circle"), for: .normal)
-        checkButton.tag = newState
+    func configureForSelection(isSelected: Bool) {
+        if isSelected {
+            self.applyCardStyle(backgroundColor: .lightGray)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.applyCardStyle()
+            }
+        } else {
+            self.applyCardStyle()
+        }
+    }
+    
+    @objc func setSelected() {
+//        if checkButton.tag == 0 {
+//            checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+//            checkButton.tag = 1
+//            self.applyCardStyle(backgroundColor: .lightGray)
+//        } else {
+//            checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
+//            checkButton.tag = 0
+//            self.applyCardStyle()
+//        }
         
         if let indexPath = self.indexPath {
             delegate?.seletedSearchResult(at: indexPath)

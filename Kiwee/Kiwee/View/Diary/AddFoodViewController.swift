@@ -17,7 +17,11 @@ class AddFoodViewController: UIViewController {
     var filteredFoodItems: [Food] = [] {
         didSet {
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                UIView.setAnimationsEnabled(false)
+                self.tableView.beginUpdates()
+                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+                self.tableView.endUpdates()
+
                 if !self.filteredFoodItems.isEmpty {
                     self.updateConfirmButtonState(isEnabled: true)
                 } else {
@@ -33,6 +37,8 @@ class AddFoodViewController: UIViewController {
             }
         }
     }
+    var selectedIndexPaths: [IndexPath] = []
+    
     var recentFoods: [Food] = []
     var selectedDate: Date?
     var foodQuantities: [String: Double] = [:]
@@ -309,7 +315,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             addMethodCell.configureCellForMethod(currentMethod)
             addMethodCell.collectionView.delegate = self
             addMethodCell.collectionView.dataSource = self
-//            addMethodCell.collectionView.reloadData()
+            addMethodCell.collectionView.reloadData()
             return addMethodCell
             
         case 1:
@@ -350,6 +356,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             resultCell.deleteButtonTapped = { [weak self] in
                 self?.filteredFoodItems.remove(at: indexPath.row)
             }
+            
             return resultCell
         default:
             break
@@ -406,7 +413,6 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
         default:
             return 0
         }
-//        return recentFoods.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -418,7 +424,7 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
             guard let searchCollectionViewCell = cell as? SearchListCollectionViewCell else { return cell }
             let searchedFood = searchFoodResult[indexPath.row]
             searchCollectionViewCell.delegate = self
-            searchCollectionViewCell.indexPath = indexPath.row
+            searchCollectionViewCell.indexPath = indexPath
             searchCollectionViewCell.updateResults(searchedFood)
             return searchCollectionViewCell
         case 2:
@@ -432,13 +438,6 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
         default:
             return UICollectionViewCell()
         }
-//        let cell = collectionView.dequeueReusableCell(
-//            withReuseIdentifier: String(describing: RecordCollectionCell.self),
-//            for: indexPath)
-//        guard let collectionViewCell = cell as? RecordCollectionCell else { return cell }
-//        let recentFood = recentFoods[indexPath.row]
-//        collectionViewCell.updateResults(recentFood)
-//        return collectionViewCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -452,30 +451,30 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
         default:
             return CGSize()
         }
-//        if collectionView.tag == 2 {
-//            let height = collectionView.bounds.height
-//            return CGSize(width: 80, height: height)
-//        }
-//        return CGSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case 1:
-            seletedSearchResult(at: indexPath.row)
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SearchListCollectionViewCell else { return }
+            cell.setSelected()
+            
+//            if selectedIndexPaths.contains(indexPath) {
+//                if let index = selectedIndexPaths.firstIndex(of: indexPath) {
+//                    selectedIndexPaths.remove(at: index)
+//                }
+//            } else {
+//                selectedIndexPaths.append(indexPath)
+//            }
+//            collectionView.reloadItems(at: [indexPath])
+           
         case 2:
             let recentFood = recentFoods[indexPath.row]
             filteredFoodItems.insert(recentFood, at: 0)
         default:
             return
         }
-//        let recentFood = recentFoods[indexPath.row]
-//        filteredFoodItems.insert(recentFood, at: 0)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        filteredFoodItems.remove(at: indexPath.row)
-//    }
     
 }
     
@@ -521,12 +520,28 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         }
     }
     
-    func seletedSearchResult(at indexPath: Int) {
-        let seletedFood = searchFoodResult[indexPath]
-        filteredFoodItems.insert(seletedFood, at: 0)
+    func removeAllSearchResult() {
+        if !searchFoodResult.isEmpty {
+            searchFoodResult.removeAll()
+            selectedIndexPaths.removeAll()
+        }
+    }
+    
+    func seletedSearchResult(at indexPath: IndexPath) {
         
-//        if let cell = collectionView.cellForItem(at: indexPath) as? SearchListCollectionViewCell {
-//            cell.setSelected()
+//        if selectedIndexPaths.contains(indexPath) {
+//            if let index = selectedIndexPaths.firstIndex(of: indexPath) {
+//                selectedIndexPaths.remove(at: index)
+//            }
+//        } else {
+//            selectedIndexPaths.append(indexPath)
+//        }
+        
+        let selectedFood = searchFoodResult[indexPath.row]
+//        if let index = filteredFoodItems.firstIndex(where: { $0.generateIdentifier() == selectedFood.generateIdentifier() }) {
+//            filteredFoodItems.remove(at: index)
+//        } else {
+            filteredFoodItems.insert(selectedFood, at: 0)
 //        }
     }
     
