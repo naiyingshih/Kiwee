@@ -37,7 +37,6 @@ class AddFoodViewController: UIViewController {
             }
         }
     }
-    var selectedIndexPaths: [IndexPath] = []
     
     var recentFoods: [Food] = []
     var selectedDate: Date?
@@ -424,7 +423,6 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
             guard let searchCollectionViewCell = cell as? SearchListCollectionViewCell else { return cell }
             let searchedFood = searchFoodResult[indexPath.row]
             searchCollectionViewCell.delegate = self
-            searchCollectionViewCell.indexPath = indexPath
             searchCollectionViewCell.updateResults(searchedFood)
             return searchCollectionViewCell
         case 2:
@@ -456,18 +454,8 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case 1:
-            guard let cell = collectionView.cellForItem(at: indexPath) as? SearchListCollectionViewCell else { return }
-            cell.setSelected()
-            
-//            if selectedIndexPaths.contains(indexPath) {
-//                if let index = selectedIndexPaths.firstIndex(of: indexPath) {
-//                    selectedIndexPaths.remove(at: index)
-//                }
-//            } else {
-//                selectedIndexPaths.append(indexPath)
-//            }
-//            collectionView.reloadItems(at: [indexPath])
-           
+            let selectedFood = searchFoodResult[indexPath.row]
+            filteredFoodItems.insert(selectedFood, at: 0)
         case 2:
             let recentFood = recentFoods[indexPath.row]
             filteredFoodItems.insert(recentFood, at: 0)
@@ -523,26 +511,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     func removeAllSearchResult() {
         if !searchFoodResult.isEmpty {
             searchFoodResult.removeAll()
-            selectedIndexPaths.removeAll()
         }
-    }
-    
-    func seletedSearchResult(at indexPath: IndexPath) {
-        
-//        if selectedIndexPaths.contains(indexPath) {
-//            if let index = selectedIndexPaths.firstIndex(of: indexPath) {
-//                selectedIndexPaths.remove(at: index)
-//            }
-//        } else {
-//            selectedIndexPaths.append(indexPath)
-//        }
-        
-        let selectedFood = searchFoodResult[indexPath.row]
-//        if let index = filteredFoodItems.firstIndex(where: { $0.generateIdentifier() == selectedFood.generateIdentifier() }) {
-//            filteredFoodItems.remove(at: index)
-//        } else {
-            filteredFoodItems.insert(selectedFood, at: 0)
-//        }
     }
     
     private func loadFood() {

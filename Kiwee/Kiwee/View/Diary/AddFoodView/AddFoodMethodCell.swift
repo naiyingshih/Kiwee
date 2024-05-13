@@ -9,7 +9,6 @@ import UIKit
 
 protocol AddFoodMethodCellDelegate: AnyObject {
     func searchBarDidChange(text: String)
-    func seletedSearchResult(at indexPath: IndexPath)
     func removeAllSearchResult()
     func cameraButtonDidTapped()
     func textFieldConfirmed(foodResults: [Food]?)
@@ -132,14 +131,11 @@ class AddFoodMethodCell: UITableViewCell {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 4
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 //        layout.itemSize = CGSize(width: 100, height: 30) // Adjust based on your needs
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.applyCardStyle(backgroundColor: KWColor.cardBackground)
         collectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchListCollectionViewCell")
         collectionView.tag = 1
-        
     }
     
     func setupTextFieldObservers() {
@@ -250,7 +246,6 @@ class AddFoodMethodCell: UITableViewCell {
             searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             searchBar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-//            searchBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
@@ -344,7 +339,6 @@ extension AddFoodMethodCell: UISearchBarDelegate {
 class SearchListCollectionViewCell: UICollectionViewCell {
     
     weak var delegate: AddFoodMethodCellDelegate?
-    var indexPath: IndexPath?
     
     lazy var foodLabel: UILabel = {
         let label = UILabel()
@@ -353,16 +347,6 @@ class SearchListCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-//    lazy var checkButton: UIButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(systemName: "circle"), for: .normal)
-//        button.tintColor = KWColor.darkG
-//        button.tag = 0
-//        button.addTarget(self, action: #selector(setSelected), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -374,7 +358,6 @@ class SearchListCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupLabel()
-//        fatalError("init(coder:) has not been implemented")
     }
     
     override var isSelected: Bool {
@@ -385,43 +368,23 @@ class SearchListCollectionViewCell: UICollectionViewCell {
     
     private func setupLabel() {
         contentView.addSubview(foodLabel)
-//        contentView.addSubview(checkButton)
         
         NSLayoutConstraint.activate([
             foodLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             foodLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             foodLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             foodLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-            
-//            checkButton.centerYAnchor.constraint(equalTo: foodLabel.centerYAnchor),
-//            checkButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
     func configureForSelection(isSelected: Bool) {
         if isSelected {
             self.applyCardStyle(backgroundColor: .lightGray)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 self?.applyCardStyle()
             }
         } else {
             self.applyCardStyle()
-        }
-    }
-    
-    @objc func setSelected() {
-//        if checkButton.tag == 0 {
-//            checkButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-//            checkButton.tag = 1
-//            self.applyCardStyle(backgroundColor: .lightGray)
-//        } else {
-//            checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
-//            checkButton.tag = 0
-//            self.applyCardStyle()
-//        }
-        
-        if let indexPath = self.indexPath {
-            delegate?.seletedSearchResult(at: indexPath)
         }
     }
     
