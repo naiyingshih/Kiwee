@@ -417,6 +417,8 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
                 for: indexPath)
             guard let searchCollectionViewCell = cell as? SearchListCollectionViewCell else { return cell }
             let searchedFood = searchFoodResult[indexPath.row]
+            searchCollectionViewCell.delegate = self
+            searchCollectionViewCell.indexPath = indexPath.row
             searchCollectionViewCell.updateResults(searchedFood)
             return searchCollectionViewCell
         case 2:
@@ -440,19 +442,29 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView.tag == 2 {
+        switch collectionView.tag {
+        case 1:
+            let width = collectionView.bounds.width
+            return CGSize(width: width, height: 30)
+        case 2:
             let height = collectionView.bounds.height
             return CGSize(width: 80, height: height)
+        default:
+            return CGSize()
         }
-        return CGSize()
+//        if collectionView.tag == 2 {
+//            let height = collectionView.bounds.height
+//            return CGSize(width: 80, height: height)
+//        }
+//        return CGSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case 1:
-            let seletedFood = searchFoodResult[indexPath.row]
-            filteredFoodItems.insert(seletedFood, at: 0)
-        case 2:let recentFood = recentFoods[indexPath.row]
+            seletedSearchResult(at: indexPath.row)
+        case 2:
+            let recentFood = recentFoods[indexPath.row]
             filteredFoodItems.insert(recentFood, at: 0)
         default:
             return
@@ -460,6 +472,11 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
 //        let recentFood = recentFoods[indexPath.row]
 //        filteredFoodItems.insert(recentFood, at: 0)
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+//        filteredFoodItems.remove(at: indexPath.row)
+//    }
+    
 }
     
 // MARK: - Extension: Search Food Function
@@ -492,7 +509,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
         present(alertController, animated: true, completion: nil)
     }
     
-    func searchBarDidChange(text: String, withCell: AddFoodMethodCell) {
+    func searchBarDidChange(text: String) {
         loadFood()
         let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
         if filterFoods.isEmpty {
@@ -502,7 +519,15 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
                 searchFoodResult.insert(filterFood, at: 0)
             }
         }
-        withCell.collectionView.reloadData()
+    }
+    
+    func seletedSearchResult(at indexPath: Int) {
+        let seletedFood = searchFoodResult[indexPath]
+        filteredFoodItems.insert(seletedFood, at: 0)
+        
+//        if let cell = collectionView.cellForItem(at: indexPath) as? SearchListCollectionViewCell {
+//            cell.setSelected()
+//        }
     }
     
     private func loadFood() {

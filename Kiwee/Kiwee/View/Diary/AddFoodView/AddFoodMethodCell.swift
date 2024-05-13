@@ -8,7 +8,8 @@
 import UIKit
 
 protocol AddFoodMethodCellDelegate: AnyObject {
-    func searchBarDidChange(text: String, withCell: AddFoodMethodCell)
+    func searchBarDidChange(text: String)
+    func seletedSearchResult(at indexPath: Int)
     func cameraButtonDidTapped()
     func textFieldConfirmed(foodResults: [Food]?)
 }
@@ -126,16 +127,18 @@ class AddFoodMethodCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
     // MARK: - Status Check Functions
-    
     func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 4
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 //        layout.itemSize = CGSize(width: 100, height: 30) // Adjust based on your needs
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemYellow
+//        collectionView.applyCardStyle(backgroundColor: KWColor.cardBackground)
         collectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchListCollectionViewCell")
         collectionView.tag = 1
+        
     }
     
     func setupTextFieldObservers() {
@@ -252,6 +255,7 @@ class AddFoodMethodCell: UITableViewCell {
             collectionView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            collectionView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
@@ -319,7 +323,7 @@ extension AddFoodMethodCell: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let delegate = delegate else { return }
         guard let searchText = searchBar.text else { return }
-        delegate.searchBarDidChange(text: searchText, withCell: self)
+        delegate.searchBarDidChange(text: searchText)
         // Dismiss the keyboard
         searchBar.resignFirstResponder()
         searchBar.text = ""
@@ -331,17 +335,32 @@ extension AddFoodMethodCell: UISearchBarDelegate {
 
 class SearchListCollectionViewCell: UICollectionViewCell {
     
+    weak var delegate: AddFoodMethodCellDelegate?
+    var indexPath: Int?
+    
     lazy var foodLabel: UILabel = {
         let label = UILabel()
         label.applyContent(size: 16, color: .black)
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    lazy var checkButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "circle"), for: .normal)
+        button.tintColor = KWColor.darkG
+        button.tag = 0
+        button.addTarget(self, action: #selector(setSeleted), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLabel()
+        self.applyCardStyle()
+        self.clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -352,13 +371,27 @@ class SearchListCollectionViewCell: UICollectionViewCell {
     
     private func setupLabel() {
         contentView.addSubview(foodLabel)
+        contentView.addSubview(checkButton)
         
         NSLayoutConstraint.activate([
             foodLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             foodLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            foodLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            foodLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            foodLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            foodLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+            checkButton.centerYAnchor.constraint(equalTo: foodLabel.centerYAnchor),
+            checkButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
+    }
+    
+    @objc func setSeleted() {
+        let newState = checkButton.tag == 0 ? 1 : 0
+        checkButton.setImage(UIImage(systemName: newState == 1 ? "checkmark.circle" : "circle"), for: .normal)
+        checkButton.tag = newState
+        
+        if let indexPath = self.indexPath {
+            delegate?.seletedSearchResult(at: indexPath)
+        }
     }
     
     func updateResults(_ results: Food) {
