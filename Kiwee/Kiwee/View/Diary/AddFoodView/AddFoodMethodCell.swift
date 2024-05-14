@@ -24,6 +24,8 @@ class AddFoodMethodCell: UITableViewCell {
     
     weak var delegate: AddFoodMethodCellDelegate?
     var collectionView: UICollectionView!
+    var collectionViewHeightConstraint: NSLayoutConstraint!
+    var collectionViewWidthConstraint: NSLayoutConstraint!
     
     private lazy var cameraButton: UIButton = {
         let button = UIButton()
@@ -242,18 +244,39 @@ class AddFoodMethodCell: UITableViewCell {
         contentView.addSubview(collectionView)
        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 0)
+        collectionViewWidthConstraint = collectionView.widthAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             searchBar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+//            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+//            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            collectionView.heightAnchor.constraint(equalToConstant: 100)
+            collectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            collectionViewHeightConstraint,
+            collectionViewWidthConstraint
+//            collectionView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
+    
+    func updateCollectionViewConstraints() {
+        collectionViewHeightConstraint.constant = 120
+        collectionViewWidthConstraint.constant = 320
+        UIView.animate(withDuration: 0.3) {
+            self.contentView.layoutIfNeeded()
+        }
+    }
+    
+//    func updateCollectionViewConstraints(height: CGFloat, width: CGFloat) {
+//        collectionViewHeightConstraint.constant = height
+//        collectionViewWidthConstraint.constant = width
+//        UIView.animate(withDuration: 0.3) {
+//            self.contentView.layoutIfNeeded()
+//        }
+//    }
     
     private func setupTextField() {
         contentView.addSubview(nameTextField)

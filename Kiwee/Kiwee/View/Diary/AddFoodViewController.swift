@@ -16,16 +16,19 @@ class AddFoodViewController: UIViewController {
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = [] {
         didSet {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 UIView.setAnimationsEnabled(false)
-                self.tableView.beginUpdates()
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
-                self.tableView.endUpdates()
-
-                if !self.filteredFoodItems.isEmpty {
-                    self.updateConfirmButtonState(isEnabled: true)
+                tableView.beginUpdates()
+                tableView.reloadSections(IndexSet(integer: 2), with: .none)
+                tableView.endUpdates()
+                
+                if !filteredFoodItems.isEmpty {
+                    updateConfirmButtonState(isEnabled: true)
+                    badgeLabel.text = "\(filteredFoodItems.count)"
+                    badgeLabel.isHidden = false
                 } else {
-                    self.updateConfirmButtonState(isEnabled: false)
+                    updateConfirmButtonState(isEnabled: false)
+                    badgeLabel.isHidden = true
                 }
             }
         }
@@ -69,6 +72,17 @@ class AddFoodViewController: UIViewController {
         button.addTarget(self, action: #selector(confirmed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    lazy var badgeLabel: UILabel = {
+        let badge = UILabel()
+        badge.backgroundColor = KWColor.lightY
+        badge.applyContent(size: 15, color: KWColor.darkB)
+        badge.textAlignment = .center
+        badge.layer.cornerRadius = 15
+        badge.layer.masksToBounds = true
+        badge.translatesAutoresizingMaskIntoConstraints = false
+        return badge
     }()
     
     // MARK: - Life Cycle
@@ -130,6 +144,7 @@ class AddFoodViewController: UIViewController {
     func setupBottomBlock() {
         view.addSubview(bottomView)
         bottomView.addSubview(confirmButton)
+        bottomView.addSubview(badgeLabel)
         
         NSLayoutConstraint.activate([
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -140,8 +155,16 @@ class AddFoodViewController: UIViewController {
             confirmButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
             confirmButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 24),
             confirmButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -24),
-            confirmButton.heightAnchor.constraint(equalToConstant: 48)
+            confirmButton.heightAnchor.constraint(equalToConstant: 48),
+            
+            badgeLabel.topAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -10),
+            badgeLabel.leadingAnchor.constraint(equalTo: confirmButton.trailingAnchor, constant: -20),
+            badgeLabel.widthAnchor.constraint(equalToConstant: 30),
+            badgeLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
+        
+        // Initially hide the badge
+        badgeLabel.isHidden = true
     }
     
     func updateConfirmButtonState(isEnabled: Bool) {
@@ -161,6 +184,7 @@ class AddFoodViewController: UIViewController {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .search
+        searchFoodResult.removeAll()
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
@@ -315,6 +339,9 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             addMethodCell.collectionView.delegate = self
             addMethodCell.collectionView.dataSource = self
             addMethodCell.collectionView.reloadData()
+            if !searchFoodResult.isEmpty {
+                addMethodCell.updateCollectionViewConstraints()
+            }
             return addMethodCell
             
         case 1:
@@ -441,8 +468,7 @@ extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectio
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView.tag {
         case 1:
-            let width = collectionView.bounds.width
-            return CGSize(width: width, height: 30)
+            return CGSize(width: 320, height: 30)
         case 2:
             let height = collectionView.bounds.height
             return CGSize(width: 80, height: height)
