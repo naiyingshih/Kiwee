@@ -37,6 +37,9 @@ class RecordManageViewController: UIViewController {
         
         fetchUserData()
         
+        heightTextField.keyboardType = .decimalPad
+        weightTextField.keyboardType = .decimalPad
+        goalWeightTextField.keyboardType = .decimalPad
         heightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         weightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         goalWeightTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)

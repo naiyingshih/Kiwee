@@ -81,6 +81,24 @@ class RecordCollectionCell: UICollectionViewCell {
         setupUI()
     }
     
+    override var isSelected: Bool {
+        didSet {
+            configureForSelection(isSelected: isSelected)
+        }
+    }
+    
+    func configureForSelection(isSelected: Bool) {
+        if isSelected {
+            foodImageView.layer.borderWidth = 4
+            foodImageView.layer.borderColor = KWColor.lightY.cgColor
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                self?.foodImageView.layer.borderWidth = 0
+            }
+        } else {
+            return
+        }
+    }
+    
     func setupUI() {
         addSubview(foodImageView)
         addSubview(foodLabel)

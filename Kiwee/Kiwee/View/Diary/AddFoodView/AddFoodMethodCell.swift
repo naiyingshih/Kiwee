@@ -30,6 +30,7 @@ class AddFoodMethodCell: UITableViewCell {
     private lazy var cameraButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Camera"), for: .normal)
+        button.setImage(UIImage(named: "Camera_highlighted"), for: .highlighted)
         button.addTarget(self, action: #selector(openCamera), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
