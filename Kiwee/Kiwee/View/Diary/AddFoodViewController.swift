@@ -14,7 +14,6 @@ class AddFoodViewController: UIViewController {
     var currentMethod: AddFoodMethod? {
         didSet {
             DispatchQueue.main.async {
-                UIView.setAnimationsEnabled(false)
                 self.tableView.reloadData()
             }
         }
