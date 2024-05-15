@@ -11,7 +11,14 @@ import Vision
 class AddFoodViewController: UIViewController {
     
     var sectionIndex: Int?
-    var currentMethod: AddFoodMethod?
+    var currentMethod: AddFoodMethod? {
+        didSet {
+            DispatchQueue.main.async {
+                UIView.setAnimationsEnabled(false)
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = [] {
@@ -33,14 +40,7 @@ class AddFoodViewController: UIViewController {
             }
         }
     }
-    var searchFoodResult: [Food] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
-            }
-        }
-    }
-    
+    var searchFoodResult: [Food] = []
     var recentFoods: [Food] = []
     var selectedDate: Date?
     var foodQuantities: [String: Double] = [:]
@@ -162,37 +162,30 @@ class AddFoodViewController: UIViewController {
             badgeLabel.widthAnchor.constraint(equalToConstant: 30),
             badgeLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
-        
         // Initially hide the badge
         badgeLabel.isHidden = true
     }
     
     func updateConfirmButtonState(isEnabled: Bool) {
-        confirmButton.isEnabled = isEnabled
-        let alpha: CGFloat = isEnabled ? 1.0 : 0.5
-        confirmButton.backgroundColor = confirmButton.backgroundColor?.withAlphaComponent(alpha)
+        ButtonManager.updateButtonEnableStatus(for: confirmButton, enabled: isEnabled)
     }
     
     @IBAction func imageRecognizeButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .imageRecognition
-        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func searchFoodButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .search
-        searchFoodResult.removeAll()
-        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     @IBAction func manualButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .manual
-        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
     func updateBottomBorder(for selectedButton: UIButton) {
@@ -338,8 +331,8 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             addMethodCell.configureCellForMethod(currentMethod)
             addMethodCell.collectionView.delegate = self
             addMethodCell.collectionView.dataSource = self
-            addMethodCell.collectionView.reloadData()
             if !searchFoodResult.isEmpty {
+                addMethodCell.collectionView.reloadData()
                 addMethodCell.updateCollectionViewConstraints()
             }
             return addMethodCell
@@ -531,12 +524,18 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
             for filterFood in filterFoods {
                 searchFoodResult.insert(filterFood, at: 0)
             }
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
+            }
         }
     }
     
     func removeAllSearchResult() {
         if !searchFoodResult.isEmpty {
             searchFoodResult.removeAll()
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
+            }
         }
     }
     
