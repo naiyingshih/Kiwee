@@ -24,12 +24,8 @@ class RecentRecordCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupCollectionView()
-    }
-    
-    private func setupCollectionView() {
+    func setupCollectionView() {
+        defaultLabel.isHidden = true
         collectionView.register(RecordCollectionCell.self, forCellWithReuseIdentifier: "RecordCollectionCell")
         collectionView.tag = 2
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -41,6 +37,7 @@ class RecentRecordCell: UITableViewCell {
     }
     
     func setupDefaultLabel() {
+        collectionView.isHidden = true
         contentView.addSubview(defaultLabel)
         
         NSLayoutConstraint.activate([

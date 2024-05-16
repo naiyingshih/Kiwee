@@ -11,22 +11,14 @@ import Vision
 class AddFoodViewController: UIViewController {
     
     var sectionIndex: Int?
-    var currentMethod: AddFoodMethod? {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    var currentMethod: AddFoodMethod?
     
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = [] {
         didSet {
             DispatchQueue.main.async { [self] in
                 UIView.setAnimationsEnabled(false)
-                tableView.beginUpdates()
                 tableView.reloadSections(IndexSet(integer: 2), with: .none)
-                tableView.endUpdates()
                 
                 if !filteredFoodItems.isEmpty {
                     updateConfirmButtonState(isEnabled: true)
@@ -40,7 +32,13 @@ class AddFoodViewController: UIViewController {
         }
     }
     var searchFoodResult: [Food] = []
-    var recentFoods: [Food] = []
+    var recentFoods: [Food] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet(integer: 1), with: .none)
+            }
+        }
+    }
     var selectedDate: Date?
     var foodQuantities: [String: Double] = [:]
     var isEditingTextField = false
@@ -173,18 +171,27 @@ class AddFoodViewController: UIViewController {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .imageRecognition
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func searchFoodButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .search
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func manualButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
         currentMethod = .manual
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func updateBottomBorder(for selectedButton: UIButton) {
@@ -268,10 +275,6 @@ class AddFoodViewController: UIViewController {
                 }
                 return modifiedFood
             }
-            
-            DispatchQueue.main.async {
-                strongSelf.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-            }
         }
     }
         
@@ -344,12 +347,13 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
             guard let recentRecordCell = cell as? RecentRecordCell else { return cell }
             if recentFoods.isEmpty {
                 recentRecordCell.setupDefaultLabel()
-                return recentRecordCell
             } else {
+                recentRecordCell.setupCollectionView()
                 recentRecordCell.collectionView.delegate = self
                 recentRecordCell.collectionView.dataSource = self
-                return recentRecordCell
+                recentRecordCell.collectionView.reloadData()
             }
+            return recentRecordCell
         case 2:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: String(describing: ResultCell.self),
