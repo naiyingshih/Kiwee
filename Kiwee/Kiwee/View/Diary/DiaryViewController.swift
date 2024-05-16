@@ -9,14 +9,6 @@ import UIKit
 
 class DiaryViewController: UIViewController {
     
-//    var allFood: [[Food]] = Array(repeating: [], count: 5)
-//    var waterCount: Int = 0 {
-//        didSet {
-//            DispatchQueue.main.async {
-//                self.tableView.reloadSections(IndexSet(integer: 4), with: .none)
-//            }
-//        }
-//    }
     var viewModel = DiaryViewModel()
     
     lazy var datePicker: UIDatePicker = {
@@ -39,7 +31,6 @@ class DiaryViewController: UIViewController {
         view.backgroundColor = KWColor.background
         self.navigationItem.titleView = datePicker
         setupTableView()
-//        loadData(for: Date())
         viewModel.loadData(for: Date())
         bindViewModel()
     }
@@ -53,6 +44,7 @@ class DiaryViewController: UIViewController {
         tableView.sectionHeaderTopPadding = 8
     }
     
+    // MARK: - Fetching Data functions
     private func bindViewModel() {
         viewModel.reloadData = { [weak self] in
             DispatchQueue.main.async {
@@ -72,30 +64,6 @@ class DiaryViewController: UIViewController {
         viewModel.loadData(for: datePicker.date)
     }
     
-    // MARK: - Fetch data functions
-//    private func loadData(for date: Date) {
-//        FirestoreManager.shared.getIntakeCard(
-//            collectionID: "intake",
-//            chosenDate: datePicker.date
-//        ) { foods, water in
-//            self.organizeAndDisplayFoods(foods: foods)
-//            self.waterCount = water
-//        }
-//    }
-//    
-//    private func organizeAndDisplayFoods(foods: [Food]) {
-//        var newAllFood: [[Food]] = Array(repeating: [], count: 5)
-//        for food in foods {
-//            guard let section = food.section,
-//                  section >= 0,
-//                  section < newAllFood.count else { continue }
-//            newAllFood[section].append(food)
-//        }
-//        DispatchQueue.main.async {
-//            self.allFood = newAllFood
-//            self.tableView.reloadData()
-//        }
-//    }
 }
 
 // MARK: - TableViewHeaderDelegate
@@ -104,15 +72,11 @@ extension DiaryViewController: TableViewHeaderDelegate {
     func didTappedAddButton(section: Int) {
         if section == 4 {
             viewModel.addWaterCount()
-//            waterCount += 1
             
-            FirestoreManager.shared.postWaterCount(
-                waterCount: viewModel.waterCount,
-                chosenDate: datePicker.date
-            ) { success in
+            viewModel.postWaterCount(chosenDate: datePicker.date) { [weak self] success in
                 if success {
-                    print("water intake data posted successfully, water count = \(self.viewModel.waterCount)")
-                    self.navigationController?.popViewController(animated: true)
+                    print("water intake data posted successfully, water count = \(self?.viewModel.waterCount ?? 0)")
+                    self?.navigationController?.popViewController(animated: true)
                 } else {
                     print("Failed to post water intake data")
                 }
@@ -131,7 +95,6 @@ extension DiaryViewController: TableViewHeaderDelegate {
 }
 
 // MARK: - Extension: UITableViewDelegate, UITableViewDataSource
-
 extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -225,26 +188,19 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if indexPath.section >= 0 && indexPath.section <= 3 {
-                let foodItem = viewModel.allFood[indexPath.section][indexPath.row]
-                let documentID = foodItem.documentID ?? ""
-                
-                FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in
-                    DispatchQueue.main.async {
-                        if success {
-                            print("Document successfully removed!")
-                        } else {
-                            print("Error removing document")
-                        }
+                viewModel.deleteFoodItem(at: indexPath) { success in
+                    if success {
+                        print("Document successfully removed!")
+                    } else {
+                        print("Error removing document")
                     }
                 }
             } else if indexPath.section == 4 {
-                FirestoreManager.shared.resetWaterCount(chosenDate: datePicker.date) { success in
-                    DispatchQueue.main.async {
-                        if success {
-                            print("water successfully reset")
-                        } else {
-                            print("Error removing document")
-                        }
+                viewModel.resetWaterCount(chosenDate: datePicker.date) { success in
+                    if success {
+                        print("water successfully reset")
+                    } else {
+                        print("Error removing document")
                     }
                 }
             }

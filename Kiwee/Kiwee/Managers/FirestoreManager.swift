@@ -15,6 +15,13 @@ class FirestoreManager {
     let database = Firestore.firestore()
     let userID = Auth.auth().currentUser?.uid
     
+    func fetchDocuments(for collectionID: String, userID: String, chosenDate: Date, type: String, completion: @escaping ([QueryDocumentSnapshot]?, Error?) -> Void) {
+        let query = Firestore.firestore().queryForUserIntake(userID: userID, chosenDate: chosenDate, type: type)
+        query.getDocuments { (querySnapshot, error) in
+            completion(querySnapshot?.documents, error)
+        }
+    }
+    
     func deleteDocument(collectionID: String, documentID: String, completion: @escaping (Bool) -> Void) {
         database.collection(collectionID).document(documentID).delete { error in
             if let error = error {
@@ -77,14 +84,6 @@ extension FirestoreManager {
                     }
                 }
             }
-//        database.collection("users").addDocument(data: userDictionary) { error in
-//            if let error = error {
-//                print("Error adding intake data: \(error.localizedDescription)")
-//                completion(false)
-//            } else {
-//                completion(true)
-//            }
-//        }
     }
     
     func updatePartialUserData(updates: [String: Any], completion: @escaping (Bool) -> Void) {
@@ -185,57 +184,77 @@ extension FirestoreManager {
     func postWaterCount(waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
         
-        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        let query = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "water")
+        query.getDocuments { (querySnapshot, error) in
+            guard error == nil else {
+                print("Error getting documents: \(error!.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            guard let documents = querySnapshot?.documents, !documents.isEmpty else {
+                self.createWaterDocument(userID: currentUserUID, waterCount: waterCount, chosenDate: chosenDate, completion: completion)
+                return
+            }
+            
+            let documentID = documents.first!.documentID
+            self.updateWaterCount(documentID: documentID, waterCount: waterCount, completion: completion)
+        }
+    }
+    
+    private func updateWaterCount(documentID: String, waterCount: Int, completion: @escaping (Bool) -> Void) {
+        Firestore.firestore().collection("intake").document(documentID).updateData([
+            "water_count": waterCount
+        ]) { error in
+            completion(error == nil)
+        }
+    }
+    
+    private func createWaterDocument(userID: String, waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
+        let documentID = Firestore.firestore().collection("intake").document().documentID
+        let waterDictionary: [String: Any] = [
+            "id": userID,
+            "water_count": waterCount,
+            "date": Timestamp(date: chosenDate),
+            "type": "water",
+            "documentID": documentID
+        ]
         
-        database.collection("intake")
-            .whereField("id", isEqualTo: currentUserUID)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-            .whereField("type", isEqualTo: "water")
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error fetching water documents: \(error.localizedDescription)")
-                    completion(false)
-                } else if let documents = querySnapshot?.documents, !documents.isEmpty {
-                    // Document for the current day exists, update it
-                    let documentID = documents.first!.documentID
-                    self.database.collection("intake").document(documentID).updateData([
-                        "water_count": waterCount
-                    ]) { error in
-                        if let error = error {
-                            print("Error updating water count: \(error.localizedDescription)")
-                            completion(false)
-                        } else {
-                            print("Water count updated successfully")
-                            completion(true)
-                        }
-                    }
-                } else {
-                    // No document for the current day, create a new one
-                    let documentID = self.database.collection("intake").document().documentID
-                    let waterDictionary: [String: Any] = [
-                        "id": currentUserUID,
-                        "water_count": waterCount,
-                        "date": chosenDate,
-                        "type": "water",
-                        "documentID": documentID
-                    ]
-                    
-                    // Use the documentID to set the document with the specific ID
-                    self.database.collection("intake").document(documentID).setData(waterDictionary) { error in
-                        if let error = error {
-                            print("Error adding water intake: \(error.localizedDescription)")
-                            completion(false)
-                        } else {
-                            print("Water intake data added successfully with ID: \(documentID)")
-                            completion(true)
-                        }
+        Firestore.firestore().collection("intake").document(documentID).setData(waterDictionary) { error in
+            completion(error == nil)
+        }
+    }
+    
+    func resetWaterCount(chosenDate: Date, completion: @escaping (Bool) -> Void) {
+        guard let currentUserUID = userID else { return }
+        
+        let query = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "water")
+        query.getDocuments { (querySnapshot, error) in
+            
+            guard error == nil else {
+                print("Error getting documents: \(error!.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            guard let documents = querySnapshot?.documents, !documents.isEmpty else {
+                completion(true)
+                return
+            }
+            
+            for document in documents {
+                self.database.collection("intake").document(document.documentID).delete { error in
+                    guard error == nil else {
+                        print("Error removing document: \(error!.localizedDescription)")
+                        completion(false)
+                        return
                     }
                 }
             }
+            completion(true)
+        }
     }
-    
+
     func postIntakeData(intakeDataArray: [Food], chosenDate: Date, completion: @escaping (Bool) -> Void) {
         guard let currentUserUID = userID else { return }
         let batch = database.batch()
@@ -274,55 +293,21 @@ extension FirestoreManager {
         }
     }
     
-    func resetWaterCount(chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = userID else { return }
-        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-
-        database.collection("intake")
-            .whereField("id", isEqualTo: currentUserUID)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-            .whereField("type", isEqualTo: "water")
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        self.database.collection("intake").document(document.documentID).delete { err in
-                            if let err = err {
-                                print("Error removing document: \(err)")
-                                completion(false)
-                            } else {
-                                completion(true)
-                            }
-                        }
-                    }
-                }
-            }
-    }
-    
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
        
-        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        database.collection(collectionID)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-            .whereField("id", isEqualTo: currentUserUID)
-            .addSnapshotListener { querySnapshot, err in
-                if let error = err {
-                    print(error)
-                    completion([], 0)
-                    return
-                } else {
-                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
-                    let water = self.getWaterQuantity(from: querySnapshot?.documents ?? [])
-                    completion(foods, water)
-                }
+        let query = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "food")
+        query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print(error)
+                completion([], 0)
+                return
+            } else {
+                let foods = self.getIntake(from: querySnapshot?.documents ?? [])
+                let water = self.getWaterQuantity(from: querySnapshot?.documents ?? [])
+                completion(foods, water)
             }
+        }
     }
     
     private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
@@ -375,7 +360,7 @@ extension FirestoreManager {
 //        let dispatchGroup = DispatchGroup()
         for date in dates {
 //            dispatchGroup.enter()
-            getIntakeCard(collectionID: "intake", chosenDate: date) { (foods, water) in
+            getIntakeCard(collectionID: "intake", chosenDate: date) { (foods, water)  in
                 aggregatedFoods.append(contentsOf: foods)
                 totalWaterIntake += water
                 completion(aggregatedFoods, totalWaterIntake)
@@ -679,4 +664,18 @@ extension FirestoreManager {
             }
     }
     
+}
+
+// MARK: - Extension: Firestore
+extension Firestore {
+    func queryForUserIntake(userID: String, chosenDate: Date, type: String) -> Query {
+        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        return self.collection("intake")
+            .whereField("id", isEqualTo: userID)
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
+            .whereField("type", isEqualTo: type)
+    }
 }

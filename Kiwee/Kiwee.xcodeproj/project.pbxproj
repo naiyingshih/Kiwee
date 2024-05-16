@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0E0022AF2BF4FCED00A39397 /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */; };
+		0E0022B12BF602C900A39397 /* SearchListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */; };
+		0E0022B42BF624CC00A39397 /* RecentRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */; };
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
@@ -92,6 +94,8 @@
 
 /* Begin PBXFileReference section */
 		0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
+		0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListCollectionViewCell.swift; sourceTree = "<group>"; };
+		0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -191,6 +195,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E0022B22BF6242A00A39397 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */,
+				0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */,
+				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		0E1567A82BE8CAFF002D25AB /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +245,6 @@
 			isa = PBXGroup;
 			children = (
 				0E91DC222BCD541E0018911F /* ReportViewController.swift */,
-				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
 				0E91DC2E2BCF06440018911F /* ChartView */,
 			);
 			path = Report;
@@ -300,7 +313,6 @@
 				0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */,
 				0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */,
 				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
-				0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -342,6 +354,7 @@
 				0ECE08882BC69877003C15B0 /* SceneDelegate.swift */,
 				0ECE08C62BC76B02003C15B0 /* ThirdPartyLibrary */,
 				0ECE08C42BC76A96003C15B0 /* Managers */,
+				0E0022B22BF6242A00A39397 /* ViewModel */,
 				0ECE08C32BC76A31003C15B0 /* View */,
 				0E91DC732BD63F7A0018911F /* Chatbot */,
 				0ECE08C22BC76A0F003C15B0 /* Models */,
@@ -423,7 +436,6 @@
 		0ECE08C72BC76C2D003C15B0 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */,
 				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
 				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
 				0E91DC152BCA556D0018911F /* CameraViewController.swift */,
@@ -437,7 +449,9 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08CC2BC78AC0003C15B0 /* AddFoodMethodCell.swift */,
+				0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */,
 				0ECE08D02BC7BA8C003C15B0 /* RecentRecordCell.swift */,
+				0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */,
 				0ECE08CE2BC7BA64003C15B0 /* ResultCell.swift */,
 			);
 			path = AddFoodView;
@@ -642,12 +656,14 @@
 				0ECE08CB2BC77A74003C15B0 /* AddFoodViewController.swift in Sources */,
 				0E91DC422BD1811E0018911F /* HomeViewController.swift in Sources */,
 				0E91DC292BCD843A0018911F /* SwiftUIHostingCell.swift in Sources */,
+				0E0022B42BF624CC00A39397 /* RecentRecordCollectionViewCell.swift in Sources */,
 				0E91DC232BCD541E0018911F /* ReportViewController.swift in Sources */,
 				0E91DCB52BD961230018911F /* DetailView.swift in Sources */,
 				0E61B3112BE625FC0043A82B /* NutrientCell.swift in Sources */,
 				0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */,
 				0E6FF9A42BDA543D003B2133 /* GoalViewController.swift in Sources */,
 				0E61B2DE2BE46B590043A82B /* SigninViewController.swift in Sources */,
+				0E0022B12BF602C900A39397 /* SearchListCollectionViewCell.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
 				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,

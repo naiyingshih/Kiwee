@@ -16,7 +16,8 @@ class AddFoodViewController: UIViewController {
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = [] {
         didSet {
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 UIView.setAnimationsEnabled(false)
                 tableView.reloadSections(IndexSet(integer: 2), with: .none)
                 
@@ -328,6 +329,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
                 withIdentifier: String(describing: AddFoodMethodCell.self),
                 for: indexPath
             )
+//            let cell2 = AddFoodMethodCell()
             guard let addMethodCell = cell as? AddFoodMethodCell else { return cell }
             addMethodCell.delegate = self
             addMethodCell.configureCellForMethod(currentMethod)
