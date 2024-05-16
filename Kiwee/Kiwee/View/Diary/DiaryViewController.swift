@@ -9,14 +9,15 @@ import UIKit
 
 class DiaryViewController: UIViewController {
     
-    var allFood: [[Food]] = Array(repeating: [], count: 5)
-    var waterCount: Int = 0 {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 4), with: .none)
-            }
-        }
-    }
+//    var allFood: [[Food]] = Array(repeating: [], count: 5)
+//    var waterCount: Int = 0 {
+//        didSet {
+//            DispatchQueue.main.async {
+//                self.tableView.reloadSections(IndexSet(integer: 4), with: .none)
+//            }
+//        }
+//    }
+    var viewModel = DiaryViewModel()
     
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -38,7 +39,9 @@ class DiaryViewController: UIViewController {
         view.backgroundColor = KWColor.background
         self.navigationItem.titleView = datePicker
         setupTableView()
-        loadData(for: Date())
+//        loadData(for: Date())
+        viewModel.loadData(for: Date())
+        bindViewModel()
     }
     
     // MARK: - UI setting functions
@@ -50,35 +53,49 @@ class DiaryViewController: UIViewController {
         tableView.sectionHeaderTopPadding = 8
     }
     
+    private func bindViewModel() {
+        viewModel.reloadData = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        viewModel.updateWaterSection = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadSections(IndexSet(integer: 4), with: .none)
+            }
+        }
+    }
+    
     // MARK: - Actions
     @objc func dateChanged(datePicker: UIDatePicker) {
-        loadData(for: datePicker.date)
+        viewModel.loadData(for: datePicker.date)
     }
     
     // MARK: - Fetch data functions
-    private func loadData(for date: Date) {
-        FirestoreManager.shared.getIntakeCard(
-            collectionID: "intake",
-            chosenDate: datePicker.date
-        ) { foods, water in
-            self.organizeAndDisplayFoods(foods: foods)
-            self.waterCount = water
-        }
-    }
-    
-    private func organizeAndDisplayFoods(foods: [Food]) {
-        var newAllFood: [[Food]] = Array(repeating: [], count: 5)
-        for food in foods {
-            guard let section = food.section,
-                  section >= 0,
-                  section < newAllFood.count else { continue }
-            newAllFood[section].append(food)
-        }
-        DispatchQueue.main.async {
-            self.allFood = newAllFood
-            self.tableView.reloadData()
-        }
-    }
+//    private func loadData(for date: Date) {
+//        FirestoreManager.shared.getIntakeCard(
+//            collectionID: "intake",
+//            chosenDate: datePicker.date
+//        ) { foods, water in
+//            self.organizeAndDisplayFoods(foods: foods)
+//            self.waterCount = water
+//        }
+//    }
+//    
+//    private func organizeAndDisplayFoods(foods: [Food]) {
+//        var newAllFood: [[Food]] = Array(repeating: [], count: 5)
+//        for food in foods {
+//            guard let section = food.section,
+//                  section >= 0,
+//                  section < newAllFood.count else { continue }
+//            newAllFood[section].append(food)
+//        }
+//        DispatchQueue.main.async {
+//            self.allFood = newAllFood
+//            self.tableView.reloadData()
+//        }
+//    }
 }
 
 // MARK: - TableViewHeaderDelegate
@@ -86,14 +103,15 @@ extension DiaryViewController: TableViewHeaderDelegate {
     
     func didTappedAddButton(section: Int) {
         if section == 4 {
-            waterCount += 1
+            viewModel.addWaterCount()
+//            waterCount += 1
             
             FirestoreManager.shared.postWaterCount(
-                waterCount: waterCount,
+                waterCount: viewModel.waterCount,
                 chosenDate: datePicker.date
             ) { success in
                 if success {
-                    print("water intake data posted successfully, water count = \(self.waterCount)")
+                    print("water intake data posted successfully, water count = \(self.viewModel.waterCount)")
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     print("Failed to post water intake data")
@@ -124,7 +142,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 4 {
             return 1
         } else {
-            return allFood[section].count
+            return viewModel.allFood[section].count
         }
     }
     
@@ -135,7 +153,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let waterCell = cell as? WaterViewCell else { return cell }
-            waterCell.waterSectionConfigure(count: waterCount)
+            waterCell.waterSectionConfigure(count: viewModel.waterCount)
             scrollToBottomIfNeeded()
             return waterCell
 
@@ -145,7 +163,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             )
             guard let diaryCell = cell as? DiaryViewCell else { return cell }
-            let foodData = allFood[indexPath.section][indexPath.row]
+            let foodData = viewModel.allFood[indexPath.section][indexPath.row]
             diaryCell.update(foodData)
             return diaryCell
         }
@@ -153,7 +171,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 4 {
-            let numberOfRows = (waterCount + 7) / 8
+            let numberOfRows = (viewModel.waterCount + 7) / 8
             let imageHeight: CGFloat = 50
             let spaceBetweenRows: CGFloat = 10
             let totalHeight = CGFloat(numberOfRows) * imageHeight + CGFloat(numberOfRows - 1) * spaceBetweenRows
@@ -195,7 +213,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
             if let cell = tableView.cellForRow(at: indexPath) {
                 let cellFrameInSuperview = tableView.convert(cell.frame, to: self.view)
                 let tapLocation = CGPoint(x: cellFrameInSuperview.midX, y: cellFrameInSuperview.midY)
-                let food = allFood[indexPath.section][indexPath.row]
+                let food = viewModel.allFood[indexPath.section][indexPath.row]
                 detailView.configureView(food)
                 detailView.presentView(onView: self.view, atTapLocation: tapLocation)
             }
@@ -207,7 +225,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if indexPath.section >= 0 && indexPath.section <= 3 {
-                let foodItem = allFood[indexPath.section][indexPath.row]
+                let foodItem = viewModel.allFood[indexPath.section][indexPath.row]
                 let documentID = foodItem.documentID ?? ""
                 
                 FirestoreManager.shared.deleteDocument(collectionID: "intake", documentID: documentID) { success in

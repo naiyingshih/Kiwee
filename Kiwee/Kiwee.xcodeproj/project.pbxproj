@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0022AF2BF4FCED00A39397 /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */; };
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
@@ -90,6 +91,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 		0ECE08C72BC76C2D003C15B0 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */,
 				0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */,
 				0ECE08CA2BC77A74003C15B0 /* AddFoodViewController.swift */,
 				0E91DC152BCA556D0018911F /* CameraViewController.swift */,
@@ -688,6 +691,7 @@
 				0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */,
 				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
 				0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */,
+				0E0022AF2BF4FCED00A39397 /* DiaryViewModel.swift in Sources */,
 				0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */,
 				0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */,
 				0E91DC312BCF06FB0018911F /* IntakeCardView.swift in Sources */,
