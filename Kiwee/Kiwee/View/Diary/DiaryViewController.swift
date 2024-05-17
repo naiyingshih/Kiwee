@@ -86,8 +86,8 @@ extension DiaryViewController: TableViewHeaderDelegate {
             guard let addFoodVC = storyboard.instantiateViewController(
                 withIdentifier: String(describing: AddFoodViewController.self)
             ) as? AddFoodViewController else { return }
-            addFoodVC.sectionIndex = section
-            addFoodVC.selectedDate = datePicker.date
+            addFoodVC.viewModel.sectionIndex = section
+            addFoodVC.viewModel.selectedDate = datePicker.date
             self.navigationController?.pushViewController(addFoodVC, animated: true)
         }
     }

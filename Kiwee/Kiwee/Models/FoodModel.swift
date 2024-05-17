@@ -16,13 +16,14 @@ struct Food: Codable {
     var quantity: Double?
     let section: Int?
     let date: Date?
-}
-
-struct Nutrient: Codable {
-    var carbohydrates: Double
-    var protein: Double
-    var fat: Double
-    var fiber: Double
+    
+    struct Nutrient: Codable {
+        var carbohydrates: Double
+        var protein: Double
+        var fat: Double
+        var fiber: Double
+    }
+    
 }
 
 extension Food {

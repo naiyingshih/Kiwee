@@ -10,6 +10,7 @@
 		0E0022AF2BF4FCED00A39397 /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */; };
 		0E0022B12BF602C900A39397 /* SearchListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */; };
 		0E0022B42BF624CC00A39397 /* RecentRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */; };
+		0E0022B62BF64BD800A39397 /* AddFoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */; };
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
@@ -96,6 +97,7 @@
 		0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
 		0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCollectionViewCell.swift; sourceTree = "<group>"; };
+		0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewModel.swift; sourceTree = "<group>"; };
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			children = (
 				0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */,
 				0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */,
+				0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */,
 				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
 			);
 			path = ViewModel;
@@ -666,6 +669,7 @@
 				0E0022B12BF602C900A39397 /* SearchListCollectionViewCell.swift in Sources */,
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
 				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
+				0E0022B62BF64BD800A39397 /* AddFoodViewModel.swift in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
 				0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */,

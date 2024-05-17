@@ -10,39 +10,10 @@ import Vision
 
 class AddFoodViewController: UIViewController {
     
-    var sectionIndex: Int?
-    var currentMethod: AddFoodMethod?
+    let viewModel = AddFoodViewModel()
     
-    var foodResult: [Food] = []
-    var filteredFoodItems: [Food] = [] {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                UIView.setAnimationsEnabled(false)
-                tableView.reloadSections(IndexSet(integer: 2), with: .none)
-                
-                if !filteredFoodItems.isEmpty {
-                    updateConfirmButtonState(isEnabled: true)
-                    badgeLabel.text = "\(filteredFoodItems.count)"
-                    badgeLabel.isHidden = false
-                } else {
-                    updateConfirmButtonState(isEnabled: false)
-                    badgeLabel.isHidden = true
-                }
-            }
-        }
-    }
-    var searchFoodResult: [Food] = []
-    var recentFoods: [Food] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 1), with: .none)
-            }
-        }
-    }
-    var selectedDate: Date?
-    var foodQuantities: [String: Double] = [:]
-    var isEditingTextField = false
+    private var isUpdatingFromViewModel = false
+    private var isEditingTextField = false
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
@@ -90,7 +61,8 @@ class AddFoodViewController: UIViewController {
         setupInitialUI()
         setupNavigationItemUI()
         setupTableView()
-        fetchRecentRecord()
+        viewModel.fetchRecentRecord()
+        viewModel.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,13 +89,13 @@ class AddFoodViewController: UIViewController {
             indicatorView.bottomAnchor.constraint(equalTo: underlineView.bottomAnchor),
             indicatorView.heightAnchor.constraint(equalToConstant: 2.5)
         ])
-
+        
         buttonStackView.backgroundColor = KWColor.darkB
         imageRecognizeButton.tintColor = .white
         searchFoodButton.tintColor = .lightGray
         manualButton.tintColor = .lightGray
         updateConfirmButtonState(isEnabled: false)
-        currentMethod = .imageRecognition
+        viewModel.currentMethod = .imageRecognition
     }
     
     func setupNavigationItemUI() {
@@ -168,10 +140,11 @@ class AddFoodViewController: UIViewController {
         ButtonManager.updateButtonEnableStatus(for: confirmButton, enabled: isEnabled)
     }
     
+    // MARK: - Actions
     @IBAction func imageRecognizeButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
-        currentMethod = .imageRecognition
+        viewModel.currentMethod = .imageRecognition
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -180,7 +153,7 @@ class AddFoodViewController: UIViewController {
     @IBAction func searchFoodButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
-        currentMethod = .search
+        viewModel.currentMethod = .search
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -189,22 +162,22 @@ class AddFoodViewController: UIViewController {
     @IBAction func manualButtonTapped(_ sender: UIButton) {
         updateButtonColors(selectedButton: sender)
         updateBottomBorder(for: sender)
-        currentMethod = .manual
+        viewModel.currentMethod = .manual
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
-    func updateBottomBorder(for selectedButton: UIButton) {
+    private func updateBottomBorder(for selectedButton: UIButton) {
         // Deactivate the existing centerX constraint
         indicatorCenterXConstraint?.isActive = false
         
         // Create a new centerX constraint to align the indicator with the selected button
         indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: selectedButton.centerXAnchor)
         indicatorCenterXConstraint?.isActive = true
- 
+        
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.view.layoutIfNeeded() // Animates the constraint changes
+            self?.view.layoutIfNeeded()
         }
     }
     
@@ -220,88 +193,56 @@ class AddFoodViewController: UIViewController {
     }
     
     @objc func confirmed() {
-        guard !filteredFoodItems.isEmpty else { return }
-        guard let index = self.sectionIndex else { return }
-        var calculatedIntakeDataArray: [Food] = []
-        
-        for (rowIndex, filteredFoodItem) in filteredFoodItems.enumerated() {
+        viewModel.confirmed { [weak self] rowIndex, _ in
+            guard let self = self else { return nil }
             let indexPath = IndexPath(row: rowIndex, section: 2)
-            guard let cell = tableView.cellForRow(at: indexPath) as? ResultCell,
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? ResultCell,
                   let quantityText = cell.quantityTextField.text,
                   let quantity = Double(quantityText) else {
                 print("Could not find cell or invalid quantity for row \(rowIndex)")
-                continue
+                return nil
             }
-            
-            let foodInput = Food(documentID: filteredFoodItem.documentID,
-                                 name: filteredFoodItem.name,
-                                 totalCalories: filteredFoodItem.totalCalories,
-                                 nutrients: filteredFoodItem.nutrients,
-                                 image: filteredFoodItem.image,
-                                 quantity: quantity,
-                                 section: index,
-                                 date: filteredFoodItem.date)
-            
-            if let calculatedIntakeData = calculateIntakeData(input: foodInput) {
-                calculatedIntakeDataArray.append(calculatedIntakeData)
-            }
+            return (cell, quantity)
         }
+    }
+    
+}
+    
+// MARK: - AddFoodViewControllerDelegate
+extension AddFoodViewController: AddFoodViewControllerDelegate {
+
+    func didUpdateFilteredFoodItems(_ foodItems: [Food]) {
         
-        FirestoreManager.shared.postIntakeData(
-            intakeDataArray: calculatedIntakeDataArray,
-            chosenDate: selectedDate ?? Date()
-        ) { success in
-            if success {
-                print("Food intake data posted successfully")
-                self.navigationController?.popViewController(animated: true)
+        guard !isUpdatingFromViewModel else { return }
+        
+        isUpdatingFromViewModel = true
+        defer { isUpdatingFromViewModel = false }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            UIView.setAnimationsEnabled(false)
+            self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+            
+            if !foodItems.isEmpty {
+                self.updateConfirmButtonState(isEnabled: true)
+                self.badgeLabel.text = "\(foodItems.count)"
+                self.badgeLabel.isHidden = false
             } else {
-                print("Failed to post food intake data")
+                self.updateConfirmButtonState(isEnabled: false)
+                self.badgeLabel.isHidden = true
             }
         }
     }
     
-    func fetchRecentRecord() {
-        guard let section = self.sectionIndex else { return }
-        FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
-            guard let strongSelf = self else { return }
-            
-            strongSelf.recentFoods = foods.map { food in
-                var modifiedFood = food
-                if modifiedFood.quantity != 0 {
-                    modifiedFood.totalCalories = ((modifiedFood.totalCalories * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.carbohydrates = ((modifiedFood.nutrients.carbohydrates * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.protein = ((modifiedFood.nutrients.protein * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.fat = ((modifiedFood.nutrients.fat * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                    modifiedFood.nutrients.fiber = ((modifiedFood.nutrients.fiber * 100) / (modifiedFood.quantity ?? 100) * 10).rounded() / 10
-                }
-                return modifiedFood
-            }
+    func didUpdateRecentFoods(_ items: [Food]) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .none)
         }
     }
-        
-    func calculateIntakeData(input: Food) -> Food? {
-        let updatedTotalCalorie = (input.totalCalories * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
-        let updatedCarbohydrates = (input.nutrients.carbohydrates * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
-        let updatedProtein = (input.nutrients.protein * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
-        let updatedFat = (input.nutrients.fat * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
-        let updatedFiber = (input.nutrients.fiber * ((input.quantity ?? 100) / 100.0) * 10).rounded() / 10
-        
-        let nutrients = Nutrient(carbohydrates: updatedCarbohydrates, protein: updatedProtein, fat: updatedFat, fiber: updatedFiber)
-        
-        guard let sectionIndex = self.sectionIndex else {
-            fatalError("sectionIndex is nil")
-        }
-        
-        return Food(
-            documentID: input.documentID,
-            name: input.name,
-            totalCalories: updatedTotalCalorie,
-            nutrients: nutrients,
-            image: input.image,
-            quantity: input.quantity,
-            section: sectionIndex,
-            date: input.date
-        )
+    
+    func didConfirmFoodItems(_ foodItems: [Food]) {
+        navigationController?.popViewController(animated: true)
     }
 
 }
@@ -316,7 +257,7 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 2 {
-            return filteredFoodItems.count
+            return viewModel.filteredFoodItems.count
         } else {
             return 1
         }
@@ -325,60 +266,49 @@ extension AddFoodViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: AddFoodMethodCell.self),
-                for: indexPath
-            )
-//            let cell2 = AddFoodMethodCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: AddFoodMethodCell.self), for: indexPath)
             guard let addMethodCell = cell as? AddFoodMethodCell else { return cell }
             addMethodCell.delegate = self
-            addMethodCell.configureCellForMethod(currentMethod)
-            addMethodCell.collectionView.delegate = self
-            addMethodCell.collectionView.dataSource = self
-            if !searchFoodResult.isEmpty {
-                addMethodCell.collectionView.reloadData()
+            addMethodCell.configureCellForMethod(viewModel.currentMethod)
+            addMethodCell.viewModel = viewModel
+            
+            if !viewModel.searchFoodResult.isEmpty {
+                addMethodCell.searchResultCollectionView.reloadData()
                 addMethodCell.updateCollectionViewConstraints()
             }
             return addMethodCell
             
         case 1:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: RecentRecordCell.self),
-                for: indexPath
-            )
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RecentRecordCell.self), for: indexPath)
             guard let recentRecordCell = cell as? RecentRecordCell else { return cell }
-            if recentFoods.isEmpty {
+            if viewModel.recentFoods.isEmpty {
                 recentRecordCell.setupDefaultLabel()
             } else {
                 recentRecordCell.setupCollectionView()
-                recentRecordCell.collectionView.delegate = self
-                recentRecordCell.collectionView.dataSource = self
+                recentRecordCell.viewModel = viewModel
                 recentRecordCell.collectionView.reloadData()
             }
             return recentRecordCell
         case 2:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: ResultCell.self),
-                for: indexPath
-            )
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ResultCell.self), for: indexPath)
             guard let resultCell = cell as? ResultCell else { return cell }
             resultCell.delegate = self
             
-            let foodResult = filteredFoodItems[indexPath.row]
+            let foodResult = viewModel.filteredFoodItems[indexPath.row]
             let identifier = foodResult.generateIdentifier()
-            let quantity = foodQuantities[identifier] ?? (foodResult.quantity ?? 100)
+            let quantity = viewModel.foodQuantities[identifier] ?? (foodResult.quantity ?? 100)
             resultCell.updateResult(foodResult, quantity: quantity)
             
             resultCell.onQuantityChange = { [weak self, weak resultCell] quantity in
                 guard let self = self else { return }
-                var foodItem = self.filteredFoodItems[indexPath.row]
+                var foodItem = viewModel.filteredFoodItems[indexPath.row]
                 foodItem.quantity = quantity
-                self.foodQuantities[foodItem.generateIdentifier()] = quantity
+                viewModel.foodQuantities[foodItem.generateIdentifier()] = quantity
                 resultCell?.updateResult(foodItem, quantity: quantity)
             }
             
             resultCell.deleteButtonTapped = { [weak self] in
-                self?.filteredFoodItems.remove(at: indexPath.row)
+                self?.viewModel.filteredFoodItems.remove(at: indexPath.row)
             }
             
             return resultCell
@@ -423,72 +353,6 @@ extension AddFoodViewController: DeleteButtonDelegate {
         }
     }
 }
-
-// MARK: - CollectionView
-
-extension AddFoodViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch collectionView.tag {
-        case 1:
-            return searchFoodResult.count
-        case 2:
-            return recentFoods.count
-        default:
-            return 0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch collectionView.tag {
-        case 1:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: SearchListCollectionViewCell.self),
-                for: indexPath)
-            guard let searchCollectionViewCell = cell as? SearchListCollectionViewCell else { return cell }
-            let searchedFood = searchFoodResult[indexPath.row]
-            searchCollectionViewCell.delegate = self
-            searchCollectionViewCell.updateResults(searchedFood)
-            return searchCollectionViewCell
-        case 2:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: String(describing: RecordCollectionCell.self),
-                for: indexPath)
-            guard let recentCollectionViewCell = cell as? RecordCollectionCell else { return cell }
-            let recentFood = recentFoods[indexPath.row]
-            recentCollectionViewCell.updateResults(recentFood)
-            return recentCollectionViewCell
-        default:
-            return UICollectionViewCell()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch collectionView.tag {
-        case 1:
-            return CGSize(width: 320, height: 30)
-        case 2:
-            let height = collectionView.bounds.height
-            return CGSize(width: 80, height: height)
-        default:
-            return CGSize()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch collectionView.tag {
-        case 1:
-            let selectedFood = searchFoodResult[indexPath.row]
-            filteredFoodItems.insert(selectedFood, at: 0)
-        case 2:
-            let recentFood = recentFoods[indexPath.row]
-            filteredFoodItems.insert(recentFood, at: 0)
-        default:
-            return
-        }
-    }
-    
-}
     
 // MARK: - Extension: Search Food Function
 
@@ -522,12 +386,12 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     
     func searchBarDidChange(text: String) {
         loadFood()
-        let filterFoods = foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
+        let filterFoods = viewModel.foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
         if filterFoods.isEmpty {
             showNoResultsAlert()
         } else {
             for filterFood in filterFoods {
-                searchFoodResult.insert(filterFood, at: 0)
+                viewModel.searchFoodResult.insert(filterFood, at: 0)
             }
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
@@ -536,8 +400,8 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     }
     
     func removeAllSearchResult() {
-        if !searchFoodResult.isEmpty {
-            searchFoodResult.removeAll()
+        if !viewModel.searchFoodResult.isEmpty {
+            viewModel.searchFoodResult.removeAll()
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
             }
@@ -547,7 +411,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     private func loadFood() {
         FoodDataManager.shared.loadFood { [weak self] (foodItems, error) in
             if let foodItems = foodItems {
-                self?.foodResult = foodItems
+                self?.viewModel.foodResult = foodItems
             } else if let error = error {
                 print("Failed to load food data: \(error)")
             }
@@ -563,7 +427,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     func textFieldConfirmed(foodResults: [Food]?) {
         guard let foodResults = foodResults else { return }
         for foodResult in foodResults {
-            filteredFoodItems.insert(foodResult, at: 0)
+            viewModel.filteredFoodItems.insert(foodResult, at: 0)
         }
     }
     
@@ -615,7 +479,7 @@ extension AddFoodViewController: FoodDataDelegate {
         }
     }
 
-    func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String) {
+    func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Food.Nutrient, image: String) {
         let identifiedFood = Food(
             documentID: "",
             name: name,
@@ -626,6 +490,6 @@ extension AddFoodViewController: FoodDataDelegate {
             section: nil, 
             date: nil
         )
-        filteredFoodItems.insert(identifiedFood, at: 0)
+        viewModel.filteredFoodItems.insert(identifiedFood, at: 0)
     }
 }

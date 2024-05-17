@@ -10,7 +10,7 @@ import Vision
 import CoreML
 
 protocol FoodDataDelegate: AnyObject {
-    func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Nutrient, image: String)
+    func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Food.Nutrient, image: String)
     func didTappedRetake(_ controller: CameraViewController)
 }
 

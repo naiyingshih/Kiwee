@@ -8,9 +8,7 @@
 import UIKit
 
 class SearchListCollectionViewCell: UICollectionViewCell {
-    
-    weak var delegate: AddFoodMethodCellDelegate?
-    
+
     lazy var foodLabel: UILabel = {
         let label = UILabel()
         label.applyContent(size: 16, color: .black)

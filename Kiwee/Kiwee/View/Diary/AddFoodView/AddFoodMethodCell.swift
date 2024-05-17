@@ -22,8 +22,10 @@ enum AddFoodMethod {
 
 class AddFoodMethodCell: UITableViewCell {
     
+    var viewModel: AddFoodViewModel?
+    
     weak var delegate: AddFoodMethodCellDelegate?
-    var collectionView: UICollectionView!
+    var searchResultCollectionView: UICollectionView!
     var collectionViewHeightConstraint: NSLayoutConstraint!
     
     private lazy var cameraButton: UIButton = {
@@ -133,11 +135,11 @@ class AddFoodMethodCell: UITableViewCell {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 4
-//        layout.itemSize = CGSize(width: 100, height: 30) // Adjust based on your needs
         
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchListCollectionViewCell")
-        collectionView.tag = 1
+        searchResultCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        searchResultCollectionView.register(SearchListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchListCollectionViewCell")
+        searchResultCollectionView.delegate = self
+        searchResultCollectionView.dataSource = self
     }
     
     func setupTextFieldObservers() {
@@ -175,7 +177,7 @@ class AddFoodMethodCell: UITableViewCell {
             documentID: "",
             name: name,
             totalCalories: Double("\(calorie)") ?? 0.0,
-            nutrients: Nutrient(
+            nutrients: Food.Nutrient(
                 carbohydrates: Double("\(carbo)") ?? 0.0,
                 protein: Double("\(protein)") ?? 0.0,
                 fat: Double("\(fat)") ?? 0.0,
@@ -241,20 +243,20 @@ class AddFoodMethodCell: UITableViewCell {
     
     private func setupSearchBar() {
         contentView.addSubview(searchBar)
-        contentView.addSubview(collectionView)
+        contentView.addSubview(searchResultCollectionView)
        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 0)
+        searchResultCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionViewHeightConstraint = searchResultCollectionView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             searchBar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            collectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            searchResultCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            searchResultCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            searchResultCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            searchResultCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            searchResultCollectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             collectionViewHeightConstraint
         ])
     }
@@ -343,4 +345,35 @@ extension AddFoodMethodCell: UISearchBarDelegate {
         }
     }
 
+}
+
+// MARK: - CollectionView
+extension AddFoodMethodCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.searchFoodResult.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: String(describing: SearchListCollectionViewCell.self),
+            for: indexPath)
+        guard let searchCollectionViewCell = cell as? SearchListCollectionViewCell else { return cell }
+        guard let viewModel = viewModel else { return searchCollectionViewCell }
+        let searchedFood = viewModel.searchFoodResult[indexPath.row]
+        searchCollectionViewCell.updateResults(searchedFood)
+        return searchCollectionViewCell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 320, height: 30)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        let selectedFood = viewModel.searchFoodResult[indexPath.row]
+        viewModel.filteredFoodItems.insert(selectedFood, at: 0)
+    }
+    
 }

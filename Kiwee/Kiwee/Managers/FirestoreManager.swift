@@ -333,7 +333,7 @@ extension FirestoreManager {
                 continue
             }
             let dateValue = date.dateValue()
-            let nutrientInfo = Nutrient(carbohydrates: carbs, protein: prot, fat: fats, fiber: fib)
+            let nutrientInfo = Food.Nutrient(carbohydrates: carbs, protein: prot, fat: fats, fiber: fib)
             foodsForToday.append(Food(documentID: documentID,
                                       name: name,
                                       totalCalories: totalCalories,
