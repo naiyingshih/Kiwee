@@ -23,7 +23,6 @@ enum AddFoodMethod {
 class AddFoodMethodCell: UITableViewCell {
     
     var viewModel: AddFoodViewModel?
-    
     weak var delegate: AddFoodMethodCellDelegate?
     var searchResultCollectionView: UICollectionView!
     var collectionViewHeightConstraint: NSLayoutConstraint!
@@ -130,7 +129,7 @@ class AddFoodMethodCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {}
     
-    // MARK: - Status Check Functions
+    // MARK: - UI and Status Setting Functions
     func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical

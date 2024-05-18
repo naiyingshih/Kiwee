@@ -39,7 +39,6 @@ class AddFoodViewModel {
         guard let section = sectionIndex else { return }
         FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
             guard let self = self else { return }
-            
             self.recentFoods = self.processRecentFoods(foods)
         }
     }
@@ -81,6 +80,33 @@ class AddFoodViewModel {
             section: sectionIndex,
             date: food.date
         )
+    }
+    
+    func loadFood() {
+        FoodDataManager.shared.loadFood { [weak self] (foodItems, error) in
+            if let foodItems = foodItems {
+                guard let self = self else { return }
+                self.foodResult = foodItems
+            } else if let error = error {
+                print("Failed to load food data: \(error)")
+            }
+        }
+    }
+    
+    func addIdentifiedFood(name: String, totalCalories: Double, nutrients: Food.Nutrient, image: String) {
+        let newFood = Food(
+            documentID: "",
+            name: name,
+            totalCalories: totalCalories,
+            nutrients: nutrients,
+            image: image,
+            quantity: nil,
+            section: nil,
+            date: nil
+        )
+        DispatchQueue.main.async {
+            self.filteredFoodItems.insert(newFood, at: 0)
+        }
     }
     
     // MARK: - Actions

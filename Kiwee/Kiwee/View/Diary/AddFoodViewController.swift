@@ -115,6 +115,7 @@ class AddFoodViewController: UIViewController {
         view.addSubview(bottomView)
         bottomView.addSubview(confirmButton)
         bottomView.addSubview(badgeLabel)
+        badgeLabel.isHidden = true
         
         NSLayoutConstraint.activate([
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -132,8 +133,6 @@ class AddFoodViewController: UIViewController {
             badgeLabel.widthAnchor.constraint(equalToConstant: 30),
             badgeLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
-        // Initially hide the badge
-        badgeLabel.isHidden = true
     }
     
     func updateConfirmButtonState(isEnabled: Bool) {
@@ -169,10 +168,8 @@ class AddFoodViewController: UIViewController {
     }
     
     private func updateBottomBorder(for selectedButton: UIButton) {
-        // Deactivate the existing centerX constraint
         indicatorCenterXConstraint?.isActive = false
         
-        // Create a new centerX constraint to align the indicator with the selected button
         indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: selectedButton.centerXAnchor)
         indicatorCenterXConstraint?.isActive = true
         
@@ -354,7 +351,7 @@ extension AddFoodViewController: DeleteButtonDelegate {
     }
 }
     
-// MARK: - Extension: Search Food Function
+// MARK: - Extension: AddFoodMethodCellDelegate
 
 extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate {
     
@@ -385,7 +382,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     }
     
     func searchBarDidChange(text: String) {
-        loadFood()
+        viewModel.loadFood()
         let filterFoods = viewModel.foodResult.filter { $0.name.lowercased().contains(text.lowercased()) }
         if filterFoods.isEmpty {
             showNoResultsAlert()
@@ -404,16 +401,6 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
             viewModel.searchFoodResult.removeAll()
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .none)
-            }
-        }
-    }
-    
-    private func loadFood() {
-        FoodDataManager.shared.loadFood { [weak self] (foodItems, error) in
-            if let foodItems = foodItems {
-                self?.viewModel.foodResult = foodItems
-            } else if let error = error {
-                print("Failed to load food data: \(error)")
             }
         }
     }
@@ -452,7 +439,7 @@ extension AddFoodViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         // Convert the image for CIImage
         if let ciImage = CIImage(image: image) {
-            cameraVC.processImage(ciImage: ciImage)
+            cameraVC.viewModel.processImage(ciImage: ciImage)
         } else {
             print("CIImage convert error")
         }
@@ -467,8 +454,7 @@ extension AddFoodViewController: UIImagePickerControllerDelegate, UINavigationCo
     
 }
 
-// MARK: - Extension: image recognition data
-
+// MARK: - Extension: FoodDataDelegate
 extension AddFoodViewController: FoodDataDelegate {
     
     func didTappedRetake(_ controller: CameraViewController) {
@@ -480,16 +466,6 @@ extension AddFoodViewController: FoodDataDelegate {
     }
 
     func didReceiveFoodData(name: String, totalCalories: Double, nutrients: Food.Nutrient, image: String) {
-        let identifiedFood = Food(
-            documentID: "",
-            name: name,
-            totalCalories: totalCalories,
-            nutrients: nutrients,
-            image: image,
-            quantity: nil,
-            section: nil, 
-            date: nil
-        )
-        viewModel.filteredFoodItems.insert(identifiedFood, at: 0)
+        viewModel.addIdentifiedFood(name: name, totalCalories: totalCalories, nutrients: nutrients, image: image)
     }
 }

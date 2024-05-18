@@ -34,7 +34,6 @@ class CategoryHeaderView: UIView {
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Plus"), for: .normal)
-//        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = KWColor.darkG
         button.addTarget(self, action: #selector(addFood), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
