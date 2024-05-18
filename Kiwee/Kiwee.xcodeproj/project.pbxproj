@@ -12,6 +12,7 @@
 		0E0022B42BF624CC00A39397 /* RecentRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */; };
 		0E0022B62BF64BD800A39397 /* AddFoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */; };
 		0E0022B82BF855D400A39397 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B72BF855D400A39397 /* CameraViewModel.swift */; };
+		0E0022C02BF8830600A39397 /* KiweeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022BF2BF8830600A39397 /* KiweeTests.swift */; };
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
@@ -94,12 +95,24 @@
 		0EE85C5D2BE3CE16007B069F /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0E0022C12BF8830600A39397 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ECE087B2BC69877003C15B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0ECE08822BC69877003C15B0;
+			remoteInfo = Kiwee;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
 		0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewModel.swift; sourceTree = "<group>"; };
 		0E0022B72BF855D400A39397 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		0E0022BD2BF8830600A39397 /* KiweeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KiweeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0022BF2BF8830600A39397 /* KiweeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiweeTests.swift; sourceTree = "<group>"; };
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -181,6 +194,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0E0022BA2BF8830600A39397 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0ECE08802BC69877003C15B0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -209,6 +229,14 @@
 				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0E0022BE2BF8830600A39397 /* KiweeTests */ = {
+			isa = PBXGroup;
+			children = (
+				0E0022BF2BF8830600A39397 /* KiweeTests.swift */,
+			);
+			path = KiweeTests;
 			sourceTree = "<group>";
 		};
 		0E1567A82BE8CAFF002D25AB /* Font */ = {
@@ -338,6 +366,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08852BC69877003C15B0 /* Kiwee */,
+				0E0022BE2BF8830600A39397 /* KiweeTests */,
 				0ECE08842BC69877003C15B0 /* Products */,
 				98C616CA13DA3BC47C01686C /* Pods */,
 				EAE9177B15228A8313059CA0 /* Frameworks */,
@@ -349,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08832BC69877003C15B0 /* Kiwee.app */,
+				0E0022BD2BF8830600A39397 /* KiweeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -483,6 +513,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E0022BC2BF8830600A39397 /* KiweeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0022C52BF8830600A39397 /* Build configuration list for PBXNativeTarget "KiweeTests" */;
+			buildPhases = (
+				0E0022B92BF8830600A39397 /* Sources */,
+				0E0022BA2BF8830600A39397 /* Frameworks */,
+				0E0022BB2BF8830600A39397 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E0022C22BF8830600A39397 /* PBXTargetDependency */,
+			);
+			name = KiweeTests;
+			productName = KiweeTests;
+			productReference = 0E0022BD2BF8830600A39397 /* KiweeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0ECE08822BC69877003C15B0 /* Kiwee */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0ECE08972BC69878003C15B0 /* Build configuration list for PBXNativeTarget "Kiwee" */;
@@ -523,6 +571,10 @@
 				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
+					0E0022BC2BF8830600A39397 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 0ECE08822BC69877003C15B0;
+					};
 					0ECE08822BC69877003C15B0 = {
 						CreatedOnToolsVersion = 15.1;
 					};
@@ -546,11 +598,19 @@
 			projectRoot = "";
 			targets = (
 				0ECE08822BC69877003C15B0 /* Kiwee */,
+				0E0022BC2BF8830600A39397 /* KiweeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0E0022BB2BF8830600A39397 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0ECE08812BC69877003C15B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -654,6 +714,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0E0022B92BF8830600A39397 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0022C02BF8830600A39397 /* KiweeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0ECE087F2BC69877003C15B0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -728,6 +796,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0E0022C22BF8830600A39397 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0ECE08822BC69877003C15B0 /* Kiwee */;
+			targetProxy = 0E0022C12BF8830600A39397 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		0ECE088C2BC69877003C15B0 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -748,6 +824,47 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0E0022C32BF8830600A39397 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.KiweeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kiwee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kiwee";
+			};
+			name = Debug;
+		};
+		0E0022C42BF8830600A39397 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.KiweeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kiwee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kiwee";
+			};
+			name = Release;
+		};
 		0ECE08952BC69878003C15B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -948,6 +1065,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E0022C52BF8830600A39397 /* Build configuration list for PBXNativeTarget "KiweeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0022C32BF8830600A39397 /* Debug */,
+				0E0022C42BF8830600A39397 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0ECE087E2BC69877003C15B0 /* Build configuration list for PBXProject "Kiwee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
