@@ -295,19 +295,25 @@ extension FirestoreManager {
     
     func getIntakeCard(collectionID: String, chosenDate: Date, completion: @escaping ([Food], Int) -> Void) {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-       
-        let query = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "food")
-        query.addSnapshotListener { querySnapshot, error in
-            if let error = error {
-                print(error)
-                completion([], 0)
-                return
-            } else {
-                let foods = self.getIntake(from: querySnapshot?.documents ?? [])
-                let water = self.getWaterQuantity(from: querySnapshot?.documents ?? [])
-                completion(foods, water)
+        
+        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        database.collection(collectionID)
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
+            .whereField("id", isEqualTo: currentUserUID)
+            .addSnapshotListener { querySnapshot, err in
+                if let error = err {
+                    print(error)
+                    completion([], 0)
+                    return
+                } else {
+                    let foods = self.getIntake(from: querySnapshot?.documents ?? [])
+                    let water = self.getWaterQuantity(from: querySnapshot?.documents ?? [])
+                    completion(foods, water)
+                }
             }
-        }
     }
     
     private func getIntake(from documents: [QueryDocumentSnapshot]) -> [Food] {
