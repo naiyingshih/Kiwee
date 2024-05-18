@@ -167,7 +167,6 @@
 		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
-		0E91DCB22BD7EAC40018911F /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
 		0E91DCB42BD961230018911F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailView.swift; path = Kiwee/View/Diary/DetailView.swift; sourceTree = SOURCE_ROOT; };
 		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		0EB00C912BE267CD0091E6C3 /* Success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success_animation.json; sourceTree = "<group>"; };
@@ -252,14 +251,6 @@
 				0E1567AE2BE8EE16002D25AB /* NotoSansTC-Medium.ttf */,
 			);
 			path = Font;
-			sourceTree = "<group>";
-		};
-		0E1567B22BEA56C4002D25AB /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				0E91DCB22BD7EAC40018911F /* FoodSample.mlmodel */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		0E61B2E32BE5FB940043A82B /* HelperCell */ = {
@@ -376,7 +367,6 @@
 				0ECE08842BC69877003C15B0 /* Products */,
 				98C616CA13DA3BC47C01686C /* Pods */,
 				EAE9177B15228A8313059CA0 /* Frameworks */,
-				0E1567B22BEA56C4002D25AB /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
