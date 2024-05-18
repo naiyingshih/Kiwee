@@ -71,6 +71,7 @@
 		0E91DCB52BD961230018911F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB42BD961230018911F /* DetailView.swift */; };
 		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
 		0EB00C922BE267CD0091E6C3 /* Success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EB00C912BE267CD0091E6C3 /* Success_animation.json */; };
+		0EB0442F2BF91B710095BF8A /* BMRIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -169,6 +170,7 @@
 		0E91DCB42BD961230018911F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailView.swift; path = Kiwee/View/Diary/DetailView.swift; sourceTree = SOURCE_ROOT; };
 		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		0EB00C912BE267CD0091E6C3 /* Success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success_animation.json; sourceTree = "<group>"; };
+		0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMRIntegrationTests.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 		0E0022BE2BF8830600A39397 /* KiweeTests */ = {
 			isa = PBXGroup;
 			children = (
+				0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */,
 				0E0022BF2BF8830600A39397 /* KiweeTests.swift */,
 			);
 			path = KiweeTests;
@@ -718,6 +721,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EB0442F2BF91B710095BF8A /* BMRIntegrationTests.swift in Sources */,
 				0E0022C02BF8830600A39397 /* KiweeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

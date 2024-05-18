@@ -8,29 +8,44 @@
 import XCTest
 @testable import Kiwee
 
-final class KiweeTests: XCTestCase {
+final class BMRUtilityTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testCalculateBMRForGenderMale() {
+        // Act
+        let bmrForMale = BMRUtility.calculateBMRForGender(1, weight: 80.0, height: 180.0, age: 18)
+
+        // Assert
+        XCTAssertEqual(bmrForMale, 1921.756, accuracy: 0.001)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testCalculateBMRForGenderFemale() {
+        // Act
+        let bmrForFemale = BMRUtility.calculateBMRForGender(2, weight: 55.0, height: 155.0, age: 36)
+
+        // Assert
+        XCTAssertEqual(bmrForFemale, 1280.488, accuracy: 0.001)
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testAdjustBMRForActivityLevel() {
+        // Arrange
+        let bmr = 1800.0
+
+        // Act and Assert
+        XCTAssertEqual(BMRUtility.adjustBMRForActivityLevel(bmr, activeness: 4), 2160.0, accuracy: 0.001)
+        XCTAssertEqual(BMRUtility.adjustBMRForActivityLevel(bmr, activeness: 3), 2790.0, accuracy: 0.001)
+        XCTAssertEqual(BMRUtility.adjustBMRForActivityLevel(bmr, activeness: 2), 3105.0, accuracy: 0.001)
+        XCTAssertEqual(BMRUtility.adjustBMRForActivityLevel(bmr, activeness: 1), 3420.0, accuracy: 0.001)
+        XCTAssertEqual(BMRUtility.adjustBMRForActivityLevel(bmr, activeness: 0), 1800.0, accuracy: 0.001)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testAdjustBMRForGoal() {
+        // Arrange
+        let bmr = 1800.0
+
+        // Act and Assert
+        XCTAssertEqual(BMRUtility.adjustBMRForGoal(bmr, goal: 0), 1500.0, accuracy: 0.001)
+        XCTAssertEqual(BMRUtility.adjustBMRForGoal(bmr, goal: 1), 2100.0, accuracy: 0.001)
+        XCTAssertEqual(BMRUtility.adjustBMRForGoal(bmr, goal: 2), 1800.0, accuracy: 0.001)
     }
 
 }
