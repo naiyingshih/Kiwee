@@ -92,17 +92,11 @@ class SigninViewController: UIViewController {
     }
     
     @objc func showLogoutSuccessAlert() {
-        let alertController = UIAlertController(title: "登出成功！", message: "感謝您的使用，歡迎隨時回來！", preferredStyle: .alert)
-        let action = UIAlertAction(title: "確定", style: .default, handler: nil)
-        alertController.addAction(action)
-        present(alertController, animated: true, completion: nil)
+        AlertManager.closeAlert(title: "登出成功！", message: "感謝您的使用，歡迎隨時回來！", viewController: self, actionHandler: nil)
     }
 
     @objc func showAccountDeletionSuccessAlert() {
-        let alertController = UIAlertController(title: "帳號刪除成功！", message: "感謝您的使用，期待再次相見！", preferredStyle: .alert)
-        let action = UIAlertAction(title: "確定", style: .default, handler: nil)
-        alertController.addAction(action)
-        present(alertController, animated: true, completion: nil)
+        AlertManager.closeAlert(title: "帳號刪除成功！", message: "感謝您的使用，期待再次相見！", viewController: self, actionHandler: nil)
     }
     
 }

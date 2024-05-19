@@ -90,4 +90,13 @@ class ButtonManager {
 // MARK: - Alert Manager
 class AlertManager {
     
+    class func closeAlert(title: String, message: String, viewController: UIViewController, actionHandler: (() -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let closeAction = UIAlertAction(title: "確定", style: .default) { _ in
+            actionHandler?()
+        }
+        alertController.addAction(closeAction)
+        viewController.present(alertController, animated: true)
+    }
+    
 }

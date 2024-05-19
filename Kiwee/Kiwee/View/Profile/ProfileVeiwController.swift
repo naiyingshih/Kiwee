@@ -194,7 +194,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         viewModel.signOut()
     }
     
-    func removeAccount() {
+    func removeAccount() {        
         let alertController = UIAlertController(title: "確定要刪除帳戶嗎？", message: "刪除帳戶後，您所有的紀錄將會刪除且無法復原！\n若想暫停使用，可以先選擇登出！", preferredStyle: .alert)
         
         let deleteAction = UIAlertAction(title: "確定刪除", style: .destructive) { [weak self] _ in
