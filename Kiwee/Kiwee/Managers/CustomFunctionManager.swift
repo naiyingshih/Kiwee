@@ -23,7 +23,7 @@ class BMRUtility {
         return BMR
     }
 
-    private static func calculateBMRForGender(_ gender: Int, weight: Double, height: Double, age: Int) -> Double {
+    static func calculateBMRForGender(_ gender: Int, weight: Double, height: Double, age: Int) -> Double {
         switch gender {
         case 1: // Male
             return 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * Double(age))
@@ -34,7 +34,7 @@ class BMRUtility {
         }
     }
 
-    private static func adjustBMRForActivityLevel(_ BMR: Double, activeness: Int) -> Double {
+    static func adjustBMRForActivityLevel(_ BMR: Double, activeness: Int) -> Double {
         switch activeness {
         case 4:
             return BMR * 1.2
@@ -49,7 +49,7 @@ class BMRUtility {
         }
     }
 
-    private static func adjustBMRForGoal(_ BMR: Double, goal: Int) -> Double {
+    static func adjustBMRForGoal(_ BMR: Double, goal: Int) -> Double {
         switch goal {
         case 0: // Weight loss
             return BMR - 300
