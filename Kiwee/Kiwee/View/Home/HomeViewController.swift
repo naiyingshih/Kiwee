@@ -26,9 +26,13 @@ class HomeViewController: UIViewController {
         if isFirstTimeOpeningApp() {
             setupGuideTour()
         }
-        checkDataForToday()
         setupBackgroundUI()
         setupPlantImageView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkDataForToday()
     }
     
     // MARK: - UI setting functions
@@ -177,7 +181,7 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController {
     
-    private func checkDataForToday() {
+    func checkDataForToday() {
         FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
             if !foods.isEmpty {
                 self?.updateButtonStatus(enabled: true)

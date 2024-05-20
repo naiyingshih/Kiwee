@@ -100,3 +100,14 @@ class AlertManager {
     }
     
 }
+
+// MARK: - Debug Mode
+class DebugLogger {
+    
+    static func debugPrint(_ message: String, _ file: String = #file, _ line: Int = #line) {
+        #if DEBUG
+        print("\(file.components(separatedBy: "/").last!):\(line): \(message)")
+        #endif
+    }
+    
+}

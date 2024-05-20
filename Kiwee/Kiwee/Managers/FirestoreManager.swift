@@ -15,13 +15,6 @@ class FirestoreManager {
     let database = Firestore.firestore()
     let userID = Auth.auth().currentUser?.uid
     
-    func fetchDocuments(for collectionID: String, userID: String, chosenDate: Date, type: String, completion: @escaping ([QueryDocumentSnapshot]?, Error?) -> Void) {
-        let query = Firestore.firestore().queryForUserIntake(userID: userID, chosenDate: chosenDate, type: type)
-        query.getDocuments { (querySnapshot, error) in
-            completion(querySnapshot?.documents, error)
-        }
-    }
-    
     func deleteDocument(collectionID: String, documentID: String, completion: @escaping (Bool) -> Void) {
         database.collection(collectionID).document(documentID).delete { error in
             if let error = error {
@@ -670,18 +663,4 @@ extension FirestoreManager {
             }
     }
     
-}
-
-// MARK: - Extension: Firestore
-extension Firestore {
-    func queryForUserIntake(userID: String, chosenDate: Date, type: String) -> Query {
-        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        return self.collection("intake")
-            .whereField("id", isEqualTo: userID)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-            .whereField("type", isEqualTo: type)
-    }
 }
