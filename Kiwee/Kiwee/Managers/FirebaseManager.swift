@@ -18,6 +18,10 @@ enum Collections: String {
     case faq = "FAQ"
 }
 
+protocol FirestoreCodable: Codable {
+    var documentID: String? { get set }
+}
+
 class FirebaseManager {
     static let shared = FirebaseManager()
     let database = Firestore.firestore()
@@ -82,21 +86,25 @@ class FirebaseManager {
         }
     }
     
-    // MARK: - Create multiple data
-    func addDataBatch<T: Encodable>(to collection: Collections, dataArray: [T], completion: @escaping (Result<Bool, Error>) -> Void) {
+    // MARK: - Create multiple data with DocumentID
+    func addDataBatch<T: FirestoreCodable>(to collection: Collections, dataArray: [T], completion: @escaping (Result<Bool, Error>) -> Void) {
         let batch = database.batch()
-        
-        for data in dataArray {
+
+        var updatedDataArray = dataArray
+        for (index, var data) in updatedDataArray.enumerated() {
             let documentRef = database.collection(collection.rawValue).document()
+            data.documentID = documentRef.documentID
+            updatedDataArray[index] = data
+
             do {
-                let jsonData = try Firestore.Encoder().encode(data)
-                batch.setData(jsonData, forDocument: documentRef)
+                let encodedData = try Firestore.Encoder().encode(data)
+                batch.setData(encodedData, forDocument: documentRef)
             } catch {
                 completion(.failure(error))
                 return
             }
         }
-        
+
         batch.commit { error in
             if let error = error {
                 completion(.failure(error))
@@ -147,5 +155,13 @@ extension Firestore {
             .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
             .whereField("date", isLessThan: Timestamp(date: endOfDay))
             .whereField("type", isEqualTo: type)
+    }
+    
+    func queryForRecentRecord(userID: String, section: Int) -> Query {
+        return self.collection(Collections.intake.rawValue)
+            .whereField("id", isEqualTo: userID)
+            .whereField("section", isEqualTo: section)
+            .order(by: "date", descending: true)
+            .limit(to: 10)
     }
 }
