@@ -74,6 +74,7 @@
 		0EB0442F2BF91B710095BF8A /* BMRIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */; };
 		0EB044312BF9277D0095BF8A /* AddFoodViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044302BF9277D0095BF8A /* AddFoodViewModelTests.swift */; };
 		0EB044332BFA2FBF0095BF8A /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */; };
+		0EB044352BFC5A950095BF8A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044342BFC5A950095BF8A /* HomeViewModel.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -174,6 +175,7 @@
 		0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMRIntegrationTests.swift; sourceTree = "<group>"; };
 		0EB044302BF9277D0095BF8A /* AddFoodViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewModelTests.swift; sourceTree = "<group>"; };
 		0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		0EB044342BFC5A950095BF8A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */,
 				0E0022B72BF855D400A39397 /* CameraViewModel.swift */,
 				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
+				0EB044342BFC5A950095BF8A /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -744,6 +747,7 @@
 				0E0022B62BF64BD800A39397 /* AddFoodViewModel.swift in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
+				0EB044352BFC5A950095BF8A /* HomeViewModel.swift in Sources */,
 				0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */,
 				0E91DC9F2BD6767A0018911F /* OpenAIManager.swift in Sources */,
 				0E1567B42BEA5C76002D25AB /* FoodSample.mlmodel in Sources */,

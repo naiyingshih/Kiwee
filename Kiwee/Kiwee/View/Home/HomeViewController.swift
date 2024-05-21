@@ -10,6 +10,8 @@ import UIKit
 class HomeViewController: UIViewController {
     
     let context = StorageManager.shared.context
+    let firebaseManager = FirebaseManager.shared
+    
     var plantImageViews: [Int: UIImageView] = [:]
     var plantImageView: UIImageView?
     var addTime: Int = 0
@@ -182,17 +184,34 @@ class HomeViewController: UIViewController {
 extension HomeViewController {
     
     func checkDataForToday() {
-        FirestoreManager.shared.getIntakeCard(collectionID: "intake", chosenDate: Date()) { [weak self] foods, water in
-            if !foods.isEmpty {
-                self?.updateButtonStatus(enabled: true)
-            } else {
-                self?.updateButtonStatus(enabled: false)
+        let foodQuery = firebaseManager.database.queryForUserIntake(userID: firebaseManager.userID ?? "", chosenDate: Date(), type: "food")
+        let waterQuery = firebaseManager.database.queryForUserIntake(userID: firebaseManager.userID ?? "", chosenDate: Date(), type: "water")
+        
+        firebaseManager.fetchData(from: .intake, queryOption: foodQuery) { [weak self] (result: Result<[Food], Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let todayIntakes):
+                if !todayIntakes.isEmpty {
+                    updateButtonStatus(enabled: true)
+                } else {
+                    updateButtonStatus(enabled: false)
+                }
+            case .failure(let error):
+                print("Error fetching intake card: \(error.localizedDescription)")
             }
-            
-            if water != 0 {
-                self?.updateImageStatus(enabled: true)
-            } else {
-                self?.updateImageStatus(enabled: false)
+        }
+        
+        firebaseManager.fetchData(from: .intake, queryOption: waterQuery) { [weak self] (result: Result<[WaterCount], Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let todayIntakes):
+                if !todayIntakes.isEmpty {
+                    updateImageStatus(enabled: true)
+                } else {
+                    updateImageStatus(enabled: false)
+                }
+            case .failure(let error):
+                print("Error fetching intake card: \(error.localizedDescription)")
             }
         }
     }

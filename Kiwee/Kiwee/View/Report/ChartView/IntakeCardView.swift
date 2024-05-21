@@ -48,6 +48,9 @@ struct IntakeCardView: View {
         .background(Color(hex: "004358"))
         .cornerRadius(10)
         .shadow(radius: 5)
+        .onAppear {
+            viewModel.getTodayIntake()
+        }
     }
 }
 
@@ -118,6 +121,9 @@ struct PieChartView: View {
             }
         }
         .frame(height: 200)
+        .onAppear {
+            viewModel.getTodayIntake()
+        }
     }
 }
 

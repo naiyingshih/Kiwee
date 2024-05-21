@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseFirestore
 
 protocol AddFoodViewControllerDelegate: AnyObject {
     func didUpdateFilteredFoodItems(_ foodItems: [Food])
@@ -19,12 +17,7 @@ class AddFoodViewModel {
     
     weak var delegate: AddFoodViewControllerDelegate?
     let firebaseManager = FirebaseManager.shared
-    private let currentUserUID: String?
-    
-    init() {
-        currentUserUID = Auth.auth().currentUser?.uid
-    }
-    
+
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = [] {
         didSet {
@@ -44,9 +37,9 @@ class AddFoodViewModel {
     
     // MARK: - Data Fetching and Processing
     func fetchRecentRecord() {
-        guard let section = sectionIndex, let currentUserUID = currentUserUID else { return }
+        guard let section = sectionIndex else { return }
         
-        let queryOptions = Firestore.firestore().queryForRecentRecord(userID: currentUserUID, section: section)
+        let queryOptions = firebaseManager.database.queryForRecentRecord(userID: firebaseManager.userID ?? "", section: section)
         firebaseManager.fetchData(from: .intake, queryOption: queryOptions) { [weak self] (result: Result<[Food], Error>) in
             guard let self = self else { return }
             switch result {
@@ -150,13 +143,8 @@ class AddFoodViewModel {
     }
     
     private func postIntakeData(intakeDataArray: [Food], chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else {
-            completion(false)
-            return
-        }
-        
         let intakeDataWithUserID = intakeDataArray.map { food -> Food in
-            return Food(id: currentUserUID,
+            return Food(id: firebaseManager.userID ?? "",
                         documentID: "",
                         name: food.name,
                         totalCalories: food.totalCalories,

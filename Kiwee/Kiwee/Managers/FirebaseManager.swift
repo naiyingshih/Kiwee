@@ -26,6 +26,7 @@ class FirebaseManager {
     static let shared = FirebaseManager()
     let database = Firestore.firestore()
     let userID = Auth.auth().currentUser?.uid
+    var listenerRegistration: ListenerRegistration?
     
     // MARK: - Get multiple Data
     func fetchData<T: Decodable>(from collection: Collections, queryOption: Query? = nil, completion: @escaping (Result<[T], Error>) -> Void) {
@@ -163,5 +164,15 @@ extension Firestore {
             .whereField("section", isEqualTo: section)
             .order(by: "date", descending: true)
             .limit(to: 10)
+    }
+    
+    func queryForTodayIntake(userID: String, chosenDate: Date) -> Query {
+        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        return self.collection(Collections.intake.rawValue)
+            .whereField("id", isEqualTo: userID)
+            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
+            .whereField("date", isLessThan: Timestamp(date: endOfDay))
     }
 }

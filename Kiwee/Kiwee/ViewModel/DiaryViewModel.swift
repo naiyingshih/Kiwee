@@ -6,19 +6,11 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseFirestore
 
 class DiaryViewModel: ObservableObject {
     
     let firebaseManager = FirebaseManager.shared
-    private let currentUserUID: String?
-    var listenerRegistration: ListenerRegistration?
-    
-    init() {
-        currentUserUID = Auth.auth().currentUser?.uid
-    }
-    
+
     var allFood: [[Food]] = Array(repeating: [], count: 5) {
         didSet {
             DispatchQueue.main.async {
@@ -51,12 +43,7 @@ class DiaryViewModel: ObservableObject {
     }
 
     private func fetchWaterCount(chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else {
-            completion(false)
-            return
-        }
-        
-        let queryOptions = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "water")
+        let queryOptions = firebaseManager.database.queryForUserIntake(userID: firebaseManager.userID ?? "", chosenDate: chosenDate, type: "water")
         
         firebaseManager.fetchData(from: .intake, queryOption: queryOptions) { [weak self] (result: Result<[WaterCount], Error>) in
             switch result {
@@ -75,12 +62,7 @@ class DiaryViewModel: ObservableObject {
     }
     
     func postWaterCount(chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else {
-            completion(false)
-            return
-        }
-        
-        let queryOptions = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "water")
+        let queryOptions = firebaseManager.database.queryForUserIntake(userID: firebaseManager.userID ?? "", chosenDate: chosenDate, type: "water")
         
         firebaseManager.fetchData(from: .intake, queryOption: queryOptions) { [weak self] (result: Result<[WaterCount], Error>) in
             guard let self = self else { return }
@@ -89,7 +71,7 @@ class DiaryViewModel: ObservableObject {
                 if let firstWaterCount = waterCounts.first {
                     self.updateWaterCount(documentID: firstWaterCount.documentID, waterCount: self.waterCount, chosenDate: chosenDate, completion: completion)
                 } else {
-                    self.createWaterDocument(userID: currentUserUID, waterCount: self.waterCount, chosenDate: chosenDate, completion: completion)
+                    self.createWaterDocument(userID: firebaseManager.userID ?? "", waterCount: self.waterCount, chosenDate: chosenDate, completion: completion)
                 }
             case .failure:
                 completion(false)
@@ -98,12 +80,7 @@ class DiaryViewModel: ObservableObject {
     }
     
     private func updateWaterCount(documentID: String, waterCount: Int, chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else {
-            completion(false)
-            return
-        }
-
-        let waterCountData = WaterCount(id: currentUserUID, waterCount: waterCount, date: chosenDate, documentID: documentID)
+        let waterCountData = WaterCount(id: firebaseManager.userID ?? "", waterCount: waterCount, date: chosenDate, documentID: documentID)
         firebaseManager.updateData(in: .intake, documentID: documentID, data: waterCountData) { result in
             switch result {
             case .success:
@@ -138,12 +115,7 @@ class DiaryViewModel: ObservableObject {
     }
     
     func resetWaterCount(chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = currentUserUID else {
-            completion(false)
-            return
-        }
-        
-        let query = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "water")
+        let query = firebaseManager.database.queryForUserIntake(userID: firebaseManager.userID ?? "", chosenDate: chosenDate, type: "water")
         
         firebaseManager.fetchData(from: .intake, queryOption: query) { [weak self] (result: Result<[WaterCount], Error>) in
             switch result {
@@ -175,11 +147,9 @@ class DiaryViewModel: ObservableObject {
     
     // MARK: - Food data handling
     private func fetchFoodData(chosenDate: Date, completion: @escaping (Bool) -> Void) {
-        guard let currentUserUID = currentUserUID else { return }
+        let queryOptions = firebaseManager.database.queryForUserIntake(userID: firebaseManager.userID ?? "", chosenDate: chosenDate, type: "food")
         
-        let queryOptions = Firestore.firestore().queryForUserIntake(userID: currentUserUID, chosenDate: chosenDate, type: "food")
-        
-        listenerRegistration = firebaseManager.addSnapshotListener(for: .intake, queryOption: queryOptions) { [weak self] (result: Result<[Food], Error>) in
+        firebaseManager.listenerRegistration = firebaseManager.addSnapshotListener(for: .intake, queryOption: queryOptions) { [weak self] (result: Result<[Food], Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let foods):
