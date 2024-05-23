@@ -14,22 +14,9 @@ class FirestoreManager {
     static let shared = FirestoreManager()
     let database = Firestore.firestore()
     let userID = Auth.auth().currentUser?.uid
-    
-    func deleteDocument(collectionID: String, documentID: String, completion: @escaping (Bool) -> Void) {
-        database.collection(collectionID).document(documentID).delete { error in
-            if let error = error {
-                print("Error removing document: \(error)")
-                completion(false)
-            } else {
-                completion(true)
-            }
-        }
-    }
-    
 }
 
 // MARK: - User data
-
 extension FirestoreManager {
     
     func postUserData(input: UserData, completion: @escaping (Bool) -> Void) {
@@ -105,73 +92,9 @@ extension FirestoreManager {
             }
     }
     
-    func getUserData(completion: @escaping (UserData) -> Void) {
-        guard let currentUserUID = userID else { return }
-        
-        database.collection("users")
-            .whereField("id", isEqualTo: currentUserUID)
-            .addSnapshotListener { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        let data = document.data()
-                        let id = currentUserUID
-                        let name = data["name"] as? String ?? ""
-                        let gender = data["gender"] as? Int ?? 0
-                        let age = data["age"] as? Int ?? 0
-                        let goal = data["goal"] as? Int ?? 0
-                        let activeness = data["activeness"] as? Int ?? 0
-                        let currentHeight = data["height"] as? Double ?? 0.0
-                        let currentWeight = data["initial_weight"] as? Double ?? 0.0
-                        let updatedWeight = data["updated_weight"] as? Double ?? currentWeight
-                        let goalWeight = data["goal_weight"] as? Double ?? 0.0
-                        let achievementTime = (data["achievement_time"] as? Timestamp)?.dateValue() ?? Date()
-                        
-                        let userData = UserData(
-                            id: id,
-                            name: name,
-                            gender: gender,
-                            age: age,
-                            goal: goal,
-                            activeness: activeness,
-                            height: currentHeight,
-                            initialWeight: currentWeight,
-                            updatedWeight: updatedWeight,
-                            goalWeight: goalWeight,
-                            achievementTime: achievementTime
-                        )
-                        completion(userData)
-                    }
-                }
-            }
-    }
-    
-    func updateAccountStatus() {
-        guard let currentUserUID = userID else { return }
-        
-        database.collection("users").whereField("id", isEqualTo: currentUserUID).getDocuments { querySnapshot, error in
-            if let error = error {
-                print("Error finding user document: \(error.localizedDescription)")
-            } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
-                let document = querySnapshot.documents.first
-                document?.reference.updateData(["status": "delete"]) { error in
-                    if let error = error {
-                        print("Error updating document: \(error.localizedDescription)")
-                    } else {
-                        print("Account status updated successfully")
-                    }
-                }
-            } else {
-                print("No document found for user ID: \(currentUserUID)")
-            }
-        }
-    }
-    
 }
 
 // MARK: - Posts in profile
-    
 extension FirestoreManager {
     
     func uploadImageData(imageData: Data, completion: @escaping (Bool, URL?) -> Void) {
@@ -262,7 +185,7 @@ extension FirestoreManager {
                               let tag = data["tag"] as? String,
                               let createdTime = data["created_time"] as? Timestamp else { continue }
                         
-                        let post = Post(documenID: document.documentID, foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
+                        let post = Post(documentID: document.documentID, foodName: foodName, tag: tag, image: image, createdTime: createdTime.dateValue())
                         posts.insert(post, at: 0)
                     }
                     completion(posts)
@@ -273,7 +196,6 @@ extension FirestoreManager {
 }
     
 // MARK: - Report
-    
 extension FirestoreManager {
     
     func postWeightToSubcollection(weight: Double) {
@@ -309,81 +231,9 @@ extension FirestoreManager {
             }
     }
     
-//    func getUserWeight(completion: @escaping ([DataPoint]) -> Void) {
-//        guard let currentUserUID = Auth.auth().currentUser?.uid else {
-//            print("Error: User not logged in")
-//            completion([])
-//            return
-//        }
-//        database.collection("users").whereField("id", isEqualTo: currentUserUID).getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error finding user document: \(error.localizedDescription)")
-//                completion([])
-//            } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
-//                // Each UID is unique and can only match one document
-//                let userDocument = querySnapshot.documents.first
-//                
-//                // Get the document ID of the matching document
-//                if let userDocumentId = userDocument?.documentID {
-//                    self.database.collection("users").document(userDocumentId).collection("current_weight")
-//                        .order(by: "date")
-//                        .addSnapshotListener { (subQuerySnapshot, subError) in
-//                            if let subError = subError {
-//                                print("Error getting documents from subcollection: \(subError)")
-//                                completion([])
-//                            } else {
-//                                var dataPoints: [DataPoint] = []
-//                                for document in subQuerySnapshot!.documents {
-//                                    let data = document.data()
-//                                    if let timestamp = data["date"] as? Timestamp,
-//                                       let weight = data["weight"] as? Double {
-//                                        let date = timestamp.dateValue()
-//                                        let dataPoint = DataPoint(date: date, dataPoint: weight)
-//                                        dataPoints.append(dataPoint)
-//                                    }
-//                                }
-//                                completion(dataPoints)
-//                            }
-//                        }
-//                } else {
-//                    print("No matching user document found")
-//                    completion([])
-//                }
-//            } else {
-//                print("No matching user document found")
-//                completion([])
-//            }
-//        }
-//    }
-    
-//    func getOrderedDateData(completion: @escaping ([DataPoint]) -> Void) {
-//        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-//        database.collection("intake")
-//            .whereField("id", isEqualTo: currentUserUID)
-//            .order(by: "date")
-//            .addSnapshotListener { (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                    completion([])
-//                } else {
-//                    var dataPoints: [DataPoint] = []
-//                    for document in querySnapshot!.documents {
-//                        let data = document.data()
-//                        if let timestamp = data["date"] as? Timestamp,
-//                           let calories = data["totalCalories"] as? Double {
-//                            let date = timestamp.dateValue()
-//                            let dataPoint = DataPoint(date: date, dataPoint: calories)
-//                            dataPoints.append(dataPoint)
-//                        }
-//                    }
-//                    completion(dataPoints)
-//                }
-//            }
-//    }
 }
     
 // MARK: - Chatbot Response
-
 extension FirestoreManager {
 
     func getResponse(sendMessage: String, completion: @escaping([MessageRow]) -> Void) {

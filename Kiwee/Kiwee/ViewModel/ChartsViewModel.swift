@@ -7,22 +7,6 @@
 
 import Foundation
 
-struct PieChartData {
-    var label: String
-    var amount: Double
-}
-
-struct DataPoint {
-    var date: Date
-    var dataPoint: Double
-}
-
-struct BodyInfo {
-    var initWeight: Double
-    var goalWeight: Double
-    var RDA: Double
-}
-
 class ChartsViewModel: ObservableObject {
     
     let firebaseManager = FirebaseManager.shared

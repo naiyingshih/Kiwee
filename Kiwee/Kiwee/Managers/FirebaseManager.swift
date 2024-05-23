@@ -156,6 +156,30 @@ class FirebaseManager {
         }
     }
     
+    // MARK: - Delete Account Handle
+    func setAccountDeletedStatus() {
+        guard let userID = userID else { return }
+        
+        database.collection("users")
+            .whereField("id", isEqualTo: userID)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    print("Error finding user document: \(error.localizedDescription)")
+                } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
+                    let document = querySnapshot.documents.first
+                    document?.reference.updateData(["status": "delete"]) { error in
+                        if let error = error {
+                            print("Error updating document: \(error.localizedDescription)")
+                        } else {
+                            print("Account status updated successfully")
+                        }
+                    }
+                } else {
+                    print("No document found for user ID: \(userID)")
+                }
+            }
+    }
+    
 }
 
 // MARK: - Extension For Query
@@ -201,6 +225,12 @@ extension Firestore {
             .document(userDocumentID)
             .collection("current_weight")
             .order(by: "date")
+    }
+    
+    func queryForPosts(userID: String) -> Query {
+        return self.collection(Collections.posts.rawValue)
+            .whereField("id", isEqualTo: userID)
+            .order(by: "created_time")
     }
     
     func queryByOneField(userID: String, collection: Collections, field: String, fieldContent: String) -> Query {

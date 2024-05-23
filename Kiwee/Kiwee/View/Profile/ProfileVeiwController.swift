@@ -6,24 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class ProfileVeiwController: UIViewController {
     
-    var viewModel = SignInWithAppleViewModel()
-    
-    var userData: UserData? {
-        didSet {
-            if let userData = userData {
-                bannerView.updateView(with: userData)
-            }
-        }
-    }
-    
-    var posts: [Post] = [] {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    let viewModel = SignInWithAppleViewModel()
+    let profileViewModel = ProfileViewModel()
+    private var cancellables = Set<AnyCancellable>()
     
     @IBOutlet weak var bannerView: ProfileBannerView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -31,8 +20,9 @@ class ProfileVeiwController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUserData()
-        fetchPost()
+        profileViewModel.fetchUserData()
+        profileViewModel.fetchPostData()
+        setupBindings()
         bannerView.delegate = self
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
         collectionView.dataSource = self
@@ -51,30 +41,30 @@ class ProfileVeiwController: UIViewController {
     }
     
     // MARK: - Fetch data functions
-    func fetchUserData() {
-        FirestoreManager.shared.getUserData { [weak self] userData in
-            DispatchQueue.main.async {
-                self?.userData = userData
+    func setupBindings() {
+        profileViewModel.$userData
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] userData in
+                if let userData = userData {
+                    self?.bannerView.updateView(with: userData)
+                }
             }
-            UserDefaults.standard.set(userData.updatedWeight, forKey: "initial_weight")
-        }
-    }
-    
-    func fetchPost() {
-        FirestoreManager.shared.getPostData { [weak self] posts in
-            DispatchQueue.main.async {
-                self?.posts = posts
+            .store(in: &cancellables)
+        
+        profileViewModel.$posts
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.collectionView.reloadData()
             }
-        }
+            .store(in: &cancellables)
     }
-
 }
 
 // MARK: - collectionDataSource and Delegate
  extension ProfileVeiwController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
      
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return profileViewModel.posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,7 +73,7 @@ class ProfileVeiwController: UIViewController {
             for: indexPath
         )
         guard let profileCell = cell as? ProfileCell else { return cell }
-        let postResult = posts[indexPath.item]
+        let postResult = profileViewModel.posts[indexPath.item]
         profileCell.updatePostResult(postResult)
         return profileCell
     }
@@ -127,11 +117,11 @@ extension ProfileVeiwController: UICollectionViewDelegate {
             withIdentifier: String(describing: PostViewController.self)
         ) as? PostViewController else { return }
         
-        let foodName = posts[index].foodName
-        let buttonTag = posts[index].tag
-        let image = posts[index].image
+        let foodName = profileViewModel.posts[index].foodName
+        let buttonTag = profileViewModel.posts[index].tag
+        let image = profileViewModel.posts[index].image
         
-        postVC.editingPostID = posts[index].documenID
+        postVC.editingPostID = profileViewModel.posts[index].documentID
         postVC.postState = .editingPost(initialFoodText: foodName, initialSelectedButtonTag: buttonTag, initialImage: image)
         
         postVC.modalPresentationStyle = .popover
@@ -139,19 +129,7 @@ extension ProfileVeiwController: UICollectionViewDelegate {
     }
     
     private func deleteItem(at index: Int) {
-        let post = posts[index]
-        let documentID = post.documenID
-        
-        FirestoreManager.shared.deleteDocument(collectionID: "posts", documentID: documentID) { success in
-            DispatchQueue.main.async {
-                if success {
-                    print("Document successfully removed!")
-                    self.collectionView.reloadData()
-                } else {
-                    print("Error removing document")
-                }
-            }
-        }
+        profileViewModel.deletePost(at: index)
     }
     
 }
@@ -165,7 +143,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
         guard let manageVC = storyboard.instantiateViewController(
             withIdentifier: String(describing: RecordManageViewController.self)
         ) as? RecordManageViewController else { return }
-        manageVC.initialUserData = self.userData
+        manageVC.initialUserData = self.profileViewModel.userData
         tabBarController?.tabBar.isHidden = true
         navigationController?.pushViewController(manageVC, animated: true)
     }
@@ -218,7 +196,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
                 DispatchQueue.main.async {
                     self.backtoSigninPage(notificationName: .accountDeletionSuccess)
                 }
-                FirestoreManager.shared.updateAccountStatus()
+                profileViewModel.updateAccountStatus()
                 UserDefaults.standard.set(false, forKey: "hasLaunchedBefore")
             } else {
                 print("Failed to delete account")
