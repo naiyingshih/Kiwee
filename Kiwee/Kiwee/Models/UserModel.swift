@@ -7,18 +7,33 @@
 
 import Foundation
 
-struct UserData {
-    let id: String
-    let name: String
-    let gender: Int
-    let age: Int
-    let goal: Int
-    let activeness: Int
-    let height: Double
-    let initialWeight: Double
-    let updatedWeight: Double?
-    let goalWeight: Double
-    let achievementTime: Date
+struct UserData: Decodable {
+    var id: String
+    var name: String
+    var gender: Int
+    var age: Int
+    var goal: Int
+    var activeness: Int
+    var height: Double
+    var initialWeight: Double
+    var updatedWeight: Double?
+    var goalWeight: Double
+    var achievementTime: Date
+    var documentID: String?
+    var date: Date?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, gender, age, goal, activeness, height, documentID, date
+        case initialWeight = "initial_weight"
+        case updatedWeight = "updated_weight"
+        case goalWeight = "goal_weight"
+        case achievementTime = "achievement_time"
+    }
+}
+
+struct WeightData: Decodable {
+    var date: Date?
+    var weight: Double?
 }
 
 struct Post {

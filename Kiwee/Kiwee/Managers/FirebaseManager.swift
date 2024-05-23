@@ -53,6 +53,20 @@ class FirebaseManager {
         }
     }
     
+    // MARK: - Get DocumentID by userID
+    func fetchDocumentID(UserID userID: String, collection: Collections, completion: @escaping (Result<String, Error>) -> Void) {
+        let query = database.collection(collection.rawValue).whereField("id", isEqualTo: userID)
+        
+        query.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let document = querySnapshot?.documents.first {
+                let documentID = document.documentID
+                completion(.success(documentID))
+            }
+        }
+    }
+    
     // MARK: - Snapshot listener
     func addSnapshotListener<T: Decodable>(for collection: Collections, queryOption: Query? = nil, completion: @escaping (Result<[T], Error>) -> Void) -> ListenerRegistration {
         var query: Query = database.collection(collection.rawValue)
@@ -174,5 +188,23 @@ extension Firestore {
             .whereField("id", isEqualTo: userID)
             .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
             .whereField("date", isLessThan: Timestamp(date: endOfDay))
+    }
+    
+    func queryForTotalCalories(userID: String) -> Query {
+        return self.collection(Collections.intake.rawValue)
+            .whereField("id", isEqualTo: userID)
+            .order(by: "date")
+    }
+    
+    func queryForUserCurrentWeight(userID: String, userDocumentID: String) -> Query {
+        return self.collection(Collections.users.rawValue)
+            .document(userDocumentID)
+            .collection("current_weight")
+            .order(by: "date")
+    }
+    
+    func queryByOneField(userID: String, collection: Collections, field: String, fieldContent: String) -> Query {
+        return self.collection(collection.rawValue)
+            .whereField(field, isEqualTo: fieldContent)
     }
 }

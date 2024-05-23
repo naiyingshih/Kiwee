@@ -309,77 +309,77 @@ extension FirestoreManager {
             }
     }
     
-    func getUserWeight(completion: @escaping ([DataPoint]) -> Void) {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else {
-            print("Error: User not logged in")
-            completion([])
-            return
-        }
-        database.collection("users").whereField("id", isEqualTo: currentUserUID).getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error finding user document: \(error.localizedDescription)")
-                completion([])
-            } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
-                // Each UID is unique and can only match one document
-                let userDocument = querySnapshot.documents.first
-                
-                // Get the document ID of the matching document
-                if let userDocumentId = userDocument?.documentID {
-                    self.database.collection("users").document(userDocumentId).collection("current_weight")
-                        .order(by: "date")
-                        .addSnapshotListener { (subQuerySnapshot, subError) in
-                            if let subError = subError {
-                                print("Error getting documents from subcollection: \(subError)")
-                                completion([])
-                            } else {
-                                var dataPoints: [DataPoint] = []
-                                for document in subQuerySnapshot!.documents {
-                                    let data = document.data()
-                                    if let timestamp = data["date"] as? Timestamp,
-                                       let weight = data["weight"] as? Double {
-                                        let date = timestamp.dateValue()
-                                        let dataPoint = DataPoint(date: date, dataPoint: weight)
-                                        dataPoints.append(dataPoint)
-                                    }
-                                }
-                                completion(dataPoints)
-                            }
-                        }
-                } else {
-                    print("No matching user document found")
-                    completion([])
-                }
-            } else {
-                print("No matching user document found")
-                completion([])
-            }
-        }
-    }
+//    func getUserWeight(completion: @escaping ([DataPoint]) -> Void) {
+//        guard let currentUserUID = Auth.auth().currentUser?.uid else {
+//            print("Error: User not logged in")
+//            completion([])
+//            return
+//        }
+//        database.collection("users").whereField("id", isEqualTo: currentUserUID).getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                print("Error finding user document: \(error.localizedDescription)")
+//                completion([])
+//            } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
+//                // Each UID is unique and can only match one document
+//                let userDocument = querySnapshot.documents.first
+//                
+//                // Get the document ID of the matching document
+//                if let userDocumentId = userDocument?.documentID {
+//                    self.database.collection("users").document(userDocumentId).collection("current_weight")
+//                        .order(by: "date")
+//                        .addSnapshotListener { (subQuerySnapshot, subError) in
+//                            if let subError = subError {
+//                                print("Error getting documents from subcollection: \(subError)")
+//                                completion([])
+//                            } else {
+//                                var dataPoints: [DataPoint] = []
+//                                for document in subQuerySnapshot!.documents {
+//                                    let data = document.data()
+//                                    if let timestamp = data["date"] as? Timestamp,
+//                                       let weight = data["weight"] as? Double {
+//                                        let date = timestamp.dateValue()
+//                                        let dataPoint = DataPoint(date: date, dataPoint: weight)
+//                                        dataPoints.append(dataPoint)
+//                                    }
+//                                }
+//                                completion(dataPoints)
+//                            }
+//                        }
+//                } else {
+//                    print("No matching user document found")
+//                    completion([])
+//                }
+//            } else {
+//                print("No matching user document found")
+//                completion([])
+//            }
+//        }
+//    }
     
-    func getOrderedDateData(completion: @escaping ([DataPoint]) -> Void) {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-        database.collection("intake")
-            .whereField("id", isEqualTo: currentUserUID)
-            .order(by: "date")
-            .addSnapshotListener { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                    completion([])
-                } else {
-                    var dataPoints: [DataPoint] = []
-                    for document in querySnapshot!.documents {
-                        let data = document.data()
-                        if let timestamp = data["date"] as? Timestamp,
-                           let calories = data["totalCalories"] as? Double {
-                            let date = timestamp.dateValue()
-                            let dataPoint = DataPoint(date: date, dataPoint: calories)
-                            dataPoints.append(dataPoint)
-                        }
-                    }
-                    completion(dataPoints)
-                }
-            }
-    }
+//    func getOrderedDateData(completion: @escaping ([DataPoint]) -> Void) {
+//        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
+//        database.collection("intake")
+//            .whereField("id", isEqualTo: currentUserUID)
+//            .order(by: "date")
+//            .addSnapshotListener { (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                    completion([])
+//                } else {
+//                    var dataPoints: [DataPoint] = []
+//                    for document in querySnapshot!.documents {
+//                        let data = document.data()
+//                        if let timestamp = data["date"] as? Timestamp,
+//                           let calories = data["totalCalories"] as? Double {
+//                            let date = timestamp.dateValue()
+//                            let dataPoint = DataPoint(date: date, dataPoint: calories)
+//                            dataPoints.append(dataPoint)
+//                        }
+//                    }
+//                    completion(dataPoints)
+//                }
+//            }
+//    }
 }
     
 // MARK: - Chatbot Response

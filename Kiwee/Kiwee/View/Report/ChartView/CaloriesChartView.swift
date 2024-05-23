@@ -69,6 +69,10 @@ struct CaloriesChartView: View {
               }
           }
           .padding()
+          .onAppear {
+              viewModel.fetchCalorieData()
+              viewModel.calculatedInfo()
+          }
       }
     
 }

@@ -76,6 +76,10 @@ struct WeightChartView: View {
             )
         }
         .padding()
+        .onAppear {
+            viewModel.fetchUserWeight()
+            viewModel.calculatedInfo()
+        }
     }
     
 }
