@@ -1,5 +1,11 @@
 # Kiwee
 
+<img src="https://github.com/naiyingshih/Kiwee/assets/152681410/3f87ea52-51e8-47eb-9224-b1db92feaa7b" width="18%" height="18%"/>
+<img src="https://github.com/naiyingshih/Kiwee/assets/152681410/2b93ca0f-87f4-4288-909a-bc8260af65bb" width="18%" height="18%"/>
+<img src="https://github.com/naiyingshih/Kiwee/assets/152681410/77b5aeb1-5eda-4f4a-9696-7bb27a52a49d" width="18%" height="18%"/>
+<img src="https://github.com/naiyingshih/Kiwee/assets/152681410/ed349412-1abf-4d92-824a-516d3abb762f" width="18%" height="18%"/>
+<img src="https://github.com/naiyingshih/Kiwee/assets/152681410/47b2ac84-a56a-447b-b9d7-c6c825006886" width="18%" height="18%"/>
+
 ## Description
 Kiwee is an app that enable users to effortlessly record meals, watch the progress with an innovative farm game and insightful analytics charts.
 
@@ -8,15 +14,19 @@ Kiwee is an app that enable users to effortlessly record meals, watch the progre
   
   Track your daily food intake and watch your virtual farm flourish with a variety of fruits and vegetables.
 
-  [Farm](https://github.com/naiyingshih/Kiwee/assets/152681410/9741ca3f-889d-489c-bcd3-032b4f0acb15) |
+  |**Farm Game**|
+  |-------------|
+  | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/1d61c871-9b88-4730-920d-5bc96a2f55b1" width="250px" height="540px"/> |
 
 <br />
 
 - **Effortless Food Logging -**
 
   Seamlessly add food using our image recognition, search function, or manual entry options.
-  
-  [Three methods for adding foods](https://github.com/naiyingshih/Kiwee/assets/152681410/bf6a3075-7fb7-4aa8-8569-62dc24d820c1) | [By searching](https://github.com/naiyingshih/Kiwee/assets/152681410/b1f65ad0-5b12-4c2a-acbd-51617645a00f)
+
+  |**Three methods to add foods**|**By image recognition**|**By search**|
+  |------------------------------|------------------------|-------------|
+  | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/d4701a41-603f-42c6-8c31-fbc2aefb4a22" width="250px" height="540px"/> | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/fdeced43-fd1a-4fb3-82e9-e6b5d030022f" width="250px" height="540px"/> | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/7a55deee-c191-45bf-9eb3-297236a81f5a" width="250px" height="540px"/> |
 
 <br />
 
@@ -24,24 +34,29 @@ Kiwee is an app that enable users to effortlessly record meals, watch the progre
 
   Stay informed with real-time data on your remaining calorie intake, calorie and weight changes, and nutrient distribution, empowering you to make informed dietary decisions.
 
-  [Reports](https://github.com/naiyingshih/Kiwee/assets/152681410/a266d3fb-122f-4845-b494-854c3aefc2c3) | 
-
+  |**Reports**|
+  |-----------|
+  | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/b93b73bd-77a6-4015-bc6e-dbe9308fce4f" width="250px" height="540px"/> |
+  
 <br />
 
 - **Your Personalized Health Hub -**
 
-  Manage and update your personal records, share mouthwatering food photos, and track your meals with ease, all within your personalized profile.
-  
-  [Personal record management](https://github.com/naiyingshih/Kiwee/assets/152681410/09251118-c9d0-4915-bf3e-2c42b6fc949f) | [Sharing Photos](https://github.com/naiyingshih/Kiwee/assets/152681410/f2b49a03-2e48-43d0-8c2c-bd97ece606e5)
+  Manage and update your personal records, post mouthwatering food photos, and track your meals with ease, all within your personalized profile.
 
+  |**Personal record management**|**Post food photos**|
+  |------------------------------|--------------------|
+  | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/5f08e95b-7f5c-4d10-b225-98c3bf542e2d" width="250px" height="540px"/> | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/ead182c8-d09b-4df2-91ab-3fdfbc08574e" width="250px" height="540px"/> |
 
 <br />
 
 - **Personalized Health Guidance at Your Fingertips -**
 
   Our AI-powered chatbot is always available to answer your nutrition and health-related questions, providing personalized guidance tailored to your needs.
-  
-  [Chatbot](https://github.com/naiyingshih/Kiwee/assets/152681410/13f7654d-238d-41b8-90fb-ca9b0014cef1) |
+
+  |**Chatbot**|
+  |-----------|
+  | <img src="https://github.com/naiyingshih/Kiwee/assets/152681410/996d9c96-3f50-4a55-8316-d8dc5e93624b" width="250px" height="540px"/> |
 
 <br />  
 
