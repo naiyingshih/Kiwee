@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MobileCoreServices
 import Lottie
 
 enum PostState {
