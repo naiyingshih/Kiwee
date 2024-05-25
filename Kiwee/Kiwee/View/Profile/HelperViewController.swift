@@ -18,7 +18,7 @@ class HelperViewController: UIViewController {
     @IBOutlet weak var verticleConstraint3: NSLayoutConstraint!
     @IBOutlet weak var verticleConstraint4: NSLayoutConstraint!
     
-    let weight = UserDefaults.standard.double(forKey: "initial_weight")
+    let weight = UserDefaults.standard.double(forKey: "updated_weight")
     let RDA = UserDefaults.standard.double(forKey: "RDA")
     
     lazy var nutrientData: [NutrientCardModel] = [

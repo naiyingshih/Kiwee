@@ -25,7 +25,8 @@ class AddFoodViewModelTests: XCTestCase {
     func testCalculateIntakeData() {
         // Given
         let food = Food(
-            documentID: "testID",
+            id: "testID",
+            documentID: "testDocumentID",
             name: "Test Food",
             totalCalories: 100,
             nutrients: Food.Nutrient(carbohydrates: 20, protein: 10, fat: 5, fiber: 2),

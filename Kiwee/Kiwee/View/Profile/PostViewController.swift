@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MobileCoreServices
 import Lottie
 
 enum PostState {
@@ -15,6 +14,8 @@ enum PostState {
 }
 
 class PostViewController: UIViewController {
+    
+    let firebaseManager = FirebaseManager.shared
     
     var postState: PostState?
     var editingPostID: String?
@@ -47,7 +48,7 @@ class PostViewController: UIViewController {
         plusImageView.addGestureRecognizer(tapGesture)
         foodTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
-   
+    
     // MARK: - UI Setting functions
     func setupPostState() {
         switch postState {
@@ -72,7 +73,7 @@ class PostViewController: UIViewController {
         }
         checkForChanges()
     }
-
+    
     func setupUI() {
         ButtonManager.updateButtonEnableStatus(for: postButton, enabled: false)
         postButton.applyPrimaryStyle(size: 17)
@@ -100,7 +101,7 @@ class PostViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func tagButtonsSelected(_ sender: UIButton) {
-
+        
         if let previousSelectedButton = selectedButton {
             previousSelectedButton.backgroundColor = .clear
         }
@@ -118,7 +119,7 @@ class PostViewController: UIViewController {
         case .editingPost:
             // Editing an existing post
             if let editingPostID = self.editingPostID {
-                FirestoreManager.shared.updateFoodCollection(
+                firebaseManager.updatePost(
                     documentID: editingPostID,
                     foodName: self.foodTextField.text ?? "",
                     tag: self.tagString ?? ""
@@ -137,13 +138,13 @@ class PostViewController: UIViewController {
                   let tag = tagString,
                   let imageData = selectedImageData else { return }
             
-            FirestoreManager.shared.uploadImageData(imageData: imageData) { [weak self] success, url in
+            firebaseManager.uploadImageData(imageData: imageData) { [weak self] success, url in
                 guard success, let imageUrl = url else {
                     print("Image upload failed")
                     return
                 }
                 // Creating a new post
-                FirestoreManager.shared.publishFoodCollection(foodName: foodTextField, tag: tag, imageUrl: imageUrl.absoluteString) { success in
+                self?.publishFoodCollection(foodName: foodTextField, tag: tag, imageUrl: imageUrl.absoluteString) { success in
                     if success {
                         self?.activityIndicator.stopAnimating()
                         self?.showSuccess {
@@ -172,6 +173,23 @@ class PostViewController: UIViewController {
         imagePicker.allowsEditing = true
         imagePicker.mediaTypes = ["public.image"]
         present(imagePicker, animated: true, completion: nil)
+    }
+    
+    private func publishFoodCollection(foodName: String, tag: String, imageUrl: String, completion: @escaping (Bool) -> Void) {
+        guard let userID = firebaseManager.userID else { return }
+        let documentID = firebaseManager.database.collection(Collections.posts.rawValue).document().documentID
+        let publishData = Post(id: userID, documentID:documentID, foodName: foodName, tag: tag, image: imageUrl, createdTime: Date())
+        
+        firebaseManager.updateData(in: .posts, documentID: documentID, data: publishData) { result in
+            switch result {
+            case .success:
+                print("Document added to post successfully")
+                completion(true)
+            case .failure(let error):
+                print("Error adding document to post: \(error.localizedDescription)")
+                completion(false)
+            }
+        }
     }
     
 }

@@ -65,3 +65,14 @@ struct MessageRow: Identifiable {
     var responseText: String?
     var responseError: String?
 }
+
+// MARK: - FAQ
+struct FAQ: Decodable {
+    let sendMessage: String
+    let responseMessage: [String]
+    
+    enum CodingKeys: String, CodingKey {
+        case sendMessage = "send_message"
+        case responseMessage = "response_message"
+    }
+}

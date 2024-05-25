@@ -71,20 +71,6 @@ class StorageManager {
         }
     }
     
-//    func saveContext() {
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                print("Error saving context: \(error)")
-//            }
-//        }
-//    }
-//    
-//    func deleteItem(_ object: LSFarm) {
-//        context.delete(object)
-//        saveContext()
-//    }
 }
 
 // MARK: - User data manager
@@ -103,9 +89,9 @@ class UserDataManager {
             activeness: defaults.integer(forKey: "activeness"),
             height: defaults.double(forKey: "height"),
             initialWeight: defaults.double(forKey: "initial_weight"),
-            updatedWeight: defaults.double(forKey: "initial_weight"),
             goalWeight: defaults.double(forKey: "goal_weight"),
-            achievementTime: defaults.object(forKey: "achievement_time") as? Date ?? Date()
+            achievementTime: defaults.object(forKey: "achievement_time") as? Date ?? Date(),
+            date: Date()
         )
     }
 }

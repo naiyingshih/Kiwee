@@ -53,7 +53,6 @@ class ProfileBannerView: UIView {
         let imageView = UIImageView()
         imageView.tintColor = KWColor.lightY
         imageView.image = UIImage(named: "User")
-//        imageView.image = UIImage(systemName: "person.crop.circle")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

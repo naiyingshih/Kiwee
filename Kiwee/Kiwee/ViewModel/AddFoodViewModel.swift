@@ -16,7 +16,8 @@ protocol AddFoodViewControllerDelegate: AnyObject {
 class AddFoodViewModel {
     
     weak var delegate: AddFoodViewControllerDelegate?
-    
+    let firebaseManager = FirebaseManager.shared
+
     var foodResult: [Food] = []
     var filteredFoodItems: [Food] = [] {
         didSet {
@@ -37,9 +38,27 @@ class AddFoodViewModel {
     // MARK: - Data Fetching and Processing
     func fetchRecentRecord() {
         guard let section = sectionIndex else { return }
-        FirestoreManager.shared.getFoodSectionData(section: section) { [weak self] foods in
+        
+        let queryOptions = firebaseManager.database.queryForRecentRecord(userID: firebaseManager.userID ?? "", section: section)
+        firebaseManager.fetchData(from: .intake, queryOption: queryOptions) { [weak self] (result: Result<[Food], Error>) in
             guard let self = self else { return }
-            self.recentFoods = self.processRecentFoods(foods)
+            switch result {
+            case .success(let foods):
+                let recentFoods = foods.reduce(into: [Food]()) { result, food in
+                    if let existingFood = result.first(where: { $0.name == food.name }),
+                       let foodDate = food.date,
+                       let existingFoodDate = existingFood.date,
+                       foodDate > existingFoodDate {
+                        result.removeAll(where: { $0.name == food.name })
+                        result.append(food)
+                    } else if !result.contains(where: { $0.name == food.name }) {
+                        result.append(food)
+                    }
+                }
+                self.recentFoods = self.processRecentFoods(recentFoods)
+            case .failure(let error):
+                print("Error getting documents: \(error)")
+            }
         }
     }
     
@@ -94,16 +113,7 @@ class AddFoodViewModel {
     }
     
     func addIdentifiedFood(name: String, totalCalories: Double, nutrients: Food.Nutrient, image: String) {
-        let newFood = Food(
-            documentID: "",
-            name: name,
-            totalCalories: totalCalories,
-            nutrients: nutrients,
-            image: image,
-            quantity: nil,
-            section: nil,
-            date: nil
-        )
+        let newFood = Food(name: name, totalCalories: totalCalories, nutrients: nutrients, image: image)
         DispatchQueue.main.async {
             self.filteredFoodItems.insert(newFood, at: 0)
         }
@@ -122,10 +132,7 @@ class AddFoodViewModel {
             }
         }
         
-        FirestoreManager.shared.postIntakeData(
-            intakeDataArray: calculatedIntakeDataArray,
-            chosenDate: selectedDate ?? Date()
-        ) { [weak self] success in
+        postIntakeData(intakeDataArray: calculatedIntakeDataArray, chosenDate: selectedDate ?? Date()) { [weak self] success in
             if success {
                 print("Food intake data posted successfully")
                 self?.delegate?.didConfirmFoodItems(calculatedIntakeDataArray)
@@ -134,4 +141,30 @@ class AddFoodViewModel {
             }
         }
     }
+    
+    private func postIntakeData(intakeDataArray: [Food], chosenDate: Date, completion: @escaping (Bool) -> Void) {
+        let intakeDataWithUserID = intakeDataArray.map { food -> Food in
+            return Food(id: firebaseManager.userID ?? "",
+                        documentID: "",
+                        name: food.name,
+                        totalCalories: food.totalCalories,
+                        nutrients: food.nutrients,
+                        image: food.image,
+                        quantity: food.quantity,
+                        section: food.section,
+                        date: chosenDate,
+                        type: "food")
+        }
+        
+        firebaseManager.addDataBatch(to: .intake, dataArray: intakeDataWithUserID) { result in
+            switch result {
+            case .success:
+                completion(true)
+            case .failure(let error):
+                print("Error writing batch \(error.localizedDescription)")
+                completion(false)
+            }
+        }
+    }
+    
 }

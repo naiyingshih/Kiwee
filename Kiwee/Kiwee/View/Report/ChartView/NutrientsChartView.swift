@@ -51,9 +51,9 @@ struct NutrientsChartView: View {
             .onChange(of: selectedTimeRange, initial: true, { _, newValue in
                 switch newValue {
                 case .last7Days:
-                    viewModel.fetchNutrientData(day: 7)
+                    viewModel.fetchNutrientData(forLastDays: 7)
                 case .last30Days:
-                    viewModel.fetchNutrientData(day: 30)
+                    viewModel.fetchNutrientData(forLastDays: 30)
                 }
             })
             
@@ -117,9 +117,3 @@ struct NutrientsChartView: View {
         .padding()
     }
 }
-
-// struct IntakeCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NutrientsChartView()
-//    }
-// }
