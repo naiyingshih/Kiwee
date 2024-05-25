@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserData: Decodable {
+struct UserData: Codable {
     var id: String
     var name: String
     var gender: Int
@@ -31,9 +31,9 @@ struct UserData: Decodable {
     }
 }
 
-struct WeightData: Decodable {
-    var date: Date?
-    var weight: Double?
+struct WeightData: Codable {
+    var date: Date
+    var weight: Double
 }
 
 struct Post: Codable {

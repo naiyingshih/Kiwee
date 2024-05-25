@@ -89,7 +89,6 @@
 		0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */; };
 		0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */; };
 		0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
-		0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */; };
 		0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */; };
 		0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */; };
 		0ECE08C12BC71A9A003C15B0 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */; };
@@ -189,7 +188,6 @@
 		0ECE08922BC69878003C15B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ECE08942BC69878003C15B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewCell.swift; sourceTree = "<group>"; };
-		0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
 		0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -444,7 +442,6 @@
 		0ECE08C42BC76A96003C15B0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
 				0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */,
 				0EB0443C2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift */,
 				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
@@ -766,7 +763,6 @@
 				0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */,
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
-				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
 				0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */,
 				0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */,
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,

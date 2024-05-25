@@ -9,6 +9,8 @@ import UIKit
 
 class RecordManageViewController: UIViewController {
     
+    let firebaseManager = FirebaseManager.shared
+    
     var initialUserData: UserData?
     var updates: [String: Any] = [:]
     var selectedButton: UIButton?
@@ -74,25 +76,14 @@ class RecordManageViewController: UIViewController {
     }
     
     func fetchUserData() {
+        guard let initialUserData = self.initialUserData else { return }
         DispatchQueue.main.async {
-            if let height = self.initialUserData?.height {
-                self.heightTextField.text = "\(height)"
-            }
-            if let updatedWeight = self.initialUserData?.updatedWeight {
-                self.weightTextField.text = "\(updatedWeight)"
-            }
-            if let goalWeight = self.initialUserData?.goalWeight {
-                self.goalWeightTextField.text = "\(goalWeight)"
-            }
-            if let date = self.initialUserData?.achievementTime {
-                self.datePicker.date = date
-            }
-            if let goal = self.initialUserData?.goal {
-                self.goalSegment.selectedSegmentIndex = goal
-            }
-            if let activeness = self.initialUserData?.activeness {
-                self.setInitialButtonBorder(forActiveness: activeness)
-            }
+            self.heightTextField.text = "\(initialUserData.height)"
+            self.weightTextField.text = "\(initialUserData.updatedWeight ?? initialUserData.initialWeight)"
+            self.goalWeightTextField.text = "\(initialUserData.goalWeight)"
+            self.datePicker.date = initialUserData.achievementTime
+            self.goalSegment.selectedSegmentIndex = initialUserData.goal
+            self.setInitialButtonBorder(forActiveness: initialUserData.activeness)
         }
     }
     
@@ -144,15 +135,16 @@ class RecordManageViewController: UIViewController {
         }
         
         if !updates.isEmpty {
-            FirestoreManager.shared.updatePartialUserData(updates: updates) { success in
+            guard let userID = firebaseManager.userID else { return }
+            firebaseManager.updatePartialUserData(userID: userID, updates: updates) { success in
                 if success {
                     print("Data updated successfully")
                     print(self.updates)
                     
                     if let updatedWeight = self.updates["updated_weight"] as? Double {
-                        FirestoreManager.shared.postWeightToSubcollection(weight: updatedWeight)
+                        self.postWeightToSubcollection(weight: updatedWeight)
+                        UserDefaults.standard.set(updatedWeight, forKey: "updated_weight")
                     }
-                    
                 } else {
                     print("Failed to update data")
                 }
@@ -164,6 +156,27 @@ class RecordManageViewController: UIViewController {
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func postWeightToSubcollection(weight: Double) {
+        guard let userID = firebaseManager.userID else { return }
+        let weightData = WeightData(date: Date(), weight: weight)
+        
+        firebaseManager.fetchDocumentID(UserID: userID, collection: .users) { [weak self] result in
+            switch result {
+            case .success(let documentID):
+                self?.firebaseManager.addDataToSub(to: .users, documentID: documentID, subcollection: "current_weight", data: weightData) { result in
+                    switch result {
+                    case .success:
+                        print("Document added to subcollection successfully")
+                    case .failure(let error):
+                        print("Error adding document to subcollection: \(error.localizedDescription)")
+                    }
+                }
+            case .failure(let error):
+                print("Error adding user data: \(error.localizedDescription)")
+            }
+        }
     }
     
 }
@@ -180,24 +193,23 @@ extension RecordManageViewController {
     }
 
     func checkForChanges() {
+        guard let initialUserData = self.initialUserData else { return }
         var hasChanged = false
         
-        if let heightText = heightTextField.text, let height = Double(heightText), height != initialUserData?.height {
+        if let heightText = heightTextField.text, let height = Double(heightText), height != initialUserData.height {
             hasChanged = true
-        } else if let weightText = weightTextField.text, let weight = Double(weightText), weight != initialUserData?.updatedWeight {
+        } else if let weightText = weightTextField.text, let weight = Double(weightText), weight != initialUserData.updatedWeight ?? initialUserData.initialWeight {
             hasChanged = true
-        } else if let goalWeightText = goalWeightTextField.text, let goalWeight = Double(goalWeightText), goalWeight != initialUserData?.goalWeight {
+        } else if let goalWeightText = goalWeightTextField.text, let goalWeight = Double(goalWeightText), goalWeight != initialUserData.goalWeight {
             hasChanged = true
-        } else if datePicker.date != initialUserData?.achievementTime {
+        } else if datePicker.date != initialUserData.achievementTime {
             hasChanged = true
-        } else if goalSegment.selectedSegmentIndex != initialUserData?.goal {
+        } else if goalSegment.selectedSegmentIndex != initialUserData.goal {
             hasChanged = true
-        } else if let selectedActiveness = selectedButton?.tag, selectedActiveness != initialUserData?.activeness {
+        } else if let selectedActiveness = selectedButton?.tag, selectedActiveness != initialUserData.activeness {
             hasChanged = true
         }
         
-        saveButton.isEnabled = hasChanged
-        let alpha = hasChanged ? 1.0 : 0.3
-        saveButton.backgroundColor = saveButton.backgroundColor?.withAlphaComponent(alpha)
+        ButtonManager.updateButtonEnableStatus(for: saveButton, enabled: hasChanged)
     }
 }

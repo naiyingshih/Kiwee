@@ -128,6 +128,22 @@ class FirebaseManager {
         }
     }
     
+    // MARK: - Add data to subcollection
+    func addDataToSub<T: Encodable>(to collection: Collections, documentID: String, subcollection: String, data: T, completion: @escaping (Result<DocumentReference, Error>) -> Void) {
+        var documentRef: DocumentReference?
+        do {
+            documentRef = try database.collection(collection.rawValue).document(documentID).collection(subcollection).addDocument(from: data) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let documentRef = documentRef {
+                    completion(.success(documentRef))
+                }
+            }
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
     // MARK: - Update Data
     func updateData<T: Encodable>(in collection: Collections, documentID: String, data: T, completion: @escaping (Result<Bool, Error>) -> Void) {
         do {
@@ -153,30 +169,6 @@ class FirebaseManager {
                 completion(.success(true))
             }
         }
-    }
-    
-    // MARK: - Delete Account Handle
-    func setAccountDeletedStatus() {
-        guard let userID = userID else { return }
-        
-        database.collection("users")
-            .whereField("id", isEqualTo: userID)
-            .getDocuments { querySnapshot, error in
-                if let error = error {
-                    print("Error finding user document: \(error.localizedDescription)")
-                } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
-                    let document = querySnapshot.documents.first
-                    document?.reference.updateData(["status": "delete"]) { error in
-                        if let error = error {
-                            print("Error updating document: \(error.localizedDescription)")
-                        } else {
-                            print("Account status updated successfully")
-                        }
-                    }
-                } else {
-                    print("No document found for user ID: \(userID)")
-                }
-            }
     }
     
 }
@@ -229,4 +221,30 @@ extension FirebaseManager {
             }
         }
     }
+    
+    func updatePartialUserData(userID: String, updates: [String: Any], completion: @escaping (Bool) -> Void) {
+        database.collection("users")
+            .whereField("id", isEqualTo: userID)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error finding document: \(error.localizedDescription)")
+                    completion(false)
+                } else if let querySnapshot = querySnapshot, !querySnapshot.documents.isEmpty {
+                    let document = querySnapshot.documents.first
+                    document?.reference.updateData(updates) { error in
+                        if let error = error {
+                            print("Error updating document: \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            print("Document successfully updated")
+                            completion(true)
+                        }
+                    }
+                } else {
+                    print("No document found with the id: \(userID)")
+                    completion(false)
+                }
+            }
+    }
+    
 }

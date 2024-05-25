@@ -18,7 +18,7 @@ class ProfileViewModel {
         guard let userID = firebaseManager.userID else { return }
         let query = firebaseManager.database.queryByOneField(userID: userID, collection: .users, field: "id", fieldContent: userID)
         
-        firebaseManager.fetchData(from: .users, queryOption: query) { [weak self] (result: Result<[UserData], Error>) in
+        firebaseManager.listenerRegistration = firebaseManager.addSnapshotListener(for: .users, queryOption: query) { [weak self] (result: Result<[UserData], Error>) in
             guard self != nil else { return }
             switch result {
             case .success(let userdata):
@@ -26,7 +26,6 @@ class ProfileViewModel {
                 guard let userData = userdata else { return }
                 DispatchQueue.main.async {
                     self?.userData = userData
-                    UserDefaults.standard.set(userData.updatedWeight, forKey: "initial_weight")
                 }
             case .failure(let error):
                 print("Error fetching calories: \(error.localizedDescription)")
@@ -67,7 +66,14 @@ class ProfileViewModel {
     }
     
     func updateAccountStatus() {
-        firebaseManager.setAccountDeletedStatus()
+        guard let userID = firebaseManager.userID else { return }
+        firebaseManager.updatePartialUserData(userID: userID, updates: ["status": "delete"]) { success in
+            if success {
+                print("Account status updated successfully")
+            } else {
+                print("Failed to update account status")
+            }
+        }
     }
     
 }
