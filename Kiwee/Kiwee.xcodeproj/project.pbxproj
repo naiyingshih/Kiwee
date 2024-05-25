@@ -346,11 +346,11 @@
 			isa = PBXGroup;
 			children = (
 				0E61B2DD2BE46B590043A82B /* SigninViewController.swift */,
+				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
 				0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */,
 				0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */,
 				0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */,
 				0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */,
-				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -443,7 +443,6 @@
 			isa = PBXGroup;
 			children = (
 				0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */,
-				0EB0443C2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift */,
 				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
 				0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */,
 				0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */,
@@ -456,6 +455,7 @@
 		0ECE08C52BC76AE8003C15B0 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				0EB0443C2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift */,
 				0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */,
 				0E91DCA22BD6787A0018911F /* Type+Extension.swift */,
 				0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */,
@@ -1020,7 +1020,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.Kiwee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1059,7 +1059,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.Kiwee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

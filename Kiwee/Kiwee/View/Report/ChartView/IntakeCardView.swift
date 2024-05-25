@@ -12,7 +12,7 @@ struct IntakeCardView: View {
     
     @StateObject var viewModel = ChartsViewModel()
     
-    // Computed properties to dynamically fetch the required data
+    // Computed properties to dynamically fetch data
      var caloriesIntake: Double {
          viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0
      }

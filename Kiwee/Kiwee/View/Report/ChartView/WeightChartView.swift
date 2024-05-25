@@ -83,9 +83,3 @@ struct WeightChartView: View {
     }
     
 }
-
-// struct IntakeCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WeightChartView()
-//    }
-// }

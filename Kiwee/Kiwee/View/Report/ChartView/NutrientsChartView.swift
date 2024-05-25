@@ -117,9 +117,3 @@ struct NutrientsChartView: View {
         .padding()
     }
 }
-
-// struct IntakeCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NutrientsChartView()
-//    }
-// }
