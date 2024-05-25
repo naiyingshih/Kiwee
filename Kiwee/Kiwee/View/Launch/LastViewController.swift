@@ -10,6 +10,8 @@ import FirebaseAuth
 
 class LastViewController: UIViewController {
     
+    let firebaseManager = FirebaseManager.shared
+    
     private var currentArea: Block?
     let datePicker = UIDatePicker()
     
@@ -152,7 +154,6 @@ class LastViewController: UIViewController {
             activeness: defaults.integer(forKey: "activeness"),
             height: defaults.double(forKey: "height"),
             initialWeight: defaults.double(forKey: "initial_weight"),
-            updatedWeight: defaults.double(forKey: "initial_weight"),
             goalWeight: 0,
             achievementTime: datePicker.date)
 
@@ -200,15 +201,37 @@ class LastViewController: UIViewController {
     }
     
     func postUserInfo() {
-        let id = Auth.auth().currentUser?.uid ?? ""
-        let userData = UserDataManager.shared.getCurrentUserData(id: id)
+        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
+        let userData = UserDataManager.shared.getCurrentUserData(id: currentUserUID)
         
-        FirestoreManager.shared.postUserData(input: userData) { success in
-            if success {
-                print("user data add successfully")
-                FirestoreManager.shared.postWeightToSubcollection(weight: userData.initialWeight)
-            } else {
-                print("Error adding user data")
+        firebaseManager.addData(to: .users, data: userData) { result in
+            switch result {
+            case .success:
+                self.postWeightToSubcollection(weight: userData.initialWeight)
+                print("===\(userData)")
+            case .failure(let error):
+                print("Error adding user data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func postWeightToSubcollection(weight: Double) {
+        guard let userID = firebaseManager.userID else { return }
+        let weightData = WeightData(date: Date(), weight: weight)
+        
+        firebaseManager.fetchDocumentID(UserID: userID, collection: .users) { [weak self] result in
+            switch result {
+            case .success(let documentID):
+                self?.firebaseManager.addDataToSub(to: .users, documentID: documentID, subcollection: "current_weight", data: weightData) { result in
+                    switch result {
+                    case .success:
+                        print("Document added to subcollection successfully")
+                    case .failure(let error):
+                        print("Error adding document to subcollection: \(error.localizedDescription)")
+                    }
+                }
+            case .failure(let error):
+                print("Error adding user data: \(error.localizedDescription)")
             }
         }
     }

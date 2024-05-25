@@ -141,7 +141,7 @@ extension ChatBotViewController: MessageInputViewDelegate {
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
         tableView.insertRows(at: [indexPath], with: .none)
         
-        FirestoreManager.shared.getResponse(sendMessage: message) { responses in
+        self.getResponse(sendMessage: message) { responses in
             let randomResponse = responses.shuffled()
             let response = randomResponse.first?.responseText
             
@@ -154,11 +154,9 @@ extension ChatBotViewController: MessageInputViewDelegate {
                 self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
             }
         }
-        
     }
     
     func sendMessageButtonTapped(message: String) {
-
         let newMessage = MessageRow(
             isInteractingWithChatGPT: true,
             sendText: message,
@@ -179,12 +177,38 @@ extension ChatBotViewController: MessageInputViewDelegate {
         }
     }
     
+    private func getResponse(sendMessage: String, completion: @escaping([MessageRow]) -> Void) {
+        let queryOption = FirebaseManager.shared.database.queryByOneField(userID: "", collection: .faq, field: "send_message", fieldContent: sendMessage)
+        
+        FirebaseManager.shared.fetchData(from: .faq, queryOption: queryOption) { (result: Result<[FAQ], Error>) in
+            switch result {
+            case .success(let documents):
+                var messages = [MessageRow]()
+                for document in documents {
+                    for response in document.responseMessage {
+                        let message = MessageRow(
+                            isInteractingWithChatGPT: false,
+                            sendText: sendMessage,
+                            responseText: response,
+                            responseError: nil
+                        )
+                        messages.append(message)
+                    }
+                }
+                completion(messages)
+                print(messages)
+            case .failure(let error):
+                print("Error getting documents: \(error)")
+                completion([])
+            }
+        }
+    }
+    
 }
 
 // MARK: - OpenAI function
 
 extension ChatBotViewController {
-    
     func sendMessageToChatBot(_ message: String, completion: @escaping (String) -> Void) {
         Task {
             do {

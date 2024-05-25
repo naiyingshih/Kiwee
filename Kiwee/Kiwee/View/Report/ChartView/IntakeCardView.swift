@@ -12,7 +12,7 @@ struct IntakeCardView: View {
     
     @StateObject var viewModel = ChartsViewModel()
     
-    // Computed properties to dynamically fetch the required data
+    // Computed properties to dynamically fetch data
      var caloriesIntake: Double {
          viewModel.todayIntake.first(where: { $0.label == "已攝取量" })?.amount ?? 0
      }
@@ -48,6 +48,9 @@ struct IntakeCardView: View {
         .background(Color(hex: "004358"))
         .cornerRadius(10)
         .shadow(radius: 5)
+        .onAppear {
+            viewModel.getTodayIntake()
+        }
     }
 }
 
@@ -118,6 +121,9 @@ struct PieChartView: View {
             }
         }
         .frame(height: 200)
+        .onAppear {
+            viewModel.getTodayIntake()
+        }
     }
 }
 

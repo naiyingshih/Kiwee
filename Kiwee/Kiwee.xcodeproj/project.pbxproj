@@ -12,6 +12,7 @@
 		0E0022B42BF624CC00A39397 /* RecentRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */; };
 		0E0022B62BF64BD800A39397 /* AddFoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */; };
 		0E0022B82BF855D400A39397 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022B72BF855D400A39397 /* CameraViewModel.swift */; };
+		0E0022C02BF8830600A39397 /* BMRUtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0022BF2BF8830600A39397 /* BMRUtilityTests.swift */; };
 		0E0643932BC8FFF000DFB39B /* FoodData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E0643922BC8FFF000DFB39B /* FoodData.json */; };
 		0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */; };
 		0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */; };
@@ -70,6 +71,12 @@
 		0E91DCB52BD961230018911F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB42BD961230018911F /* DetailView.swift */; };
 		0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */; };
 		0EB00C922BE267CD0091E6C3 /* Success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 0EB00C912BE267CD0091E6C3 /* Success_animation.json */; };
+		0EB0442F2BF91B710095BF8A /* BMRIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */; };
+		0EB044312BF9277D0095BF8A /* AddFoodViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044302BF9277D0095BF8A /* AddFoodViewModelTests.swift */; };
+		0EB044332BFA2FBF0095BF8A /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */; };
+		0EB044372BFF2C0A0095BF8A /* ChartsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044362BFF2C0A0095BF8A /* ChartsModel.swift */; };
+		0EB044392BFF2CC80095BF8A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB044382BFF2CC80095BF8A /* ProfileViewModel.swift */; };
+		0EB0443D2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0443C2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift */; };
 		0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08862BC69877003C15B0 /* AppDelegate.swift */; };
 		0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08882BC69877003C15B0 /* SceneDelegate.swift */; };
 		0ECE088B2BC69877003C15B0 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE088A2BC69877003C15B0 /* DiaryViewController.swift */; };
@@ -82,7 +89,6 @@
 		0ECE08A22BC6AFEC003C15B0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0ECE08A12BC6AFEC003C15B0 /* FirebaseStorage */; };
 		0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */; };
 		0ECE08B92BC6D953003C15B0 /* Pods_Kiwee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EAFC9EF2FC3D0668C3F6D8 /* Pods_Kiwee.framework */; };
-		0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */; };
 		0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */; };
 		0ECE08BF2BC7131C003C15B0 /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */; };
 		0ECE08C12BC71A9A003C15B0 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */; };
@@ -94,12 +100,24 @@
 		0EE85C5D2BE3CE16007B069F /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE85C5C2BE3CE16007B069F /* AuthenticationViewModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0E0022C12BF8830600A39397 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ECE087B2BC69877003C15B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0ECE08822BC69877003C15B0;
+			remoteInfo = Kiwee;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0E0022AE2BF4FCED00A39397 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
 		0E0022B02BF602C900A39397 /* SearchListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E0022B32BF624CC00A39397 /* RecentRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewModel.swift; sourceTree = "<group>"; };
 		0E0022B72BF855D400A39397 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		0E0022BD2BF8830600A39397 /* KiweeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KiweeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0022BF2BF8830600A39397 /* BMRUtilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMRUtilityTests.swift; sourceTree = "<group>"; };
 		0E0643922BC8FFF000DFB39B /* FoodData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FoodData.json; sourceTree = "<group>"; };
 		0E1567A22BE7F068002D25AB /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		0E1567A42BE8869D002D25AB /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -152,10 +170,15 @@
 		0E91DCA42BD67D9C0018911F /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		0E91DCA62BD67E4E0018911F /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		0E91DCAE2BD7E82C0018911F /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
-		0E91DCB22BD7EAC40018911F /* FoodSample.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FoodSample.mlmodel; sourceTree = "<group>"; };
 		0E91DCB42BD961230018911F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailView.swift; path = Kiwee/View/Diary/DetailView.swift; sourceTree = SOURCE_ROOT; };
 		0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoViewController.swift; sourceTree = "<group>"; };
 		0EB00C912BE267CD0091E6C3 /* Success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Success_animation.json; sourceTree = "<group>"; };
+		0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMRIntegrationTests.swift; sourceTree = "<group>"; };
+		0EB044302BF9277D0095BF8A /* AddFoodViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodViewModelTests.swift; sourceTree = "<group>"; };
+		0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		0EB044362BFF2C0A0095BF8A /* ChartsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsModel.swift; sourceTree = "<group>"; };
+		0EB044382BFF2CC80095BF8A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		0EB0443C2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseQuery+Extenstion.swift"; sourceTree = "<group>"; };
 		0ECE08832BC69877003C15B0 /* Kiwee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECE08862BC69877003C15B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECE08882BC69877003C15B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -165,7 +188,6 @@
 		0ECE08922BC69878003C15B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ECE08942BC69878003C15B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ECE08A52BC6B319003C15B0 /* DiaryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewCell.swift; sourceTree = "<group>"; };
-		0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		0ECE08BC2BC70BCB003C15B0 /* FoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodModel.swift; sourceTree = "<group>"; };
 		0ECE08BE2BC7131C003C15B0 /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
 		0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -181,6 +203,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0E0022BA2BF8830600A39397 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0ECE08802BC69877003C15B0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,8 +236,19 @@
 				0E0022B52BF64BD800A39397 /* AddFoodViewModel.swift */,
 				0E0022B72BF855D400A39397 /* CameraViewModel.swift */,
 				0E91DC262BCD696B0018911F /* ChartsViewModel.swift */,
+				0EB044382BFF2CC80095BF8A /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0E0022BE2BF8830600A39397 /* KiweeTests */ = {
+			isa = PBXGroup;
+			children = (
+				0EB0442E2BF91B710095BF8A /* BMRIntegrationTests.swift */,
+				0E0022BF2BF8830600A39397 /* BMRUtilityTests.swift */,
+				0EB044302BF9277D0095BF8A /* AddFoodViewModelTests.swift */,
+			);
+			path = KiweeTests;
 			sourceTree = "<group>";
 		};
 		0E1567A82BE8CAFF002D25AB /* Font */ = {
@@ -218,14 +258,6 @@
 				0E1567AE2BE8EE16002D25AB /* NotoSansTC-Medium.ttf */,
 			);
 			path = Font;
-			sourceTree = "<group>";
-		};
-		0E1567B22BEA56C4002D25AB /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				0E91DCB22BD7EAC40018911F /* FoodSample.mlmodel */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		0E61B2E32BE5FB940043A82B /* HelperCell */ = {
@@ -314,11 +346,11 @@
 			isa = PBXGroup;
 			children = (
 				0E61B2DD2BE46B590043A82B /* SigninViewController.swift */,
+				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
 				0E91DCB92BDA18080018911F /* BasicInfoViewController.swift */,
 				0E6FF9A32BDA543D003B2133 /* GoalViewController.swift */,
 				0E6FF9A52BDA73C8003B2133 /* LastViewController.swift */,
 				0E41B8B02BDBF71E00159FAA /* WelcomeViewController.swift */,
-				0E6FF9A72BDA93E4003B2133 /* SignInView.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -338,10 +370,10 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08852BC69877003C15B0 /* Kiwee */,
+				0E0022BE2BF8830600A39397 /* KiweeTests */,
 				0ECE08842BC69877003C15B0 /* Products */,
 				98C616CA13DA3BC47C01686C /* Pods */,
 				EAE9177B15228A8313059CA0 /* Frameworks */,
-				0E1567B22BEA56C4002D25AB /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -349,6 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECE08832BC69877003C15B0 /* Kiwee.app */,
+				0E0022BD2BF8830600A39397 /* KiweeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,6 +414,7 @@
 		0ECE08C22BC76A0F003C15B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0EB044362BFF2C0A0095BF8A /* ChartsModel.swift */,
 				0E91DC322BCFDEAC0018911F /* UserModel.swift */,
 				0E91DC692BD384600018911F /* LSFarm+CoreDataClass.swift */,
 				0E91DC6A2BD384600018911F /* LSFarm+CoreDataProperties.swift */,
@@ -408,7 +442,7 @@
 		0ECE08C42BC76A96003C15B0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				0ECE08BA2BC70B2A003C15B0 /* FirestoreManager.swift */,
+				0EB044322BFA2FBF0095BF8A /* FirebaseManager.swift */,
 				0E91DC1A2BCA98C40018911F /* FoodDataManager.swift */,
 				0E91DC1E2BCD3DC90018911F /* DateFormatManager.swift */,
 				0E91DC572BD2AACD0018911F /* LocalStorageManager.swift */,
@@ -421,6 +455,7 @@
 		0ECE08C52BC76AE8003C15B0 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				0EB0443C2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift */,
 				0ECE08C02BC71A9A003C15B0 /* Color+Extension.swift */,
 				0E91DCA22BD6787A0018911F /* Type+Extension.swift */,
 				0E5B7E872BDFAB3E0056397D /* UIView+Extension.swift */,
@@ -483,6 +518,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E0022BC2BF8830600A39397 /* KiweeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0022C52BF8830600A39397 /* Build configuration list for PBXNativeTarget "KiweeTests" */;
+			buildPhases = (
+				0E0022B92BF8830600A39397 /* Sources */,
+				0E0022BA2BF8830600A39397 /* Frameworks */,
+				0E0022BB2BF8830600A39397 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E0022C22BF8830600A39397 /* PBXTargetDependency */,
+			);
+			name = KiweeTests;
+			productName = KiweeTests;
+			productReference = 0E0022BD2BF8830600A39397 /* KiweeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0ECE08822BC69877003C15B0 /* Kiwee */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0ECE08972BC69878003C15B0 /* Build configuration list for PBXNativeTarget "Kiwee" */;
@@ -523,6 +576,10 @@
 				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
+					0E0022BC2BF8830600A39397 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 0ECE08822BC69877003C15B0;
+					};
 					0ECE08822BC69877003C15B0 = {
 						CreatedOnToolsVersion = 15.1;
 					};
@@ -546,11 +603,19 @@
 			projectRoot = "";
 			targets = (
 				0ECE08822BC69877003C15B0 /* Kiwee */,
+				0E0022BC2BF8830600A39397 /* KiweeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0E0022BB2BF8830600A39397 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0ECE08812BC69877003C15B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -654,6 +719,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0E0022B92BF8830600A39397 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EB0442F2BF91B710095BF8A /* BMRIntegrationTests.swift in Sources */,
+				0E0022C02BF8830600A39397 /* BMRUtilityTests.swift in Sources */,
+				0EB044312BF9277D0095BF8A /* AddFoodViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0ECE087F2BC69877003C15B0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -673,6 +748,7 @@
 				0E91DC272BCD696B0018911F /* ChartsViewModel.swift in Sources */,
 				0E91DC642BD382080018911F /* KiweeCoreData.xcdatamodeld in Sources */,
 				0E0022B62BF64BD800A39397 /* AddFoodViewModel.swift in Sources */,
+				0EB044392BFF2CC80095BF8A /* ProfileViewModel.swift in Sources */,
 				0ECE08CF2BC7BA64003C15B0 /* ResultCell.swift in Sources */,
 				0E91DC252BCD60030018911F /* NutrientsChartView.swift in Sources */,
 				0E5B7E8A2BE0D7BB0056397D /* GuideViewController.swift in Sources */,
@@ -687,7 +763,6 @@
 				0E91DCA72BD67E4E0018911F /* MessageTableViewCell.swift in Sources */,
 				0E91DC6B2BD384600018911F /* LSFarm+CoreDataClass.swift in Sources */,
 				0ECE08872BC69877003C15B0 /* AppDelegate.swift in Sources */,
-				0ECE08BB2BC70B2A003C15B0 /* FirestoreManager.swift in Sources */,
 				0E1567A52BE8869D002D25AB /* UIButton+Extension.swift in Sources */,
 				0E91DCBA2BDA18080018911F /* BasicInfoViewController.swift in Sources */,
 				0ECE08BD2BC70BCB003C15B0 /* FoodModel.swift in Sources */,
@@ -697,6 +772,7 @@
 				0E91DC1F2BCD3DC90018911F /* DateFormatManager.swift in Sources */,
 				0ECE08A62BC6B319003C15B0 /* DiaryViewCell.swift in Sources */,
 				0E0022B82BF855D400A39397 /* CameraViewModel.swift in Sources */,
+				0EB0443D2C01D7860095BF8A /* FirebaseQuery+Extenstion.swift in Sources */,
 				0E91DC442BD21DC30018911F /* PlantSelectionView.swift in Sources */,
 				0ECE08892BC69877003C15B0 /* SceneDelegate.swift in Sources */,
 				0E5B7E8C2BE213D30056397D /* CustomFunctionManager.swift in Sources */,
@@ -706,6 +782,7 @@
 				0E6FF9A62BDA73C8003B2133 /* LastViewController.swift in Sources */,
 				0ECE08D12BC7BA8C003C15B0 /* RecentRecordCell.swift in Sources */,
 				0E91DC6C2BD384600018911F /* LSFarm+CoreDataProperties.swift in Sources */,
+				0EB044332BFA2FBF0095BF8A /* FirebaseManager.swift in Sources */,
 				0E41B8B12BDBF71E00159FAA /* WelcomeViewController.swift in Sources */,
 				0E91DC3C2BD0BCD00018911F /* RecordManageViewController.swift in Sources */,
 				0E91DC582BD2AACD0018911F /* LocalStorageManager.swift in Sources */,
@@ -714,6 +791,7 @@
 				0E91DCA52BD67D9C0018911F /* MessageInputView.swift in Sources */,
 				0E91DC722BD63F6A0018911F /* ChatBotViewController.swift in Sources */,
 				0E91DC1B2BCA98C40018911F /* FoodDataManager.swift in Sources */,
+				0EB044372BFF2C0A0095BF8A /* ChartsModel.swift in Sources */,
 				0E1567A32BE7F068002D25AB /* UIFont+Extension.swift in Sources */,
 				0E0022AF2BF4FCED00A39397 /* DiaryViewModel.swift in Sources */,
 				0E91DCA12BD676F70018911F /* ChatModel.swift in Sources */,
@@ -727,6 +805,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0E0022C22BF8830600A39397 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0ECE08822BC69877003C15B0 /* Kiwee */;
+			targetProxy = 0E0022C12BF8830600A39397 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0ECE088C2BC69877003C15B0 /* Main.storyboard */ = {
@@ -748,6 +834,47 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0E0022C32BF8830600A39397 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.KiweeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kiwee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kiwee";
+			};
+			name = Debug;
+		};
+		0E0022C42BF8830600A39397 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A79VBQ2875;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NaiYingShih.KiweeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kiwee.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kiwee";
+			};
+			name = Release;
+		};
 		0ECE08952BC69878003C15B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -948,6 +1075,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E0022C52BF8830600A39397 /* Build configuration list for PBXNativeTarget "KiweeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0022C32BF8830600A39397 /* Debug */,
+				0E0022C42BF8830600A39397 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0ECE087E2BC69877003C15B0 /* Build configuration list for PBXProject "Kiwee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

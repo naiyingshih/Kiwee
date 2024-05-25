@@ -76,12 +76,10 @@ struct WeightChartView: View {
             )
         }
         .padding()
+        .onAppear {
+            viewModel.fetchUserWeight()
+            viewModel.calculatedInfo()
+        }
     }
     
 }
-
-// struct IntakeCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WeightChartView()
-//    }
-// }

@@ -7,15 +7,17 @@
 
 import Foundation
 
-struct Food: Codable {
-    let documentID: String?
-    let name: String
+struct Food: FirestoreCodable {
+    var id: String?
+    var documentID: String?
+    var name: String
     var totalCalories: Double
     var nutrients: Nutrient
-    let image: String
+    var image: String
     var quantity: Double?
-    let section: Int?
-    let date: Date?
+    var section: Int?
+    var date: Date?
+    var type: String? = "food"
     
     struct Nutrient: Codable {
         var carbohydrates: Double
@@ -23,7 +25,19 @@ struct Food: Codable {
         var fat: Double
         var fiber: Double
     }
+}
+
+struct WaterCount: Codable {
+    var id: String
+    var waterCount: Int
+    var date: Date
+    var type: String = "water"
+    var documentID: String
     
+    enum CodingKeys: String, CodingKey {
+        case id, date, type, documentID
+        case waterCount = "water_count"
+    }
 }
 
 extension Food {

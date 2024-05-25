@@ -41,7 +41,6 @@ struct CaloriesChartView: View {
                         y: .value("熱量", element.dataPoint)
                       )
                       .foregroundStyle(Color(hex: "BEDB39"))
-//                      .foregroundStyle(by: .value("熱量", element.dataPoint))
                       .annotation(position: .topTrailing, alignment: .center) {
                           Text("\(element.dataPoint, specifier: "%.0f")")
                               .font(.caption)
@@ -69,6 +68,10 @@ struct CaloriesChartView: View {
               }
           }
           .padding()
+          .onAppear {
+              viewModel.fetchCalorieData()
+              viewModel.calculatedInfo()
+          }
       }
     
 }

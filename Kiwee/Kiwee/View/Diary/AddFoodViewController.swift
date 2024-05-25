@@ -406,9 +406,7 @@ extension AddFoodViewController: UISearchBarDelegate, AddFoodMethodCellDelegate 
     }
     
     private func showNoResultsAlert() {
-        let alert = UIAlertController(title: "查無相關結果！", message: "很抱歉，請重新搜尋或嘗試其他方法", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "確認", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        AlertManager.closeAlert(title: "查無相關結果！", message: "很抱歉，請重新搜尋或嘗試其他方法", viewController: self, actionHandler: nil)
     }
     
     func textFieldConfirmed(foodResults: [Food]?) {
