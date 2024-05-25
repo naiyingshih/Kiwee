@@ -16,7 +16,7 @@ class OpenAIManager {
     init(
         apiKey: String,
         model: String = "gpt-3.5-turbo",
-        systemPrompt: String = "You are a helpful assistant",
+        systemPrompt: String = "你是一個有幫助的助手",
         temperature: Double = 1
     ) {
         self.apiKey = apiKey

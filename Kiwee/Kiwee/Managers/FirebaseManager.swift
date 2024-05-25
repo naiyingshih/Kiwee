@@ -9,7 +9,6 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
-import Combine
 
 enum Collections: String {
     case intake = "intake"
@@ -182,59 +181,52 @@ class FirebaseManager {
     
 }
 
-// MARK: - Extension For Query
-extension Firestore {
-    
-    func queryForUserIntake(userID: String, chosenDate: Date, type: String) -> Query {
-        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+// MARK: - Extension For Firebase Storgae
+extension FirebaseManager {
+    func uploadImageData(imageData: Data, completion: @escaping (Bool, URL?) -> Void) {
+        let fileName = "postImage_\(UUID().uuidString).jpg"
         
-        return self.collection(Collections.intake.rawValue)
-            .whereField("id", isEqualTo: userID)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-            .whereField("type", isEqualTo: type)
+        let storageReference = Storage.storage().reference().child("images/\(fileName)")
+        storageReference.putData(imageData, metadata: nil) { (_, error) in
+            if let error = error {
+                print("Upload error: \(error.localizedDescription)")
+                completion(false, nil)
+                return
+            }
+            print("Image file: \(fileName) is uploaded!")
+            
+            storageReference.downloadURL { (url, error) in
+                if let error = error {
+                    print("Error on getting download url: \(error.localizedDescription)")
+                    completion(false, nil)
+                    return
+                }
+                if let downloadURL = url {
+                    print("Download url of \(fileName) is \(downloadURL.absoluteString)")
+                    completion(true, downloadURL)
+                } else {
+                    completion(false, nil)
+                }
+            }
+        }
     }
-    
-    func queryForRecentRecord(userID: String, section: Int) -> Query {
-        return self.collection(Collections.intake.rawValue)
-            .whereField("id", isEqualTo: userID)
-            .whereField("section", isEqualTo: section)
-            .order(by: "date", descending: true)
-            .limit(to: 10)
-    }
-    
-    func queryForTodayIntake(userID: String, chosenDate: Date) -> Query {
-        let startOfDay = Calendar.current.startOfDay(for: chosenDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
-        
-        return self.collection(Collections.intake.rawValue)
-            .whereField("id", isEqualTo: userID)
-            .whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startOfDay))
-            .whereField("date", isLessThan: Timestamp(date: endOfDay))
-    }
-    
-    func queryForTotalCalories(userID: String) -> Query {
-        return self.collection(Collections.intake.rawValue)
-            .whereField("id", isEqualTo: userID)
-            .order(by: "date")
-    }
-    
-    func queryForUserCurrentWeight(userID: String, userDocumentID: String) -> Query {
-        return self.collection(Collections.users.rawValue)
-            .document(userDocumentID)
-            .collection("current_weight")
-            .order(by: "date")
-    }
-    
-    func queryForPosts(userID: String) -> Query {
-        return self.collection(Collections.posts.rawValue)
-            .whereField("id", isEqualTo: userID)
-            .order(by: "created_time")
-    }
-    
-    func queryByOneField(userID: String, collection: Collections, field: String, fieldContent: String) -> Query {
-        return self.collection(collection.rawValue)
-            .whereField(field, isEqualTo: fieldContent)
+}
+
+// MARK: - Extension For custom functions
+extension FirebaseManager {
+    func updatePost(documentID: String, foodName: String, tag: String, completion: @escaping () -> Void) {
+        let updateData: [String: Any] = [
+            "food_name": foodName,
+            "tag": tag
+        ]
+           
+        database.collection("posts").document(documentID).updateData(updateData) { error in
+            if let error = error {
+                print("Error updating document: \(error.localizedDescription)")
+            } else {
+                print("Document updated successfully")
+                completion()
+            }
+        }
     }
 }

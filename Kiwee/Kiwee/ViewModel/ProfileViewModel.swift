@@ -52,7 +52,7 @@ class ProfileViewModel {
     func deletePost(at index: Int) {
         guard index >= 0 && index < posts.count else { return }
         let post = posts[index]
-        guard let documentID = post.documentID else { return }
+        let documentID = post.documentID
         
         firebaseManager.deleteData(from: .posts, documentID: documentID) { result in
             DispatchQueue.main.async {

@@ -36,15 +36,16 @@ struct WeightData: Decodable {
     var weight: Double?
 }
 
-struct Post: Decodable {
-    var documentID: String?
+struct Post: Codable {
+    var id: String
+    var documentID: String
     var foodName: String
     var tag: String
     var image: String
     var createdTime: Date
     
     enum CodingKeys: String, CodingKey {
-        case documentID, tag, image
+        case id, documentID, tag, image
         case foodName = "food_name"
         case createdTime = "created_time"
     }
