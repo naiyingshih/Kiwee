@@ -198,6 +198,7 @@ extension ProfileVeiwController: ProfileBanneViewDelegate {
                 }
                 profileViewModel.updateAccountStatus()
                 UserDefaults.standard.set(false, forKey: "hasLaunchedBefore")
+                FirebaseManager.shared.userID = ""
             } else {
                 print("Failed to delete account")
             }
