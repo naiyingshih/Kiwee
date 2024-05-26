@@ -89,6 +89,7 @@ class UserDataManager {
             activeness: defaults.integer(forKey: "activeness"),
             height: defaults.double(forKey: "height"),
             initialWeight: defaults.double(forKey: "initial_weight"),
+            updatedWeight: defaults.double(forKey: "updated_weight"),
             goalWeight: defaults.double(forKey: "goal_weight"),
             achievementTime: defaults.object(forKey: "achievement_time") as? Date ?? Date(),
             date: Date()

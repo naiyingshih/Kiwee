@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class LastViewController: UIViewController {
     
@@ -201,8 +200,8 @@ class LastViewController: UIViewController {
     }
     
     func postUserInfo() {
-        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-        let userData = UserDataManager.shared.getCurrentUserData(id: currentUserUID)
+        guard let userID = firebaseManager.userID else { return }
+        let userData = UserDataManager.shared.getCurrentUserData(id: userID)
         
         firebaseManager.addData(to: .users, data: userData) { result in
             switch result {

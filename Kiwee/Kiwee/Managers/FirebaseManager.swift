@@ -24,7 +24,7 @@ protocol FirestoreCodable: Codable {
 class FirebaseManager {
     static let shared = FirebaseManager()
     let database = Firestore.firestore()
-    let userID = Auth.auth().currentUser?.uid
+    var userID = Auth.auth().currentUser?.uid
     var listenerRegistration: ListenerRegistration?
     
     // MARK: - Get multiple Data

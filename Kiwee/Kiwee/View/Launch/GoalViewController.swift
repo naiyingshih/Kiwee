@@ -117,6 +117,7 @@ class GoalViewController: UIViewController {
                 UserDefaults.standard.set(selectedActiveness, forKey: "activeness")
                 UserDefaults.standard.set(height, forKey: "height")
                 UserDefaults.standard.set(weight, forKey: "initial_weight")
+                UserDefaults.standard.set(weight, forKey: "updated_weight")
             }
             
             let storyboard = UIStoryboard(name: "Login", bundle: nil)

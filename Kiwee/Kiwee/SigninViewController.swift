@@ -193,9 +193,8 @@ extension SigninViewController {
             return
         }
         let uid = user.uid
+        FirebaseManager.shared.userID = uid
         let email = user.email
-        print("===\(uid)")
-        print("===\(String(describing: email))")
     }
     
     func checkAppleIDCredentialState(userID: String) {
