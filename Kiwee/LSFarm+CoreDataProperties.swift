@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension LSFarm {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LSFarm> {
