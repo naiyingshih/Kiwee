@@ -61,7 +61,6 @@ Kiwee is an app that enable users to effortlessly record meals, watch the progre
 <br />  
 
 ## Getting started
-- Download the app at App Store: https://apps.apple.com/tw/app/kiwee/id6499216136
 - iOS device running iOS 17.0 is required
 
 ## Technical Approach
